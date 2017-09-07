@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br/>
+            Back
+        </a>
+    </header>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET ROW START -->
+            <!-- Widget ID (each widget will need unique ID)-->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget div-->
+                    <div class="no-padding-top">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <form id="GL_GLCategoryForm" class="form-horizontal"
+                                  data-bv-message="This value is not valid"
+                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                                
+                                <fieldset>
+                                    <legend>
+                                        Debtor Users Maintenance
+                                    </legend>
+
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-left">User</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                       placeholder="UserName" ng-model="CM00118.UserName" readonly>
+                                                <span class="input-group-btn input-group-sm" 
+                                                      ng-click="OpenkendoWindow('KaizenUser',null,'DebtorUsers')">
+                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                
+                                <fieldset>
+                                    <div class="form-group">
+                                        <table class="table table-bordered table-hover table-responsive">
+                                            <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="col-sm-2 smart-form">
+                                                    
+                                                </th>
+                                                <th>Case Type</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="caseType in CaseTypes">
+                                                <td class="col-sm-2 col-md-2 smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="caseType.isSelected" 
+                                                               ng-click="UpdateCaseTypeUser(caseType)" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>{{caseType.TrxTypeName}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+            <!-- end widget -->
+        </div>
+        <!-- WIDGET ROW END -->
+        <!-- end row -->
+    </section>
+<!-- end widget grid -->
+    </div>

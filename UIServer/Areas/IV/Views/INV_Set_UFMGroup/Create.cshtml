@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="IV00002.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="IV00002.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="IV00002.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">UFM Group ID</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="UFM Group ID"
+                                                   maxlength="10" ng-model="IV00002.UFMGroupID" 
+                                                   ng-disabled="IV00002.Status == 2" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">UFM Group Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" maxlength="20" 
+                                                   placeholder="UFM Group Name" ng-model="IV00002.UFMGroupName" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Decimal Digit</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" maxlength="20" placeholder="Decimal Digit"
+                                                   ng-model="IV00002.DecimalDigitQuantity" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="IV00002.Status == 2">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">UFM</label>
+                                        <div class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                       placeholder="UFM ID" ng-model="IV00002.UFMID" readonly />
+                                                <div class="input-group-btn input-group-sm">
+                                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="OpenkendoWindow('INV_Set_UFMGroup','UFMPopUp',IV00002.UFMGroupID)"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="col col-md-2 control-label">Base Unit</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Base Unit"
+                                                   ng-model="IV00002.BaseUnit" readonly />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

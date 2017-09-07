@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditPOP_SOP10500_Click(SOPNUMBE) {
+        var scope = angular.element(document.getElementById("widget-SOP_Trx_DeliveryOrder")).scope();
+        scope.$apply(function () {
+            scope.EditSOP10500(SOPNUMBE);
+        });
+    };
+</script>
+@(Html.Kendo().Grid<Kaizen.SOP.SOP10500>()
+    .Name("GridSOP_Trx_DeliveryOrder")
+    .Columns(columns =>
+    {
+    foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewLockedColumn)
+    {
+        switch (column.field.Trim())
+        {
+                case "SOPNUMBE":
+                    columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditPOP_SOP10500_Click('#:SOPNUMBE#');""> #:SOPNUMBE# </a>").Width(column.width).Locked(true).Title(column.title);
+                    break;
+                case "BatchID":
+                    columns.Bound(c => c.BatchID).Locked(true).Title(column.title).Width(column.width);
+                    break;
+                case "CUSTNMBR":
+                    columns.Bound(c => c.CUSTNMBR).Locked(true).Title(column.title).Width(column.width);
+                    break;
+                case "CUSTNAME":
+                    columns.Bound(c => c.CUSTNAME).Locked(true).Title(column.title).Width(column.width);
+                    break;
+                case "DOCDATE":
+                    columns.Bound(c => c.DOCDATE).Format("{0:dd/MM/yyyy}").Width(100).Locked(true).Title(column.title);
+                    break;
+                case "CurrencyCode":
+                    columns.Bound(c => c.CurrencyCode).Locked(true).Title(column.title).Width(column.width);
+                    break;
+                case "ExchangeRate":
+                    columns.Bound(c => c.ExchangeRate).Locked(true).Title(column.title).Width(column.width);
+                    break;
+                case "DOCAMNT":
+                    columns.Bound(c => c.DOCAMNT).Width(column.width).Locked(true).Title(column.title)
+                    .ClientTemplate("#= FormatDecimalDigit(data.DOCAMNT) #").HtmlAttributes(new { style = "text-align:center;" });
+                    break;
+                case "TrxComments":
+                    columns.Bound(c => c.TrxComments).Locked(true).Title(column.title).Width(column.width);
+                    break;
+            }
+        }
+        foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+        {
+            switch (column.field.Trim())
+            {
+                case "SOPNUMBE":
+                    columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditPOP_SOP10500_Click('#:SOPNUMBE#');""> #:SOPNUMBE# </a>").Width(column.width).Locked(false).Title(column.title);
+                    break;
+                case "BatchID":
+                    columns.Bound(c => c.BatchID).Locked(false).Title(column.title).Width(column.width);
+                    break;
+                case "CUSTNMBR":
+                    columns.Bound(c => c.CUSTNMBR).Locked(false).Title(column.title).Width(column.width);
+                    break;
+                case "DOCDATE":
+                    columns.Bound(c => c.DOCDATE).Format("{0:dd/MM/yyyy}").Width(100).Locked(false).Title(column.title);
+                    break;
+                case "CurrencyCode":
+                    columns.Bound(c => c.CurrencyCode).Locked(false).Title(column.title).Width(column.width);
+                    break;
+                case "ExchangeRate":
+                    columns.Bound(c => c.ExchangeRate).Locked(false).Title(column.title).Width(column.width);
+                    break;
+                case "DOCAMNT":
+                    columns.Bound(c => c.DOCAMNT).Width(column.width).Locked(false).Title(column.title)
+                    .ClientTemplate("#= FormatDecimalDigit(data.DOCAMNT) #").HtmlAttributes(new { style = "text-align:center;" });
+                    break;
+                case "TrxComments":
+                    columns.Bound(c => c.TrxComments).Locked(false).Title(column.title).Width(column.width);
+                    break;
+            }
+        }
+    })
+    .Pageable(pager => pager.Messages(messages => messages.Display("Showing SOP Transactions from {0} to {1}. Total SOP Transactions: <strong>{2}</strong>")
+    .ItemsPerPage("SOP Transaction Per page").Empty("No SOP Transaction Information")).Refresh(true)
+    .PageSizes(true).Input(true).ButtonCount(5))
+    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+    .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+    .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+    .ColumnMenu().Scrollable().Filterable()
+    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+    .PageSize(20).Sort(sort => sort.Add(ss => ss.SOPNUMBE).Descending())
+    .Read(read => read.Action("GetDataListGrid", "SOP_Trx_DeliveryOrder")
+    .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+    .Model(model =>
+    {
+        model.Id(o => o.SOPNUMBE);
+        model.Field(o => o.SOPNUMBE);
+        model.Field(o => o.SOPNUMBEORG);
+        model.Field(o => o.CUSTNMBR);
+        model.Field(o => o.BatchID);
+        model.Field(o => o.CurrencyCode);
+        model.Field(o => o.DecimalDigit);
+        model.Field(o => o.ExchangeTableID);
+        model.Field(o => o.BatchID);
+        model.Field(o => o.CUSTNAME);
+        model.Field(o => o.IsMultiply);
+        model.Field(o => o.BillAddressTypeCode);
+        model.Field(o => o.BinTrack);
+        model.Field(o => o.BillAddressName);
+        model.Field(o => o.DOCAMNT);
+        model.Field(o => o.DOCDATE);
+        model.Field(o => o.ExchangeRate);
+        model.Field(o => o.ExchangeTableID);
+        model.Field(o => o.Freight);
+        model.Field(o => o.Markdown);
+        model.Field(o => o.Miscellaneous);
+        model.Field(o => o.PaymentTermID);
+        model.Field(o => o.Territory);
+        model.Field(o => o.BinTrack);
+        model.Field(o => o.SiteID);
+        model.Field(o => o.TaxAMT);
+        model.Field(o => o.TradeDiscount);
+        model.Field(o => o.TrxComments);
+    })
+    )
+)
+
+<script>
+    $(document).ready(function () {
+       // alert('ready');
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>
+
+
+
+
+
+

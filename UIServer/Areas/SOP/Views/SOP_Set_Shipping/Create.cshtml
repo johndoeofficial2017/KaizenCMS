@@ -1,0 +1,108 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="SOP00024.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="SOP00024.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="SOP00024.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Shipping ID</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Shipping ID"
+                                                   ng-disabled="SOP00024.Status == 2" ng-model="SOP00024.ShippingID" maxlength="10">
+                                        </label>
+                                        <label class="col col-md-2 control-label">Shipping Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Shipping Name"
+                                                   ng-model="SOP00024.ShippingName" maxlength="50">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Shipping Type</label>
+                                        <label class="input col col-md-4">
+                                           <select class="form-control" ng-model="SOP00024.shippingtype">
+                                               <option value=""></option>
+                                           </select>
+                                        </label>
+                                        <label class="col col-md-2 control-label">Carrier</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Carrier"
+                                                   ng-model="SOP00024.Carrier" maxlength="50">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Carrier Account</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Carrier Account"
+                                                   ng-model="SOP00024.CarrierAccount" maxlength="50">
+                                        </label>
+                                        <label class="col col-md-2 control-label">Contact</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Contact"
+                                                   ng-model="SOP00024.Contact" maxlength="50">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Phone Number 01</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Phone Number 01"
+                                                   ng-model="SOP00024.PhoneNumber" maxlength="50">
+                                        </label>
+                                        <label class="col col-md-2 control-label">Phone Number 02</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Phone Number 02"
+                                                   ng-model="SOP00024.PhoneNumber02" maxlength="50">
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>

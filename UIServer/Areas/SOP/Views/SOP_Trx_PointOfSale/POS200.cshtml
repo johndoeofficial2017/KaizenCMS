@@ -1,0 +1,474 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .input-icon-left > i, .input-icon-right > i:hover {
+        color: dodgerblue;
+        cursor:pointer;
+    }
+</style>
+<div class="jarviswidget no-margin-b SOP10300-cont" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        <div class="pull-right">
+            <a class="btn btn-success btn-lg txt-color-white" ng-click="SavePOSData();">
+                {{SOP10300.DOCAMNT | number:MY.DecimalDigit}} {{MY.CurrencyCode.trim()}}
+            </a>
+        </div>
+        <div class="pull-right col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="col-md-4 no-margin no-padding-l">Hospital</h3>
+                    <div class="input-icon-right col-md-8 no-padding-right">
+                        <i class="glyphicon glyphicon-search" ng-click="OpenkendoWindowForm('Med','Med_Co_Hospital','PopUp')"></i>
+                        <input class="form-control input-xs" placeholder="Hospital Name" readonly
+                               type="text" ng-model="SOP10300.HospitalName" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3 class="col-md-4 no-margin no-padding-l">Insurance</h3>
+                    <div class="input-icon-right col-md-8 no-padding-right">
+                        <i class="glyphicon glyphicon-search" ng-click="OpenkendoWindowForm('Med','Med_Co_Insurance','PopUp')"></i>
+                        <input class="form-control input-xs" placeholder="Insurance Name" readonly
+                               type="text" ng-model="SOP10300.InsuranceName" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="no-border overflow no-padding-t">
+        <!-- START COPY FROM HERE -->
+        <div class="widget-body no-padding-b">
+            <div class="row">
+                <!-- Left Col -->
+                <div class="col-md-6 no-padding-l scrolable-table">
+                    <div class="row">
+                        <label class="col-md-2 control-label">Doctor</label>
+                        <div class="col-md-4 no-padding-lr">
+                            <div class="input-group">
+                                <input type="text" class="form-control" readonly
+                                       placeholder="Doctor Name" ng-model="SOP10300.DoctorName" />
+                                <span class="input-group-btn input-group-sm">
+                                    <button class="btn btn-default"
+                                            ng-click="OpenkendoWindowForm('Med','Med_Co_Doctor','PopUp')">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <label class="col-md-2 control-label">Customer</label>
+                        <div class="col-md-4 no-padding-lr">
+                            <div class="input-group">
+                                <input type="text" class="form-control" readonly
+                                       placeholder="Customer Name" ng-model="SOP10300.CUSTNAME" />
+                                <span class="input-group-btn input-group-sm">
+                                    <button class="btn btn-default"
+                                            ng-click="OpenkendoWindowForm('SOP','SOP_Customer','PopUp')">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <style>
+                            .selected {
+                                background-color:#8b76ff;
+                            }
+                        </style>
+                        <div class="col-md-12 no-padding-right">
+                            <table class="table table-bordered table-centered" style="clear: both;">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-1">Picture</th>
+                                        <th class="col-md-2">Item Code</th>
+                                        <th class="col-md-2">Item Name</th>
+                                        <th>Unit</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th class="col-md-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="line in ItemPOSList" ng-click="setSelected(line)"
+                                        ng-class="{selected: line.ItemLineIndex === itemSelected}">
+                                        <td class="col-md-1">
+                                            <img alt='' ng-src='{{line.IV00100link}}'
+                                                 style='width:40px;height:35px;cursor:pointer' />
+                                        </td>
+                                        <td class="col-md-2">{{line.ItemID}}</td>
+                                        <td class="col-md-4">{{line.ItemName}}</td>
+                                        <td class="col-md-1">{{line.UFMSale}}</td>
+                                        <td class="no-padding-lr">
+                                            <input kendo-numeric-text-box
+                                                   k-options="NumberFormatOptions('',line.DecimalDigitQuantity,false)"
+                                                   k-ng-model="line.InvoiceOTY" style="width: 100%;" readonly />
+                                        </td>
+                                        <td class="no-padding-lr">
+                                            <input kendo-numeric-text-box class="currency"
+                                                   k-options="NumberFormatOptions('',MY.DecimalDigit,false)"
+                                                   k-ng-model="line.UnitPrice" style="width: 100%;" readonly />
+                                        </td>
+                                        <td class="col-md-1">
+                                            <a href="" ng-click="RemoveItem(line,$index)">
+                                                <span class="glyphicon glyphicon-remove font20"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Col -->
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-8 col-lg-9">
+                            <script>
+                                var widget = $("#widget-SOP_Trx_PointOfSale")
+                                var scope = angular.element(widget).scope();
+                                $('#SOP_Trx_PointOfSale_ItemAutoComplete').autocomplete({
+                                    minLength: 2,
+                                    source: function (request, response) {
+                                        $.ajax({
+                                            url: "/IV_Item/GetTop10BYItemID",
+                                            type: "GET",
+                                            dataType: "json",
+                                            data: { ItemID: request.term, KaizenPublicKey: sessionStorage.PublicKey },
+                                            success: function (responseData) {
+                                                var array = responseData.map(function (element) {
+                                                    return {
+                                                        value: element['ItemID'],
+                                                        id: element['ItemID'],
+                                                        ItemID: element['ItemID'],
+                                                        ItemName: element['ItemName'],
+                                                        UnitPrice: element['UnitPrice'],
+                                                        PhotoExtension: element['PhotoExtension'],
+                                                        DecimalDigitQuantity: element['DecimalDigitQuantity'],
+                                                        UFMGroupID: element['UFMGroupID'],
+                                                        UFMSale: element['UFMSale'],
+                                                        BaseUnitSale: element['BaseUnitSale'],
+                                                        UnitCost: element['UnitCost'],
+                                                        PurchaseQTY: element['PurchaseQTY'],
+                                                        SaleQTY: element['SaleQTY']
+                                                    };
+                                                });
+                                                response(array);
+                                            }
+                                        })
+                                    },
+                                    select: function (event, ui) {
+                                        scope.$apply(function () {
+                                            scope.SOP10300.Code = ui.item.ItemID.trim();
+                                            scope.SOP10301.ItemID = ui.item.ItemID.trim();
+                                            scope.SOP10301.ItemName = ui.item.ItemName;
+                                            scope.SOP10301.UnitPrice = ui.item.UnitPrice;
+                                            scope.SOP10301.PhotoExtension = ui.item.PhotoExtension;
+                                            scope.SOP10301.DecimalDigitQuantity = ui.item.DecimalDigitQuantity;
+                                            scope.SOP10301.UFMGroupID = ui.item.UFMGroupID;
+                                            scope.GetUnitofMeasure(ui.item.UFMGroupID, ui.item.UFMSale)
+                                            scope.SOP10301.BaseUnitSale = ui.item.BaseUnitSale;
+                                            scope.SOP10301.AvailableOTY = parseFloat(ui.item.PurchaseQTY) - parseFloat(ui.item.SaleQTY);
+                                            scope.changeFormat("", ui.item.DecimalDigitQuantity, 'related');
+                                            if (scope.SOP10301.PhotoExtension == null)
+                                                scope.SOP10301.IV00100link = '/Photo/ItemPhoto/ItemID.jpg';
+                                            else
+                                                scope.SOP10301.IV00100link = '/Photo/ItemPhoto/' + kaizenTrim(scope.SOP10301.ItemID) + '.' + kaizenTrim(scope.SOP10301.PhotoExtension) + "?c=" + Math.random();
+                                        });
+                                        return false;
+                                    }
+                                });
+                            </script>
+                            <div class="row">
+                                <div class="input-group">
+                                    <input type="text" class="form-control font-md bold txt-color-green" id="SOP_Trx_PointOfSale_ItemAutoComplete"
+                                           placeholder="Item Code" ng-model="SOP10300.Code"
+                                           ng-keyup="SOP10300.Code != undefined && SOP10300.Code != '' && $event.keyCode == 13 ? EnterItem() : return" />
+                                    <span class="input-group-btn input-group-sm">
+                                        <button class="btn btn-default"
+                                                ng-click="OpenkendoWindowForm('SOP','IV_Item','PopUp')">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 control-label no-padding-l">Item Name</label>
+                                <div class="col-md-9 no-padding-lr">
+                                    <div class="input-group full-control">
+                                        <input type="text" class="form-control" readonly
+                                               placeholder="Item Name" ng-model="SOP10301.ItemName" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <label class="col-md-5 no-padding-l">Available</label>
+                                        <div class="col-md-7 padding-left3">
+                                            <div class="input-group full-control">
+                                                <input kendo-numeric-text-box class="related no-padding" disabled
+                                                       k-options="NumberFormatOptions('',SOP10301.DecimalDigitQuantity,false)"
+                                                       k-ng-model="SOP10301.AvailableOTY" style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-5 no-padding-l">Unit Type</label>
+                                        <div class="col-md-7 padding-left3">
+                                            <div class="input-group full-control">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Unit --'"
+                                                        k-ng-model="SOP10301.UFMSale"
+                                                        k-data-text-field="'UFMID'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'UFMID'"
+                                                        k-data-source="UFMList"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-5 no-padding-l">Quantity</label>
+                                        <div class="col-md-7 padding-left3">
+                                            <div class="input-group full-control">
+                                                <input kendo-numeric-text-box
+                                                       k-options="NumberFormatOptions('',SOP10301.DecimalDigitQuantity,true)"
+                                                       k-ng-model="SOP10301.InvoiceOTY" style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-5 no-padding-l">Unit Price</label>
+                                        <div class="margin-bottom-5 col-md-7 padding-left3">
+                                            <div class="input-group full-control">
+                                                <input kendo-numeric-text-box class="currency" disabled
+                                                       k-options="CurrencyFormatOptions(true)"
+                                                       k-ng-model="SOP10301.UnitPrice" style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 margin-bottom-5">
+                                            <a class="btn btn-default pull-right" href="#" ng-click="AddItem();">Add</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 no-padding-lr">
+                                    <img class="img-responsive img90 center-img" ng-src="{{SOP10301.IV00100link}}" />
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="margin-bottom-5 col-md-12">
+                                        <div class="input-group">
+                                            <input kendo-numeric-text-box 
+                                                   class="currency font-md bold txt-color-green"
+                                                   k-options="CurrencyFormatOptions(false)"
+                                                   k-ng-model="SOP10300.CollectedAMT" style="width: 100%;" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="BackSpace();">
+                                                    <span class="icon-lg glyphicon glyphicon-arrow-left"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2 no-padding-lr">
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(1);">
+                                                1
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(4);">
+                                                4
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(7);">
+                                                7
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0);">
+                                                0
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2 no-padding-lr">
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(2);">
+                                                2
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(5);">
+                                                5
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(8);">
+                                                8
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber('00');">
+                                                00
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2 no-padding-lr">
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(3);">
+                                                3
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(6);">
+                                                6
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(9);">
+                                                9
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="DecimalDot();">
+                                                .
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2 no-padding-lr">
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2 no-padding-lr">
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default" ng-click="ClickNumber(0.000);">
+                                                0.000
+                                            </a>
+                                        </div>
+                                        <div class="col-md-2 no-padding-lr">
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default">
+                                                Credit
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default">
+                                                Check
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default">
+                                                Vouche
+                                            </a>
+                                            <a class="col-md-12 xlg-btn-calc btn btn-lg btn-default">
+                                                Insurance
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <label class="col-md-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" readonly
+                                           placeholder="Site ID" ng-model="SOP10300.SiteID" />
+                                    <span class="input-group-btn input-group-sm">
+                                        <button class="btn btn-default"
+                                                ng-click="OpenkendoWindowForm('SOP','INV_Site','PopUp')">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </label>
+
+                            <label class="col-md-12">
+                                <select class="form-control" ng-model="SOP10300.BinID" ng-change="BinChanged()">
+                                    <option value="{{bin.BinID}}" ng-selected="bin.BinID == SOP10300.BinID" ng-repeat="bin in SiteBins">{{bin.BinName}}</option>
+                                </select>
+                            </label>
+
+                            <label class="col-md-12" ng-show="SOP10300.IsBinGroup">
+                                <select class="form-control" ng-model="SOP10300.SubBinID">
+                                    <option value="{{bin.SubBinID}}" ng-repeat="bin in SiteSubBins">{{bin.SubBinName}}</option>
+                                </select>
+                            </label>
+
+                            <label class="col-md-12">Inv No.: {{SOP10300.SOPNUMBE}}</label>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#" ng-click="GetNextInvoice();">New</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Price List</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#" ng-click="SaveArchiveData();">Save</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#" ng-click="OpenkendoWindowForm('SOP','SOP_Trx_PointOfSale','ArchivePopUp')">Saved Bills</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Return</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Exchange</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Customer</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Customer Details</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#" data-toggle="modal" data-target="#TrxComments">Comment</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Barcode Print</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Item Substitute</a>
+
+                            <a class="btn no-padding-btn btn-lg btn-default col-md-12" href="#">Item Details</a>
+                        </div>
+                    </div>
+                    <div class="modal fade" data-backdrop="static" id="TrxComments" 
+                         tabindex="-1" role="dialog" aria-labelledby="TrxCommentsLabel" 
+                         aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title" id="TrxCommentsLabel">Transaction Comments</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <fieldset class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label">Comments</label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" placeholder="Transaction Comments"
+                                                      ng-model="SOP10300.TrxComments" rows="4"></textarea>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div><!-- /.modal-dialog -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END COPY HERE -->
+    </div>
+</div>

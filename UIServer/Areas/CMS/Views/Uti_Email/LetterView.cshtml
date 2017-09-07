@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetCMS_Trx_CasesAssignmentViewPram() {
+        var scope = angular.element(document.getElementById('widget-Uti_Email')).scope();
+        return {
+            MessageTRXID: scope.CM00230.MessageTRXID,
+            Searchcritaria: "",
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a ng-click="Cancel();" class="btn btn-default">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+            <br />Cancel
+        </a>
+    </header>
+    <div class="widget-body container-fluid">
+        <div class="row">
+            <div class="well no-padding-left no-padding-right no-padding-bottom">
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Transaction ID</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control"
+                                   readonly
+                                   ng-model="CM00230.MessageTRXID">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Template</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select tabindex="0" kendo-drop-down-list
+                                    k-filter="'startswith'"
+                                    k-option-label="'-- Select Template --'"
+                                    k-ng-model="CM00230.SelectedTemplate"
+                                    k-data-text-field="'TemplateName'"
+                                    k-value-primitive="false"
+                                    k-data-value-field="'TemplateID'"
+                                    k-data-source="DemandTemplates"
+                                    style="width: 100%;margin-top: 5px;margin-bottom: 5px;"></select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Comments</label>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea class="form-control" readonly
+                                      ng-model="CM00230.TrxComment"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Address Type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select kendo-drop-down-list
+                                    k-ng-model="SelectedLookUp.DebtorAddressCodeType"
+                                    k-options="DebtorAddressCodeTypeOptions"
+                                    style="width: 100%"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <label class="control-label">Content</label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea kendo-editor k-tools="FullEditorTools" readonly
+                                      k-ng-model="CM00230.TemplateContant" k-messages="messages"
+                                      k-stylesheets="stylesheets"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div style="overflow: hidden;">
+                    @(Html.Kendo().Grid<Kaizen.CMS.CM00231>()
+                        .Name("GridCMS_CM00231")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.TableID);
+                            columns.Bound(c => c.CaseRef).Title("Case Reference");
+                            columns.Bound(c => c.IsSent);
+                        })
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable().HtmlAttributes(new { style = "overflow:hidden" })
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height("auto")).Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(50)
+                            .Read(read => read.Action("GetLetterViewGrid", "Uti_Email")
+                            .Type(HttpVerbs.Get).Data("GetCMS_Trx_CasesAssignmentViewPram"))
+                            .Model(model => model.Id(p => p.CaseRef))
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

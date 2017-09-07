@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditPayment_Click(PaymentID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Payment")).scope();
+        scope.$apply(function () {
+            scope.EditCM10207(PaymentID);
+        });
+    };
+    function FormatAmount(data) {
+        var number = kendo.toString(data.Amount, "n" + data.DecimalDigit);
+        return number;
+    };
+    function PaymentMethodFilter(element) {
+        var scope = angular.element(document.getElementById("widget-GridCMS_Payment")).scope();
+        element.kendoDropDownList({
+            dataTextField: "PaymentMethodName",
+            dataValueField: "PaymentMethodID",
+            dataSource: scope.Paymentmethods,
+            optionLabel: "--Select Payment Method--"
+        });
+    };
+    function GetGridCMS_PaymentPram() {
+        //var ActiveScreenID = $("#ActiveScreenID").val();
+        //var scope = angular.element(document.getElementById('DV' + ActiveScreenID)).scope();
+        var scope = angular.element(document.getElementById('widget-CMS_Payment')).scope();
+        var ViewID = -1;
+        if (scope.SelectedLookUp.SelectedView != null)
+            ViewID = scope.SelectedLookUp.SelectedView.ViewID
+        //alert(ViewID);
+        //alert(scope.SelectedLookUp.SelectedView.ViewSortCondition)
+        return {
+            IsApproved : scope.IsApproved,
+            TRXTypeID: scope.SelectedLookUp.SelectedType.TRXTypeID,
+            whereCondition: scope.SelectedLookUp.SelectedView.ViewWhereCondition,
+            viewSortCondition: scope.SelectedLookUp.SelectedView.ViewSortCondition,
+            Searchcritaria: "",
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+<div ng-controller="CMS_PaymentController">
+        <div id="widget-CMS_Payment">
+            <div ng-show="PagesCM00207.length >0">
+                <div ng-repeat="Page in PagesCM00207">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div ng-show="PagesCM00207.length == 0">
+                <div kendo-toolbar k-options="toolbarOptions"></div>
+                <div>
+                    <div ng-include="MainGridURL">Data Grid here</div>
+                    <div kendo-window="ExchangeRateWindow" k-title="'Exchange Rate'" k-modal="true"
+                         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                         k-width="800" k-resizable="true" k-visible="false"></div>
+                </div>
+            </div>
+        </div>
+</div>
+

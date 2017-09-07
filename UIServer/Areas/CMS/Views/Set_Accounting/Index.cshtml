@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+}
+
+<div ng-controller="Set_AccountingController">
+    <div class="widget" id="widget-Set_Accounting">
+        <div ng-show="PagesCM00089.length >0">
+            <div ng-repeat="Page in PagesCM00089">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="widget-body" ng-show="PagesCM00089.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div class="jarviswidget" data-widget-colorbutton="false"
+                 data-widget-editbutton="false"
+                 data-widget-togglebutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-fullscreenbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-collapsed="false"
+                 data-widget-sortable="false">
+
+                <!-- widget grid -->
+                <div>
+                    <header class="button-header">
+                        <a class="btn btn-default" ng-click="SaveData();"
+                           ng-show="CM00089.Status == 1">
+                            <i class="glyphicon glyphicon-floppy-disk icon-large">
+                            </i><br />
+                            Save &amp; Close
+                        </a>
+                        <a class="btn btn-default" ng-click="UpdateData();"
+                           ng-show="CM00089.Status == 2">
+                            <i class="glyphicon glyphicon-floppy-disk icon-large">
+                            </i><br />
+                            Update &amp; Close
+                        </a>
+                        <a class="btn btn-default" ng-click="DeleteData();" ng-show="CM00089.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+                    </header>
+                    <br /><br />
+                    <div id="widget-Set_Accounting">
+                        <div class="no-border overflow">
+                            <div class="widget-body">
+                                <div class="row">
+                                    <article class="col-md-12 col-lg-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col col-md-4 control-label txt-color-red bold">Check Book</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" readonly
+                                                                   placeholder="Checkbook Code" ng-model="CM00089.CheckbookCode" />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default"
+                                                                        ng-click="OpenkendoWindow('GL_CheckbookLookUp',CM00089.CurrencyCode,'Accounting')">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col col-sm-4 control-label text-left">Payment Type</label>
+                                                    <div class="col col-sm-8">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Payment Type --'"
+                                                                k-ng-model="SelectedLookUp.SelectedPaymentType"
+                                                                k-data-text-field="'PaymentTypeName'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'TrxPaymentType'"
+                                                                k-data-source="PaymentTypes"
+                                                                k-on-change="PaymentTypeChangedForAccounting()"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col col-sm-4 control-label text-left">Agent</label>
+                                                    <div class="col col-sm-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" readonly
+                                                                   placeholder="Agent ID"
+                                                                   ng-model="CM00089.ToAgentID">
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_AgentLookUp',null,'AgentCheckbook')">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <div class="col-sm-12">
+                                                        <label class="col">
+                                                            <input type="checkbox"
+                                                                   class="checkbox style-0"
+                                                                   ng-model="CM00089.ToAgent">
+                                                            <span>To Agent</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

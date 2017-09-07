@@ -1,0 +1,51 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditSOP_Priority_Click(PriorityID) {
+        var scope = angular.element(document.getElementById("widget-SOP_Priority")).scope();
+        scope.$apply(function () {
+            scope.EditSOP00012(PriorityID);
+        });
+    }
+</script>
+
+<div ng-controller="SOP_PriorityController">
+        <div class="widget" id="widget-SOP_Priority">
+            <div ng-show="PagesSOP00012.length > 0">
+                <div ng-repeat="Page in PagesSOP00012">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="k-content" ng-show="PagesSOP00012.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.SOP.SOP00012>()
+                                .Name("GridSOP_Priority")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_Priority_Click('#:PriorityID#');""> #:PriorityID# </a>").Width(100).Title("Priority ID");
+                            columns.Bound(c => c.PriorityName);
+                        })
+                                    .HtmlAttributes(new { style = "height:500px;" })
+                                    .Scrollable(scrollable => scrollable.Virtual(true))
+                                    .Pageable(pager => pager.Messages(messages => messages.Display("Showing Priorityes from {0} to {1}. Total Priorityes: <strong>{2}</strong>").Empty("No Priority Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                                    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                    .Navigatable()
+                                    .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                    .Reorderable(reorder => reorder.Columns(true))
+                                    .Resizable(ss => ss.Columns(true))
+                                    .ColumnMenu()
+                                    .Filterable()
+                                    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17).Read(read => read.Action("GetDataListGrid", "SOP_Priority")
+                                    .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.PriorityID)))
+                    )
+                </div>
+            </div>
+        </div>
+</div>
+

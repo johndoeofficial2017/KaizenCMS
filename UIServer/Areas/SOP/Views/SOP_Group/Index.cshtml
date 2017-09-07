@@ -1,0 +1,51 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditSOP_Group_Click(GroupID) {
+        var scope = angular.element(document.getElementById("widget-SOP_Group")).scope();
+        scope.$apply(function () {
+            scope.EditSOP00011(GroupID);
+        });
+    }
+</script>
+
+<div ng-controller="SOP_GroupController">
+        <div class="widget" id="widget-SOP_Group">
+            <div ng-show="PagesSOP00011.length > 0">
+                <div ng-repeat="Page in PagesSOP00011">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="k-content" ng-show="PagesSOP00011.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.SOP.SOP00011>()
+                                .Name("GridSOP_Group")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_Group_Click('#:GroupID#');""> #:GroupID# </a>").Width(100).Title("Group ID");
+                            columns.Bound(c => c.GroupName);
+                        })
+                                    .HtmlAttributes(new { style = "height:500px;" })
+                                    .Scrollable(scrollable => scrollable.Virtual(true))
+                                    .Pageable(pager => pager.Messages(messages => messages.Display("Showing Groups from {0} to {1}. Total Groups: <strong>{2}</strong>").Empty("No Group Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                                    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                    .Navigatable()
+                                    .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                    .Reorderable(reorder => reorder.Columns(true))
+                                    .Resizable(ss => ss.Columns(true))
+                                    .ColumnMenu()
+                                    .Filterable()
+                                    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17).Read(read => read.Action("GetDataListGrid", "SOP_Group")
+                                    .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.GroupID)))
+                    )
+                </div>
+            </div>
+        </div>
+</div>
+

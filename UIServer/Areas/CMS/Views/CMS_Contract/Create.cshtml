@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM00200.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM00200.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CM00200.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        <div class="smart-form pull-right widget-toolbar">
+            <label class="checkbox">
+                <input type="checkbox" name="checkbox" ng-model="CM00200.IsPrivateCase" />
+                <i></i>Is Private Case
+            </label>
+        </div>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Contract ID</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group full-control">
+                                            <input type="text" class="form-control" placeholder="Contract ID"
+                                                   ng-model="CM00200.ContractID" maxlength="10"
+                                                   ng-disabled="CM00200.Status==2" />
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Contract Name</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group full-control">
+                                            <input type="text" class="form-control" placeholder="Contract Name"
+                                                   ng-model="CM00200.ContractName" maxlength="20" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Client</label>
+                                    <label class="col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" readonly
+                                                   placeholder="Client ID" ng-model="CM00200.ClientID" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('CMS_CO_Client','PopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </label>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Contract Status</label>
+                                    <div class="col-md-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Status --'"
+                                                k-ng-model="CM00200.ContractStatusID"
+                                                k-data-text-field="'ContractStatusName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ContractStatusID'"
+                                                k-data-source="Statuses"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Payment Base</label>
+                                    <div class="col-md-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Payment Base --'"
+                                                k-ng-model="CM00200.PaymentBaseID"
+                                                k-data-text-field="'PaymentBaseName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'PaymentBaseID'"
+                                                k-data-source="PaymentBases"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Billing Frequency</label>
+                                    <div class="col-md-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Billing Frequency --'"
+                                                k-ng-model="CM00200.BillingFrequencyID"
+                                                k-data-text-field="'BillingFrequencyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'BillingFrequencyID'"
+                                                k-data-source="Frequencies"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label">Abbreviation</label>
+                                    <label class="col-md-4">
+                                        <input type="text" class="form-control" maxlength="25"
+                                               placeholder="Abbreviation" ng-model="CM00200.Abbreviation" />
+                                    </label>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Currency</label>
+                                    <label class="col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" readonly
+                                                   placeholder="Currency Code" ng-model="CM00200.CurrencyCode" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('GL_Currency','SinglePopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label">Start Date</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group full-control">
+                                            <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                   k-ng-model="CM00200.StartDate" style="width: 100%;" />
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">End Date</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group full-control">
+                                            <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                   k-ng-model="CM00200.EndDate" style="width: 100%;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label">Target Amount</label>
+                                    <label class="col-md-4">
+                                        <input kendo-numeric-text-box class="CMS_Contract-currency"
+                                               k-options="NumberFormatOptions(CM00200.CurrencyCode,CM00200.DecimalDigit,true)"
+                                               k-ng-model="CM00200.TargetAmount" style="width: 100%;" />
+                                    </label>
+                                    <label class="col col-md-2 control-label">Last Payment Date</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group full-control">
+                                            <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                   k-ng-model="CM00200.LastPaymentDate" style="width: 100%;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col col-md-2 control-label">Total Collected</label>
+                                    <label class="col-md-4">
+                                        <input kendo-numeric-text-box class="CMS_Contract-currency"
+                                               k-options="NumberFormatOptions(CM00200.CurrencyCode,CM00200.DecimalDigit,true)"
+                                               k-ng-model="CM00200.TotalCallactedAMT" style="width: 100%;" />
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <label class="col col-md-2 control-label">Remarks</label>
+                                    <label class="col-md-10">
+                                        <textarea class="form-control" placeholder="Remarks" 
+                                                  rows="4" ng-model="CM00200.Remarks"></textarea>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

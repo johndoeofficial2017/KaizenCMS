@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+}
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget no-margin-bottom" id="wid-id-2">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                    <h2>Task : #{{Sys00100.TaskID}} - {{Sys00100.TaskTitle}}</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div class="no-padding-top">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                        <input class="form-control" type="text">
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding smart-form">
+                        <!-- content goes here -->
+                        <div class="well">
+                            <h3 class="text-primary">{{Sys00100.TaskDescription}}</h3>
+                            <div class="col-sm-12">
+                                <table class="table table-striped table-forum">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2"><i class="fa fa-list-alt "></i> Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Post -->
+                                        <tr ng-repeat-start="action in TaskActionList">
+                                            <td class="text-center"><img alt="" ng-src="~/Photo/UserLogin/{{action.UserName | trim}}.{{action.PhotoExtension | trim}}" width="16" height="11"> &nbsp; <strong>{{action.UserName}}</strong></td>
+                                            <td>on <em>{{action.TaskDate | date:'medium'}}</em></td>
+                                        </tr>
+                                        <tr ng-repeat-end="">
+                                            <td class="text-center" style="width: 12%;">
+                                                <div class="push-bit">
+                                                    <img ng-src="~/Photo/UserLogin/{{action.UserName | trim}}.{{action.PhotoExtension | trim}}" width="50" alt="avatar" class="online">
+                                                </div><small>473 Posts</small>
+                                            </td>
+                                            <td>
+                                                {{action.TaskDescription}}
+                                                <div class="forum-attachment" ng-show="action.Sys00102.length > 0">
+                                                    {{action.Sys00102.length}} attachment(s) — <a href="javascript:void(0);"> Download all attachments</a>
+                                                    <ul class="list-inline margin-top-10">
+                                                        <li class="well well-sm padding-5" ng-repeat="doc in action.Sys00102">
+                                                            <strong>{{doc.DocumentName}}.{{doc.PhotoExtension}}</strong>
+                                                            <br>
+                                                            400 kb
+                                                            <br>
+                                                            <a href="javascript:void(0);" ng-click="DownloadFile(doc.DocumentName +'.'+ doc.PhotoExtension,'TaskActionAttachment')"> Download</a> |
+                                                            <a href="javascript:void(0);" ng-click="OpenFile(doc.DocumentName +'.'+ doc.PhotoExtension,'TaskActionAttachment',doc.PhotoExtension)"> View</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <!-- end Post -->
+                                        <!-- Post -->
+                                        <tr>
+                                            <td class="text-center"><img alt="" ng-src="{{MY.PhotoExtension}}" width="16" height="11"> &nbsp; <strong>Me</strong></td>
+                                            <td><em>Today</em></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" style="width: 12%;">
+                                                <div class="push-bit">
+                                                    <img ng-src="{{MY.PhotoExtension}}" width="50" alt="avatar" class="online">
+                                                </div><small>473 Posts</small>
+                                            </td>
+                                            <td>
+                                                <div id="forumPost" data-smart-summernote-editor data-height="180"></div>
+
+                                                <button class="btn btn-primary margin-top-10">
+                                                    Post
+                                                </button>
+                                                <button class="btn btn-success margin-top-10">
+                                                    Save for later
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- end Post -->
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end content -->
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+<script>
+   
+</script>

@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Kaizen Business Solution</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ERP Business Software Solution">
+    <meta name="author" content="Kaizen Solutions">
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/font-awesome.min.css">
+    <!-- Kaizen Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-skins.min.css">
+    <link href="~/Content/ng-tags-input.min.css" rel="stylesheet" />
+
+    <!-- Kaizen RTL Support -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-rtl.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/demo.min.css">
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- GOOGLE FONT -->
+    <link href="~/css/google-open-sans-font.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+    <link href="~/Content/kendo/2016.3.1118/kendo.common-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.dataviz.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/kendo.dataviz.default.min.css" rel="stylesheet" />
+    <link href="~/css/custom_style.css" rel="stylesheet" />
+    <link href="~/css/plans.css" rel="stylesheet" />
+
+    <link href="~/css/your_style.css" rel="stylesheet" />
+
+    <script src="~/Scripts/kendo/2016.3.1118/jquery.min.js"></script>
+
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-filter.min.js"></script>
+    <script src="~/Scripts/ng-tags-input.min.js"></script>
+
+    <script src="~/Scripts/kendo/2016.3.1118/jszip.min.js"></script>
+    <script src="~/Scripts/kendo/2016.3.1118/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/2016.3.1118/kendo.aspnetmvc.min.js"></script>
+
+    <script src="~/ScriptUI/Admin/SysProfileController.js"></script>
+
+
+
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+</head>
+<body ng-app="ProfileModule" ng-controller="SysProfileController">
+    <header id="header">
+        <div id="logo-group">
+            <span id="logo">
+                <img src="~/img/kaizen_logo.png" alt="Kaizen">
+            </span>
+
+        </div>
+        <div class="pull-right">
+            <div id="hide-menu" class="btn-header pull-right">
+                <span>
+                    <a href="javascript:void(0);" data-action="toggleMenu" id="toggleLeftMenu"
+                       title="Collapse Menu"><i class="fa fa-reorder"></i></a>
+                </span>
+            </div>
+            <div id="fullscreen" class="btn-header transparent pull-right">
+
+            </div>
+        </div>
+    </header>
+    <div id="main" role="main">
+        @RenderBody()
+    </div>
+    <script src="~/js/libs/jquery-ui-1.10.3.min.js"></script>
+
+    <!-- IMPORTANT: APP CONFIG -->
+    <script src="~/js/app.config.js"></script>
+
+    <!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+    <script src="~/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+    <!-- BOOTSTRAP JS -->
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- CUSTOM NOTIFICATION -->
+    <script src="~/js/notification/SmartNotification.min.js"></script>
+
+    <!-- JARVIS WIDGETS -->
+    <script src="~/js/smartwidgets/jarvis.widget.min.js"></script>
+
+    <!-- JQUERY VALIDATE -->
+    <script src="~/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+    <!-- JQUERY MASKED INPUT -->
+    <script src="~/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+    <!-- JQUERY SELECT2 INPUT -->
+    <script src="~/js/plugin/select2/select2.min.js"></script>
+
+    <!-- JQUERY UI + Bootstrap Slider -->
+    <script src="~/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+    <!-- browser msie issue fix -->
+    <script src="~/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+    <!-- FastClick: For mobile devices -->
+    <script src="~/js/plugin/fastclick/fastclick.min.js"></script>
+
+    <!--[if IE 8]>
+
+    <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+    <![endif]-->
+    <!-- Demo purpose only -->
+    @*<script src="~/js/demo.min.js"></script>*@
+    <!-- MAIN APP JS FILE -->
+    @*<script src="~/js/app.min.js"></script>*@
+    <script src="~/js/app.js"></script>
+    @*<script src="~/js/speech/voicecommand.min.js"></script>*@
+
+    <!-- SmartChat UI : plugin -->
+    @*<script src="~/js/kchat/socket.io.js"></script>*@
+
+    <script src="~/js/kchat/smart.chat.ui.js"></script>
+
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/js/plugin/superbox/superbox.min.js"></script>
+    <script src="~/js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+    <script src="~/js/plugin/fuelux/wizard/wizard.min.js"></script>
+    <script src="~/js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //pageSetUp();
+            $('.superbox').SuperBox();
+            $(".fullScreenButton").click(function () {
+                var toggleId = $(this).attr('id') + "-0";
+                $('#' + toggleId).toggleClass('customFullScreen');
+                $("body").toggleClass('nooverflow');
+                var ActiveScreenID = $("#ActiveScreenID").val();
+                resizeGrid("Grid" + ActiveScreenID);
+            });
+            document.getElementById("toggleLeftMenu").click();
+        });
+    </script>
+</body>
+</html>

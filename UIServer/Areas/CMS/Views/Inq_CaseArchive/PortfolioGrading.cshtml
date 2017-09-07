@@ -1,0 +1,230 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+      data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        <a ng-click="LoadCM20203Page('PortfolioYearlyGrading');" class="text-middle btn btn-default btn-header">
+            Yearly
+        </a>
+        <a ng-click="LoadCM20203Page('PortfolioGradingCategory');" class="text-middle btn btn-default btn-header">
+            Category
+        </a>
+        <a ng-click="LoadCM20203Page('PortfolioGradingPivot');" class="text-middle btn btn-default btn-header">
+            Pivot
+        </a>
+        <a ng-click="LoadCM20203Page('PortfolioGradingStaff');" class="text-middle btn btn-default btn-header">
+            Staff
+        </a>
+        <a ng-click="LoadCM20203Page('PortfolioGradingStaffSummery');" class="text-middle btn btn-default btn-header">
+            Staff Summery
+            <input type="checkbox" id="eq1"
+                   ng-model="MainFilter.IsCUSTCLAS"
+                   checked="checked" />
+        </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="jarviswidget-editbox">
+            <input class="form-control" type="text">
+        </div>
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding margin-bottom-10">
+                        <form>
+                            <fieldset class="well well-10 well-10 box165">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row margin-bottom-10 margin-top-10">
+                                            <label class="col-md-1">
+                                                <input type="checkbox" id="eq1" class="k-checkbox" ng-model="CM00232.MobileNo1" checked="checked">
+                                            </label>
+                                            <div class="col-md-6">
+                                                <select class="form-control">
+                                                    <option>Select Class</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row margin-bottom-10">
+
+                                            <label class="col-md-1">
+                                                <input type="checkbox" id="eq1" ng-model="CM00232.MobileNo1" checked="checked">
+                                            </label>
+                                            <div class="col-md-6">
+                                                <select class="form-control">
+                                                    <option>Select Type</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row margin-bottom-10 margin-top-10">
+
+                                            <label class="col-md-1">
+                                                <input type="checkbox" id="eq1" class="k-checkbox" ng-model="CM00232.MobileNo1" checked="checked">
+                                            </label>
+                                            <div class="form-group col-md-6 no-padding-lr">
+                                                <div class="input-group full-control">
+                                                    <input class="form-control" name="startdate" id="startdate" placeholder="Morabaha" type="text">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-search"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row margin-bottom-10">
+
+                                            <label class="col-md-1">
+                                                <input type="checkbox" id="eq1" class="k-checkbox" ng-model="CM00232.MobileNo1" checked="checked">
+                                            </label>
+                                            <div class="form-group col-md-6 no-padding-lr">
+                                                <div class="input-group full-control">
+                                                    <input class="form-control" name="startdate" id="startdate" placeholder="Personal Finance" type="text">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-search"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+
+        </div>
+        <!-- End Body -->
+    </div>
+
+    <div class="widget-body container-fluid">
+        
+
+
+        <div class="row">
+            <section class="col-md-12">
+
+                <label class="col-md-2 control-label">
+                    Data Source
+                </label>
+                <label class="col-md-4">
+                    <div class="input-group">
+
+                        <select kendo-drop-down-list
+                                k-filter="'contains'"
+                                k-option-label="'-- Select Class --'"
+                                k-ng-model="MainFilter.CUSTCLAS"
+                                k-data-text-field="'CUSTCLASNAME'"
+                                k-value-primitive="true"
+                                k-data-value-field="'CUSTCLAS'"
+                                k-data-source="CM00021List"
+                                data-bv-notempty="true"
+                                data-bv-notempty-message="The Class is required and cannot be empty"
+                                style="width: 200PX"></select>
+                    </div>
+                </label>
+                <label class="col-md-2 control-label">Category</label>
+                <label class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Replaced Agent ID"
+                               ng-model="MainFilter.ClientName" readonly />
+                        <span class="input-group-btn input-group-sm">
+                            <button class="btn btn-default"
+                                    ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'ClientCases')">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </label>
+            </section>
+        </div>
+
+        <div class="row">
+            <section class="col-md-12">
+                <label class="col-md-2 control-label">Data Source</label>
+                <label class="col-md-4">
+                    <div class="input-group">
+                        <select kendo-drop-down-list k-ng-model="SelectedLookUp.SelectedDocType"
+                                k-options="CaseTypeOptions"
+                                k-on-change="GridRefresh('GridCMS_CaseAssign')"
+                                style="width:200PX"></select>
+                    </div>
+                </label>
+                <label class="col-md-2 control-label">Category</label>
+                <label class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Replaced Agent ID"
+                               ng-model="MainFilter.ClientName" readonly />
+                        <span class="input-group-btn input-group-sm">
+                            <button class="btn btn-default"
+                                    ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'ClientCases')">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col-md-12">
+                <label class="col-md-2 control-label"></label>
+                <label class="col-md-4">
+                    <select kendo-drop-down-list k-ng-model='MainFilter.YearCode'
+                            k-on-change='FillPeriod()'
+                            k-options='YearCodelistOptions'
+                            style='width: 200PX;'
+                            k-value-primitive='true'></select>
+                </label>
+                <label class="col-md-2 control-label">Product</label>
+                <label class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="ContractName"
+                               ng-model="MainFilter.ContractName" readonly />
+                        <span class="input-group-btn input-group-sm">
+                            <button class="btn btn-default"
+                                    ng-click="OpenkendoWindowForm('CMS','CMS_Contract','PopUpByClient',MainFilter.ClientID,'Main')">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col-md-12">
+                <label class="col-md-2 control-label"></label>
+                <label class="col-md-4">
+                    <select kendo-drop-down-list k-ng-model='MainFilter.PERIODID'
+                            k-on-change='ViewChanged()'
+                            k-options='PERIODIDDropDownlistOptions'
+                            id='CaseArchivPeriodDownlistOptions'
+                            style='width: 200PX;'
+                            k-value-primitive='true'></select>
+                </label>
+                <label class="col-md-2 control-label"></label>
+                <label class="col-md-4">
+                    <div class="input-group">
+
+                    </div>
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col-md-12">
+                <div>
+
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+}
+@(Html.Kendo().Grid<Kaizen.CMS.CM00110>()
+.Name("GridCMS_CO_Client")
+.Columns(columns =>
+{
+    foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+    {
+        switch (column.field.Trim())
+        {
+            case "PhotoExtension":
+                columns.Template(@<text></text>).ClientTemplate("#= ShowItemImage(data) #").Locked(column.locked).Width(column.width);
+                break;
+            case "ClientID":
+                columns.Bound("ClientID").ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditClient_Click('#:ClientID#');""> #:ClientID# </a>").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "ClientName":
+                columns.Bound("ClientName").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "ShortName":
+                columns.Bound("ShortName").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "ClientDescription":
+                columns.Bound("ClientDescription").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "ExtraField":
+                columns.Bound("CUSTCLAS").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "CUSTCLAS":
+                columns.Bound("CUSTCLAS").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "StatusID":
+                columns.Bound("StatusID").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "ParentClientID":
+                columns.Bound("ParentClientID").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "ContactTypeID":
+                columns.Bound("ContactTypeID").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "AddressCode":
+                columns.Bound("AddressCode").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "BillAddressCode":
+                columns.Bound("BillAddressCode").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+            case "RemitToAddressCode":
+                columns.Bound("RemitToAddressCode").Locked(column.locked).Width(column.width).Title(column.title);
+                break;
+        }
+    }
+})
+    .Excel(excel => excel.AllPages(true).FileName("ClientList.xlsx").Filterable(true))
+    .Pdf(pdf => pdf.FileName("ClientList.pdf")
+    .AllPages().Date(DateTime.Now))
+                .Pageable(pager => pager.Messages(messages => messages.Display("CLients from {0} to {1}. Total Clients: <strong>{2}</strong>")
+        .ItemsPerPage("CLient Per page").Empty("No Clients")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.ClientID).Descending())
+.Read(read => read.Action("GetDataListGrid", "CMS_CO_Client").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+.Model(model =>
+{
+    model.Id(o => o.ClientID);
+    model.Field(o => o.ClientID);
+    model.Field(o => o.ClientName);
+    model.Field(o => o.StatusID);
+    model.Id(o => o.AddressCode);
+    model.Field(o => o.BillAddress);
+    model.Field(o => o.BillAddressCode);
+    model.Field(o => o.ClientDescription);
+    model.Id(o => o.ExtraField);
+}) 
+) 
+)
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

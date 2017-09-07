@@ -1,0 +1,450 @@
+﻿<!DOCTYPE html>
+<html ng-app="ApplicationModule">
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+    <title>Kaizen Business Solution</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ERP Business Software Solution">
+    <meta name="author" content="Code Land IT Solutions">
+    <!-- Basic Styles -->
+
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/font-awesome.min.css">
+    <!-- Kaizen Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-skins.min.css">
+    <link href="~/Content/ng-tags-input.min.css" rel="stylesheet" />
+
+    <!-- Kaizen RTL Support -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-rtl.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/demo.min.css">
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- GOOGLE FONT -->
+    <link href="~/css/google-open-sans-font.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+    <link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.common-bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />*@
+    @*<link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />*@
+    @*<link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.dataviz.bootstrap.min.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/kendo/2016.3.1118/kendo.default.mobile.min.css")" rel="stylesheet" type="text/css" />*@
+
+
+
+    <script src="@Url.Content("~/Scripts/kendo/2016.3.1118/jquery.min.js")"></script>
+    <link href="~/css/your_style.css" rel="stylesheet" />
+    
+    @*<script src="~/Scripts/jquery-ui.min.js"></script>*@
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-filter.min.js"></script>
+    <script src="~/Scripts/ng-tags-input.min.js"></script>
+    <script src="~/Scripts/ng-pattern-restrict.min.js"></script>
+
+
+
+    <script src="@Url.Content("~/Scripts/kendo/2016.3.1118/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2016.3.1118/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2016.3.1118/kendo.aspnetmvc.min.js")"></script>
+
+
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script src="~/Scripts/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js"></script>
+
+    <script src="~/ScriptUI/Module.js"></script>
+
+    @RenderSection("AdditionalHeader", required: true)
+
+    <link href="~/css/custom_style.css" rel="stylesheet" />
+    <link href="~/css/plans.css" rel="stylesheet" />
+    <script>
+        function GetKaizenPublicKey() {
+            var info = $("#searchTerm").val();
+            return {
+                KaizenPublicKey: sessionStorage.PublicKey
+				, SearchTerm: info
+            };
+        };
+        function kaizenTrim(x) {
+            if (x == null)
+                return "";
+            else
+                return x.replace(/^\s+|\s+$/gm, '');
+        };
+        function GetKaizenPublicKeyValue() {
+            //var tt = $("#ActiveScreenID").val();
+            //alert(tt);
+            //var e = document.getElementById("GridViewoption_" + tt);
+            //var selectedView = e.options[e.selectedIndex].value;
+            //var searchcritaria = $("#searchTerm").val();
+            return {
+                //SelectedView: selectedView,
+                Searchcritaria: '',
+                KaizenPublicKey: sessionStorage.PublicKey
+            };
+        };
+        function GetGenericKaizenPublicKey() {
+            return {
+                Searchcritaria: '',
+                KaizenPublicKey: sessionStorage.PublicKey
+            };
+        };
+        function GetGenericPopUpKaizenPublicKey() {
+            var FieldID = "-1";
+            var FltrOperator = 8;
+
+            var e = document.getElementById("DropFieldID");
+            if (e != null)
+                FieldID = e.options[e.selectedIndex].value;
+            //----------------------------------------------------------------------------------
+            var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+            if (ObjDropFltrOperator != null)
+                FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+            //----------------------------------------------------------------------------------
+            var searchcritaria = $("#SearchcritariaPopUp").val();
+
+            var ActiveScreenID = $("#ActiveScreenID").val();
+            var widget = $("#widget-" + ActiveScreenID)
+            var scope = angular.element(widget).scope();
+            return {
+                FieldID: FieldID,
+                FltrOperator: FltrOperator,
+                Searchcritaria: searchcritaria,
+                KaizenPublicKey: sessionStorage.PublicKey
+            };
+        };
+        function FormatDecimalDigit(AMT, DecimalDigit) {
+            //alert(DecimalDigit);
+            if (DecimalDigit == 'undefined' || DecimalDigit == null) {
+                var scope = angular.element(document.getElementById("main")).scope();
+                DecimalDigit = scope.MY.DecimalDigit;
+            }
+            if (AMT == null)
+                AMT = 0;
+            // alert(AMT);
+            var number = kendo.toString(AMT, "n" + DecimalDigit);
+            //alert(number);
+            return number;
+        };
+        function openChat(divId) {
+            alert('ssssssss');
+            //var c = $('#usr' + divId),
+            //d = c.attr("data-chat-id"),
+            //e = c.attr("data-chat-fname"),
+            //f = c.attr("data-chat-lname"),
+            //g = c.attr("data-chat-status") || "online",
+            //h = c.attr("data-chat-alertmsg"),
+            //i = c.attr("data-chat-alertshow") || !1;
+            //chatboxManager.addBox(d, {
+            //    "title": "username" + d, "first_name": e, "last_name": f, "status": g, "alertmsg": h, "alertshow": i
+            //, messageSent: function (id, user, msg) {
+            //    // alert(user.first_name+": "+ msg);
+            //    // this.boxManager.addMsg(user.first_name, msg);
+            //}
+            //})
+        }
+    </script>
+
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+</head>
+<body ng-controller="MainController">
+    <header id="header">
+        <div id="logo-group">
+            <span id="logo">
+                <img src="~/img/kaizen_logo.png" alt="Kaizen">
+            </span>
+            <span id="activity" class="activity-dropdown">
+                <i class="fa fa-user"></i>
+                <b class="badge"> 0 </b>
+            </span>
+        </div>
+        <div>
+            @RenderSection("MyOtherJavascript")
+        </div>
+        <div class="pull-right">
+            <div id="hide-menu" class="btn-header pull-right">
+                <span>
+                    <a href="javascript:void(0);" data-action="toggleMenu" id="toggleLeftMenu"
+                       title="Collapse Menu"><i class="fa fa-reorder"></i></a>
+                </span>
+            </div>
+            <div id="logout" class="btn-header transparent pull-right">
+                <span> <a href="javascript:void(0);" title="Sign Out" ng-click="UserLogout()"><i class="fa fa-sign-out"></i></a> </span>
+            </div>
+            <div id="fullscreen" class="btn-header transparent pull-right">
+                <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+            </div>
+            <!-- #Voice Command: Start Speech -->
+            <div id="speech-btn" class="btn-header transparent pull-right hidden-sm hidden-xs">
+                <div>
+                    <a href="javascript:void(0)" title="Voice Command" data-action="voiceCommand"><i class="fa fa-microphone"></i></a>
+                    <div class="popover bottom">
+                        <div class="arrow"></div>
+                        <div class="popover-content">
+                            <h4 class="vc-title">Voice command activated <br><small>Please speak clearly into the mic</small></h4>
+                            <h4 class="vc-title-error text-center">
+                                <i class="fa fa-microphone-slash"></i> Voice command failed
+                                <br><small class="txt-color-red">Must <strong>"Allow"</strong> Microphone</small>
+                                <br><small class="txt-color-red">Must have <strong>Internet Connection</strong></small>
+                            </h4>
+                            <a href="javascript:void(0);" class="btn btn-success" onclick="commands.help()">See Commands</a>
+                            <a href="javascript:void(0);" class="btn bg-color-purple txt-color-white" onclick="$('#speech-btn .popover').fadeOut(50);">Close Popup</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <aside id="left-panel">
+        <div class="login-info">
+            <span>
+                <a href="javascript:void(0);">
+                    <img ng-src="{{MY.PhotoExtension}}" alt="me" class="online" />
+                    <span>
+                        {{MY.FullName}}
+                    </span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+            </span>
+        </div>
+        <nav>
+            <ul>
+                <!-- chat portal Start wael-->
+                <li class="chat-users top-menu-invisible">
+                    <a href="#"><i class="fa fa-lg fa-fw fa-comment-o"><em class="bg-color-pink flash animated"></em></i> <span class="menu-item-parent"> Chat </span></a>
+                    <ul style="display:block;">
+                        <li>
+                            <!-- DISPLAY USERS -->
+                            <div class="display-users">
+
+                                <input class="form-control chat-user-filter" placeholder="Filter" type="text">
+                                <div id="chatUsers">
+                                    <a href="#" ng-repeat="user in UsersList" id="usr{{user.UserName}}" class="usr"
+                                       ng-click="openchat(user.UserName)"
+                                       data-chat-id="{{user.UserName}}"
+                                       data-chat-fname="{{user.UserName}}"
+                                       data-chat-lname=""
+                                       data-chat-status="online"
+                                       data-chat-alertmsg=""
+                                       data-chat-alertshow="false"
+                                       data-rel="popover-hover"
+                                       data-placement="right"
+                                       data-html="true"
+                                       data-content="
+											<div class='usr-card'>
+												<img src='{{user.PhotoExtension || 'img/avatars/male.png'}}' alt=''>
+												<div class='usr-card-content'>
+													<h3>{{user.UserName}}</h3>
+													<p>{{user.UserName}}</p>
+												</div>
+											</div>
+										">
+									  	<i></i>{{user.UserName}}
+									</a>
+                                </div> <!-- chat_users -->
+                            </div>
+                            <!-- END DISPLAY USERS -->
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <span class="minifyme" data-action="minifyMenu">
+            <i class="fa fa-arrow-circle-left hit"></i>
+        </span>
+    </aside>
+    <div id="main" role="main">
+        @RenderBody()
+    </div>
+    <div class="page-footer">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <span class="txt-color-white">Kaizen 1.8.2 <span class="hidden-xs"> - Kaizen Business Solution</span> © 2015-2016</span>
+            </div>
+            <div class="col-xs-6 col-sm-6 text-right hidden-xs">
+                <div class="txt-color-white inline-block">
+                    <i class="txt-color-blueLight hidden-mobile"> <i class="fa fa-clock-o"></i> <strong> &nbsp;</strong> </i>
+                    <div class="btn-group dropup">
+                        <button class="btn btn-xs dropdown-toggle bg-color-blue txt-color-white" data-toggle="dropdown">
+                            <i class="fa fa-link"></i> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right text-left">
+                            <li>
+                                <div class="padding-5">
+                                    <p class="txt-color-darken font-sm no-margin">Download Progress</p>
+                                    <div class="progress progress-micro no-margin">
+                                        <div class="progress-bar progress-bar-success" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="padding-5">
+                                    <p class="txt-color-darken font-sm no-margin">Server Load</p>
+                                    <div class="progress progress-micro no-margin">
+                                        <div class="progress-bar progress-bar-success" style="width: 20%;"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="padding-5">
+                                    <p class="txt-color-darken font-sm no-margin">Memory Load <span class="text-danger">*critical*</span></p>
+                                    <div class="progress progress-micro no-margin">
+                                        <div class="progress-bar progress-bar-danger" style="width: 70%;"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="padding-5">
+                                    <button class="btn btn-block btn-default">refresh</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:none">
+        <input id="ActiveScreenID" type="text"
+               value="{{ToolBar.ActiveScreen.ID}}" />
+    </div>
+  
+      <script src="~/js/app.config.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- CUSTOM NOTIFICATION -->
+    <script src="~/js/notification/SmartNotification.min.js"></script>
+
+    <!-- JARVIS WIDGETS -->
+    <script src="~/js/smartwidgets/jarvis.widget.min.js"></script>
+
+    <!-- JQUERY VALIDATE -->
+    <script src="~/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+    <!-- JQUERY MASKED INPUT -->
+    <script src="~/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+    <!-- JQUERY SELECT2 INPUT -->
+    <script src="~/js/plugin/select2/select2.min.js"></script>
+
+    <!-- JQUERY UI + Bootstrap Slider -->
+    <script src="~/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+    <!-- browser msie issue fix -->
+    <script src="~/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+    <!-- FastClick: For mobile devices -->
+    <script src="~/js/plugin/fastclick/fastclick.min.js"></script>
+
+    <!--[if IE 8]>
+
+    <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+    <![endif]-->
+    <!-- Demo purpose only -->
+    @*<script src="~/js/demo.min.js"></script>*@
+    <!-- MAIN APP JS FILE -->
+    @*<script src="~/js/app.min.js"></script>*@
+    <script src="~/js/app.js"></script>
+    @*<script src="~/js/speech/voicecommand.min.js"></script>*@
+
+    <!-- SmartChat UI : plugin -->
+    @*<script src="~/js/kchat/socket.io.js"></script>*@
+
+    @*<script src="~/js/kchat/h-chat.js"></script>
+        <script src="~/js/kchat/smart.chat.ui.js"></script>*@
+
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/js/plugin/superbox/superbox.min.js"></script>
+    <script src="~/js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+    <script src="~/js/plugin/fuelux/wizard/wizard.min.js"></script>
+    <script src="~/js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+    <script type="text/javascript">
+
+        function resizeGrid(gridIDCode) {
+            var bodyClasses = document.getElementById('widget1-0').className;
+            var myClass = new RegExp("customFullScreen");
+            var trueOrFalse = myClass.test(bodyClasses);
+            var footerheight = 185;
+            if (trueOrFalse) {
+                footerheight = 85;
+            } else {
+                bodyClasses = document.querySelector('body').className;
+                myClass = new RegExp("fixed-page-footer");
+                trueOrFalse = myClass.test(bodyClasses);
+                if (trueOrFalse)
+                    footerheight = 240;
+            }
+            var gridElement = $("#" + gridIDCode);
+            // alert(gridIDCode);
+            if (gridElement == null) return;
+            var grid = gridElement.data("kendoGrid");
+            var dataArea = gridElement.find(".k-grid-content");
+            var newHeight = $(window).height() - footerheight;
+            // alert("new height:"+newHeight);
+            var diff = gridElement.innerHeight() - dataArea.innerHeight();
+            gridElement.height(newHeight);
+            // alert('diff:'+diff);
+            var dataHeight = newHeight - diff
+            var pageSize = Math.floor(dataHeight / 32);
+            // alert(pageSize);
+            dataArea.height(dataHeight);
+
+            //  grid.dataSource.pageSize(pageSize);
+        };
+        $(document).ready(function () {
+            //pageSetUp();
+            $('.superbox').SuperBox();
+            $(".fullScreenButton").click(function () {
+                var toggleId = $(this).attr('id') + "-0";
+                $('#' + toggleId).toggleClass('customFullScreen');
+                $("body").toggleClass('nooverflow');
+                var ActiveScreenID = $("#ActiveScreenID").val();
+                resizeGrid("Grid" + ActiveScreenID);
+            });
+            document.getElementById("toggleLeftMenu").click();
+        });
+        window.addEventListener('resize', function (event) {
+            var ActiveScreenID = $("#ActiveScreenID").val();
+            //alert(ActiveScreenID);
+            resizeGrid("Grid" + ActiveScreenID);
+        });
+        function GetKaizenPublicKeyWithView() {
+            var scope = angular.element(document.getElementById("ActiveScreenID")).scope();
+            var info = $("#searchTerm").val();
+            return {
+                ViewID: scope.templates.CurrentView,
+                KaizenPublicKey: sessionStorage.PublicKey
+                , SearchTerm: info
+            };
+        }
+    </script>
+</body>
+</html>

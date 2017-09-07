@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSysGL00102_Click(CurrencyCode) {
+        var scope = angular.element(document.getElementById("widget-Sys_Currency")).scope();
+        scope.$apply(function () {
+            scope.EditSysGL00102(CurrencyCode);
+        });
+    };
+    function GetGenericKaizenPublicKeyWithCompany() {
+        var scope = angular.element(document.getElementById("widget-Sys_Currency")).scope();
+        return {
+            Searchcritaria: '',
+            CompanyID: scope.SelectedCompany.GridCompanyID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<div ng-controller="Sys_CurrencyController">
+        <div class="widget" id="widget-Sys_Currency">
+            <div ng-show="PagesSysGL00102.length >0">
+                <div ng-repeat="Page in PagesSysGL00102">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesSysGL00102.length == 0">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.GL.GL00102>()
+                            .Name("GridSys_Currency")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.CurrencyCode).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSysGL00102_Click('#:CurrencyCode#');""> #:CurrencyCode# </a>").Width(150).Title("Currency Code");
+                                columns.Bound(c => c.CurrencyName).Title("Currency Name");
+                                columns.Bound(c => c.CurrencySymbol).Title("Currency Symbol");
+                                columns.Bound(c => c.DecimalDigit).Title("Decimal Digit");
+                                columns.Bound(c => c.DecimalSeparator).Title("Decimal Separator");
+                            })
+                            .Filterable().AutoBind(false)
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Currency from {0} to {1}. Total Currencies: <strong>{2}</strong>")
+                            .ItemsPerPage("Currency Per page").Empty("No Currency Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Sys_Currency")
+                            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKeyWithCompany"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.CurrencyCode);
+                                model.Field(o => o.CurrencyName);
+                                model.Field(o => o.CurrencySymbol);
+                                model.Field(o => o.DecimalDigit);
+                                model.Field(o => o.DecimalSeparator);
+                                model.Field(o => o.ExchangeRate);
+                                model.Field(o => o.ExchangeRateID);
+                                model.Field(o => o.ExchangeTableID);
+                                model.Field(o => o.GroupSeparator);
+                                model.Field(o => o.GroupSizes);
+                                model.Field(o => o.IsAfterSymbol);
+                                model.Field(o => o.IsMultiply);
+                                model.Field(o => o.ISOCode);
+                                model.Field(o => o.SubUnit);
+                                model.Field(o => o.Unit);
+                                model.Field(o => o.UnitConnector);
+                            })
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+</div>

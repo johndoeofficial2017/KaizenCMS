@@ -1,0 +1,123 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM10100.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM10100.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CM10100.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <fieldset>
+                            <div class="row">
+                                <section class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left">Batch ID</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" placeholder="Batch ID"
+                                                       ng-model="CM10100.BatchID"
+                                                       data-bv-notempty="true" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Client</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" readonly
+                                                           placeholder="Client ID" ng-model="CM10100.ClientName" />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default"
+                                                                ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'UploadView')">
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Contract</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" readonly
+                                                           placeholder="Contract ID" ng-model="CM10100.ContractName" />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-show="CM10100.ClientID != ''"
+                                                                ng-click="OpenkendoWindowForm('CMS','CMS_Contract','PopUpByClient',CM10100.ClientID,'UploadView')">
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Currency</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Currency"
+                                                           ng-model="CM10100.CurrencyCode"
+                                                           data-bv-notempty="true" readonly
+                                                           data-bv-notempty-message="The Currency is required and cannot be empty" />
+                                                    <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindowForm('GL','GL_Currency', 'SinglePopUp',null,'UploadView')">
+                                                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                    </div>
+                                                    <div class="input-group-btn input-group-sm" ng-disabled="CM10100.CurrencyCode == undefined || CM10100.CurrencyCode == ''"
+                                                         ng-click="OpenkendoWindowForm('GL','GL_Currency', 'ExchangeTablePopUp', CM10100.CurrencyCode, 'UploadView')">
+                                                        <a href="javascript:void(0);" class="btn btn-default" ng-show="CM10100.ExchangeTableID == undefined || CM10100.ExchangeTableID == ''">Select Table</a>
+                                                        <a href="javascript:void(0);" class="btn btn-default" ng-hide="CM10100.ExchangeTableID == undefined || CM10100.ExchangeTableID == ''">{{CM10100.ExchangeTableID}}</a>
+                                                    </div>
+                                                    <div class="input-group-btn input-group-sm" ng-disabled="CM10100.CurrencyCode == undefined || CM10100.CurrencyCode == '' || CM10100.ExchangeTableID == undefined || CM10100.ExchangeTableID == ''"
+                                                         ng-click="OpenkendoWindowForm('UploadView');">
+                                                        <a href="javascript:void(0);" class="btn btn-default" ng-show="CM10100.ExchangeRateID == undefined || CM10100.ExchangeRateID == ''">Select Rate</a>
+                                                        <a href="javascript:void(0);" class="btn btn-default" ng-hide="CM10100.ExchangeRateID == undefined || CM10100.ExchangeRateID == ''">{{CM10100.ExchangeRate}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Book Date</label>
+                                            <div class="col-sm-8">
+                                                <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                       k-ng-model="CM10100.BookingDate" style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Closing Date</label>
+                                            <div class="col-sm-8">
+                                                <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                       k-ng-model="CM10100.ClosingDate" style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </fieldset>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

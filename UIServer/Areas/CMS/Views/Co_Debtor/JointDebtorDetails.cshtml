@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+<header class="button-header">
+    <a href="javascript:void(0);" class="btn btn-primary" ng-click="OpenkendoWindow('CMS_Debtor','PopUp',null,'JointExisitng');">
+        <i class="glyphicon glyphicon-plus"></i><br /> Add Debtor
+    </a>
+</header>
+<section id="widget-grid" class="">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+            <div class="table-responsive no-padding" ng-show="RelatedJointDebtors.length > 0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Debtor Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="debtor in RelatedJointDebtors">
+                            <td>{{debtor.DebtorID}}</td>
+                            <td>{{debtor.EnglishFullName}}</td>
+                            <td>
+                                <a href="javascript:void(0);" class="btn btn-danger btn-sm" ng-click="DeleteJointDebtor(debtor);">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </article>
+</section>

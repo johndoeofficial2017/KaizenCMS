@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div ng-controller="CMS_Set_AddressCodeTypeLegalController">
+    <div class="widget" id="widget-CMS_Set_AddressCodeTypeLegal">
+        <div ng-show="PagesCM00034.length > 0">
+            <div ng-repeat="Page in PagesCM00034">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00034.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div ng-repeat="Page in GridPages">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+    </div>
+</div>
+

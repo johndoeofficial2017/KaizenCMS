@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+    @(Html.Kendo().Grid<Kaizen.CMS.CM00307>()
+                            .Name("GridCMS_TRX_ManualPayment")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.PaymentID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditPayment_Click('#:PaymentID#');""> #:PaymentID# </a>").Width(100).Title("Payment ID");
+                                columns.Bound(c => c.CurrencyCode);
+                                columns.Bound(c => c.Amount).ClientTemplate("#= FormatAmount(data) #").HtmlAttributes(new { style = "text-align:center;" });
+                                columns.Bound(c => c.TransactionDate).Format("{0:dd/MM/yyyy}");
+                                columns.Bound(c => c.TransDescription);
+                                columns.Bound(c => c.PaymentMethodID).Filterable(filterable => filterable.UI("PaymentMethodFilter"));
+                                columns.Bound(c => c.AgentID);
+                                columns.Bound(c => c.CreatedDate).Format("{0:dd/MM/yyyy}");
+                                columns.Bound(c => c.PaymentNumber);
+                                columns.Bound(c => c.BankName);
+                                columns.Bound(c => c.BankAccount);
+                            })
+                             .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Payment from {0} to {1}. Total Payments: <strong>{2}</strong>")
+                            .ItemsPerPage("Payment Per page").Empty("No Payment Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                            .Read(read => read.Action("GetDataListGrid", "CMS_TRX_ManualPayment").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.PaymentID);
+                                model.Field(o => o.CurrencyCode);
+                                model.Field(o => o.Amount);
+                                model.Id(o => o.TransactionDate);
+                                model.Field(o => o.TransDescription);
+                                model.Field(o => o.PaymentMethodID);
+                                model.Field(o => o.AgentID);
+                                model.Id(o => o.CreatedDate);
+                                model.Field(o => o.PaymentNumber);
+                                model.Field(o => o.BankName);
+                                model.Field(o => o.BankAccount);
+                            })
+                        )
+    )

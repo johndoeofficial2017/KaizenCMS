@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form id="SysUserCompanyAccessForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary"
+                                       ng-click="SaveCompanyAccess();" ng-show="User.UserName !=null && User.UserName !=''">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    User Company Access Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">User</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="UserName" ng-model="User.UserName" readonly>
+                                            <span class="input-group-btn input-group-sm" 
+                                                  ng-click="OpenkendoWindow('KaizenUser',null,'CompanyAccess')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="col-sm-2 smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-click="UserAccessAllCompanies();"
+                                                               checkbox-all="Companies.isSelected" />
+                                                        <i></i>Access All
+                                                    </label>
+                                                </th>
+                                                <th>Company Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="company in Companies">
+                                                <td class="col-sm-2 col-md-2 smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="company.isSelected" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>{{company.CompanyName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+            </div>
+        </article>
+    </div>
+    <!-- WIDGET ROW END -->
+</section>

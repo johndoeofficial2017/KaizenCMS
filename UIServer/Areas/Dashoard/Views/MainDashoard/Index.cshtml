@@ -1,0 +1,230 @@
+﻿@{
+    Layout = null;
+}
+<div class="widget-body" ng-controller="DashoardController">
+    <div class="row">
+        <article class="col-md-6 col-lg-6">
+            <div class="row no-padding margin-bottom-10">
+                <div class="col-md-6 col-lg-6 no-padding">
+                    <form>
+                        <fieldset class="well well-10 well-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Target
+
+                                            </legend>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <span kendo-radialgauge
+                                          pointer="[{value: 20,color:'#c20000',cap: { size: 0.15 }}, {value: 70,color:'#ff7a00',cap: { size:0.1 }}, {value: 90,color:'#ffc700'}]"
+                                          k-scale="{ min:minValue, max: maxValue,ranges:[{from: 0,to: 20,color:'#ffc700'}, {from: 20,to: 50,color: '#ff7a00'}, {from: 50,to: 100,color:'#c20000'}]}">
+                                    </span>
+                                    <div kendo-lineargauge
+                                         k-scale="{ min:0, max: 50, vertical: false}"
+                                         ng-model="selectedNumber"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-md-6 col-lg-6 no-padding">
+                    <form>
+                        <fieldset class="well well-10 well-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Tasks
+                                            </legend>
+                                        </div>
+                                    </div>
+
+                                    <div kendo-lineargauge
+                                         k-scale="{ min:0, max: 50, vertical: true}"
+                                         ng-model="selectedNumber"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+            </div>
+            <div class="row no-padding margin-bottom-10">
+                <div class="col-md-6 col-lg-6 no-padding">
+                    <form>
+                        <fieldset class="well well-10 well-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Reminders
+                                            </legend>
+                                        </div>
+                                    </div>
+                                    <br /><br /><br /><br /><br /><br /><br />
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-md-6 col-lg-6 no-padding">
+                    <form>
+                        <fieldset class="well well-10 well-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Ranking
+                                            </legend>
+                                        </div>
+                                    </div>
+                                    <br /><br /><br /><br /><br /><br /><br />
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+            </div>
+        </article>
+        <article class="col-md-6 col-lg-6">
+            <div class="row no-padding margin-bottom-10">
+                <form>
+                    <fieldset class="well well-10 well-10">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Collection
+                                            </legend>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label no-padding-r text-left">Report</label>
+                                        <div class="form-group col-md-4 ">
+                                            <select kendo-drop-down-list style="width: 100%;">
+                                                <option>Today Collection</option>
+                                                <option>Team Wise</option>
+                                                <option>Current Week</option>
+                                                <option>Current Month</option>
+                                                <option>Category Wise</option>
+                                                <option>Product Wise</option>
+                                                <option>Belgium</option>
+                                                <option>Bosnia & Herzegovina</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-2 control-label no-padding-r text-left">Agent</label>
+                                        <div class="form-group col-md-4 ">
+                                            <select class="form-control">
+                                                <option>Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <h6 class="txt-color-red bold margin-top-30 center-text">No Data</h6>
+                                    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </article>
+    </div>
+    <div class="row">
+        <article class="col-md-12 col-lg-12">
+            <div class="row no-padding margin-bottom-10">
+                <form>
+                    <fieldset class="well well-10 well-10">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <legend class="margin-bottom-5 no-padding-b">
+                                            Full Team Collection (Monthly Wise)
+                                        </legend>
+                                    </div>
+                                </div>
+                                <h6 class="txt-color-red bold margin-top-30 center-text">No Data</h6>
+                                <div kendo-chart
+                                     k-title="chartTitle"
+                                     k-legend="{ position: 'bottom' }"
+                                     k-series-defaults="{ type: 'line' }"
+                                     k-series="[
+                                                     { field: 'Target', name: 'Target' },
+                                                     { field: 'Claim', name: 'Claim' }]"
+                                     k-data-source="agentTargets"
+                                     k-category-axis="[{name:'Period', field: 'Period'},{name:'ReYear', field: 'ReYear'}]"
+                                     k-tooltip="{ visible:true,  template: 'Total ${series.name}: ${value}' }"
+                                     style="height: 500px;"></div>
+                                <br /><br /><br /><br /><br /><br /><br /><br />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </article>
+    </div>
+    <div class="row">
+        <article class="col-md-6 col-lg-6">
+            <div class="row no-padding margin-bottom-10">
+                <form>
+                    <fieldset class="well well-10 well-10">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Workable list
+                                            </legend>
+                                        </div>
+                                    </div>
+                                    <h6 class="txt-color-red bold margin-top-30 center-text">No Data</h6>
+                                    <br /><br /><br /><br /><br /><br /><br /><br />
+                                    <br /><br /><br /><br /><br /><br /><br />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </article>
+        <article class="col-md-6 col-lg-6">
+            <div class="row no-padding margin-bottom-10">
+                <form>
+                    <fieldset class="well well-10 well-10">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <legend class="margin-bottom-5 no-padding-b">
+                                                Case Status
+                                            </legend>
+                                        </div>
+                                    </div>
+                                    <br /><br /><br /><br /><br /><br /><br /><br />
+                                    <br /><br /><br /><br /><br /><br /><br />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </article>
+    </div>
+</div>
+

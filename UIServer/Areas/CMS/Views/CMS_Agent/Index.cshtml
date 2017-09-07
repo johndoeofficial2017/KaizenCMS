@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnTarget_Click(e) {
+        e.preventDefault();
+        var data = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        scope.$apply(function () {
+            scope.Target(data);
+        });
+    };
+    function SuffixFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        element.kendoDropDownList({
+            dataTextField: "SuffixINam",
+            dataValueField: "SuffixID",
+            dataSource: scope.Suffixes,
+            optionLabel: "--Select Suffix--"
+        });
+    };
+    function GroupFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        element.kendoDropDownList({
+            dataTextField: "AgentGroupName",
+            dataValueField: "AgentGroup",
+            dataSource: scope.AgentGroups,
+            optionLabel: "--Select Group--"
+        });
+    };
+    function UserLevelFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        element.kendoDropDownList({
+            dataTextField: "UserLevelName",
+            dataValueField: "UserLevelID",
+            dataSource: scope.UserLevels,
+            optionLabel: "--Select User Level--"
+        });
+    };
+</script>
+
+<div ng-controller="CMS_AgentController">
+    <div id="widget-CMS_Agent">
+        <div ng-show="PagesCM00105.length > 0">
+            <div ng-repeat="Page in PagesCM00105">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM00105.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+            <div ng-include="MainGridURL">Data Grid here</div>
+        </div>
+    </div>
+</div>
+
+
+

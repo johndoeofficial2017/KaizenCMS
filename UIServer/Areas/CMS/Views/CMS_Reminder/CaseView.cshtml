@@ -1,0 +1,721 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnSelectRelatedCase_Click(e) {
+        e.preventDefault();
+        try {
+            var ActiveScreenID = $("#ActiveScreenID").val();
+            var widget = $("#widget-" + ActiveScreenID)
+
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+            var scope = angular.element(widget).scope();
+            scope.$apply(function () {
+                scope.CM00203 = data;
+            });
+        }
+        catch (err) {
+            alert("Error \n\n" + err.message);
+        }
+    };
+    function GetGenericKaizenPublicKeyWithDebtor() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            DebtorID: scope.CM00203.DebtorID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<div ng-include="CurrentScreenView"></div>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <div kendo-toolbar k-options="CaseView_toolbarOptions"
+             k-rebind="CaseView_toolbarOptions"></div>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-6 col-lg-6">
+                    <div class="jarviswidget" id="wid-id-1">
+                        <header>
+                            <h2>Debtor Details</h2>
+                        </header>
+                        <div>
+                            <div class="widget-body">
+                                <div class="row no-padding">
+                                    <form class="smart-form">
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col col-md-6">
+                                                    <label>Debtor</label>
+                                                    <label class="input">
+                                                        <i ng-click="OpenkendoWindow('CMS_Debtor','PopUp',null,'ReminderCase')" class="icon-append fa fa-search"></i>
+                                                        <input type="text" class="form-control" placeholder="Debtor ID"
+                                                               ng-model="CM00203.DebtorID" readonly />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-6">
+                                                    <label>Debtor Name</label>
+                                                    <label class="input">
+                                                        <input type="text" class="form-control" placeholder="Debtor Name"
+                                                               ng-model="DebtorObject.DebtorName" readonly />
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="panel-group smart-accordion-default" id="accordion-1">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseOne-1"> <i class="fa fa-fw fa-chevron-right pull-right"></i> <i class="fa fa-fw fa-chevron-down pull-right"></i> Debtor Details</a></h4>
+                                                    </div>
+                                                    <div id="collapseOne-1" class="panel-collapse collapse in">
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <section class="col col-md-6">
+                                                                    <label>General Name</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-user"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="General Name" ng-model="DebtorObject.GeneralName" readonly />
+                                                                    </label>
+                                                                </section>
+                                                                <section class="col col-md-6">
+                                                                    <label>Short Name</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-user"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Short Name" ng-model="DebtorObject.ShortName" readonly />
+                                                                    </label>
+                                                                </section>
+                                                            </div>
+                                                            <div class="row">
+                                                                <section class="col col-md-6">
+                                                                    <label>CPR CR/No</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-credit-card"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="CPR/CR No" ng-model="DebtorObject.CPRCRNo" readonly />
+                                                                    </label>
+                                                                </section>
+                                                                <section class="col col-md-6">
+                                                                    <label>Employer Name</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-user"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Employer Name" ng-model="DebtorObject.EmployerName" readonly />
+                                                                    </label>
+                                                                </section>
+                                                            </div>
+                                                            <div class="row">
+                                                                <section class="col col-md-6">
+                                                                    <label>Occupation</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-briefcase"></i>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Occupation" ng-model="DebtorObject.Occupation" readonly />
+                                                                    </label>
+                                                                </section>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <section class="col col-md-12">
+                                                                    <label>Debtor Description</label>
+                                                                    <label class="textarea textarea-resizable">
+                                                                        <i class="icon-append no-border fa fa-comment"></i>
+                                                                        <textarea class="form-control" rows="10"
+                                                                                  placeholder="Debtor Description" ng-model="DebtorObject.DebtorDescription" readonly></textarea>
+                                                                    </label>
+                                                                </section>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne-2" class="collapsed"> <i class="fa fa-fw fa-chevron-right pull-right"></i> <i class="fa fa-fw fa-chevron-down pull-right"></i> Debtor Address Details</a></h4>
+                                                    </div>
+                                                    <div id="collapseOne-2" class="panel-collapse collapse">
+                                                        <div class="panel-body no-padding">
+                                                            <!-- TABS START -->
+                                                            <article class="col-md-12 col-lg-12">
+                                                                <div class="no-padding">
+                                                                    <div class="widget-body">
+                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
+                                                                            <li class="active">
+                                                                                <a data-toggle="tab" href="#s1">Address</a>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s2">Phone</a>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s3">Mobile</a>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s4">Email</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s5">Other</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div id="myTabContent1" class="smart-form tab-content padding-10">
+                                                                            <div class="tab-pane fade active in" id="s1">
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Address Type</label>
+                                                                                        <label class="input">
+                                                                                            <select kendo-drop-down-list
+                                                                                                    k-filter="'startswith'"
+                                                                                                    k-option-label="'-- Select Address Type --'"
+                                                                                                    k-ng-model="AddressCode.AddressCode"
+                                                                                                    k-data-text-field="'AddressName'"
+                                                                                                    k-value-primitive="true"
+                                                                                                    ng-disabled="AddressCode.Status==2"
+                                                                                                    k-data-value-field="'AddressCode'"
+                                                                                                    k-data-source="AddressTypes"
+                                                                                                    k-on-change="OpenDebtorAddressDetails(CM00203.DebtorID,AddressCode.AddressCode);"
+                                                                                                    style="width: 100%"></select>
+                                                                                        </label>
+
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Address Name</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="100"
+                                                                                                   placeholder="Address Name" ng-model="AddressCode.AddressName" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Address 1</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Address 1" ng-model="AddressCode.Address1" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Address 2</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Address 2" ng-model="AddressCode.Address2" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Address 3</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Address 3" ng-model="AddressCode.Address3" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Address 4</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Address 4" ng-model="AddressCode.Address4" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Country</label>
+                                                                                        <label class="input">
+                                                                                            <select kendo-drop-down-list
+                                                                                                    k-filter="'startswith'"
+                                                                                                    k-option-label="'-- Select Country --'"
+                                                                                                    k-ng-model="AddressCode.CountryID"
+                                                                                                    k-data-text-field="'CountryName'"
+                                                                                                    k-value-primitive="true"
+                                                                                                    k-data-value-field="'CountryID'"
+                                                                                                    k-data-source="Countries"
+                                                                                                    style="width: 100%"></select>
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">City</label>
+                                                                                        <label class="input">
+                                                                                            <select kendo-drop-down-list
+                                                                                                    k-filter="'startswith'"
+                                                                                                    k-option-label="'-- Select City --'"
+                                                                                                    k-ng-model="AddressCode.CityID"
+                                                                                                    k-data-text-field="'CityName'"
+                                                                                                    k-value-primitive="true"
+                                                                                                    k-data-value-field="'CityID'"
+                                                                                                    k-data-source="Cities"
+                                                                                                    style="width: 100%"></select>
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-12">
+                                                                                        <label class="control-label">Website:</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="50"
+                                                                                                   placeholder="Website" ng-model="AddressCode.WebSite" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s2">
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Phone 1</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Phone 01"
+                                                                                                   ng-model="AddressCode.Pnone01" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Phone 2</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Phone 02"
+                                                                                                   ng-model="AddressCode.Pnone02" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Phone 3</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Phone 03"
+                                                                                                   ng-model="AddressCode.Pnone03" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Phone 4</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Phone 04"
+                                                                                                   ng-model="AddressCode.Pnone04" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s3">
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Mobile 1</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Mobile 01"
+                                                                                                   ng-model="AddressCode.MobileNo1" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Mobile 2</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Mobile 02"
+                                                                                                   ng-model="AddressCode.MobileNo2" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Mobile 3</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Mobile 03"
+                                                                                                   ng-model="AddressCode.MobileNo3" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Mobile 4</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Mobile 04"
+                                                                                                   ng-model="AddressCode.MobileNo4" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s4">
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Email 1</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Email 01"
+                                                                                                   ng-model="AddressCode.Email01" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Email 2</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Email 02"
+                                                                                                   ng-model="AddressCode.Email02" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Email 3</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Email 03"
+                                                                                                   ng-model="AddressCode.Email03" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Email 4</label>
+                                                                                        <label class="input">
+                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                            <input type="text" class="form-control" placeholder="Email 04"
+                                                                                                   ng-model="AddressCode.Email04" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s5">
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Other 1</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Other 1" ng-model="AddressCode.Other01" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Other 2</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Other 2" ng-model="AddressCode.Other02" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                                <fieldset class="">
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Other 3</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Other 3" ng-model="AddressCode.Other03" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-sm-6">
+                                                                                        <label class="control-label">Other 4</label>
+                                                                                        <label class="input">
+                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                   placeholder="Other 4" ng-model="AddressCode.Other04" />
+                                                                                        </label>
+                                                                                    </section>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <footer>
+                                                                        <a href="javascript:void(0);" ng-click="SaveDebtorAddress()" ng-show="AddressCode.Status == 1"
+                                                                           class="btn btn-success pull-left">Add Address</a>
+                                                                        <a href="javascript:void(0);" ng-click="UpdateDebtorAddress()" ng-show="AddressCode.Status == 2"
+                                                                           class="btn btn-success pull-left">Update Address</a>
+                                                                    </footer>
+                                                                </div>
+                                                            </article>
+                                                            <!-- TABS END -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne-3" class="collapsed"> <i class="fa fa-fw fa-chevron-right pull-right"></i> <i class="fa fa-fw fa-chevron-down pull-right"></i> Debtor Related Cases</a></h4>
+                                                    </div>
+                                                    <div id="collapseOne-3" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            <div>
+                                                                @(Html.Kendo().Grid<Kaizen.CMS.CM00203>().Name("GridCMS_CaseRelatedToDebtor")
+                                                            .Columns(columns =>
+                                                            {
+                                                                columns.Bound(c => c.CaseRef).Title("Case Reference").ClientFooterTemplate("Total Related Cases: #=count#");
+                                                                columns.ForeignKey(c => c.TRXTypeID,
+                                                                (System.Collections.IEnumerable)ViewData["CaseTransactionTypes"], "TRXTypeID", "TrxTypeName")
+                                                                .Title("Product").Width(100).Filterable(filterable => filterable.UI("TransactionTypeFilter"));
+                                                                columns.Bound(c => c.outstandingAMT).Title("Outstanding Amount");
+                                                                columns.Bound(c => c.ClaimAmount).Title("Claim Amount").ClientFooterTemplate("Total Amount: #=sum#");
+                                                                columns.Command(command => command.Custom("Select").SendDataKeys(true)
+                                                                .Click("btnSelectRelatedCase_Click"));
+                                                            })
+                                                                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Cases from {0} to {1}. Total Cases: <strong>{2}</strong>")
+                                                                .ItemsPerPage("Case Per page").Empty("No Cases Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                                                                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                                                .Navigatable()
+                                                                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                                                .Reorderable(reorder => reorder.Columns(true))
+                                                                .Resizable(ss => ss.Columns(true))
+                                                                .ColumnMenu().Scrollable(s => s.Height(310)).Filterable()
+                                                                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                                                .Aggregates(aggregates =>
+                                                                {
+                                                                    aggregates.Add(p => p.CaseRef).Count();
+                                                                    aggregates.Add(p => p.ClaimAmount).Sum();
+                                                                })
+                                                                .Read(read => read.Action("GetListGridWithDebtorID", "CMS_Case").Type(HttpVerbs.Get)
+                                                                .Data("GetGenericKaizenPublicKeyWithDebtor"))
+                                                                .Model(model =>
+                                                                {
+                                                                    model.Id(p => p.CaseRef);
+                                                                    model.Field(o => o.CurrencyCode);
+                                                                    model.Field(o => o.ClientID);
+                                                                    model.Id(o => o.CaseStatusID);
+                                                                    model.Field(o => o.AgentID);
+                                                                })
+                                                    )
+                                                                )
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-md-6 col-lg-6">
+                    <div class="jarviswidget" id="wid-id-2">
+                        <header>
+                            <h2>Main Case Data</h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="row">
+                                <form class="smart-form">
+                                    <fieldset>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Product</label>
+                                                <label class="input">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'contains'" disabled
+                                                            k-option-label="'-- Select Transaction Type --'"
+                                                            k-ng-model="CM00203.TRXTypeID"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="TRXTypes"
+                                                            style="width: 100%"></select>
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Case Ref</label>
+                                                <label class="input">
+                                                    <i ng-click="OpenkendoWindow('CMS_Case','PopUp',null,'Main')" class="icon-append fa fa-search"></i>
+                                                    <input type="text" class="form-control" placeholder="Case Reference"
+                                                           ng-model="CM00203.CaseRef" readonly />
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Client</label>
+                                                <label class="input">
+                                                    <input type="text" ng-model="CM00203.ClientID"
+                                                           placeholder="Client ID" class="form-control" readonly />
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Contract</label>
+                                                <label class="input">
+                                                    <input type="text" ng-model="CM00203.ContractID"
+                                                           placeholder="Contract ID" class="form-control" readonly />
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Case Status</label>
+                                                <label class="input">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'contains'" disabled
+                                                            k-option-label="'-- Select Status --'"
+                                                            k-ng-model="CM00203.CaseStatusID"
+                                                            k-data-text-field="'CaseStatusname'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'CaseStatusID'"
+                                                            k-data-source="CaseStatuses"
+                                                            style="width: 100%"></select>
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Case Account No</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-user"></i>
+                                                    <input type="text" ng-model="CM00203.CaseAccountNo"
+                                                           placeholder="Case Account No" class="form-control" readonly />
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Agent</label>
+                                                <label class="input">
+                                                    <input type="text" ng-model="CM00203.AgentID"
+                                                           placeholder="Agent ID" class="form-control" readonly />
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Assign Date</label>
+                                                <input kendo-date-picker disabled
+                                                       k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                                       k-format="'dd/MM/yyyy'"
+                                                       k-ng-model="CM00203.AssignDate" style="width: 100%;" />
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Booking Date</label>
+                                                <input kendo-date-picker disabled
+                                                       k-ng-model="CM00203.BookingDate" style="width: 100%;" />
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Closing Date</label>
+                                                <input kendo-date-picker disabled
+                                                       k-ng-model="CM00203.ClosingDate" style="width: 100%;" />
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Transaction Date</label>
+                                                <input kendo-date-picker style="width: 100%;" disabled
+                                                       k-ng-model="CM00203.TransactionDate" />
+                                            </section>
+
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-12">
+                                                <label>Case Address</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-bookmark"></i>
+                                                    <textarea class="form-control" placeholder="Case Addess"
+                                                              ng-model="CM00203.CaseAddess" readonly></textarea>
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-12">
+                                                <label>Remarks</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-tasks"></i>
+                                                    <textarea class="form-control" placeholder="Remarks"
+                                                              ng-model="CM00203.Remarks" readonly></textarea>
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-12">
+                                                <label>Action Remark</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-tasks"></i>
+                                                    <textarea class="form-control" placeholder="Action Remarks"
+                                                              ng-model="CM00203.CaseStatusComment" readonly></textarea>
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="jarviswidget" id="wid-id-3">
+                        <header>
+                            <h2>Financial Data</h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="row no-padding">
+                                <form class="smart-form">
+                                    <fieldset>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Currency Code</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" readonly
+                                                           placeholder="Currency Code" ng-model="CM00203.CurrencyCode" />
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Claim Ammount</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control"
+                                                           ng-decimal decimal="CM00203.DecimalDigit" readonly
+                                                           placeholder="Claim Amount" ng-model="CM00203.ClaimAmount" />
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Principle Ammount</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control"
+                                                           ng-decimal decimal="CM00203.DecimalDigit" readonly
+                                                           placeholder="Principle Amount" ng-model="CM00203.PrincipleAmount" />
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Original Ammount</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control"
+                                                           ng-decimal decimal="CM00203.DecimalDigit" readonly
+                                                           placeholder="Original Amount" ng-model="CM00203.OSAmount" />
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-md-6">
+                                                <label>Promise To Pay Amount</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control"
+                                                           ng-decimal decimal="CM00203.DecimalDigit" readonly
+                                                           placeholder="Promise To Pay Amount" ng-model="CM00203.PTPAMT" />
+                                                </label>
+                                            </section>
+                                            <section class="col col-md-6">
+                                                <label>Finance Charge</label>
+                                                <label class="input">
+                                                    <input type="text" class="form-control" ng-decimal decimal="CM00203.DecimalDigit"
+                                                           placeholder="Finance Charge" ng-model="CM00203.FinanceCharge" readonly />
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="IV_ItemController">
+    <div>
+        <div id="widget-MasterItem">
+            <div ng-show="PagesIV00100.length >0">
+                <div ng-repeat="Page in PagesIV00100">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div ng-show="PagesIV00100.length == 0">
+        <div kendo-toolbar k-options="IV_CO_ItemtoolbarOptions"></div>
+        <div ng-include="MainGridURL">Data Grid here</div>
+        <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+             k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+             k-width="600" k-resizable="true" k-visible="false"></div>
+    </div>
+</div>
+

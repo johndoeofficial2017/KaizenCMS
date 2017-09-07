@@ -1,0 +1,254 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetLotColumnListWithLot() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            LotNumber: scope.IV00013.LotNumber,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditLotColumnbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-IV_LOT")).scope();
+        scope.$apply(function () {
+            scope.IV00013 = dataItem;
+            scope.IV00013.Status = 2;
+        });
+    };
+    function DeleteLotColumnbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-IV_LOT")).scope();
+        scope.$apply(function () {
+            scope.IV00013 = dataItem;
+            scope.IV00013.Status = 3;
+            scope.DeleteEmployeeLotColumn();
+        });
+    };
+</script>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="IV00013.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="IV00013.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="IV00013.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Lot Number</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Lot Number" ng-model="IV00010.LotNumber" readonly />
+                                                <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('IV_LOT','PopUp')">
+                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Column Code</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" 
+                                                   placeholder="Column Code" 
+                                                   ng-model="IV00013.CollCode" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Column Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Column Name"
+                                                   ng-model="IV00013.CollName" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Column Type</label>
+                                        <label class="input col col-md-4">
+                                            <select class="form-control input-sm" ng-model="IV00013.CollType" ng-change="OnTypeChanged()">
+                                                <option value="1">Integer</option>
+                                                <option value="2">String</option>
+                                                <option value="3">Date</option>
+                                                <option value="4">LookUp</option>
+                                                <option value="5">DropDown</option>
+                                                <option value="6">long Text</option>
+                                                <option value="7">Email</option>
+                                                <option value="8">Phone</option>
+                                                <option value="9">Location</option>
+                                            </select>
+                                        </label>
+                                        <label class="col col-md-2 control-label" ng-show="IV00013.CollType == 3">List Name</label>
+                                        <div class="input col col-md-4" ng-show="IV00013.CollType == 3">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="List Name" ng-model="IV00014.ListName">
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default" ng-click="AddListItems()"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">List Items</label>
+                                        <label class="input col col-md-4">
+                                            <select class="form-control">
+                                                <option ng-repeat="item in ListItems">{{item.ListName}}</option>
+                                            </select>
+                                        </label>
+                                        <label class="col col-md-2 control-label" ng-show="IV00013.CollType == 3">List Name</label>
+                                        <div class="input col col-md-4" ng-show="IV00013.CollType == 3">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="List Name" ng-model="IV00014.ListName">
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default" ng-click="AddListItems()"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-primary" ng-click="SaveLotColumn()" ng-show="IV00013.Status == 1">
+                                            <i class="fa fa-plus-square"></i> Add Lot Column
+                                        </button>
+                                        <button class="btn btn-default" ng-click="UpdateLotColumn()" ng-show="IV00013.Status == 2">
+                                            <i class="fa fa-edit"></i> Update Lot Column
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+                <div ng-show="IV00013.LotNumber != '' && IV00013.LotNumber != undefined">
+                    @(Html.Kendo().Grid<Kaizen.Inventory.IV00013>()
+                            .Name("GridIV_LOTColumnByLot")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.CollCode).Width(60).Title("ID");
+                                columns.Bound(c => c.CollName).Width(200);
+                                columns.Bound(c => c.CollType).Width(120);
+                                columns.Group(g => g.Title("Actions")
+                                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                .Columns(location =>
+                                {
+                                    location.Command(command =>
+                                    {
+                                        command.Custom("Edit").Click("EditLotColumnbtn")
+                                         .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                    location.Command(command =>
+                                    {
+                                        command.Custom("Delete").Click("DeleteLotColumnbtn")
+                                         .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                })
+                                 );
+                            })
+                                  .Filterable().AutoBind(false)
+                                  .Pageable(pager => pager.Messages(messages => messages.Display("Showing Lot Column from {0} to {1}. Total Lot Columns: <strong>{2}</strong>")
+                                  .ItemsPerPage("Lot Column Per page").Empty("No Lot Column Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                  .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                  .Navigatable()
+                                  .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                  .Reorderable(reorder => reorder.Columns(true))
+                                  .Resizable(ss => ss.Columns(true))
+                                  .ColumnMenu().Scrollable(s => s.Height(400))
+                                  .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                  .Read(read => read.Action("GetLotColumnListGridWithLot", "IV_LOT")
+                                  .Type(HttpVerbs.Get).Data("GetLotColumnListWithLot"))
+                                  .Model(model =>
+                                  {
+                                      model.Id(o => o.CollCode);
+                                      model.Id(o => o.LotNumber);
+                                      model.Field(o => o.CollCode);
+                                      model.Field(o => o.LotNumber);
+                                      model.Field(o => o.CollName);
+                                      model.Field(o => o.CollType);
+                                      model.Field(o => o.LookupFrom);
+                                      model.Field(o => o.LookupLotName);
+                                      model.Field(o => o.LookupLotNumber);
+                                  })
+                                  )
+                    )
+                </div>
+
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

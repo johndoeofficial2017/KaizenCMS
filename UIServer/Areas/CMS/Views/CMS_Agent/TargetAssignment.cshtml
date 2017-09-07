@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+    </header>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET ROW START -->
+            <!-- Widget ID (each widget will need unique ID)-->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget div-->
+                    <div class="no-padding-top">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <form id="GL_GLCategoryForm" class="form-horizontal"
+                                  data-bv-message="This value is not valid"
+                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                                <fieldset>
+                                    <legend>
+                                        Target Assignment Maintenance
+                                    </legend>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col col-md-2 control-label">Agent</label>
+                                        <label class="input col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Agent ID"
+                                                       ng-model="CM00109.AgentID">
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_AgentLookUp',null,'AgentTargetAssignment')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Target</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Type --'"
+                                                        k-ng-model="SelectedLookUp.SelectedTarget"
+                                                        k-data-text-field="'TargetName'"
+                                                        k-data-value-field="'TargetID'"
+                                                        k-data-source="TargetTypes"
+                                                        k-on-change="TargetID_ChangedAssignment()"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="form-controls">
+                                        <button class="btn btn-primary" ng-click="AddTargetAssignment()">Add</button>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset ng-show="TargetAssignmentList.length > 0">
+                                        <div class="form-group">
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-align-center">Target ID</th>
+                                                        <th class="text-align-center">Agent ID</th>
+                                                        <th class="text-align-center">Target Type ID</th>
+                                                        <th class="text-align-center">Is Percent Target</th>
+                                                        <th class="text-align-center">Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="obj in TargetAssignmentList" ng-class="{'deleted':obj.status== 3}">
+                                                        <td class="col-md-2">{{obj.TargetD}}</td>
+                                                        <td class="col-md-4">{{obj.AgentID}}</td>
+                                                        <td class="col-md-4">{{obj.TargetTypeID}}</td>
+                                                        <td class="col-md-4">{{obj.IsPercentTarget}}</td>
+                                                        <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                            <a href="" ng-click="DeleteTargetAssignment(obj,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </fieldset>
+                            </form>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+            <!-- end widget -->
+        </div>
+        <!-- WIDGET ROW END -->
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>

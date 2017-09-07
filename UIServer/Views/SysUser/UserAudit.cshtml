@@ -1,0 +1,131 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetAuditListWithFilter() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            From: scope.Audit.From,
+            To: scope.Audit.To,
+            Kaizen_DB: scope.Audit.Kaizen_DB,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="SysUserLogForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label text-left">Company</label>
+                                    <div class="col-sm-3">
+                                        <select kendo-drop-down-list
+                                                id="Companies"
+                                                k-filter="'startswith'"
+                                                k-option-label="'System Data'"
+                                                k-ng-model="Audit.Kaizen_DB"
+                                                k-data-text-field="'CompanyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'CompanyID'"
+                                                k-data-source="Companies"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-1 control-label text-left">From</label>
+                                    <div class="col-sm-3">
+                                        <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                               k-ng-model="Audit.From"
+                                               style="width:100%;" />
+                                    </div>
+                                    <label class="col-sm-1 control-label text-left">To</label>
+                                    <div class="col-sm-3">
+                                        <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                               k-ng-model="Audit.To"
+                                               style="width:100%;" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="GridRefresh('GridSysUserAudit');">
+                                        <i class="fa fa-filter"></i> Filter
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="GridRefresh('GridSysUserAudit');">
+                                        <i class="fa fa-refresh"></i> Refresh
+                                    </a>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <div>
+                            @(Html.Kendo().Grid<Kaizen.Configuration.KaizenAudit>()
+                               .Name("GridSysUserAudit")
+                               .Columns(columns =>
+                               {
+                                   columns.Bound(c => c.Kaizen_USER).Width(160).Title("Kaizen User");
+                                   columns.Bound(c => c.Kaizen_DATE).Width(120).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                                   columns.Bound(c => c.Kaizen_Table).Width(120);
+                                   columns.Bound(c => c.Ins).Width(120);
+                                   columns.Bound(c => c.Del).Width(120);
+                               })
+                                .Filterable().AutoBind(false)
+                                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Audit from {0} to {1}. Total Audits: <strong>{2}</strong>")
+                                .ItemsPerPage("Audit Per page").Empty("No Audit Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                .Navigatable()
+                                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                .Reorderable(reorder => reorder.Columns(true))
+                                .Resizable(ss => ss.Columns(true))
+                                .ColumnMenu().Scrollable(s => s.Height(400))
+                                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                .Read(read => read.Action("GetAuditListGridWithFilter", "SysUser")
+                                .Type(HttpVerbs.Get).Data("GetAuditListWithFilter"))
+                                .Model(model =>
+                                {
+                                    model.Id(o => o.Kaizen_DATE);
+                                    model.Field(o => o.Kaizen_DATE);
+                                    model.Field(o => o.Kaizen_USER);
+                                    model.Field(o => o.Kaizen_HOST);
+                                    model.Field(o => o.Kaizen_DB);
+                                    model.Field(o => o.Kaizen_Table);
+                                    model.Field(o => o.Ins);
+                                    model.Field(o => o.Del);
+                                })
+                                )
+                            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

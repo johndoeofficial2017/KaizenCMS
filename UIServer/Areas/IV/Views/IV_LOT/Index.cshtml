@@ -1,0 +1,53 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditIV_LOT_Click(LotNumber) {
+        var scope = angular.element(document.getElementById("widget-IV_LOT")).scope();
+        scope.$apply(function () {
+            scope.EditIV00010(LotNumber);
+        });
+    };
+</script>
+
+<div ng-controller="IV_LOTController">
+    <div class="widget" id="widget-IV_LOT">
+        <div ng-show="PagesIV00010.length > 0">
+            <div ng-repeat="Page in PagesIV00010">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesIV00010.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Inventory.IV00010>()
+                                .Name("GridIV_LOT")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.LotNumber).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditIV_LOT_Click('#:LotNumber#');""> #:LotNumber# </a>").Width(100).Title("Lot Number");
+                            columns.Bound(c => c.LotName);
+                        })
+                .HtmlAttributes(new { style = "height:500px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Lot Number from {0} to {1}. Total Lot Number: <strong>{2}</strong>").Empty("No Inventory Type Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "IV_LOT")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.LotNumber)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

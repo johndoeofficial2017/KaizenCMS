@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetExchangeTableListWithCurrencyCode() {
+        var widget = $("#widget-GL_Currency")
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: "-1",
+            FltrOperator: 8,
+            Searchcritaria: "",
+            CurrencyCode: scope.GL00011.CurrencyCode,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditExchangeTablebtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-GL_Currency")).scope();
+        scope.$apply(function () {
+            scope.GL00011 = dataItem;
+            scope.GL00011.Status = 2;
+        });
+    };
+    function DeleteExchangeTablebtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-GL_Currency")).scope();
+        scope.$apply(function () {
+            scope.GL00011 = dataItem;
+            scope.GL00011.Status = 3;
+            scope.DeleteCurrencyExchangeTable();
+        });
+    };
+</script>
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="GL_CurrencyExchangeTableForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveCurrencyExchangeTable();"
+                                       ng-show="GL00011.Status == 1">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateCurrencyExchangeTable();"
+                                       ng-show="GL00011.Status == 2">
+                                        <i class="glyphicon glyphicon-edit"></i> Update & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    Currency Exchange Table
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Currency</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Currency Code" ng-model="GL00102.CurrencyCode" readonly>
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_Currency','SinglePopUp',null,'ExchangeTableCurrency')" ng-disabled="GL00011.Status == 2">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="GL00011.CurrencyCode != '' && GL00011.CurrencyCode != undefined">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Exchange Table</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Exchange Table --'"
+                                                k-ng-model="GL00011.ExchangeTableID"
+                                                k-data-text-field="'ExchangeTableName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ExchangeTableID'"
+                                                k-data-source="AllExchangeTables"
+                                                ng-disabled="GL00011.Status == 2"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label smart-form">
+                                        <label class="toggle">
+                                            <input type="checkbox" name="checkbox-toggle" ng-model="GL00011.IsMultiply" />
+                                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Is Multiply
+                                        </label>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-primary" ng-click="SaveCurrencyExchangeTable()" ng-show="GL00011.Status == 1">
+                                            <i class="fa fa-plus-square"></i> Add Exchange Table
+                                        </button>
+                                        <button class="btn btn-default" ng-click="UpdateCurrencyExchangeTable()" ng-show="GL00011.Status == 2">
+                                            <i class="fa fa-edit"></i> Update Exchange Table
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div ng-show="GL00102.CurrencyCode != '' && GL00102.CurrencyCode != undefined">
+                            @(Html.Kendo().Grid<Kaizen.GL.GL00011>()
+            .Name("GridGL_ExchangeTableByCurrency")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.ExchangeTableID).Width(100).Title("ID");
+                columns.Bound(c => c.IsMultiply).HtmlAttributes(new { style = @"text-align:center;" })
+                .ClientTemplate("# if(IsMultiply) { #<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(120);
+                columns.Group(g => g.Title("Actions")
+                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                .Columns(location =>
+                {
+                    location.Command(command =>
+                    {
+                        command.Custom("Edit").Click("EditExchangeTablebtn")
+                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Delete").Click("DeleteExchangeTablebtn")
+                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                })
+                );
+            })
+            .Filterable().AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Exchange Table from {0} to {1}. Total Exchange Tables: <strong>{2}</strong>")
+            .ItemsPerPage("Exchange Table Per page").Empty("No Exchange Table Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+            .Read(read => read.Action("GetExchangeTableListWithCurrencyCode", "GL_CurrencyLookUpExchangeTable")
+            .Type(HttpVerbs.Get).Data("GetExchangeTableListWithCurrencyCode"))
+            .Model(model =>
+            {
+                model.Id(o => o.ExchangeTableID);
+                model.Field(o => o.ExchangeTableID);
+                model.Field(o => o.ExchangeTableName);
+                model.Field(o => o.IsMultiply);
+                model.Field(o => o.CurrencyCode);
+            })
+            )
+                            )
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>

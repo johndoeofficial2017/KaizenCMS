@@ -1,0 +1,136 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    $(function () {
+        //$('#GridCMS_CM10207BatchApproval').on('click', '.invertedchk', function () {
+        //    var checked = $(this).is(':checked');
+        //    var grid = $('#GridCMS_CM10207BatchApproval').data().kendoGrid;
+        //    var dataItem = grid.dataItem($(this).closest('tr'));
+        //    dataItem.set('IsMultiply', checked);
+        //});
+
+        $('#GridCMS_CM10207BatchApproval').on('click', '.invertedchkApprove', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#GridCMS_CM10207BatchApproval').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsApproved', checked);
+        })
+    });
+    $("#selectAll").on('click', function (e) {
+        var $cb = $(this);
+        var checked = $cb.is(':checked');
+        var grid = $('#GridCMS_CM10207BatchApproval').data('kendoGrid');
+        grid.table.find("tr").find("td:last input").attr("checked", checked);
+        //now making all the rows value to 1 or 0
+        var items = $("#GridCMS_CM10207BatchApproval").data("kendoGrid").dataSource.data();
+        for (i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.set('IsMultiply', checked);
+            // var row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(0);
+            // grid.select(row);
+        }
+        if (!checked) {
+            $("#GridCMS_CM10207BatchApproval").data("kendoGrid").clearSelection();
+        }
+    });
+
+    $("#approveAll").on('click', function (e) {
+        var $cb = $(this);
+        var checked = $cb.is(':checked');
+        var grid = $('#GridCMS_CM10207BatchApproval').data('kendoGrid');
+        grid.table.find("tr").find("td:last input").attr("checked", checked);
+        //now making all the rows value to 1 or 0
+        var items = $("#GridCMS_CM10207BatchApproval").data("kendoGrid").dataSource.data();
+        for (i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.set('IsApproved', checked);
+            // var row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(0);
+            // grid.select(row);
+        }
+        if (!checked) {
+            $("#GridCMS_CM10207BatchApproval").data("kendoGrid").clearSelection();
+        }
+    });
+    function GetCMS_Trx_CasesAssignmentPram() {
+        var scope = angular.element(document.getElementById("widget-CMS_Payment")).scope();
+        return {
+            TRXTypeID: scope.SelectedLookUp.BatchApprovalTRXTYpe.TRXTypeID,
+            Searchcritaria: "",
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="ApproveBatch();">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Approve
+        </a>
+        <a class="btn btn-default" ng-click="PostBatch();">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Post
+        </a>
+        <a ng-click="Cancel();" class="btn btn-default">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+            <br />Cancel
+        </a>
+    </header>
+    <div class="widget-body container-fluid">
+        <div class="row">
+            <div class="well no-padding-left no-padding-right no-padding-bottom">
+                <select kendo-drop-down-list k-ng-model="SelectedLookUp.BatchApprovalTRXTYpe"
+                        k-options="CaseTypeOptions"
+                        k-on-change="GridRefresh('GridCMS_CM10207BatchApproval')"
+                        style="width:200PX"></select>
+
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.CMS.CM10207>()
+                        .Name("GridCMS_CM10207BatchApproval")
+                        .Columns(columns =>
+                        {
+                           
+
+                            columns.Bound(p => p.IsApproved).Title("Approve")
+                            .ClientTemplate("<label><input type='checkbox' class='inverted invertedchkApprove' #= IsApproved ? checked='checked' : '' #><span class='text'></span></label>")
+                            .HeaderTemplate("<label><input type='checkbox' id='approveAll' class='inverted'><span class='text'></span></label>")
+                            .Width(60).Sortable(false).Filterable(false);
+
+                            columns.Bound(c => c.CaseRef).Title("Case Reference");
+                            columns.Bound(c => c.AgentID).Title("Agent ID");
+                            columns.Bound(c => c.CurrencyCode).Title("Currency Code");
+                            columns.Bound(c => c.PaymentDate).Title("Payment Date").Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                            columns.Bound(c => c.PaymentAmount).Title("Claim Amount");
+                        })
+                            .AutoBind(false)
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable().HtmlAttributes(new { style = "overflow:hidden" })
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height("auto")).Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(50)
+                            .Read(read => read.Action("GetDataListGrid", "CMS_Payment")
+                            .Type(HttpVerbs.Get).Data("GetCMS_Trx_CasesAssignmentPram"))
+                            .Model(model => model.Id(p => p.CaseRef))
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

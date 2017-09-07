@@ -1,0 +1,176 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetSegmentListWithCompany() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            CompanyID: scope.CompanySegment.CompanyID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditSegmentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-Sys_Company")).scope();
+        scope.$apply(function () {
+            scope.CompanySegment = dataItem;
+            scope.CompanySegment.Status = 2;
+        });
+    };
+    function DeleteSegmentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-Sys_Company")).scope();
+        scope.$apply(function () {
+            scope.CompanySegment = dataItem;
+            scope.CompanySegment.Status = 3;
+            //scope.SegmentEnable = true;
+            scope.DeleteCompanySegment();
+        });
+    };
+</script>
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form id="HR_Co_CompanySegmentForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveCompanySegment();"
+                                       ng-show="CompanySegment.Status == 1">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateCompanySegment();"
+                                       ng-show="CompanySegment.Status == 2">
+                                        <i class="glyphicon glyphicon-edit"></i> Update & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    Company Segment Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Company</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Company --'"
+                                                k-ng-model="Company.CompanyID"
+                                                k-data-text-field="'CompanyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'CompanyID'"
+                                                k-data-source="Companies"
+                                                k-on-change="CompanyChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Segment Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control input-sm" placeholder="Segment Name"
+                                               char-limit="10" ng-model="CompanySegment.SegmentName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldse>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Segment Length</label>
+                                    <div class="col-sm-4">
+                                        <div ng-hide="SegmentEnable">
+                                            {{CompanySegment.SegmentLength}}
+                                        </div>
+                                        <input type="text" class="form-control"
+                                               placeholder="Segment Length" ng-show="SegmentEnable"
+                                               ng-model="CompanySegment.SegmentLength" />
+                                    </div>
+                                </div>
+                            </fieldse>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-show="SegmentEnable">
+                                            <button class="btn btn-primary" ng-click="SaveCompanySegment()"
+                                                    ng-show="CompanySegment.Status == 1">
+                                                <i class="fa fa-plus-square"></i> Add Segment
+                                            </button>
+                                        </div>
+                                        <button class="btn btn-default" ng-click="UpdateCompanySegment()" ng-show="CompanySegment.Status == 2">
+                                            <i class="fa fa-edit"></i> Update Segment
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div ng-show="Company.CompanyID != '' && Company.CompanyID != undefined">
+                            @(Html.Kendo().Grid<Kaizen.Configuration.CompanySegment>()
+            .Name("GridSys_CompanyBySegment")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.SegmentID).Width(60).Title("ID");
+                columns.Bound(c => c.SegmentName).Width(200);
+                columns.Bound(c => c.SegmentLength).Width(120);
+                columns.Command(command =>
+                {
+                    command.Custom("Edit").Click("EditSegmentbtn")
+                    .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Command(command =>
+                {
+                    command.Custom("Delete").Click("DeleteSegmentbtn")
+                    .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+            })
+            .AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Segment from {0} to {1}. Total Properties: <strong>{2}</strong>")
+            .ItemsPerPage("Segment Per page").Empty("No Segment Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+            .Read(read => read.Action("GetSegmentListGridWithCompany", "Sys_Company")
+            .Type(HttpVerbs.Get).Data("GetSegmentListWithCompany"))
+            .Model(model =>
+            {
+                model.Id(o => o.SegmentID);
+                model.Field(o => o.SegmentID);
+                model.Field(o => o.SegmentName);
+                model.Field(o => o.SegmentLength);
+                model.Field(o => o.CompanyID);
+            })
+            )
+                            )
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>

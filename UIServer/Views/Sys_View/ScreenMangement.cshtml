@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="SysViewScreenMangementForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveViewManagement();">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    Screen View Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Company</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Company --'"
+                                                k-ng-model="Kaizen00013.CompanyID"
+                                                k-data-text-field="'CompanyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'CompanyID'"
+                                                k-data-source="Companies"
+                                                k-on-change="ScreenModuleCompanyChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Module</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Module --'"
+                                                k-ng-model="Kaizen00013.ModuleID"
+                                                k-data-text-field="'ModuleName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ModuleID'"
+                                                k-data-source="CompanyModules"
+                                                k-on-change="ScreenModuleChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Screen</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Screen --'"
+                                                k-ng-model="Kaizen00013.ScreenID"
+                                                k-data-text-field="'ScreenName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ScreenID'"
+                                                k-data-source="ModuleScreens"
+                                                k-on-change="ScreenCompanyChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="ScreenFieldSettings.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="text-align-center">Field</th>
+                                                <th class="text-align-center">FieldTypeID</th>
+                                                <th class="text-align-center">Title</th>
+                                                <th class="text-align-center">Update</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="field in ScreenFieldSettings">
+                                                <td class="text-align-center col-md-3">
+                                                    {{field.FieldName}}
+                                                </td>
+                                                <td class="text-align-center col-md-3">
+                                                    {{field.FieldName}}
+                                                </td>
+                                                <td class="text-align-center col-md-4">
+                                                    <input type="text" class="form-control" 
+                                                           placeholder="Title" 
+                                                           ng-model="field.FieldTitle" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <button class="btn btn-primary"
+                                                            ng-click="UpdateScreenField(field)">Save</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

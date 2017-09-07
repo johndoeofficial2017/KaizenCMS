@@ -1,0 +1,303 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset>
+                                <div class="panel panel-default col-md-6">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title bold">Transaction Details</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">No.</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" 
+                                                       placeholder="Transaction ID" readonly
+                                                       ng-model="SOP10300.SOPNUMBE" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Date</label>
+                                            <div class="input col col-md-4">
+                                                <input kendo-date-picker
+                                                       k-ng-model="SOP10300.DOCDATE"
+                                                       k-format="'dd/MM/yyyy'" disabled
+                                                       style="width: 100%;" />
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Currency</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Currency" readonly
+                                                       ng-model="SOP10300.CurrencyCode" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Amount</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Document Amount"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.DOCAMNT" readonly />
+                                            </div>
+                                        </section>
+                                        
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Partial</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Partial Amount"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit" 
+                                                       ng-model="SOP10300.PartialAMT" readonly />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Collected</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Collected Amount"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit"
+                                                       ng-model="SOP10300.CollectedAMT" readonly />
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Check</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Total Check"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit" 
+                                                       ng-model="SOP10300.TotalCheck" readonly />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Cash</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Total Cash"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit"
+                                                       ng-model="SOP10300.TotalCash" readonly />
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Credit</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Total Credit"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit"
+                                                       ng-model="SOP10300.TotalCreditCard" readonly />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Voucher</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" placeholder="Total Voucher"
+                                                       ng-decimal decimal="SOP10300.DecimalDigit" 
+                                                       ng-model="SOP10300.TotalVoucher" readonly />
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <div class="input col-md-12">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Comments" readonly
+                                                       ng-model="SOP10300.TrxComments" />
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default col-md-6">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title bold">Customer Details</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Code</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Customer No." readonly
+                                                       ng-model="SOP10300.CUSTNMBR" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Name</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Customer Name" ng-model="SOP10300.CUSTNAME">
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Phone 01</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Phone 01" readonly
+                                                       ng-model="SOP10300.Pnone01" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Phone 02</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Phone 02" ng-model="SOP10300.Pnone02">
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Mobile 01</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Mobile 01" readonly
+                                                       ng-model="SOP10300.MobileNo1" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Mobile 02</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Mobile 02" ng-model="SOP10300.MobileNo2">
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Other 01</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Other 01" readonly
+                                                       ng-model="SOP10300.Other01" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Other 02</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Other 02" ng-model="SOP10300.Other02">
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Email 01</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Email 01" readonly
+                                                       ng-model="SOP10300.Email01" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">Email 02</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Email 02" ng-model="SOP10300.Email02">
+                                            </div>
+                                        </section>
+                                        <section class="row">
+                                            <label class="col col-md-2 control-label">Address</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Address" readonly
+                                                       ng-model="SOP10300.Address1" />
+                                            </div>
+                                            <label class="col col-md-2 control-label">PO Box</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="PO Box" ng-model="SOP10300.POBox">
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+                <article class="col-md-12 col-lg-12" ng-show="TransactionLines.length > 0">
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <table class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th class="text-align-center">Photo</th>
+                                        <th class="text-align-center">Code</th>
+                                        <th class="text-align-center">Item</th>
+                                        <th class="text-align-center">UFM</th>
+                                        <th class="text-align-center">QTY</th>
+                                        <th class="text-align-center">Unit Price</th>
+                                        <th class="text-align-center">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="line in TransactionLines">
+                                        <td class="col-md-1 text-align-center">
+                                            <img alt='' ng-src="{{line.IV00100link}}" style='width:40px;height:35px;cursor:pointer' />
+                                        </td>  
+                                        <td class="col-md-2 text-align-center">{{line.ItemID}}</td>
+                                        <td class="col-md-3 text-align-center">{{line.ItemName}}</td>
+                                        <td class="col-md-1 text-align-center">{{line.UFMSale}}</td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-quantity quantity="line.DecimalDigitQuantity"
+                                                   ng-model="line.InvoiceOTY" readonly />
+                                        </td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-decimal decimal="SOP10300.DecimalDigit"
+                                                   ng-model="line.UnitPrice" readonly />
+                                        </td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-decimal decimal="SOP10300.DecimalDigit"
+                                                   ng-model="line.ExtendedPrice" readonly />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="col-md-12 col-lg-12" ng-show="TransactionLines.length > 0">
+                    <div class="row">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Markdown</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Markdown" select-on-click
+                                                   ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.Markdown" />
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Document Amount</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Document Amount"
+                                                   ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.DOCAMNT" readonly />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Freight</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Freight" select-on-click
+                                                   ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.Freight" />
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Trade Discount</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Trade Discount" select-on-click
+                                                   ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.TradeDiscount" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Miscellaneous</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Miscellaneous" select-on-click
+                                                   ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.Miscellaneous" />
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Tax Amount</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Tax Amount" select-on-click
+                                                   ng-decimal decimal="SOP10300.DecimalDigit" ng-model="SOP10300.TaxAMT" />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="Saved_PrinterController">
+    <div class="widget" id="widget-SysTask">
+        <div ng-show="PagesPrn00100.length > 0">
+            <div ng-repeat="Page in PagesPrn00100">
+                <div ng-include="Page.url"></div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesPrn00100.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions"></div>
+            </div>
+            <div style="overflow: hidden;">
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.Admin.Prn00100>().Name("GridSaved_Printer")
+                .Columns(columns =>
+                {
+                    columns.Bound(c => c.TrxID).Title("TrxID");
+                    columns.Bound(c => c.UserName).Title("User Name");
+                    columns.Bound(c => c.PCIP).Title("PC IP");
+                    columns.Bound(c => c.PCName).Title("PC Name");
+                    columns.Bound(c => c.PrintedFile).Title("Printed File");
+                    columns.Bound(c => c.PrinterName).Title("Printer Name");
+                    columns.Bound(c => c.CreatedDate).Title("Created Date");
+                    columns.Bound(c => c.DisplayName).Title("Display Name");
+                })
+                .HtmlAttributes(new { style = "overflow:hidden;" })
+                .Excel(excel => excel.AllPages(true).FileName("Printer.xlsx").Filterable(true))
+                .Pdf(pdf => pdf.FileName("Printer.pdf").AllPages().Date(DateTime.Now))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Printer details from {0} to {1}. Total records: <strong>{2}</strong>")
+                .ItemsPerPage("Task Per page").Empty("No Printer Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu().Scrollable(s => s.Height(400)).Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                .Read(read => read.Action("GetDataListGrid", "Saved_Printer").Type(HttpVerbs.Get)
+                .Data("GetGenericKaizenPublicKey"))
+                         .Model(model =>
+                         {
+                             model.Id(p => p.TrxID);
+                             model.Field(p => p.UserName);
+                             model.Field(p => p.PCIP);
+                             model.Field(p => p.PCName);
+                             model.Field(p => p.PrintedFile);
+                             model.Field(p => p.PrinterName);
+                             model.Field(p => p.CreatedDate);
+                             model.Field(p => p.DisplayName);
+                         })
+                )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

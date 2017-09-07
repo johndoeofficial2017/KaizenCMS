@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="Sys_EncryptionController">
+    <div class="widget" id="widget-Sys_Encryption">
+        <div class="widget-body">
+            <div class="jarviswidget" data-widget-colorbutton="false"
+                 data-widget-editbutton="false"
+                 data-widget-togglebutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-fullscreenbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-collapsed="false"
+                 data-widget-sortable="false">
+
+                <header class="button-header">
+                    <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+                </header>
+                <div class="no-border overflow">
+                    <div class="widget-body">
+                        <div class="row">
+                            <article class="col-md-12 col-lg-12 separator">
+                                <div class="row no-padding">
+                                    <form class="form-inline" role="form">
+                                        s
+                                        <fieldset class="margin-bottom-5">
+                                            <legend>
+                                                User Password Encryption
+                                            </legend>
+                                            <div class="form-group col-md-6 ">
+                                                <label class="col-sm-3 control-label text-left">Encrypt Password</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Password"
+                                                           ng-model="Encryption.EncryptPassword" />
+                                                </div>
+                                                <button type="submit" class="col-sm-2 btn btn-primary" ng-click="EncryptPassword();">
+                                                    Encrypt
+                                                </button>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="form-group col-md-6">
+                                                <label class="col-sm-3 control-label text-left">Decrypt Password</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Password"
+                                                           ng-model="Encryption.DecryptPassword" />
+                                                </div>
+                                                <button type="submit" class="col-sm-2 btn btn-primary" ng-click="DecryptPassword();">
+                                                    Decrypt
+                                                </button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

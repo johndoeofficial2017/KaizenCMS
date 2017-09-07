@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4409B8EB-2B6E-4664-BEFF-B398FC30A06C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kaizen.SOP</RootNamespace>
+    <AssemblyName>Kaizen.SOP</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\BusinessLogic\DLLFiles\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="KaizenResult.cs" />
+    <Compile Include="Models\GL00100.cs" />
+    <Compile Include="Models\IV00013.cs" />
+    <Compile Include="Models\IV00014.cs" />
+    <Compile Include="Models\IV00100.cs" />
+    <Compile Include="Models\IV00108.cs" />
+    <Compile Include="Models\Mapping\GL00100Map.cs" />
+    <Compile Include="Models\Mapping\IV00013Map.cs" />
+    <Compile Include="Models\Mapping\IV00014Map.cs" />
+    <Compile Include="Models\Mapping\IV00100Map.cs" />
+    <Compile Include="Models\Mapping\IV00108Map.cs" />
+    <Compile Include="Models\Mapping\PROJ00100Map.cs" />
+    <Compile Include="Models\Mapping\SOP00000Map.cs" />
+    <Compile Include="Models\Mapping\SOP000014Map.cs" />
+    <Compile Include="Models\Mapping\SOP00001Map.cs" />
+    <Compile Include="Models\Mapping\SOP00002Map.cs" />
+    <Compile Include="Models\Mapping\SOP00003Map.cs" />
+    <Compile Include="Models\Mapping\SOP00004Map.cs" />
+    <Compile Include="Models\Mapping\SOP00005Map.cs" />
+    <Compile Include="Models\Mapping\SOP00008Map.cs" />
+    <Compile Include="Models\Mapping\SOP00009Map.cs" />
+    <Compile Include="Models\Mapping\SOP00010Map.cs" />
+    <Compile Include="Models\Mapping\SOP00011Map.cs" />
+    <Compile Include="Models\Mapping\SOP00012Map.cs" />
+    <Compile Include="Models\Mapping\SOP00013Map.cs" />
+    <Compile Include="Models\Mapping\SOP00014Map.cs" />
+    <Compile Include="Models\Mapping\SOP00015Map.cs" />
+    <Compile Include="Models\Mapping\SOP00020Map.cs" />
+    <Compile Include="Models\Mapping\SOP00021Map.cs" />
+    <Compile Include="Models\Mapping\SOP00022Map.cs" />
+    <Compile Include="Models\Mapping\SOP00023Map.cs" />
+    <Compile Include="Models\Mapping\SOP00024Map.cs" />
+    <Compile Include="Models\Mapping\SOP00100Map.cs" />
+    <Compile Include="Models\Mapping\SOP00101Map.cs" />
+    <Compile Include="Models\Mapping\SOP00102Map.cs" />
+    <Compile Include="Models\Mapping\SOP00103Map.cs" />
+    <Compile Include="Models\Mapping\SOP00105Map.cs" />
+    <Compile Include="Models\Mapping\SOP00106Map.cs" />
+    <Compile Include="Models\Mapping\SOP00110Map.cs" />
+    <Compile Include="Models\Mapping\SOP00200Map.cs" />
+    <Compile Include="Models\Mapping\SOP00201Map.cs" />
+    <Compile Include="Models\Mapping\SOP00300Map.cs" />
+    <Compile Include="Models\Mapping\SOP00301Map.cs" />
+    <Compile Include="Models\Mapping\SOP00500Map.cs" />
+    <Compile Include="Models\Mapping\SOP00501Map.cs" />
+    <Compile Include="Models\Mapping\SOP00502Map.cs" />
+    <Compile Include="Models\Mapping\SOP00503Map.cs" />
+    <Compile Include="Models\Mapping\SOP00504Map.cs" />
+    <Compile Include="Models\Mapping\SOP00507Map.cs" />
+    <Compile Include="Models\Mapping\SOP00508Map.cs" />
+    <Compile Include="Models\Mapping\SOP00601ViewMap.cs" />
+    <Compile Include="Models\Mapping\SOP10100Map.cs" />
+    <Compile Include="Models\Mapping\SOP10101Map.cs" />
+    <Compile Include="Models\Mapping\SOP10102Map.cs" />
+    <Compile Include="Models\Mapping\SOP10104Map.cs" />
+    <Compile Include="Models\Mapping\SOP10105Map.cs" />
+    <Compile Include="Models\Mapping\SOP10106Map.cs" />
+    <Compile Include="Models\Mapping\SOP10107Map.cs" />
+    <Compile Include="Models\Mapping\SOP10108Map.cs" />
+    <Compile Include="Models\Mapping\SOP10200Map.cs" />
+    <Compile Include="Models\Mapping\SOP10201Map.cs" />
+    <Compile Include="Models\Mapping\SOP10202Map.cs" />
+    <Compile Include="Models\Mapping\SOP10203Map.cs" />
+    <Compile Include="Models\Mapping\SOP10250Map.cs" />
+    <Compile Include="Models\Mapping\SOP10251Map.cs" />
+    <Compile Include="Models\Mapping\SOP10252Map.cs" />
+    <Compile Include="Models\Mapping\SOP10300Map.cs" />
+    <Compile Include="Models\Mapping\SOP10301Map.cs" />
+    <Compile Include="Models\Mapping\SOP10302Map.cs" />
+    <Compile Include="Models\Mapping\SOP10303Map.cs" />
+    <Compile Include="Models\Mapping\SOP10304Map.cs" />
+    <Compile Include="Models\Mapping\SOP10305Map.cs" />
+    <Compile Include="Models\Mapping\SOP10306Map.cs" />
+    <Compile Include="Models\Mapping\SOP10310Map.cs" />
+    <Compile Include="Models\Mapping\SOP10311Map.cs" />
+    <Compile Include="Models\Mapping\SOP10500Map.cs" />
+    <Compile Include="Models\Mapping\SOP10501Map.cs" />
+    <Compile Include="Models\Mapping\SOP10502Map.cs" />
+    <Compile Include="Models\Mapping\SOP10503Map.cs" />
+    <Compile Include="Models\Mapping\SOP10504Map.cs" />
+    <Compile Include="Models\Mapping\SOP10505Map.cs" />
+    <Compile Include="Models\Mapping\SOP10506Map.cs" />
+    <Compile Include="Models\Mapping\SOP10510Map.cs" />
+    <Compile Include="Models\Mapping\SOP20300Map.cs" />
+    <Compile Include="Models\Mapping\SOP20301Map.cs" />
+    <Compile Include="Models\Mapping\SOP_Transaction_ViewMap.cs" />
+    <Compile Include="Models\Mapping\Sys00003Map.cs" />
+    <Compile Include="Models\Mapping\Sys00005Map.cs" />
+    <Compile Include="Models\Mapping\Sys00006Map.cs" />
+    <Compile Include="Models\Mapping\Sys00007Map.cs" />
+    <Compile Include="Models\Mapping\Sys00010Map.cs" />
+    <Compile Include="Models\Mapping\Sys00011Map.cs" />
+    <Compile Include="Models\Mapping\Sys00013Map.cs" />
+    <Compile Include="Models\Mapping\Sys00014Map.cs" />
+    <Compile Include="Models\Mapping\Sys00020Map.cs" />
+    <Compile Include="Models\Mapping\Sys00030Map.cs" />
+    <Compile Include="Models\PROJ00100.cs" />
+    <Compile Include="Models\SOP00000.cs" />
+    <Compile Include="Models\SOP00001.cs" />
+    <Compile Include="Models\SOP000014.cs" />
+    <Compile Include="Models\SOP00002.cs" />
+    <Compile Include="Models\SOP00003.cs" />
+    <Compile Include="Models\SOP00004.cs" />
+    <Compile Include="Models\SOP00005.cs" />
+    <Compile Include="Models\SOP00008.cs" />
+    <Compile Include="Models\SOP00009.cs" />
+    <Compile Include="Models\SOP00010.cs" />
+    <Compile Include="Models\SOP00011.cs" />
+    <Compile Include="Models\SOP00012.cs" />
+    <Compile Include="Models\SOP00013.cs" />
+    <Compile Include="Models\SOP00014.cs" />
+    <Compile Include="Models\SOP00015.cs" />
+    <Compile Include="Models\SOP00020.cs" />
+    <Compile Include="Models\SOP00021.cs" />
+    <Compile Include="Models\SOP00022.cs" />
+    <Compile Include="Models\SOP00023.cs" />
+    <Compile Include="Models\SOP00024.cs" />
+    <Compile Include="Models\SOP00100.cs" />
+    <Compile Include="Models\SOP00101.cs" />
+    <Compile Include="Models\SOP00102.cs" />
+    <Compile Include="Models\SOP00103.cs" />
+    <Compile Include="Models\SOP00105.cs" />
+    <Compile Include="Models\SOP00106.cs" />
+    <Compile Include="Models\SOP00110.cs" />
+    <Compile Include="Models\SOP00200.cs" />
+    <Compile Include="Models\SOP00201.cs" />
+    <Compile Include="Models\SOP00300.cs" />
+    <Compile Include="Models\SOP00301.cs" />
+    <Compile Include="Models\SOP00500.cs" />
+    <Compile Include="Models\SOP00501.cs" />
+    <Compile Include="Models\SOP00502.cs" />
+    <Compile Include="Models\SOP00503.cs" />
+    <Compile Include="Models\SOP00504.cs" />
+    <Compile Include="Models\SOP00507.cs" />
+    <Compile Include="Models\SOP00508.cs" />
+    <Compile Include="Models\SOP00600.cs" />
+    <Compile Include="Models\SOP00601.cs" />
+    <Compile Include="Models\SOP00601View.cs" />
+    <Compile Include="Models\SOP10100.cs" />
+    <Compile Include="Models\SOP10101.cs" />
+    <Compile Include="Models\SOP10102.cs" />
+    <Compile Include="Models\SOP10104.cs" />
+    <Compile Include="Models\SOP10105.cs" />
+    <Compile Include="Models\SOP10106.cs" />
+    <Compile Include="Models\SOP10107.cs" />
+    <Compile Include="Models\SOP10108.cs" />
+    <Compile Include="Models\SOP10200.cs" />
+    <Compile Include="Models\SOP10201.cs" />
+    <Compile Include="Models\SOP10202.cs" />
+    <Compile Include="Models\SOP10203.cs" />
+    <Compile Include="Models\SOP10250.cs" />
+    <Compile Include="Models\SOP10251.cs" />
+    <Compile Include="Models\SOP10252.cs" />
+    <Compile Include="Models\SOP10300.cs" />
+    <Compile Include="Models\SOP10301.cs" />
+    <Compile Include="Models\SOP10302.cs" />
+    <Compile Include="Models\SOP10303.cs" />
+    <Compile Include="Models\SOP10304.cs" />
+    <Compile Include="Models\SOP10305.cs" />
+    <Compile Include="Models\SOP10306.cs" />
+    <Compile Include="Models\SOP10310.cs" />
+    <Compile Include="Models\SOP10311.cs" />
+    <Compile Include="Models\SOP10500.cs" />
+    <Compile Include="Models\SOP10501.cs" />
+    <Compile Include="Models\SOP10502.cs" />
+    <Compile Include="Models\SOP10503.cs" />
+    <Compile Include="Models\SOP10504.cs" />
+    <Compile Include="Models\SOP10505.cs" />
+    <Compile Include="Models\SOP10506.cs" />
+    <Compile Include="Models\SOP10510.cs" />
+    <Compile Include="Models\SOP20300.cs" />
+    <Compile Include="Models\SOP20301.cs" />
+    <Compile Include="Models\SOP_Transaction_View.cs" />
+    <Compile Include="Models\Sys00000.cs" />
+    <Compile Include="Models\Sys00001.cs" />
+    <Compile Include="Models\Sys00003.cs" />
+    <Compile Include="Models\Sys00005.cs" />
+    <Compile Include="Models\Sys00006.cs" />
+    <Compile Include="Models\Sys00007.cs" />
+    <Compile Include="Models\Sys00010.cs" />
+    <Compile Include="Models\Sys00011.cs" />
+    <Compile Include="Models\Mapping\UPR00030Map.cs" />
+    <Compile Include="Models\Sys00013.cs" />
+    <Compile Include="Models\Sys00014.cs" />
+    <Compile Include="Models\Sys00020.cs" />
+    <Compile Include="Models\Sys00030.cs" />
+    <Compile Include="Models\UPR00030.cs" />
+    <Compile Include="Partial\IV00013.cs" />
+    <Compile Include="Partial\SOP00110.cs" />
+    <Compile Include="Partial\SOP00100.cs" />
+    <Compile Include="Partial\SOP10200.cs" />
+    <Compile Include="Partial\SOP10501.cs" />
+    <Compile Include="Partial\SOP10251.cs" />
+    <Compile Include="Partial\SOP10203.cs" />
+    <Compile Include="Partial\SOP10201.cs" />
+    <Compile Include="Partial\SOP10101.cs" />
+    <Compile Include="Repository\CustomerAddressRepository.cs" />
+    <Compile Include="Repository\CustomerAddressTypeCodeRepository.cs" />
+    <Compile Include="Repository\CustomerPriorityRepository.cs" />
+    <Compile Include="Repository\CustomerStatusRepository.cs" />
+    <Compile Include="Repository\CustomerContactTypeRepository.cs" />
+    <Compile Include="Repository\CustomerGroupPrefixRepository.cs" />
+    <Compile Include="Repository\InvoiceDocumentTypeRepository .cs" />
+    <Compile Include="Repository\SalesPersonRepository.cs" />
+    <Compile Include="Repository\SalesPersonTypeRepository.cs" />
+    <Compile Include="Repository\CustomerGroupRepository.cs" />
+    <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\InvPrefixRepository.cs" />
+    <Compile Include="Repository\SOP000014Repository.cs" />
+    <Compile Include="Repository\SOP00004Repository.cs" />
+    <Compile Include="Repository\SOP00003Repository.cs" />
+    <Compile Include="Repository\SOP00001Repository.cs" />
+    <Compile Include="Repository\SOP00013Repository.cs" />
+    <Compile Include="Repository\SOP00015Repository.cs" />
+    <Compile Include="Repository\SOP00102Repository.cs" />
+    <Compile Include="Repository\SOP00105Repository.cs" />
+    <Compile Include="Repository\SOP00106Repository.cs" />
+    <Compile Include="Repository\SOP00502Repository.cs" />
+    <Compile Include="Repository\SOP10310Repository.cs" />
+    <Compile Include="Repository\SOP10311Repository.cs" />
+    <Compile Include="Repository\SOP10500Repository.cs" />
+    <Compile Include="Repository\SOP10501Repository.cs" />
+    <Compile Include="Repository\SOP10506Repository.cs" />
+    <Compile Include="Repository\SOP10505Repository.cs" />
+    <Compile Include="Repository\SOP10504Repository.cs" />
+    <Compile Include="Repository\SOP10502Repository.cs" />
+    <Compile Include="Repository\SOP10301Repository.cs" />
+    <Compile Include="Repository\SOP10300Repository.cs" />
+    <Compile Include="Repository\SOP10305Repository.cs" />
+    <Compile Include="Repository\SOP00507Repository.cs" />
+    <Compile Include="Repository\SOP00503Repository.cs" />
+    <Compile Include="Repository\SOP00501Repository.cs" />
+    <Compile Include="Repository\SOP00500Repository.cs" />
+    <Compile Include="Repository\PROJ00100Repository.cs" />
+    <Compile Include="Repository\Sys00020Repository.cs" />
+    <Compile Include="Repository\Sys00005Repository.cs" />
+    <Compile Include="Repository\SOP10252Repository.cs" />
+    <Compile Include="Repository\SOP10251Repository.cs" />
+    <Compile Include="Repository\SOP10250Repository.cs" />
+    <Compile Include="Repository\SOP10203Repository.cs" />
+    <Compile Include="Repository\SOP10202Repository.cs" />
+    <Compile Include="Repository\SOP10201Repository.cs" />
+    <Compile Include="Repository\SOP10200Repository.cs" />
+    <Compile Include="Repository\SOP10107Repository.cs" />
+    <Compile Include="Repository\SOP10104Repository.cs" />
+    <Compile Include="Repository\SOP10102Repository.cs" />
+    <Compile Include="Repository\SOP10101Repository.cs" />
+    <Compile Include="Repository\SOP10100Repository.cs" />
+    <Compile Include="Repository\SOP00000Repository.cs" />
+    <Compile Include="Repository\TermsAndConditionRepository.cs" />
+    <Compile Include="Repository\SOP00024Repository.cs" />
+    <Compile Include="Repository\SOP00023Repository.cs" />
+    <Compile Include="Repository\InvBatchRepository.cs" />
+    <Compile Include="SOPContext.cs" />
+    <Compile Include="DataCollection.cs" />
+    <Compile Include="Dynamic.cs" />
+    <Compile Include="GenericDataRepository.cs" />
+    <Compile Include="IGenericDataRepository.cs" />
+    <Compile Include="MoreEnumerable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\InvoiceRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SQL.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

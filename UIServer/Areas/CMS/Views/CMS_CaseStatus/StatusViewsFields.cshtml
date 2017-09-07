@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateViewsFields();">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            <br />
+            Update
+        </a>
+    </header>
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Case Status Views Fields Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Status</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="CM00700.SelectedStatus"
+                                                            k-options="CaseStatusHasOptions"
+                                                            k-on-change="StatusChangedForViewsFields()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-2 control-label text-left">Select View</label>
+                                                <div class="col-sm-4">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="CM00062.SelectedView"
+                                                            k-options="ViewHasOptions"
+                                                            k-on-change="ViewChangedForFields()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            
+                            <fieldset ng-show="CaseStatusViewsFieldsList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="text-align-center smart-form">
+                                                    
+                                                </th>
+                                                <th class="text-align-center">Case Status ID</th>
+                                                <th class="text-align-center">Field Type ID</th>
+                                                <th class="text-align-center">Field Code</th>
+                                                <th class="text-align-center">Field Order</th>
+                                                <th class="text-align-center">Field Title</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="field in CaseStatusViewsFieldsList">
+                                                <td class="text-align-center smart-form col-md-1">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.isSelected" ng-click="UpdateCaseStatusViewsFields(field)" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Case Status ID" ng-model="field.CaseStatusID" disabled="disabled" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" placeholder="Field Type ID" ng-model="field.FieldTypeID" disabled="disabled" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Code" ng-model="field.FieldCode" disabled="disabled" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" placeholder="Field Order" ng-model="field.FieldOrder" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Title" ng-model="field.FieldTitle" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+</div>

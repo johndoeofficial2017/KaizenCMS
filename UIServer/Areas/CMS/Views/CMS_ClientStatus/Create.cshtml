@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM00022.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM00022.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CM00022.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Status ID</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" maxlength="10" placeholder="Status ID"
+                                                   ng-model="CM00022.StatusID" ng-disabled="CM00022.Status==2" />
+                                        </label>
+
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Status Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" maxlength="15" placeholder="Status Name" 
+                                                   ng-model="CM00022.StatusName" />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnOpenCaseReminder_Click(CaseRef) {
+        var scope = angular.element(document.getElementById("widget-CMS_Reminder")).scope();
+        scope.$apply(function () {
+            scope.OpenCase(CaseRef);
+        });
+    };
+
+</script>
+    @(Html.Kendo().Grid<Kaizen.CMS.CM00203>()
+                            .Name("GridCMS_Reminder")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.CaseRef).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnOpenCaseReminder_Click('#:CaseRef#');""> #:CaseRef# </a>").Locked(true).Width(100).Title("Case Reference");
+                                columns.Bound(c => c.CaseStatusname).Width(250).Locked(false).Title("Status");
+                                columns.Bound(c => c.CaseStatusComment).Width(375).Title("Status Comment").Locked(false);
+                                columns.Bound(c => c.PTPAMT).Width(100).Locked(false).Title("PTP").ClientTemplate("#= FormatDecimalDigit(data.PTPAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                columns.Bound(c => c.LastPaymentDate).Format("{0:MM/dd/yyyy}").Width(110).Locked(false).Title("Date");
+                                columns.Bound(c => c.LastCallactedAMT).Width(100).Locked(false).Title("AMT").ClientTemplate("#= FormatDecimalDigit(data.LastCallactedAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                columns.Bound(c => c.LastPaymentBy).Width(100).Locked(false).Title("Agent");
+                                columns.Bound(c => c.CurrencyCode).Width(100).Title("Currency");
+                                columns.Bound(c => c.ClaimAmount).Width(100).Locked(false).Title("Claim")
+                                         .ClientTemplate("#= FormatDecimalDigit(data.ClaimAmount,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                columns.Bound(c => c.FinanceCharge).Width(100).Locked(false).Title("FinanceCharge")
+                                        .ClientTemplate("#= FormatDecimalDigit(data.FinanceCharge,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                columns.Bound(c => c.TotalCallactedAMT).Width(100).Locked(false).Title("Total AMT")
+                                        .ClientTemplate("#= FormatDecimalDigit(data.TotalCallactedAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+
+                                columns.Bound(c => c.BookingDate).Format("{0:dd/MM/yyyy}").Width(100);
+                                columns.Bound(c => c.TransactionDate).Format("{0:dd/MM/yyyy}").Width(100);
+                                columns.Bound(c => c.Remarks).Width(200);
+                                columns.Bound(c => c.ClientID).Width(100);
+                                columns.Bound(c => c.CIFNumber).Width(100);
+                                columns.Bound(c => c.CaseAddess).Width(200);
+                                columns.Bound(c => c.CaseAccountNo).Width(150).Title("Account No");
+                                columns.Bound(c => c.InvoiceNumber).Width(100);
+
+                            })
+                                            .Filterable()
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Reminders from {0} to {1}. Total Reminders: <strong>{2}</strong>")
+                                            .ItemsPerPage("Reminder Per page").Empty("No Reminders Information")).Refresh(true).PageSizes(true)
+                                            .Input(true).ButtonCount(5))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple).Type(GridSelectionType.Row))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(ss => ss.Height(360))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                                            .Read(read => read.Action("GetReminderDataListGrid", "CMS_Reminder").Type(HttpVerbs.Get)
+                                            .Data("GetReminderGridPram"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.CaseRef);
+                                            })
+                                        )
+    )
+
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

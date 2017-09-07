@@ -1,0 +1,118 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+    </header>
+
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Case Status Views Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 col-xs-12 control-label text-left">Status</label>
+                                                <div class="col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="CM00700.SelectedStatus"
+                                                            k-options="CaseStatusHasOptions"
+                                                            k-on-change="StatusChangedForViews()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 col-xs-12 control-label text-left">View Name</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control input-sm" placeholder="View Name"
+                                                           ng-model="CM00062.ViewName" char-limit="50" maxlength="50" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-controls">
+                                    <button class="btn btn-primary" ng-click="AddNewView()" ng-show="CM00062.status == 0 || CM00062.status == 1">Add View</button>
+                                    <button class="btn btn-primary" ng-click="UpdateView()" ng-show="CM00062.status == 2">Update View</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CaseStatusViewsList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-align-center">Case Status ID</th>
+                                                <th class="text-align-center">View Name</th>
+                                                <th class="text-align-center">Edit</th>
+                                                <th class="text-align-center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="caseStatusView in CaseStatusViewsList" ng-class="{'deleted':caseStatusView.status== 3}">
+                                                <td class="col-md-2">{{caseStatusView.CaseStatusID}}</td>
+                                                <td class="col-md-4">{{caseStatusView.ViewName}}</td>
+                                                <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                    <a href="" ng-click="EditView(caseStatusView)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                                </td>
+                                                <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                    <a href="" ng-click="RemoveCaseStatusView(caseStatusView,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

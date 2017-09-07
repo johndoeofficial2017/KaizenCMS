@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+<div class="no-padding no-border overflow">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a ng-click="GoBack();" class="btn btn-default">
+                <i class="glyphicon glyphicon-remove-circle"></i>
+                <br />Back
+            </a>
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-12 col-lg-12 well-10">
+                        <div class="row no-padding">
+                            <form>
+                                <fieldset class="well well-10 well-10">
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        <script>
+                                function GetPivotData() {
+                                    //var ActiveScreenID = $("#ActiveScreenID").val();
+                                    //var widget = $("#widget-" + ActiveScreenID)
+                                    var scope = angular.element("widget-CMS_Case").scope();
+                                    //return {
+                                    //    Statuses: scope.selectedStatusList,
+                                    //    Agents: scope.selectedAgents,
+                                    //    Clients: scope.selectedClients,
+                                    //    KaizenPublicKey: sessionStorage.PublicKey
+                                    //};
+                                    return {
+                                        Statuses: 1,
+                                        Agents: 'admin',
+                                        Clients: '11',
+                                        KaizenPublicKey: sessionStorage.PublicKey
+                                    };
+                                };
+                                        </script>
+                                        <fieldset>
+                                            <div class="form-group no-margin-bottom">
+                                                <div class="col-md-4 no-padding-left">
+                                                    @(Html.Kendo().PivotConfigurator()
+                                        .Name("configurator")
+                                        .HtmlAttributes(new { style = "width: 100%;" })
+                                        .Height(570)
+                                                    )
+                                                </div>
+                                                <div class="col-md-8 no-padding-right">
+                                                    @(Html.Kendo().PivotGrid<Kaizen.CMS.CM10701View01>()
+                                .Name("ActionManamgmentSummeryCMS_Case")
+                                .HtmlAttributes(new { @class = "hidden-on-narrow" })
+                                .Configurator("#configurator")
+                                .ColumnWidth(120)
+                                .Height(570).AutoBind(true)
+                                .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Transport(transport => transport
+                                .Read(read => read.Action("ActionManamgmentSummeryData", "CMS_Case")
+                                .Type(HttpVerbs.Post).Data("GetPivotData")))
+                                .Schema(schema => schema
+                                .Cube(cube => cube
+                                .Dimensions(dimensions =>
+                                {
+                                    dimensions.Add(model => model.StatusYear).Caption("All ActionYear");
+                                    dimensions.Add(model => model.StatusMonth).Caption("All ActionMonth");
+                                    dimensions.Add(model => model.StatusDay).Caption("All ActionDay");
+                                    dimensions.Add(model => model.CaseStatusID).Caption("All CaseStatus Code");
+                                    dimensions.Add(model => model.CaseStatusname).Caption("All CaseStatus name");
+                                    dimensions.Add(model => model.CaseStatusChild).Caption("All Sub Status Code");
+                                    dimensions.Add(model => model.CaseStatusChildName).Caption("All Sub Status Name");
+                                })
+                            .Measures(measures =>
+                            {
+                                measures.Add("PTPAMT").Field(model => model.PTPAMT).AggregateName("sum");
+                                measures.Add("StatusHistoryID").Field(model => model.StatusHistoryID).AggregateName("sum");
+                            })))
+                                .Columns(columns =>
+                                {
+                                    columns.Add("StatusYear").Expand(true);
+                                    columns.Add("StatusMonth").Expand(true);
+                                    columns.Add("StatusDay").Expand(true);
+                                })
+                                .Rows(rows => rows.Add("CaseStatusname").Expand(true))
+                                .Measures(measures => measures.Values("StatusHistoryID"))
+                                )
+                                                    )
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

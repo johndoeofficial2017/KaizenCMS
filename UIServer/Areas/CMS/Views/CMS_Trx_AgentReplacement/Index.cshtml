@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCMS_Trx_AgentReplacement_Click(TrxID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Trx_AgentReplacement")).scope();
+        scope.$apply(function () {
+            scope.EditCM00220(TrxID);
+        });
+    }
+</script>
+<div ng-controller="CMS_Trx_AgentReplacementController">
+    <div class="widget" id="widget-CMS_Trx_AgentReplacement">
+        <div ng-show="PagesCM00220.length > 0">
+            <div ng-repeat="Page in PagesCM00220">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00220.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions">
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00220>()
+                        .Name("GridCMS_Trx_AgentReplacement")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Trx_AgentReplacement_Click('#:TrxID#');""> #:TrxID# </a>").Width(100).Title("Transaction ID");
+                            columns.Bound(c => c.AgentID);
+                            columns.Bound(c => c.AgentIDTO);
+                            columns.Bound(c => c.StartDate).Format("{0:dd/MM/yyyy}");
+                            columns.Bound(c => c.EndDate).Format("{0:dd/MM/yyyy}");
+                            columns.Bound(c => c.TrxComments);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Transaction from {0} to {1}. Total Transactions: <strong>{2}</strong>").Empty("Transaction Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetDataListGrid", "CMS_Trx_AgentReplacement")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.TrxID)))
+                )
+            </div>
+           
+        </div>
+    </div>
+</div>
+

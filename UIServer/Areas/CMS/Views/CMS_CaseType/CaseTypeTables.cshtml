@@ -1,0 +1,136 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+    </header>
+
+    
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Case Type Tables Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Table Source</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control input-sm" placeholder="Table Source" ng-disabled="CM00037.status == 2"
+                                                           ng-model="CM00037.TableSource" char-limit="10" maxlength="10" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Source Type Name</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control input-sm" placeholder="Source Type Name" 
+                                                           ng-model="CM00037.SourceTypeName" char-limit="50" maxlength="50" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00037.IsCustomTable">
+                                                        <span>Is Custom Table</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                     
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-controls">
+                                    <button class="btn btn-primary" ng-click="AddCM00037()" ng-show="CM00037.status == 0 || CM00037.status == 1">Add</button>
+                                    <button class="btn btn-primary" ng-click="UpdateCM00037()" ng-show="CM00037.status == 2">Update</button>
+                                    <button class="btn btn-primary" ng-click="CancelUpdateCaseTypeTable()" ng-show="CM00037.status == 2">Cancel</button>
+                                </div>
+                            </fieldset>
+
+                            <br/>
+
+                            <fieldset ng-show="CaseTypeTableList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-align-center">Table Source</th>
+                                                <th class="text-align-center">Source Type Name</th>
+                                                <th class="text-align-center">IsCustomTable</th>
+                                                <th class="text-align-center">Edit</th>
+                                                <th class="text-align-center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="obj in CaseTypeTableList" ng-class="{'deleted':obj.status== 3}">
+                                                <td class="col-md-2">{{obj.TableSource}}</td>
+                                                <td class="col-md-4">{{obj.SourceTypeName}}</td>
+                                                <td class="col-md-4">{{obj.IsCustomTable}}</td>
+                                                <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                    <a href="" ng-click="EditCaseTypeTable(obj)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                                </td>
+                                                <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                    <a href="" ng-click="DeleteCM00037(obj,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

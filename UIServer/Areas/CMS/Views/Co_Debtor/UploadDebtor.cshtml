@@ -1,0 +1,1160 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function DebtorUploadFileAttachemnt_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.UploadedData(responseTxt);
+        });
+    };
+    function DynamicOverride(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.DynamicOverride(dataItem);
+        });
+    };
+    function DynamicCancel(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.DynamicCancel(dataItem);
+        });
+    };
+    function DynamicView(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.DynamicView(dataItem);
+        });
+    };
+</script>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-success txt-color-white" ng-click="UploadData();"
+           ng-show="ExcelColumns.length > 0">
+            <i class="glyphicon glyphicon-upload icon-large">
+            </i><br />
+            Upload & Close
+        </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12 form-group">
+                                        <div class="col-md-6">
+                                            <label class="col col-md-4 control-label">File</label>
+                                            <div class="col-sm-8">
+                                                @(Html.Kendo().Upload().Name("DebtorUploadFileAttachemnt")
+                                              .Async(async => async.Save("SaveUploadFileTemp", "CMS_Debtor")
+                                              .Remove("RemoveUploadFileTemp", "CMS_Debtor"))
+                                              .Events(e => e.Success("DebtorUploadFileAttachemnt_onSuccess"))
+                                                )
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col-md-1"></section>
+                                    <section class="col-md-10 form-group">
+                                        <!--  Map Debtor Fields -->
+                                        <div ng-show="CurrentStep == -1 && KaizenColumn.length > 0">
+                                            <div class="widget no-margin-bottom">
+                                                <div class="widget-body">
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-align-center">
+                                                                        Field
+                                                                    </th>
+                                                                    <th class="text-align-center">
+                                                                        Map Field
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="column in KaizenColumn" ng-if="$index < (KaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.required }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control input-sm no-padding-right no-padding-left" ng-model="column.FieldValue">
+                                                                            <option ng-repeat="excel in ExcelColumns"
+                                                                                    value="{{excel.Index}}">
+                                                                                {{excel.ColumnName}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-align-center">
+                                                                        Field
+                                                                    </th>
+                                                                    <th class="text-align-center">
+                                                                        Map Field
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="column in KaizenColumn" ng-if="$index >= (KaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.required }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control input-sm no-padding-right no-padding-left" ng-model="column.FieldValue">
+                                                                            <option ng-repeat="excel in ExcelColumns" value="{{excel.Index}}">{{excel.ColumnName}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  DebtorName 00-->
+                                        <div ng-show="CurrentStep == 0">
+                                            <legend class="text-center"><strong>Duplicate Debtor Name</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidate00>()
+                                             .Name("GridCM_UploadValidate00")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" }).HtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldValue).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" }).HtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewValue).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" }).HtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Names"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Debtor Name from {0} to {1}. Total Debtor Names: <strong>{2}</strong>")
+                                             .ItemsPerPage("Debtor Name Per page").Empty("No Debtor Name Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidate00DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldValue);
+                                                 model.Field(o => o.NewValue);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+
+                                        </div>
+                                        <!--  EmployerName 01-->
+                                        <div ng-show="CurrentStep == 1">
+                                            <legend class="text-center"><strong>Duplicate Employer Name</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidate01>()
+                                             .Name("GridCM_UploadValidate01")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldEmployerName).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewEmployerName).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Employer Names"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Employer Name from {0} to {1}. Total Employer Names: <strong>{2}</strong>")
+                                             .ItemsPerPage("Employer Name Per page").Empty("No Employer Name Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidate01DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldEmployerName);
+                                                 model.Field(o => o.NewEmployerName);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  BirthDate 02-->
+                                        <div ng-show="CurrentStep == 2">
+                                            <legend class="text-center"><strong>Duplicate Birth Date</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidate02>()
+                                             .Name("GridCM_UploadValidate02")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldBirthDate).Format("{0:dd/MM/yyyy}").Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewBirthDate).Format("{0:dd/MM/yyyy}").Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Birth Dates"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Birth Date from {0} to {1}. Total Birth Dates: <strong>{2}</strong>")
+                                             .ItemsPerPage("Birth Date Per page").Empty("No Birth Date Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidate02DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldBirthDate);
+                                                 model.Field(o => o.NewBirthDate);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Address1 -->
+                                        <div ng-show="CurrentStep == 3">
+                                            <legend class="text-center"><strong>Duplicate Address 1</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidate03>()
+                                             .Name("GridCM_UploadValidate03")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("CPR").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldAddress1).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewAddress1).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Addresses"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Address from {0} to {1}. Total Addresses: <strong>{2}</strong>")
+                                             .ItemsPerPage("Address Per page").Empty("No Address Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidate03DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldAddress1);
+                                                 model.Field(o => o.NewAddress1);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Address2 -->
+                                        <div ng-show="CurrentStep == 4">
+                                            <legend class="text-center"><strong>Duplicate Address 2</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidate04>()
+                                             .Name("CM_UploadValidate04")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldAddress2).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewAddress2).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Addresses"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Address from {0} to {1}. Total Addresses: <strong>{2}</strong>")
+                                             .ItemsPerPage("Address Per page").Empty("No Address Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidate04DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldAddress2);
+                                                 model.Field(o => o.NewAddress2);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Email01 -->
+                                        <div ng-show="CurrentStep == 5">
+                                            <legend class="text-center">
+                                                <strong>Duplicate Email 1</strong>
+                                            </legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateEmail01>()
+                                             .Name("GridCM_UploadValidateEmail01")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldEmail01).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewEmail01).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Emails"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Email from {0} to {1}. Total Emails: <strong>{2}</strong>")
+                                             .ItemsPerPage("Email Per page").Empty("No Email Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidateEmail01DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldEmail01);
+                                                 model.Field(o => o.NewEmail01);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+
+                                        </div>
+                                        <!--  MobileNo1 -->
+                                        <div ng-show="CurrentStep == 6">
+                                            <legend class="text-center"><strong>Duplicate Mobile No 1</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateMobileNo1>()
+                                             .Name("GridCM_UploadValidateMobileNo1")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldMobileNo1).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewMobileNo1).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Mobile Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Mobile from {0} to {1}. Total Mobiles: <strong>{2}</strong>")
+                                             .ItemsPerPage("Mobile Per page").Empty("No Mobile Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidateMobileNo1DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldMobileNo1);
+                                                 model.Field(o => o.NewMobileNo1);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Nationality -->
+                                        <div ng-show="CurrentStep == 7">
+                                            <legend class="text-center"><strong>Duplicate Nationality</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateNationalityID>()
+                                                    .Name("GridCM_UploadValidateNationalityID")
+                                                    .Columns(columns =>
+                                                    {
+                                                        columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                        columns.Bound(c => c.OldNationalityID).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                        columns.Bound(c => c.NewNationalityID).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                        columns.Group(g => g.Title("Actions")
+                                                        .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                        .Columns(location =>
+                                                        {
+                                                            location.Command(command =>
+                                                            {
+                                                                command.Custom("Override").Click("DynamicOverride")
+                                                                .Text("Override");
+                                                            }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                            .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                            location.Command(command =>
+                                                            {
+                                                                command.Custom("Cancel").Click("DynamicCancel")
+                                                                .Text("Cancel");
+                                                            }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                            .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                            location.Command(command =>
+                                                            {
+                                                                command.Custom("View").Click("DynamicView")
+                                                                .Text("View");
+                                                            }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                            .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                        })
+                                                        );
+                                                    })
+                                                    .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Nationalities"))
+                                                    .Filterable().AutoBind(false)
+                                                    .Pageable(pager => pager.Messages(messages => messages.Display("Showing Nationality from {0} to {1}. Total Nationalitys: <strong>{2}</strong>")
+                                                    .ItemsPerPage("Nationality Per page").Empty("No Nationality Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                                    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                                    .Navigatable()
+                                                    .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                                    .Reorderable(reorder => reorder.Columns(true))
+                                                    .Resizable(ss => ss.Columns(true))
+                                                    .ColumnMenu().Scrollable(s => s.Height(400))
+                                                    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                                    .Read(read => read.Action("GetCM_UploadValidateNationalityIDDataListGrid", "CMS_TRX_CaseUploading")
+                                                    .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                                    .Model(model =>
+                                                    {
+                                                        model.Id(o => o.DebtorID);
+                                                        model.Field(o => o.DebtorID);
+                                                        model.Field(o => o.OldNationalityID);
+                                                        model.Field(o => o.NewNationalityID);
+                                                        model.Field(o => o.UserName);
+                                                    })
+                                                    )
+                                            )
+                                        </div>
+                                        <!--  CM_UploadValidateMissingNationalityID -->
+                                        <div ng-show="CurrentStep == 8">
+                                            <legend class="text-center"><strong>Missing Nationality</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateMissingNationalityID>()
+                                             .Name("CM_UploadValidateMissingNationalityID")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.DebtorName).Width(250);
+                                                 columns.Bound(c => c.NationalityID).Width(250);
+                                                 columns.Bound(c => c.PassportNumber).Width(250);
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Missing Nationalities"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Nationality from {0} to {1}. Total Nationalitys: <strong>{2}</strong>")
+                                             .ItemsPerPage("Nationality Per page").Empty("No Nationality Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetGridCM_UploadValidateMissingNationalityID", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Occupation 09 -->
+                                        <div ng-show="CurrentStep == 9">
+                                            <legend class="text-center"><strong>Duplicate Occupation</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateOccupation>()
+                                             .Name("GridCM_UploadValidateOccupation")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldOccupation).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewOccupation).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Occupations"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Occupation from {0} to {1}. Total Occupations: <strong>{2}</strong>")
+                                             .ItemsPerPage("Occupation Per page").Empty("No Occupation Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidateOccupationDataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldOccupation);
+                                                 model.Field(o => o.NewOccupation);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Other -->
+                                        <div ng-show="CurrentStep == 10">
+                                            <legend class="text-center"><strong>Duplicate Other 1</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateOther01>()
+                                             .Name("GridCM_UploadValidateOther01")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldOther01).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewOther01).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Others"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Other from {0} to {1}. Total Others: <strong>{2}</strong>")
+                                             .ItemsPerPage("Other Per page").Empty("No Other Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidateOther01DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldOther01);
+                                                 model.Field(o => o.NewOther01);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  PassportNumber 11-->
+                                        <div ng-show="CurrentStep == 11">
+                                            <legend class="text-center"><strong>Duplicate Passport Number</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidatePassportNumber>()
+                                             .Name("GridCM_UploadValidatePassportNumber")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldPassportNumber).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewPassportNumber).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Passport Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Passport Number from {0} to {1}. Total Passport Numbers: <strong>{2}</strong>")
+                                             .ItemsPerPage("Passport Number Per page").Empty("No Passport Number Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidatePassportNumberDataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldPassportNumber);
+                                                 model.Field(o => o.NewPassportNumber);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Pnone01 12-->
+                                        <div ng-show="CurrentStep == 12">
+                                            <legend class="text-center"><strong>Duplicate Phone 1</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidatePnone01>()
+                                             .Name("GridCM_UploadValidatePnone01")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldPnone01).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewPnone01).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Phone Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Phone from {0} to {1}. Total Phones: <strong>{2}</strong>")
+                                             .ItemsPerPage("Phone Per page").Empty("No Phone Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidatePnone01DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldPnone01);
+                                                 model.Field(o => o.NewPnone01);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Pnone02 13-->
+                                        <div ng-show="CurrentStep == 13">
+                                            <legend class="text-center"><strong>Duplicate Phone 2</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidatePnone02>()
+                                             .Name("GridCM_UploadValidatePnone02")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldPnone02).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewPnone02).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Phone Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Phone from {0} to {1}. Total Phones: <strong>{2}</strong>")
+                                             .ItemsPerPage("Phone Per page").Empty("No Phone Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidatePnone02DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldPnone02);
+                                                 model.Field(o => o.NewPnone02);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!--  Pnone03 14-->
+                                        <div ng-show="CurrentStep == 14">
+                                            <legend class="text-center"><strong>Duplicate Phone 3</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidatePnone03>()
+                                             .Name("GridCM_UploadValidatePnone03")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldPnone03).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewPnone03).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Phone Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Phone from {0} to {1}. Total Phones: <strong>{2}</strong>")
+                                             .ItemsPerPage("Phone Per page").Empty("No Phone Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidatePnone03DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldPnone03);
+                                                 model.Field(o => o.NewPnone03);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!-- Pnone 15-->
+                                        <div ng-show="CurrentStep == 15">
+                                            <legend class="text-center"><strong>Duplicate Phone 4</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidatePnone04>()
+                                             .Name("GridCM_UploadValidatePnone04")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldPnone04).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewPnone04).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Phone Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Phone from {0} to {1}. Total Phones: <strong>{2}</strong>")
+                                             .ItemsPerPage("Phone Per page").Empty("No Phone Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidatePnone04DataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldPnone04);
+                                                 model.Field(o => o.NewPnone04);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                        <!-- Residence No 16-->
+                                        <div ng-show="CurrentStep == 16">
+                                            <legend class="text-center"><strong>Duplicate Residence No</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM_UploadValidateResidenceNo>()
+                                             .Name("GridCM_UploadValidateResidenceNo")
+                                             .Columns(columns =>
+                                             {
+                                                 columns.Bound(c => c.DebtorID).Width(120).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.OldResidenceNo).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Bound(c => c.NewResidenceNo).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                 columns.Group(g => g.Title("Actions")
+                                                 .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                 .Columns(location =>
+                                                 {
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Override").Click("DynamicOverride")
+                                                         .Text("Override");
+                                                     }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("Cancel").Click("DynamicCancel")
+                                                         .Text("Cancel");
+                                                     }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                     location.Command(command =>
+                                                     {
+                                                         command.Custom("View").Click("DynamicView")
+                                                         .Text("View");
+                                                     }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                     .HtmlAttributes(new { style = "text-align:center;" }).Width(125);
+                                                 })
+                                                 );
+                                             })
+                                             .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Residence Numbers"))
+                                             .Filterable().AutoBind(false)
+                                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Residence Number from {0} to {1}. Total Residence Numbers: <strong>{2}</strong>")
+                                             .ItemsPerPage("Residence Number Per page").Empty("No Residence Number Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                             .Navigatable()
+                                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                             .Reorderable(reorder => reorder.Columns(true))
+                                             .Resizable(ss => ss.Columns(true))
+                                             .ColumnMenu().Scrollable(s => s.Height(400))
+                                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                             .Read(read => read.Action("GetCM_UploadValidateResidenceNoDataListGrid", "CMS_TRX_CaseUploading")
+                                             .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                             .Model(model =>
+                                             {
+                                                 model.Id(o => o.DebtorID);
+                                                 model.Field(o => o.DebtorID);
+                                                 model.Field(o => o.OldResidenceNo);
+                                                 model.Field(o => o.NewResidenceNo);
+                                                 model.Field(o => o.UserName);
+                                             })
+                                             )
+                                            )
+                                        </div>
+                                    </section>
+                                    <section class="col-md-1"></section>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <div kendo-window="DetailsWindow" k-title="'Details'" k-modal="true"
+                             k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                             k-width="1000" k-resizable="true" k-visible="false"></div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

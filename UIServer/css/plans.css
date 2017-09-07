@@ -1,0 +1,370 @@
+
+
+.plans,.plans ul,.plans ul li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.pricePlans:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.pricePlans {
+	zoom: 0;
+}
+
+.pricePlans {
+	max-width: 220px;
+	width: 20%;
+	min-width: 150px;
+	margin: 0 1%;
+	/*padding: 1% 0.5%;*/
+	float: left;
+}
+
+.pricePlans .plans .plan {
+	background: #fff;
+	float: left;
+	width: 100%;
+	text-align: center;
+	border-radius: 2px;
+	margin: 0 0 20px 0;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0,0,0, 1.1);
+}
+
+.planContainer .title h2 {
+	font-size: 2.125em;
+	font-weight: 300;
+	color: #3e4f6a;
+	margin: 0;
+	padding: .6em 0;
+}
+
+.planContainer .title h2.bestPlanTitle {
+	background: #3e4f6a;
+
+	background: -webkit-linear-gradient(top, #475975, #364761);
+	background: -moz-linear-gradient(top, #475975, #364761);
+	background: -o-linear-gradient(top, #475975, #364761);
+	background: -ms-linear-gradient(top, #475975, #364761);
+	background: linear-gradient(top, #475975, #364761);
+	color: #fff;
+	border-radius: 5px 5px 0 0;
+}
+.planContainer h5 {color: #317eac;font-size:12px;}
+.planContainer .img-circle {height:50px;width:50px;}
+.planContainer .price p {
+	background: #3e4f6a;
+
+	background: -webkit-linear-gradient(top, #475975, #364761);
+	background: -moz-linear-gradient(top, #475975, #364761);
+	background: -o-linear-gradient(top, #475975, #364761);
+	background: -ms-linear-gradient(top, #475975, #364761);
+	background: linear-gradient(top, #475975, #364761);
+	color: #fff;
+	font-size: 1.2em;
+	font-weight: 700;
+	height: 2.6em;
+	line-height: 2.6em;
+	margin: 0 0 1em;
+}
+
+.planContainer .price p.bestPlanPrice {
+	background: #f7814d;
+}
+
+.planContainer .price p span {
+	color: #8394ae;
+}
+
+
+.planContainer .options li {
+	font-weight: 700;
+	color: #364762;
+	line-height: 2.5;
+}
+
+.planContainer .options li span {
+	font-weight: 400;
+	color: #979797;
+}
+
+.planContainer .button a {
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #3e4f6a;
+	font-weight: 700;
+	letter-spacing: 3px;
+	line-height: 2.8em;
+	border: 2px solid #3e4f6a;
+	display: inline-block;
+	width: 80%;
+	height: 2.8em;
+	border-radius: 4px;
+	margin: 1.5em 0 1.8em;
+}
+
+.planContainer .button a.bestPlanButton {
+	color: #fff;
+	background: #f7814d;
+	border: 2px solid #f7814d;
+}
+
+.black {
+	color:#000000;
+	font-size:10px;
+}
+#custom-new .pricePlans{max-width: 200px;}
+.fixed-plans .pricePlans{min-width: auto; margin-right: auto !important; margin-left: auto !important;}
+.carousel-cont .pricePlans {
+	
+	max-width: 125px;
+	width: 20%;
+	min-width: 80px;
+	margin: 0 auto;
+
+	display: inline-block;
+	float: none;
+}
+.carousel-cont .title h5 {margin-top: 2px !important; margin-bottom: 2px !important;}
+.carousel-cont .img-circle {width: 40px !important; height: 40px !important;} 
+.carousel-cont .planContainer .options li {line-height: 2 !important;}
+
+@media screen and (max-height: 2000px) {
+	
+	.pos-cont-left {height: 660px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 670px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 150px;}
+	.fixed-plans .planContainer .img-circle { height: 50px; width: 50px;}
+	}
+@media screen and (max-height: 1050px) {
+	.pos-cont .form-group{margin-bottom: 7px;}
+	.pos-cont .input-lg{height: 30px;} 
+	.pos-cont textarea.form-control {height: 100px}
+	.pos-cont-left {height: 780px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 790px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 180px;}
+	.fixed-plans .planContainer .img-circle { height: 50px; width: 50px;}
+	.fixed-plans .pricePlans h5 {margin: 20px 0px; font-size: 16px}
+
+	.customFullScreen .pos-cont-left {height: 940px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 950px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 200px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 70px; width: 70px;}
+	.customFullScreen .fixed-plans .pricePlans h5 {margin: 20px 0px; font-size: 16px}
+}
+
+@media screen and (max-height: 1000px) {
+	.pos-cont .form-group{margin-bottom: 7px;}
+	.pos-cont .input-lg{height: 30px;} 
+	.pos-cont textarea.form-control {height: 100px}
+	.pos-cont-left {height: 720px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 740px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 180px;}
+	.fixed-plans .planContainer .img-circle { height: 55px; width: 55px;}
+	.fixed-plans .pricePlans h5 {line-height: 2;}
+
+	.customFullScreen .pos-cont-left {height: 880px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 900px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 200px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 65px; width: 65px;}
+	.customFullScreen .fixed-plans .pricePlans h5 {line-height:2; margin: 20px 0px;}
+}
+
+@media screen and (max-height: 950px) {
+	.pos-cont .form-group{margin-bottom: 7px;}
+	.pos-cont .input-lg{height: 30px;} 
+	.pos-cont textarea.form-control {height: 100px}
+	.pos-cont-left {height: 660px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 670px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 150px;}
+	.fixed-plans .planContainer .img-circle { height: 50px; width: 50px;}
+
+	.customFullScreen .pos-cont-left {height: 750px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 760px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 170px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 60px; width: 60px;}
+	.customFullScreen .fixed-plans .pricePlans h5 {margin: 15px 0px;}
+
+	}
+@media screen and (max-height: 850px) {
+
+	.pos-cont-left {height: 575px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 600px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 135px;}
+	.fixed-plans .planContainer .img-circle { height: 40px; width: 40px;}
+
+	.customFullScreen .pos-cont-left {height: 660px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 670px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 150px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 50px; width: 50px;}
+
+}
+
+@media screen and (max-height: 800px) {
+
+	.pos-cont-left {height: 525px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 550px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 130px;}
+	.fixed-plans .planContainer .img-circle { height: 30px; width: 30px;}
+
+	.customFullScreen .pos-cont-left {height: 660px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 670px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 150px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 50px; width: 50px;}
+
+	
+}
+@media screen and (max-height: 750px) {
+	.pos-cont-left {height: 465px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 480px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 140px;}
+	.fixed-plans .planContainer .img-circle { height: 40px; width: 40px;}	
+
+	.customFullScreen .pos-cont-left {height: 585px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 620px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 140px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 40px; width: 40px;}	
+}
+@media screen and (max-height: 700px) {
+	.pos-cont-left {height: 420px; overflow-y:scroll;}
+	.pos-right-col .inner {height: 440px; overflow: hidden;}
+	.fixed-plans .pricePlans {max-height: 105px;}
+	.fixed-plans .planContainer .img-circle { height: 30px; width: 30px;}
+	.fixed-plans .pricePlans h5 {margin: 0px;}
+
+	.customFullScreen .pos-cont-left {height: 550px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 580px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 135px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 30px; width: 30px;}
+	.customFullScreen .fixed-plans .pricePlans h5 { margin: 10px 0px;}
+
+	}
+@media screen and (max-height: 650px) {
+	.pos-cont .form-group{margin-bottom: 7px;}
+	.pos-cont .input-lg{height: 30px;} 
+	.pos-cont textarea.form-control {height: 100px}
+	.pos-left-col {width: 400px; }
+	.pos-cont-left {height: 385px; overflow-y:scroll;}
+	.pos-right-col .inner {padding: 25px 25px 0; margin:-25px; overflow: hidden; height: 415px;}
+	.fixed-plans .pricePlans {max-height: 100px;}
+	.fixed-plans .planContainer .img-circle { height: 30px; width: 30px;}
+	.fixed-plans .pricePlans h5 {margin: 0px;}
+	.fixed-plans .pricePlans .planContainer .options li {line-height: 1.5}
+
+	.customFullScreen .pos-cont-left {height: 500px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 530px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 125px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 30px; width: 30px;}
+	.customFullScreen .fixed-plans .pricePlans h5 {margin: 10px 0px;}
+
+	}
+@media screen and (max-height: 600px) {
+	.pos-cont-left {    height: 360px;}
+	.pos-right-col .inner {padding: 25px 25px 0; margin:-25px; overflow: hidden; height: 380px;}
+	.fixed-plans .pricePlans {max-height: 95px;}
+	.fixed-plans .pricePlans .planContainer .options li {line-height: 1}
+
+	.customFullScreen .pos-cont-left {height: 490px; overflow-y:scroll;}
+	.customFullScreen .pos-right-col .inner {height: 500px; overflow: hidden;}
+	.customFullScreen .fixed-plans .pricePlans {max-height: 120px;}
+	.customFullScreen .fixed-plans .planContainer .img-circle { height: 40px; width: 40px;}
+	.customFullScreen .fixed-plans .pricePlans .planContainer .options li {line-height: 1}
+	.customFullScreen .fixed-plans .pricePlans h5 {margin: 0px;}
+
+}	
+
+@media screen and (max-width: 958px) {
+.pricePlans {
+	max-width: 185px;
+	width: 20%;
+	min-width: 125px;
+}
+}
+@media screen and (min-width: 481px) and (max-width: 768px) {
+.pricePlans {
+	max-width: 125px;
+	width: 20%;
+	min-width: 100px;
+}
+.pricePlans .title h5 {margin-top: 2px; margin-bottom: 2px;}
+.pricePlans .img-circle {width: 40px; height: 40px;} 
+.pricePlans .planContainer .options li {line-height: 1.1;}
+.pricePlans .plans .plan {
+	width:100%;
+	margin: 0 2% 20px 0;
+}
+	.pos-left-col {width: 400px;}
+
+.pricePlans .plans > li:nth-child(2n) {
+	margin-right: 0;
+}
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+
+.pricePlans .plans .plan {
+	width:100%;
+	margin: 0 2% 20px 0;
+}
+
+.pricePlans .plans > li:nth-child(2n) {
+	margin-right: 0;
+}
+
+}
+
+@media screen and (min-width: 1025px) {
+
+.pricePlans {
+	margin: -1em auto !important;
+}
+
+.pricePlans .plans .plan {
+	width:100%;
+	margin: 0 1.33% 20px 0;
+
+	-webkit-transition: all .25s;
+	   -moz-transition: all .25s;
+	    -ms-transition: all .25s;
+	     -o-transition: all .25s;
+	        transition: all .25s;
+}
+
+
+.pricePlans .plans > li:last-child {
+	margin-right: 0;
+}
+
+.pricePlans .plans .plan:hover {
+	-webkit-transform: scale(1.04);
+	   -moz-transform: scale(1.04);
+	    -ms-transform: scale(1.04);
+	     -o-transform: scale(1.04);
+	        transform: scale(1.20);
+}
+
+.planContainer .button a {
+	-webkit-transition: all .25s;
+	   -moz-transition: all .25s;
+	    -ms-transition: all .25s;
+	     -o-transition: all .25s;
+	        transition: all .05s;
+}
+
+.planContainer .button a:hover {
+	background: #3e4f6a;
+	color: #fff;
+}
+
+.planContainer .button a.bestPlanButton:hover {
+	background: #ff9c70;
+	border: 2px solid #ff9c70;
+}
+
+}

@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditItemPriceMinutes_Click(ItemID) {
+        var scope = angular.element(document.getElementById("widget-PriceMinutes")).scope();
+        scope.$apply(function () {
+            scope.EditIV00151(ItemID);
+        });
+    }
+    function ShowItemImage(data) {
+        var ItemID;
+        var PhotoExtension;
+        if (data.PhotoExtension == null) {
+            ItemID = "ItemID";
+            PhotoExtension = "jpg";
+        } else {
+            ItemID = kaizenTrim(data.ItemID);
+            PhotoExtension = kaizenTrim(data.PhotoExtension);
+        }
+        var Photopath = '/Photo/ItemPhoto/' + ItemID + '.' + PhotoExtension + "?c=" + Math.random();
+        var html = kendo.format("<img alt='' onclick=\"return btnEditItemPriceMinutes_Click('" + kaizenTrim(data.ItemID) + "');return false;\" src='{0}' style='width:40px;height:35px;cursor:pointer'/>",
+            Photopath
+        );
+        return html;
+    }
+</script>
+<div>
+    @(Html.Kendo().Grid<Kaizen.Inventory.IV00151>()
+                        .Name("GridIV_ItemIV00151")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditItemPriceMinutes_Click('#:WeekDayID#','#:SiteID#','#:ItemID#');""> #:WeekDayID# </a>").Width(100).Title("Week Day ID");
+                            columns.Bound(c => c.SiteID);
+                            columns.Bound(c => c.ItemID);
+                            columns.Bound(c => c.PeriodCount);
+                            columns.Bound(c => c.StartTimeFrom);
+                            columns.Bound(c => c.EndTimeTo);
+                            columns.Bound(c => c.CurrencyCode);
+                            columns.Bound(c => c.DecimalDigit);
+                            columns.Bound(c => c.ExchangeRate);
+                            columns.Bound(c => c.IsMultiply);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing item price minutes from {0} to {1}. Total price minutes: <strong>{2}</strong>").Empty("Price Minutes Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetDataListGridIV00151", "MasterItem")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.WeekDayID)))
+    )
+</div>
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

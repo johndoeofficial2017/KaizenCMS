@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="IV_ShortageItemsController" id="widget-IV_ShortageItems">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+            <a class="btn btn-default" ng-click="Cancel();">
+                <i class="glyphicon glyphicon-remove">
+                </i><br />Cancel
+            </a>
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-12 col-lg-12">
+                    </article>
+                </div>
+                <div ng-include="Pageurl">Content from blocks goes here</div>
+            </div>
+        </div>
+    </div>
+</div>

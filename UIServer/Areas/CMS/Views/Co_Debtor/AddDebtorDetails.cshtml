@@ -1,0 +1,214 @@
+﻿@{
+    Layout = null;
+}
+<header class="button-header margin-bottom-10" style="background-color: ghostwhite;">
+    <a href="javascript:void(0);" class="btn btn-primary" 
+       ng-click="SaveDebtorDetailsData();"
+       ng-show="CM00100.Status == 1">
+        <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+    </a>
+    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateDebtorDetailsData();"
+       ng-show="CM00100.Status == 2">
+        <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+    </a>
+    <a href="javascript:void(0);" class="btn btn-default" ng-click="ClearDebtorDetails();">
+        <i class="fa fa-eraser"></i><br /> Clear
+    </a>
+</header>
+<section id="widget-grid">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+            <div class="no-padding no-border">
+                <div class="widget-body no-padding-bottom">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-sm-6 no-padding">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-2 control-label text-left">Customer Class</label>
+                                        <div class="col-sm-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-ng-model="CM00100.CUSTCLAS"
+                                                    k-data-text-field="'CUSTCLASNAME'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'CUSTCLAS'"
+                                                    k-data-source="CM00010List"
+                                                    k-on-change="ClassChanged()"
+                                                    data-bv-notempty="true"
+                                                    data-bv-notempty-message="The Class is required and cannot be empty"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                        <label class="col-sm-1 control-label text-left txt-color-red bold">CIF</label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" placeholder="Debtor ID"
+                                                       data-bv-notempty="true" maxlength="10" ng-disabled="CM00100.Status == 2"
+                                                       data-bv-notempty-message="The Debtor ID is required and cannot be empty"
+                                                       ng-model="CM00100.DebtorID" />
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_Debtor','PopUp',null,'ViewDebtor')"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left ">First Name</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text"
+                                                   placeholder="First Name" ng-model="CM00100.FirstNameEnglish" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Middle Name</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Middle Name 1" ng-model="CM00100.MiddleName1English" />
+                                        </div>
+                                        <div class="col-sm-5 no-padding-left">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Middle Name 2" ng-model="CM00100.MiddleName2English" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Middle Name</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Middle Name 3" ng-model="CM00100.MiddleName3English" />
+                                        </div>
+                                        <div class="col-sm-5 no-padding-left">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Middle Name 4" ng-model="CM00100.MiddleName4English" />
+                                        </div>
+                                    </div> 
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Arabic Full Name</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Last Name" ng-model="CM00100.ArabicFullName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Full Name</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Full Name" ng-model="CM00100.EnglishFullName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Birth Date</label>
+                                        <div class="col-sm-9">
+                                            <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                   k-ng-model="CM00100.BirthDate" style="width: 100%;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 no-padding">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-2 control-label text-left">Gender</label>
+                                        <div class="col-sm-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Gender --'"
+                                                    k-ng-model="CM00100.GenderID"
+                                                    k-value-primitive="true"
+                                                    style="width: 100%;">
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                                <option value="3">N/A</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-2 control-label text-left">Status</label>
+                                        <div class="col-sm-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Status --'"
+                                                    k-ng-model="CM00100.DebtorStatusID"
+                                                    k-data-text-field="'DebtorStatusName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'DebtorStatusID'"
+                                                    k-data-source="debtorStatuses"
+                                                    data-bv-notempty="true"
+                                                    data-bv-notempty-message="The Status is required and cannot be empty"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-2 control-label text-left">Group</label>
+                                        <div class="col-sm-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Group --'"
+                                                    k-ng-model="CM00100.GroupID"
+                                                    k-data-text-field="'GroupName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'GroupID'"
+                                                    k-data-source="debtorGroups"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                        <label class="col-sm-2 control-label text-left">Grade</label>
+                                        <div class="col-sm-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Priority --'"
+                                                    k-ng-model="CM00100.PriorityID"
+                                                    k-data-text-field="'PriorityName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'PriorityID'"
+                                                    k-data-source="debtorPriorities"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Employer No</label>
+                                        <div class="col-sm-9">
+                                            
+                                            <input class="form-control" type="text"
+                                                   placeholder="Employer No."
+                                                   ng-model="CM00100.EmployerNo1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Employer Name</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Employer Name" ng-model="CM00100.EmployerName1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Address</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text"
+                                                   placeholder="Occupation" ng-model="CM00100.AddressEnglish" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">CPR</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text"
+                                                   placeholder="CPR RNo"
+                                                   ng-model="CM00100.CPRCRNo"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col-sm-3 control-label text-left">Nationality</label>
+                                        <div class="col-sm-9">
+                                            <select kendo-drop-down-list 
+                                                    k-filter="'startswith'"
+                                                    k-ng-model="CM00100.NationalityID"
+                                                    k-data-text-field="'NationalityName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'NationalityID'"
+                                                    k-data-source="Sys00030List"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

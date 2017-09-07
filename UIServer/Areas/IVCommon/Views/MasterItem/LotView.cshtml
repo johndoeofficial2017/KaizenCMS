@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();">
+            <i class="glyphicon glyphicon-remove-circle"></i><br />Cancel
+        </a>
+    </header>
+    <div class="no-border overflow no-padding-top">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.Inventory.IV00140>()
+                                                .Name("GridIV_ItemLotLine")
+                                                .Columns(columns =>
+                                                {
+                                                    columns.Bound(c => c.LOTLineCode).Width(120).Title("Lot Code");
+                                                    columns.Bound(c => c.ItemID).Width(120).Title("Item ID");
+                                                    columns.Bound(c => c.BarCode).Width(120).Title("BarCode");
+                                                    columns.Bound(c => c.SiteID).Width(120).Title("Site ID");
+                                                    columns.Bound(c => c.LotNumber).Width(120).Title("Lot Number");
+                                                    columns.Bound(c => c.ItemQuantity).Width(120);
+                                                    columns.Bound(c => c.IsExpiryDate).Width(120);
+                                                    columns.Bound(c => c.ExpiryDate).Width(120);
+                                                    columns.Bound(c => c.LotSource).Width(100);
+                                                    columns.Bound(c => c.LotRowID).Width(100);
+                                                })
+                                                    .Excel(excel => excel.AllPages(true).FileName("LotLines.xlsx").Filterable(true))
+                                                    .Pdf(pdf => pdf.FileName("LotLines.pdf").AllPages().Date(DateTime.Now))
+                                                    .Pageable(pager => pager.Messages(messages => messages.Display("Showing Lot from {0} to {1}. Total Lots: <strong>{2}</strong>")
+                                                    .ItemsPerPage("Lot Per page").Empty("No Lot")).Refresh(true)
+                                                    .PageSizes(true).Input(true).ButtonCount(5))
+                                                    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                                    .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                                    .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+                                                    .ColumnMenu().Scrollable(scroll=>scroll.Height(500)).Filterable()
+                                                    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+                                                    .PageSize(20).Sort(sort => sort.Add(ss => ss.LOTLineCode).Descending())
+                                                    .Read(read => read.Action("GetDataListItemsGrid", "IV_Item")
+                                                    .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.LOTLineCode)))
+                                            )
+                                            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                                                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                                                 k-width="600" k-resizable="true" k-visible="false"></div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

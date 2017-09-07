@@ -1,0 +1,145 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetGenericKaizenPublicKeyWithAgentGroup() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            AgentGroup: scope.CM00105.AgentGroup,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function visualTemplate(options) {
+        var dataviz = kendo.dataviz;
+        var g = new dataviz.diagram.Group();
+        var dataItem = options.dataItem;
+        // alert(dataItem.FirstName)
+
+        if (dataItem.SupervisorID === null) {
+            g.append(new dataviz.diagram.Rectangle({
+                width: 200,
+                height: 75,
+                stroke: {
+                    width: 0
+                },
+                fill: "#C8F7C5"
+            }));
+        } else {
+            g.append(new dataviz.diagram.Rectangle({
+                width: 200,
+                height: 75,
+                stroke: {
+                    width: 0
+                },
+                fill: "#EEEEEE"
+            }));
+        }
+        g.append(new dataviz.diagram.TextBlock({
+            text: dataItem.FirstName + " " + dataItem.MidName,
+            x: 50,
+            y: 20,
+            color: "red"
+        }));
+
+        g.append(new dataviz.diagram.TextBlock({
+            text: dataItem.AgentID,
+            x: 50,
+            y: 40,
+            color: "blue"
+        }));
+
+        g.append(new dataviz.diagram.Image({
+            source: dataItem.PhonExtension == null || dataItem.PhonExtension == '' ? "/Photo/Agent/AgentID.jpg" : "/Photo/Agent/" + kaizenTrim(dataItem.AgentID) + "." + kaizenTrim(dataItem.PhonExtension),
+            x: 3,
+            y: 3,
+            width: 68,
+            height: 68
+        }));
+
+        return g;
+    };
+</script>
+<!-- Widget ID (each widget will need unique ID)-->
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban icon-large"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow no-padding-top">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body no-padding-bottom">
+            <article class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset class="margin-right-15 margin-left-15">
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Agent Group</label>
+                                        <div class="col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'contains'"
+                                                    k-option-label="'-- Select Agent Group --'"
+                                                    k-ng-model="CM00105.AgentGroup"
+                                                    k-data-text-field="'AgentGroupName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'AgentGroup'"
+                                                    k-data-source="AgentGroups"
+                                                    k-on-change="OrgAgentGroupChanged()"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </article>
+        </div>
+        <div class="row">
+            <div class="diagram-wrapper" style="margin: auto;">
+                @(Html.Kendo().Diagram()
+                .Name("diagram")
+                .DataSource(dataSource => dataSource
+                .Read(read => read
+                .Action("GetOrgAgent", "CMS_Agent").Type(HttpVerbs.Get)
+                .Data("GetGenericKaizenPublicKeyWithAgentGroup"))
+                .Model(m => m.Children("CM00105Children")))
+                .Editable(false)
+                .Layout(l => l.Type(DiagramLayoutType.Layered))
+                .ShapeDefaults(sd => sd
+                    .Visual("visualTemplate")
+                )
+                .ConnectionDefaults(cd => cd
+                    .Stroke(s => s
+                        .Color("#979797")
+                        .Width(2)
+                    )
+                )
+                )
+            </div>
+        </div>
+        <!-- End Body -->
+    </div>
+    <!-- end widget content -->
+</div>
+<!-- end widget div -->

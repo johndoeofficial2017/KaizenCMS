@@ -1,0 +1,221 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function SalePersonImage_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            $("#imgUploaded").attr('src', "");
+        } else {
+            var scope = angular.element(document.getElementById("widget-SOP_SalePerson")).scope();
+            scope.$apply(function () {
+                scope.SetPhotoExtension(responseTxt);
+            });
+        }
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="SOP00110.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="SOP00110.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="SOP00110.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        <div class="smart-form pull-right widget-toolbar">
+            <label class="checkbox">
+                <input type="checkbox" name="checkbox" ng-model="SOP00110.Inactive" />
+                <i></i>Inactive
+            </label>
+        </div>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset>
+                                <legend>
+                                    Sale Person Basic Details
+                                </legend>
+                                <div class="form-group">
+                                    <div class="col-sm-6 no-padding">
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Sales Person Type</label>
+                                            <div class="col-sm-8">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'contains'"
+                                                        k-option-label="'-- Select Type --'"
+                                                        k-ng-model="SOP00110.SalePersonTypeID"
+                                                        k-data-text-field="'SalePersonTypeName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'SalePersonTypeID'"
+                                                        k-data-source="SalesPersonTypes"
+                                                        ng-disabled="SOP00110.Status==2"
+                                                        data-bv-notempty="true"
+                                                        ata-bv-notempty-message="The Type is required and cannot be empty"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">First Name</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="First Name" ng-model="SOP00110.FirstName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Middle Name</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Middle Name" ng-model="SOP00110.MidName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Last Name</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Last Name" ng-model="SOP00110.LastName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Supervisor</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Supervisor ID" ng-model="SOP00110.SupervisorID" readonly />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_SalePerson','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Employee</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Employee ID" ng-model="SOP00110.EmployeeID" readonly />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('HR_Co_Employee','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">User</label>
+                                            <div class="col-sm-8"> 
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="User Code" ng-model="SOP00110.UserCode" readonly />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('KaizenUser')"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Site</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Site ID" readonly
+                                                           ng-model="SOP00110.SiteID" />
+                                                    <div class="input-group-btn input-group-sm">
+                                                        <a href="javascript:void(0);" ng-click="OpenkendoWindow('INV_Site','PopUp')" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Bin</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" ng-model="SOP00110.BinID" ng-change="BinChanged()">
+                                                    <option value="{{bin.BinID}}" ng-selected="bin.BinID == SOP00110.BinID" ng-repeat="bin in SiteBins">{{bin.BinName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15" ng-show="SOP00110.IsBinGroup">
+                                            <label class="col-sm-4 control-label text-left">Sub Bin</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" ng-model="SOP00110.SubBinID">
+                                                    <option value="{{bin.SubBinID}}" ng-repeat="bin in SiteSubBins">{{bin.SubBinName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 no-padding">
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Sale Person ID</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" placeholder="Sale Person ID"
+                                                       data-bv-notempty="true" maxlength="10"
+                                                       ng-disabled="SOP00110.Status==2"
+                                                       data-bv-notempty-message="The Sale Person ID is required and cannot be empty"
+                                                       ng-model="SOP00110.SalePersonID" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Email Address</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Email Address" ng-model="SOP00110.EmailAddress" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Direct Phone</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Direct Phone" ng-model="SOP00110.DirectPhon" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Default Customer</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Default Customer" ng-model="SOP00110.SOPCUSTNMBR" readonly />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_Customer','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left"></label>
+                                            <div class="col-sm-8">
+                                                <img ng-src="{{link}}" class="img-responsive" style="width: 100%!important; height: 250px;" alt="img">
+                                                <ul class="list-inline">
+                                                    <li style="width:100%;">
+                                                        @(Html.Kendo().Upload().Name("attachments")
+                                                                    .Async(async => async.Save("SaveImageTemp", "SOP_SalePerson")
+                                                                    .Remove("RemoveImagetemp", "SOP_SalePerson"))
+                                                                    .Events(e => e.Success("SalePersonImage_onSuccess"))
+                                                        )
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

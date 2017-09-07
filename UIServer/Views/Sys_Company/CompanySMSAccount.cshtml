@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+    </header>
+
+    
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Company SMS Account Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Company</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="Company.SelectedCompany"
+                                                            k-options="CompanyHasOptions"
+                                                            k-on-change="CompanyChangedForSMSAccount()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">SMS Account Code</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control input-sm" placeholder="SMS Account Code"
+                                                           ng-model="Kaizen00040.SMSAccountCode" char-limit="10" maxlength="10" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">SMS Account Name</label>
+                                                <div class="col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control input-sm" placeholder="SMS Account Name"
+                                                           ng-model="Kaizen00040.SMSAccountName" char-limit="50" maxlength="50" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-controls">
+                                    <button class="btn btn-primary" ng-click="AddSMSAccount()" ng-show="Kaizen00040.status == 0 || Kaizen00040.status == 1">Add SMS Account</button>
+                                    <button class="btn btn-primary" ng-click="UpdateSMSAccount()" ng-show="Kaizen00040.status == 2">Update SMS Account</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="SMSAccountList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-align-center">Company ID</th>
+                                            <th class="text-align-center">SMS Account Code</th>
+                                            <th class="text-align-center">SMS Account Name</th>
+                                            <th class="text-align-center">Edit</th>
+                                            <th class="text-align-center">Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="smsAccount in SMSAccountList" ng-class="{'deleted':smsAccount.status== 3}">
+                                            <td class="col-md-2">{{smsAccount.CompanyID}}</td>
+                                            <td class="col-md-2">{{smsAccount.SMSAccountCode}}</td>
+                                            <td class="col-md-4">{{smsAccount.SMSAccountName}}</td>
+                                            <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                <a href="" ng-click="EditSMSAccount(smsAccount)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                            </td>
+                                            <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                <a href="" ng-click="RemoveSMSAccount(smsAccount,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

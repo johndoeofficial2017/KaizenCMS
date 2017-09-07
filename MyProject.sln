@@ -1,0 +1,129 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.Admin", "Kaizen.Admin\Kaizen.Admin.csproj", "{84A7F7E1-8B92-45FE-AC96-7E0E037464D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.Configuration", "Kaizen.Configuration\Kaizen.Configuration.csproj", "{DAE51895-6E40-41E9-8E7E-E3A13308DEA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.CMS", "Kaizen.CMS\Kaizen.CMS.csproj", "{98F5F53B-E306-44A2-8F91-D2D9EBC27829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.GL", "Kaizen.GL\Kaizen.GL.csproj", "{6839431A-1428-4C7D-AE7E-5B0ACC4ED4C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.HumanResources", "Kaizen.HumanResources\Kaizen.HumanResources.csproj", "{4FA00C0B-FF05-4C06-B29B-A74C54F72687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.Inventory", "Kaizen.Inventory\Kaizen.Inventory.csproj", "{68944D7C-BEAE-440B-B347-EBE5D7B62692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.Purchase", "Kaizen.Purchase\Kaizen.Purchase.csproj", "{EBC6A029-DD41-46C0-972C-DE81815D932E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.SOP", "Kaizen.SOP\Kaizen.SOP.csproj", "{4409B8EB-2B6E-4664-BEFF-B398FC30A06C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.BusinessLogic", "BusinessLogic\Kaizen.BusinessLogic.csproj", "{2BAF5267-FD42-4C94-A1EE-68298104C30A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIServer", "UIServer\UIServer.csproj", "{D16A1490-D6DF-4276-BAC8-0AC49E6B2F12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.Medical", "Kaizen.Medical\Kaizen.Medical.csproj", "{D45B534B-1026-4987-BC76-21DA8BEB20EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaizen.PBX", "Kaizen.PBX\Kaizen.PBX.csproj", "{84A55329-1A64-4CD1-8AAB-8EF46C7CEC20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84A7F7E1-8B92-45FE-AC96-7E0E037464D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A7F7E1-8B92-45FE-AC96-7E0E037464D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A7F7E1-8B92-45FE-AC96-7E0E037464D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A7F7E1-8B92-45FE-AC96-7E0E037464D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAE51895-6E40-41E9-8E7E-E3A13308DEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAE51895-6E40-41E9-8E7E-E3A13308DEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAE51895-6E40-41E9-8E7E-E3A13308DEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAE51895-6E40-41E9-8E7E-E3A13308DEA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F5F53B-E306-44A2-8F91-D2D9EBC27829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F5F53B-E306-44A2-8F91-D2D9EBC27829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F5F53B-E306-44A2-8F91-D2D9EBC27829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F5F53B-E306-44A2-8F91-D2D9EBC27829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6839431A-1428-4C7D-AE7E-5B0ACC4ED4C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6839431A-1428-4C7D-AE7E-5B0ACC4ED4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6839431A-1428-4C7D-AE7E-5B0ACC4ED4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6839431A-1428-4C7D-AE7E-5B0ACC4ED4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA00C0B-FF05-4C06-B29B-A74C54F72687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA00C0B-FF05-4C06-B29B-A74C54F72687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA00C0B-FF05-4C06-B29B-A74C54F72687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA00C0B-FF05-4C06-B29B-A74C54F72687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68944D7C-BEAE-440B-B347-EBE5D7B62692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68944D7C-BEAE-440B-B347-EBE5D7B62692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68944D7C-BEAE-440B-B347-EBE5D7B62692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68944D7C-BEAE-440B-B347-EBE5D7B62692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC6A029-DD41-46C0-972C-DE81815D932E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC6A029-DD41-46C0-972C-DE81815D932E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC6A029-DD41-46C0-972C-DE81815D932E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC6A029-DD41-46C0-972C-DE81815D932E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4409B8EB-2B6E-4664-BEFF-B398FC30A06C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4409B8EB-2B6E-4664-BEFF-B398FC30A06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4409B8EB-2B6E-4664-BEFF-B398FC30A06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BAF5267-FD42-4C94-A1EE-68298104C30A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BAF5267-FD42-4C94-A1EE-68298104C30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BAF5267-FD42-4C94-A1EE-68298104C30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BAF5267-FD42-4C94-A1EE-68298104C30A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16A1490-D6DF-4276-BAC8-0AC49E6B2F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16A1490-D6DF-4276-BAC8-0AC49E6B2F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16A1490-D6DF-4276-BAC8-0AC49E6B2F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16A1490-D6DF-4276-BAC8-0AC49E6B2F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45B534B-1026-4987-BC76-21DA8BEB20EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45B534B-1026-4987-BC76-21DA8BEB20EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45B534B-1026-4987-BC76-21DA8BEB20EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45B534B-1026-4987-BC76-21DA8BEB20EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84A55329-1A64-4CD1-8AAB-8EF46C7CEC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A55329-1A64-4CD1-8AAB-8EF46C7CEC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A55329-1A64-4CD1-8AAB-8EF46C7CEC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A55329-1A64-4CD1-8AAB-8EF46C7CEC20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 13
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://kaizenweb:6666/tfs/kaizencode
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = UIServer\\UIServer.csproj
+		SccProjectName1 = UIServer
+		SccLocalPath1 = UIServer
+		SccProjectUniqueName2 = Kaizen.GL\\Kaizen.GL.csproj
+		SccProjectName2 = Kaizen.GL
+		SccLocalPath2 = Kaizen.GL
+		SccProjectUniqueName3 = Kaizen.HumanResources\\Kaizen.HumanResources.csproj
+		SccProjectName3 = Kaizen.HumanResources
+		SccLocalPath3 = Kaizen.HumanResources
+		SccProjectUniqueName4 = Kaizen.Inventory\\Kaizen.Inventory.csproj
+		SccProjectName4 = Kaizen.Inventory
+		SccLocalPath4 = Kaizen.Inventory
+		SccProjectUniqueName5 = Kaizen.Purchase\\Kaizen.Purchase.csproj
+		SccProjectName5 = Kaizen.Purchase
+		SccLocalPath5 = Kaizen.Purchase
+		SccProjectUniqueName6 = Kaizen.SOP\\Kaizen.SOP.csproj
+		SccProjectName6 = Kaizen.SOP
+		SccLocalPath6 = Kaizen.SOP
+		SccProjectUniqueName7 = Kaizen.Admin\\Kaizen.Admin.csproj
+		SccProjectName7 = Kaizen.Admin
+		SccLocalPath7 = Kaizen.Admin
+		SccProjectUniqueName8 = BusinessLogic\\Kaizen.BusinessLogic.csproj
+		SccProjectName8 = BusinessLogic
+		SccLocalPath8 = BusinessLogic
+		SccProjectUniqueName9 = Kaizen.CMS\\Kaizen.CMS.csproj
+		SccProjectName9 = Kaizen.CMS
+		SccLocalPath9 = Kaizen.CMS
+		SccProjectUniqueName10 = Kaizen.Configuration\\Kaizen.Configuration.csproj
+		SccProjectName10 = Kaizen.Configuration
+		SccLocalPath10 = Kaizen.Configuration
+		SccProjectUniqueName11 = Kaizen.Medical\\Kaizen.Medical.csproj
+		SccProjectName11 = Kaizen.Medical
+		SccLocalPath11 = Kaizen.Medical
+		SccProjectUniqueName12 = Kaizen.PBX\\Kaizen.PBX.csproj
+		SccProjectName12 = Kaizen.PBX
+		SccLocalPath12 = Kaizen.PBX
+	EndGlobalSection
+EndGlobal

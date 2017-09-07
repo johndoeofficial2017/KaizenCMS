@@ -1,0 +1,198 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetSubBinListWithBin() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            BinID: scope.IV00021.BinID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditSubBinbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-INV_Site")).scope();
+        scope.$apply(function () {
+            scope.IV00021 = dataItem;
+            scope.IV00021.Status = 2;
+        });
+    };
+    function DeleteSubBinbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-INV_Site")).scope();
+        scope.$apply(function () {
+            scope.IV00021 = dataItem;
+            scope.IV00021.Status = 3;
+            scope.DeleteSubBin();
+        });
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveItemCustomer();"
+           ng-show="IV00021.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateItemCustomer();"
+           ng-show="IV00021.Status == 2">
+            <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body no-margin-bottom">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Site</label>
+                                        <label class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Site ID"
+                                                       ng-model="IV00011.SiteID" readonly />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" 
+                                                            ng-click="OpenkendoWindow('IV_Site',null,'SubBin')">
+                                                    <span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                        <label class="col col-md-2 control-label">Bin</label>
+                                        <label class="input col col-md-4">
+                                            <select kendo-drop-down-list id="Bins"
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Bin --'"
+                                                    k-ng-model="IV00021.BinID"
+                                                    k-data-text-field="'BinName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'BinID'"
+                                                    k-data-source="SiteBins"
+                                                    k-on-change="BinChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Sub Bin ID</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Sub Bin Name"
+                                                   ng-disabled="IV00021.Status == 2 || IV00021.Status == 3"
+                                                   ng-model="IV00021.SubBinID" maxlength="15" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Sub Bin Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Sub Bin Name"
+                                                   ng-model="IV00021.SubBinName" maxlength="50" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row form-actions margin-bottom-5">
+                                    <section class="col-md-12 text-left">
+                                        <button class="btn btn-primary" ng-click="SaveSubBin()" ng-show="IV00021.Status == 1">
+                                            <i class="fa fa-plus-square"></i> Add Sub Bin
+                                        </button>
+                                        <button class="btn btn-primary" ng-click="UpdateSubBin()" ng-show="IV00021.Status == 2">
+                                            <i class="fa fa-edit"></i> Update Sub Bin
+                                        </button>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="IV00011.SiteID != '' && IV00011.SiteID != undefined && IV00021.BinID != '' && IV00021.BinID != undefined">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.Inventory.IV00021>()
+                                            .Name("GridINV_Set_SubBin")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.SubBinID).Width(200).Title("Sub Bin ID");
+                                                columns.Bound(c => c.SubBinName).Width(250).Title("Sub Bin Name");
+                                                columns.Group(g => g.Title("Actions")
+                                                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .Columns(location =>
+                                                {
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Edit").Click("EditSubBinbtn")
+                                                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                                                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Delete").Click("DeleteSubBinbtn")
+                                                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                                                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                })
+                                                );
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Sub Bin from {0} to {1}. Total Sub Bins: <strong>{2}</strong>")
+                                            .ItemsPerPage("Sub Bin Per page").Empty("No Sub Bin Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetSubBinListGridWithBin", "INV_Site")
+                                            .Type(HttpVerbs.Get).Data("GetSubBinListWithBin"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.SubBinID);
+                                                model.Field(o => o.BinID);
+                                                model.Field(o => o.SubBinID);
+                                                model.Field(o => o.SubBinName);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

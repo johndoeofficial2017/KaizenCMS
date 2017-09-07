@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        <a ng-click="LoadCM20203Page('DelinquencyCycleDown');" class="text-middle btn btn-header btn-warning">
+            Rolled-back
+        </a>
+        <a ng-click="LoadCM20203Page('DelinquencyCycle');" class="text-middle btn btn-default btn-header btn-success">
+            Not Rolled
+        </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col-md-2 control-label">Data Source</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <select kendo-drop-down-list k-ng-model="SelectedLookUp.SelectedDocType"
+                                                        k-options="CaseTypeOptions"
+                                                        k-on-change="GridRefresh('GridCMS_CaseAssign')"
+                                                        style="width:200PX"></select>
+                                            </div>
+                                        </label>
+                                        <label class="col-md-2 control-label">Category</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Replaced Agent ID"
+                                                       ng-model="MainFilter.ClientName" readonly />
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default"
+                                                            ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'ClientCases')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col-md-2 control-label"></label>
+                                        <label class="col-md-4">
+                                            <select kendo-drop-down-list k-ng-model='MainFilter.YearCode'
+                                                    k-on-change='FillPeriod()'
+                                                    k-options='YearCodelistOptions'
+                                                    style='width: 200PX;'
+                                                    k-value-primitive='true'></select>
+                                        </label>
+                                        <label class="col-md-2 control-label">Product</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="ContractName"
+                                                       ng-model="MainFilter.ContractName" readonly />
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default"
+                                                            ng-click="OpenkendoWindowForm('CMS','CMS_Contract','PopUpByClient',MainFilter.ClientID,'Main')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col-md-2 control-label"></label>
+                                        <label class="col-md-4">
+                                            <select kendo-drop-down-list k-ng-model='MainFilter.PERIODID'
+                                                    k-on-change='ViewChanged()'
+                                                    k-options='PERIODIDDropDownlistOptions'
+                                                    id='CaseArchivPeriodDownlistOptions'
+                                                    style='width: 200PX;'
+                                                    k-value-primitive='true'></select>
+                                        </label>
+                                        <label class="col-md-2 control-label"></label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div>
+
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

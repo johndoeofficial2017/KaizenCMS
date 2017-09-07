@@ -1,0 +1,1261 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function ClientImage_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            $("#imgUploaded").attr('src', "");
+        } else {
+            var scope = angular.element(document.getElementById("widget-CO_Legal")).scope();
+            scope.$apply(function () {
+                scope.SetPhotoExtension(responseTxt);
+            });
+        }
+    };
+    function GetAddressListWithClient() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            ClientID: scope.CM00140.ClientID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditAddressbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CO_Legal")).scope();
+        scope.$apply(function () {
+            scope.CM00141 = dataItem;
+            scope.CM00141.Status = 2;
+        });
+    };
+    function DeleteAddressbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CO_Legal")).scope();
+        scope.$apply(function () {
+            scope.CM00141 = dataItem;
+            scope.CM00141.Status = 3;
+            scope.DeleteClientAddress();
+        });
+    };
+    function AddressTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CO_Legal")).scope();
+        element.kendoDropDownList({
+            dataTextField: "AddressTypeName",
+            dataValueField: "AddressCodeType",
+            dataSource: scope.ClientAddressTypes,
+            optionLabel: "--Select Type--"
+        });
+    };
+
+</script>
+<section id="widget-grid">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <header class="button-header">
+                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveData();"
+                       ng-show="CM00140.Status == 1">
+                        <i class=" glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateData();"
+                       ng-show="CM00140.Status == 2">
+                        <i class=" glyphicon glyphicon-edit"></i><br /> Update & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Delete();"
+                       ng-show="CM00140.Status == 2">
+                        <i class="glyphicon glyphicon-remove"></i><br /> Delete
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+                        <i class="fa fa-eraser"></i><br /> Clear
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                        <i class="fa fa-ban"></i><br /> Cancel
+                    </a>
+                    <div class="smart-form pull-right widget-toolbar">
+                        <label class="checkbox">
+                            <input type="checkbox" name="checkbox" ng-model="CM00140.IsActive" ng-change="ActiveChanged()" />
+                            <i></i>Is Active
+                        </label>
+                    </div>
+                    <div class="smart-form pull-right widget-toolbar">
+                        <label class="checkbox">
+                            <input type="checkbox" name="checkbox" ng-model="CM00140.IsHold" ng-change="HoldChanged()" />
+                            <i></i>Is Hold
+                        </label>
+                    </div>
+                </header>
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="CO_LegalForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="tabs-left">
+                                <ul class="nav nav-tabs tabs-left" id="demo-pill-nav">
+                                    <li class="active">
+                                        <a href="#tabLabel-r1" data-toggle="tab" aria-expanded="true"><span class="glyphicon glyphicon-user"></span> Basic Detail</a>
+                                    </li>
+                                    <li class="" ng-click="OnAddressTabSelected();">
+                                        <a href="#tabLabel-r2" data-toggle="tab" aria-expanded="false"><span class="glyphicon glyphicon-map-marker"></span> Address Details</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="border: 0px;">
+                                    <div class="tab-pane active" id="tabLabel-r1">
+                                        <fieldset>
+                                            <div class="widget-body">
+                                                <ul id="CMS_CO_ClientTab" class="nav nav-tabs bordered" style="background-color: beige;">
+                                                    <li class="active">
+                                                        <a href="#CO_Legal_Info1" data-toggle="tab" aria-expanded="true">Details</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#CO_Legal_Info2" data-toggle="tab" aria-expanded="false">Main Address</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#CO_Legal_Info3" data-toggle="tab" aria-expanded="false">Bill Address</a>
+                                                    </li>
+                                                </ul>
+                                                <div id="CO_LegalTabContent" class="tab-content padding-10">
+                                                    <div class="tab-pane fade active in" id="CO_Legal_Info1">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6 no-padding">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Legal Class</label>
+                                                                    <div class="col-sm-4">
+                                                                        <select kendo-drop-down-list
+                                                                                k-filter="'contains'"
+                                                                                k-option-label="'-- Select Class --'"
+                                                                                k-ng-model="CM00140.LegalClassID"
+                                                                                k-data-text-field="'LegalClassName'"
+                                                                                k-value-primitive="true"
+                                                                                k-data-value-field="'LegalClassID'"
+                                                                                k-data-source="legalClasses"
+                                                                                k-on-change="OnClassChanged()"
+                                                                                ng-disabled="CM00140.Status==2"
+                                                                                data-bv-notempty="true"
+                                                                                data-bv-notempty-message="The Class is required and cannot be empty"
+                                                                                style="width: 100%"></select>
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left txt-color-red bold">Legal ID</label>
+                                                                    <div class="col-sm-3">
+                                                                        <input class="form-control" type="text" placeholder="Legal ID"
+                                                                               data-bv-notempty="true" maxlength="15" ng-disabled="CM00140.Status==2"
+                                                                               data-bv-notempty-message="The Legal ID is required and cannot be empty"
+                                                                               ng-model="CM00140.LegalID" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Legal Name</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" maxlength="10"
+                                                                               placeholder="Legal Name" ng-model="CM00140.LegalName" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Short Name</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" maxlength="50"
+                                                                               placeholder="Short Name" ng-model="CM00140.ShortName" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Status</label>
+                                                                    <div class="col-sm-9">
+                                                                        <select kendo-drop-down-list
+                                                                                k-filter="'contains'"
+                                                                                k-option-label="'-- Select Status --'"
+                                                                                k-ng-model="CM00140.StatusID"
+                                                                                k-data-text-field="'StatusName'"
+                                                                                k-value-primitive="true"
+                                                                                k-data-value-field="'StatusID'"
+                                                                                k-data-source="legalStatuses"
+                                                                                data-bv-notempty="true"
+                                                                                data-bv-notempty-message="The Status is required and cannot be empty"
+                                                                                style="width: 100%"></select>
+                                                                    </div>
+                                                                </div>
+                                                                @*<div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Parent</label>
+                                                                    <div class="col-sm-9">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" placeholder="Parent ID" ng-model="CM00140.ParentClientID" readonly>
+                                                                            <span class="input-group-btn input-group-sm">
+                                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_CO_Client','PopUp',null,'ParentClient')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5" ng-show="CM00140.Status == 2">
+                                                                    <label class="col-sm-3 control-label text-left">Contact Person</label>
+                                                                    <div class="col-sm-9">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" placeholder="Contact Person" ng-model="CM00140.ContactTypeID" readonly />
+                                                                            <span class="input-group-btn input-group-sm">
+                                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_CO_Client','ClientContactPopUp',CM00140.ClientID)"><span class="glyphicon glyphicon-search"></span></button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Claim Amount</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" class="form-control" placeholder="Claim Amount"
+                                                                               ng-model="CM00140.ClaimAmount" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Finance Charge</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" class="form-control" placeholder="Finance Charge"
+                                                                               ng-model="CM00140.FinanceCharge" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Total Collected</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" class="form-control" placeholder="Total Collacted AMT"
+                                                                               ng-model="CM00140.TotalCallactedAMT" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Total Cases</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" class="form-control" placeholder="Total Case Number"
+                                                                               ng-model="CM00140.TotalCaseNumber" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Partner Description</label>
+                                                                    <div class="col-sm-9">
+                                                                        <textarea class="form-control" rows="4" ng-model="CM00140.PartnerDescription"
+                                                                                  placeholder="Client Description"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 no-padding">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-4 control-label text-left"></label>
+                                                                    <div class="col-sm-8">
+                                                                        <img ng-src="{{link}}" class="img-responsive" style="width: 100%!important; height: 250px;" alt="img">
+                                                                        <ul class="list-inline">
+                                                                            <li style="width:100%;">
+                                                                                @(Html.Kendo().Upload().Name("attachments")
+                                                                                    .Async(async => async.Save("SaveImageTemp", "CO_Legal")
+                                                                                    .Remove("RemoveImagetemp", "CO_Legal"))
+                                                                                    .Events(e => e.Success("ClientImage_onSuccess"))
+                                                                                )
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="CO_Legal_Info2">
+                                                        <div class="form-group">
+                                                            <!-- TABS START -->
+                                                            <article class="col-md-12 col-lg-12">
+                                                                <div class="row no-padding">
+                                                                    <div class="widget-body">
+                                                                        <div class="row">
+                                                                            <section class="col-sm-12">
+                                                                                <label class="col col-md-2 control-label">Main Address</label>
+                                                                                <label class="input col-md-4">
+                                                                                    <select kendo-drop-down-list
+                                                                                            k-filter="'startswith'"
+                                                                                            k-option-label="'-- Select Address Type --'"
+                                                                                            k-ng-model="CM00140.AddressCode"
+                                                                                            k-data-text-field="'AddressTypeName'"
+                                                                                            k-value-primitive="true"
+                                                                                            k-data-value-field="'AddressCodeType'"
+                                                                                            k-data-source="LegalAddressTypes"
+                                                                                            k-on-change="MainAddressTypeChanged()"
+                                                                                            style="width: 100%"></select>
+                                                                                </label>
+                                                                                <label class="col col-md-2 control-label">Address Type Name</label>
+                                                                                <label class="input col-md-4">
+                                                                                    <input type="text" class="form-control" maxlength="100" disabled
+                                                                                           placeholder="Address Name" ng-model="CM00140.MainAddress.AddressName" />
+                                                                                </label>
+                                                                            </section>
+                                                                        </div>
+
+                                                                        <ul id="CO_PartnerMainAddress" class="nav nav-tabs bordered">
+                                                                            <li class="active">
+                                                                                <a data-toggle="tab" href="#s1-tabPartnerMainAddress">Address</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s2-tabPartnerMainAddress">Phone</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s3-tabPartnerMainAddress">Mobile</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s4-tabPartnerMainAddress">Email</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s5-tabPartnerMainAddress">Other</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s6-tabPartnerMainAddress">Ext</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div id="CO_PartnerMainAddressTabContent" class="smart-form tab-content padding-10">
+                                                                            <div class="tab-pane fade active in" id="s1-tabPartnerMainAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 1</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 1" ng-model="CM00140.MainAddress.Address1" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 2</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 2" ng-model="CM00140.MainAddress.Address2" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 3</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 3" ng-model="CM00140.MainAddress.Address3" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 4</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 4" ng-model="CM00140.MainAddress.Address4" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Country</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <select kendo-drop-down-list disabled
+                                                                                                        k-filter="'startswith'"
+                                                                                                        k-option-label="'-- Select Country --'"
+                                                                                                        k-ng-model="CM00140.MainAddress.CountryID"
+                                                                                                        k-data-text-field="'CountryName'"
+                                                                                                        k-value-primitive="true"
+                                                                                                        k-data-value-field="'CountryID'"
+                                                                                                        k-data-source="Countries"
+                                                                                                        style="width: 100%"></select>
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">City</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <select kendo-drop-down-list disabled
+                                                                                                        k-filter="'startswith'"
+                                                                                                        k-option-label="'-- Select City --'"
+                                                                                                        k-ng-model="CM00140.MainAddress.CityID"
+                                                                                                        k-data-text-field="'CityName'"
+                                                                                                        k-value-primitive="true"
+                                                                                                        k-data-value-field="'CityID'"
+                                                                                                        k-data-source="Cities"
+                                                                                                        style="width: 100%"></select>
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Website:</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="50" disabled
+                                                                                                       placeholder="Website" ng-model="CM00140.MainAddress.WebSite" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">POBox:</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="50" disabled
+                                                                                                       placeholder="Website" ng-model="CM00140.MainAddress.POBox" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s2-tabPartnerMainAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Phone 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 01"
+                                                                                                       ng-model="CM00140.MainAddress.Pnone01" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Phone 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 02"
+                                                                                                       ng-model="CM00140.MainAddress.Pnone02" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Phone 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 03"
+                                                                                                       ng-model="CM00140.MainAddress.Pnone03" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Phone 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 04"
+                                                                                                       ng-model="CM00140.MainAddress.Pnone04" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s3-tabPartnerMainAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Mobile 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 01"
+                                                                                                       ng-model="CM00140.MainAddress.MobileNo1" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Mobile 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 02"
+                                                                                                       ng-model="CM00140.MainAddress.MobileNo2" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Mobile 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 03"
+                                                                                                       ng-model="CM00140.MainAddress.MobileNo3" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Mobile 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 04"
+                                                                                                       ng-model="CM00140.MainAddress.MobileNo4" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s4-tabPartnerMainAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Email 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 01"
+                                                                                                       ng-model="CM00140.MainAddress.Email01" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Email 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 02"
+                                                                                                       ng-model="CM00140.MainAddress.Email02" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Email 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 03"
+                                                                                                       ng-model="CM00140.MainAddress.Email03" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Email 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 04"
+                                                                                                       ng-model="CM00140.MainAddress.Email04" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s5-tabPartnerMainAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Other 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 1" ng-model="CM00140.MainAddress.Other01" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Other 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 2" ng-model="CM00140.MainAddress.Other02" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Other 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 3" ng-model="CM00140.MainAddress.Other03" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Other 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 4" ng-model="CM00140.MainAddress.Other04" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s6-tabPartnerMainAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Ext 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 1" ng-model="CM00140.MainAddress.Ext1" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Ext 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 2" ng-model="CM00140.MainAddress.Ext2" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Ext 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 3" ng-model="CM00140.MainAddress.Ext3" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Ext 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 4" ng-model="CM00140.MainAddress.Ext4" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </article>
+                                                            <!-- TABS END -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="CO_Legal_Info3">
+                                                        <div class="form-group">
+                                                            <!-- TABS START -->
+                                                            <article class="col-md-12 col-lg-12">
+                                                                <div class="row no-padding">
+                                                                    <div class="widget-body">
+                                                                        <div class="row">
+                                                                            <section class="col-sm-12">
+                                                                                <label class="col col-md-2 control-label">Bill Address</label>
+                                                                                <label class="input col-md-4">
+                                                                                    <select kendo-drop-down-list
+                                                                                            k-filter="'startswith'"
+                                                                                            k-option-label="'-- Select Address Type --'"
+                                                                                            k-ng-model="CM00140.BillAddressCode"
+                                                                                            k-data-text-field="'AddressCodeType'"
+                                                                                            k-value-primitive="true"
+                                                                                            k-data-value-field="'AddressCodeType'"
+                                                                                            k-data-source="LegalAddressTypes"
+                                                                                            k-on-change="BillAddressTypeChanged()"
+                                                                                            style="width: 100%"></select>
+                                                                                </label>
+                                                                                <label class="col col-md-2 control-label">Address Type Name</label>
+                                                                                <label class="input col-md-4">
+                                                                                    <input type="text" class="form-control" maxlength="100" disabled
+                                                                                           placeholder="Address Name" ng-model="CM00140.BillAddress.AddressName" />
+                                                                                </label>
+                                                                            </section>
+                                                                        </div>
+
+                                                                        <ul id="CO_PartnerBillAddress" class="nav nav-tabs bordered">
+                                                                            <li class="active">
+                                                                                <a data-toggle="tab" href="#s1-tabPartnerBillAddress">Address</a>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s2-tabPartnerBillAddress">Phone</a>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s3-tabPartnerBillAddress">Mobile</a>
+                                                                            </li>
+
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s4-tabPartnerBillAddress">Email</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s5-tabPartnerBillAddress">Other</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a data-toggle="tab" href="#s6-tabPartnerBillAddress">Ext</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div id="CO_PartnerBillAddressTabContent" class="smart-form tab-content padding-10">
+                                                                            <div class="tab-pane fade active in" id="s1-tabPartnerBillAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 1</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 1" ng-model="CM00140.BillAddress.Address1" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 2</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 2" ng-model="CM00140.BillAddress.Address2" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 3</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 3" ng-model="CM00140.BillAddress.Address3" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Address 4</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Address 4" ng-model="CM00140.BillAddress.Address4" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Country</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <select kendo-drop-down-list disabled
+                                                                                                        k-filter="'startswith'"
+                                                                                                        k-option-label="'-- Select Country --'"
+                                                                                                        k-ng-model="CM00140.BillAddress.CountryID"
+                                                                                                        k-data-text-field="'CountryName'"
+                                                                                                        k-value-primitive="true"
+                                                                                                        k-data-value-field="'CountryID'"
+                                                                                                        k-data-source="Countries"
+                                                                                                        style="width: 100%"></select>
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">City</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <select kendo-drop-down-list disabled
+                                                                                                        k-filter="'startswith'"
+                                                                                                        k-option-label="'-- Select City --'"
+                                                                                                        k-ng-model="CM00140.BillAddress.CityID"
+                                                                                                        k-data-text-field="'CityName'"
+                                                                                                        k-value-primitive="true"
+                                                                                                        k-data-value-field="'CityID'"
+                                                                                                        k-data-source="Cities"
+                                                                                                        style="width: 100%"></select>
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Website:</label>
+                                                                                            <label class="input col-md-10">
+                                                                                                <input type="text" class="form-control" maxlength="50" disabled
+                                                                                                       placeholder="Website" ng-model="CM00140.BillAddress.WebSite" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s2-tabPartnerBillAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Phone 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 01"
+                                                                                                       ng-model="CM00140.BillAddress.Pnone01" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Phone 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 02"
+                                                                                                       ng-model="CM00140.BillAddress.Pnone02" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Phone 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 03"
+                                                                                                       ng-model="CM00140.BillAddress.Pnone03" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Phone 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Phone 04"
+                                                                                                       ng-model="CM00140.BillAddress.Pnone04" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s3-tabPartnerBillAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Mobile 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 01"
+                                                                                                       ng-model="CM00140.BillAddress.MobileNo1" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Mobile 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 02"
+                                                                                                       ng-model="CM00140.BillAddress.MobileNo2" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Mobile 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 03"
+                                                                                                       ng-model="CM00140.BillAddress.MobileNo3" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Mobile 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Mobile 04"
+                                                                                                       ng-model="CM00140.BillAddress.MobileNo4" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s4-tabPartnerBillAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Email 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 01"
+                                                                                                       ng-model="CM00140.BillAddress.Email01" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Email 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 02"
+                                                                                                       ng-model="CM00140.BillAddress.Email02" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Email 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 03"
+                                                                                                       ng-model="CM00140.BillAddress.Email03" disabled />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Email 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                <input type="text" class="form-control" placeholder="Email 04"
+                                                                                                       ng-model="CM00140.BillAddress.Email04" disabled />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s5-tabPartnerBillAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Other 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 1" ng-model="CM00140.BillAddress.Other01" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Other 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 2" ng-model="CM00140.BillAddress.Other02" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Other 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 3" ng-model="CM00140.BillAddress.Other03" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Other 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Other 4" ng-model="CM00140.BillAddress.Other04" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="s6-tabPartnerBillAddress">
+                                                                                <fieldset>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Ext 1</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 1" ng-model="CM00140.BillAddress.Ext1" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Ext 2</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 2" ng-model="CM00140.BillAddress.Ext2" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <section class="col-sm-12">
+                                                                                            <label class="col col-md-2 control-label">Ext 3</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 3" ng-model="CM00140.BillAddress.Ext3" />
+                                                                                            </label>
+                                                                                            <label class="col col-md-2 control-label">Ext 4</label>
+                                                                                            <label class="input col-md-4">
+                                                                                                <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                       placeholder="Ext 4" ng-model="CM00140.BillAddress.Ext4" />
+                                                                                            </label>
+                                                                                        </section>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </article>
+                                                            <!-- TABS END -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane" id="tabLabel-r2">
+                                        <fieldset>
+                                            <legend>
+                                                Address Details
+                                            </legend>
+                                            <div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+                                                 data-widget-editbutton="false"
+                                                 data-widget-togglebutton="false"
+                                                 data-widget-deletebutton="false"
+                                                 data-widget-fullscreenbutton="false"
+                                                 data-widget-custombutton="false"
+                                                 data-widget-collapsed="false"
+                                                 data-widget-sortable="false">
+                                                <div class="no-border overflow no-padding-top">
+                                                    <div class="widget-body no-padding-bottom">
+                                                        <article class="row">
+                                                            <article class="col-md-12 col-lg-12 separator">
+                                                                <div class="row no-padding">
+                                                                    <form class="smart-form">
+                                                                        <fieldset class="margin-right-15 margin-left-15">
+                                                                            <div class="row">
+                                                                                <section class="col-sm-12">
+                                                                                    <label class="col col-md-2 control-label">Address Type</label>
+                                                                                    <label class="input col-md-4">
+                                                                                        <select kendo-drop-down-list
+                                                                                                k-filter="'startswith'"
+                                                                                                k-option-label="'-- Select Address Type --'"
+                                                                                                k-ng-model="CM00141.AddressCodeType"
+                                                                                                k-data-text-field="'AddressCodeType'"
+                                                                                                k-value-primitive="true"
+                                                                                                k-data-value-field="'AddressCodeType'"
+                                                                                                k-data-source="LegalAddressTypes"
+                                                                                                k-on-change="AddressTypeChanged()"
+                                                                                                style="width: 100%"></select>
+                                                                                    </label>
+                                                                                    <label class="col col-md-2 control-label">Address Name</label>
+                                                                                    <label class="input col-md-4">
+                                                                                        <input type="text" class="form-control" maxlength="100"
+                                                                                               placeholder="Address Name" ng-model="CM00141.AddressName" />
+                                                                                    </label>
+                                                                                </section>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <!-- TABS START -->
+                                                                                <article class="col-md-12 col-lg-12">
+                                                                                    <div class="row no-padding">
+                                                                                        <div class="widget-body">
+                                                                                            <ul id="myTab1" class="nav nav-tabs bordered">
+                                                                                                <li class="active">
+                                                                                                    <a data-toggle="tab" href="#s1-tabPartner">Address</a>
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <a data-toggle="tab" href="#s2-tabPartner">Phone</a>
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <a data-toggle="tab" href="#s3-tabPartner">Mobile</a>
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <a data-toggle="tab" href="#s4-tabPartner">Email</a>
+                                                                                                </li>
+                                                                                                <li>
+                                                                                                    <a data-toggle="tab" href="#s5-tabPartner">Other</a>
+                                                                                                </li>
+                                                                                                <li>
+                                                                                                    <a data-toggle="tab" href="#s6-tabPartner">Ext</a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                            <div id="myTabContent1" class="smart-form tab-content padding-10">
+                                                                                                <div class="tab-pane fade active in" id="s1-tabPartner">
+                                                                                                    <fieldset>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Address 1</label>
+                                                                                                                <label class="input col-md-10">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Address 1" ng-model="CM00141.Address1" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Address 2</label>
+                                                                                                                <label class="input col-md-10">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Address 2" ng-model="CM00141.Address2" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Address 3</label>
+                                                                                                                <label class="input col-md-10">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Address 3" ng-model="CM00141.Address3" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Address 4</label>
+                                                                                                                <label class="input col-md-10">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Address 4" ng-model="CM00141.Address4" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Country</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <select kendo-drop-down-list
+                                                                                                                            k-filter="'startswith'"
+                                                                                                                            k-option-label="'-- Select Country --'"
+                                                                                                                            k-ng-model="CM00141.CountryID"
+                                                                                                                            k-data-text-field="'CountryName'"
+                                                                                                                            k-value-primitive="true"
+                                                                                                                            k-data-value-field="'CountryID'"
+                                                                                                                            k-data-source="Countries"
+                                                                                                                            style="width: 100%"></select>
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">City</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <select kendo-drop-down-list
+                                                                                                                            k-filter="'startswith'"
+                                                                                                                            k-option-label="'-- Select City --'"
+                                                                                                                            k-ng-model="CM00141.CityID"
+                                                                                                                            k-data-text-field="'CityName'"
+                                                                                                                            k-value-primitive="true"
+                                                                                                                            k-data-value-field="'CityID'"
+                                                                                                                            k-data-source="Cities"
+                                                                                                                            style="width: 100%"></select>
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Website:</label>
+                                                                                                                <label class="input col-md-10">
+                                                                                                                    <input type="text" class="form-control" maxlength="50"
+                                                                                                                           placeholder="Website" ng-model="CM00141.WebSite" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">POBox:</label>
+                                                                                                                <label class="input col-md-10">
+                                                                                                                    <input type="text" class="form-control" maxlength="50"
+                                                                                                                           placeholder="Website" ng-model="CM00141.POBox" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </div>
+                                                                                                <div class="tab-pane fade" id="s2-tabPartner">
+                                                                                                    <fieldset>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Phone 1</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Phone 01"
+                                                                                                                           ng-model="CM00141.Pnone01" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Phone 2</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Phone 02"
+                                                                                                                           ng-model="CM00141.Pnone02" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Phone 3</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Phone 03"
+                                                                                                                           ng-model="CM00141.Pnone03" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Phone 4</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Phone 04"
+                                                                                                                           ng-model="CM00141.Pnone04" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </div>
+                                                                                                <div class="tab-pane fade" id="s3-tabPartner">
+                                                                                                    <fieldset>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Mobile 1</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Mobile 01"
+                                                                                                                           ng-model="CM00141.MobileNo1" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Mobile 2</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Mobile 02"
+                                                                                                                           ng-model="CM00141.MobileNo2" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Mobile 3</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Mobile 03"
+                                                                                                                           ng-model="CM00141.MobileNo3" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Mobile 4</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Mobile 04"
+                                                                                                                           ng-model="CM00141.MobileNo4" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </div>
+                                                                                                <div class="tab-pane fade" id="s4-tabPartner">
+                                                                                                    <fieldset>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Email 1</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Email 01"
+                                                                                                                           ng-model="CM00141.Email01" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Email 2</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Email 02"
+                                                                                                                           ng-model="CM00141.Email02" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Email 3</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Email 03"
+                                                                                                                           ng-model="CM00141.Email03" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Email 4</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                                    <input type="text" class="form-control" placeholder="Email 04"
+                                                                                                                           ng-model="CM00141.Email04" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </div>
+                                                                                                <div class="tab-pane fade" id="s5-tabPartner">
+                                                                                                    <fieldset>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Other 1</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Other 1" ng-model="CM00141.Other01" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Other 2</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Other 2" ng-model="CM00141.Other02" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Other 3</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Other 3" ng-model="CM00141.Other03" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Other 4</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Other 4" ng-model="CM00141.Other04" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </div>
+                                                                                                <div class="tab-pane fade" id="s6-tabPartner">
+                                                                                                    <fieldset>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Ext 1</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Ext 1" ng-model="CM00141.Ext1" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Ext 2</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Ext 2" ng-model="CM00141.Ext2" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                            <section class="col-sm-12">
+                                                                                                                <label class="col col-md-2 control-label">Ext 3</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Ext 3" ng-model="CM00141.Ext3" />
+                                                                                                                </label>
+                                                                                                                <label class="col col-md-2 control-label">Ext 4</label>
+                                                                                                                <label class="input col-md-4">
+                                                                                                                    <input type="text" class="form-control" maxlength="1000"
+                                                                                                                           placeholder="Ext 4" ng-model="CM00141.Ext4" />
+                                                                                                                </label>
+                                                                                                            </section>
+                                                                                                        </div>
+                                                                                                    </fieldset>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </article>
+                                                                                <!-- TABS END -->
+                                                                            </div>
+                                                                        </fieldset>
+                                                                        <footer ng-show="CM00140.Status == 1 || CM00140.Status == 2">
+                                                                            <a href="javascript:void(0);" ng-click="SaveLegalAddressData()" ng-show="CM00141.Status == 1"
+                                                                               class="btn btn-success pull-left">Add Address</a>
+                                                                            <a href="javascript:void(0);" ng-click="UpdateLegalAddressData()" ng-show="CM00141.Status == 2"
+                                                                               class="btn btn-success pull-left">Update Address</a>
+                                                                        </footer>
+                                                                    </form>
+                                                                </div>
+                                                            </article>
+                                                        </article>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <div class="row">
+        <div class="widget-body no-margin-bottom">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="product">Assign To</label>
+                                                <label class="input-group">
+                                                    <input type="text" class="k-textbox form-control" placeholder="Agent ID"
+                                                           ng-model="CM00203.AgentID" readonly />
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default"
+                                                                ng-click="OpenkendoWindow('CMS_Agent','PopUp',null,'Main')">
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </button>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="product">Assign Date</label>
+                                                <input kendo-date-time-picker
+                                                       k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                                       k-ng-model="CM00203.AssignDate"
+                                                       style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="">
+                                    <section class="margin-bottom-5 col-md-12 text-left">
+                                        <button class="btn btn-primary" ng-click="SaveCaseAssign()">
+                                            <i class="fa fa-plus-square"></i> Save Changes
+                                        </button>
+                                        <button class="btn btn-default" ng-click="CloseAssignHistoryWindow()">
+                                            <i class="fa fa-ban"></i> Cancel
+                                        </button>
+                                    </section>
+                                </div>
+                                <div class="">
+                                    <section class="col-md-12 no-padding">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00206>().Name("GridCMS_CaseAssignHistory")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(c => c.AssignHistoryID).Title("Case Assign ID");
+                          columns.Bound(c => c.AgentID).Title("Agent ID");
+                          columns.Bound(c => c.AssignHistoryDate).Title("Assign Date").Format("{0:dd/MM/yyyy}");
+                      })
+                      .Pageable(pager => pager.Messages(messages => messages.Display("Showing Case Assign History from {0} to {1}. Total Case Assign History: <strong>{2}</strong>")
+                          .ItemsPerPage("Case Assign History Per page").Empty("No Case Assign History Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                      .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                      .Navigatable()
+                      .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .Resizable(ss => ss.Columns(true))
+                      .ColumnMenu().Scrollable(s => s.Height(300)).Filterable()
+                      .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                          .Read(read => read.Action("GetCaseAssignHistoryDataListGrid", "CMS_Case").Type(HttpVerbs.Get)
+                              .Data("GetGenericKaizenPublicKeyWithCaseRef"))
+                          .Model(model =>
+                          {
+                              model.Id(p => p.AssignHistoryID);
+                              model.Field(p => p.AgentID);
+                              model.Field(p => p.AssignHistoryDate);
+                              model.Field(p => p.CaseRef);
+                          })
+                      )
+                                            )
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1101 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="SOP_Trx_PointOfSaleController">
+    
+    <div class="no-padding no-border overflow">
+
+        <div class="jarviswidget no-margin-b pos-cont" data-widget-colorbutton="false"
+             data-widget-editbutton="false"
+             data-widget-togglebutton="false"
+             data-widget-deletebutton="false"
+             data-widget-fullscreenbutton="false"
+             data-widget-custombutton="false"
+             data-widget-collapsed="false"
+             data-widget-sortable="false">
+
+            <header class="button-header">
+                <a class="btn btn-default">
+                    <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+                    Save &amp; Close
+                </a>
+                <a class="btn btn-default"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+                <a class="btn btn-default"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+                <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+                <a class="btn btn-default"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+                <a class="btn btn-danger btn-lg pull-right" data-toggle="modal" data-target="#remoteModal"> 100 BD </a>
+            </header>
+
+            <!-- widget div-->
+            <div class="no-border overflow no-padding-t">
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+                    <input class="form-control" type="text">
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <!-- START COPY FROM HERE -->
+                <div class="widget-body no-padding-b">
+                    <div class="row">
+                        <article class="pos-left-col padding-t10 pos-cont-left">
+                            <div class="row">
+                                <form>
+                                    <fieldset>
+                                        <div class="row">
+                                            <label class="col-xs-4">
+                                                Customer Name:
+                                            </label>
+                                            <label class="col-xs-8">
+                                                Sayed ahedm mohamed mohamed
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-xs-4">
+                                                Phone Number:
+                                            </label>
+                                            <label class="col-xs-3">
+                                                33030730
+                                            </label>
+                                            <label class="col-xs-2">
+                                                Rect:
+                                            </label>
+                                            <label class="col-xs-3">
+                                                021323232
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-xs-12">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="startdate" id="startdate" placeholder="">
+
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-search"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-right:-7px;">
+                                            <table id="user" class="table table-bordered table-centered" style="clear: both;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th class="col-md-2">UFM</th>
+                                                        <th class="col-md-2">Price</th>
+                                                        <th class="col-md-1"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>Desc</td>
+                                                        <td class="col-md-2">UFM</td>
+                                                        <td class="col-md-2">100</td>
+                                                        <td class="col-md-1">
+                                                            <a href="#">
+                                                                <i class="icon-append glyphicon glyphicon-remove font20"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </article>
+                        <!-- NEW WIDGET START -->
+                        <div id="" class="pos-right-col">
+                            <div class="inner fixed-plans">
+                                <div class="row">
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricePlans">
+                                        <ul class="plans">
+                                            <li class="plan">
+                                                <ul class="planContainer">
+                                                    <li class="title">
+                                                        <h5>Rest</h5>
+                                                    </li>
+                                                    <li class="title">
+                                                        <img class="img-circle" src="~/img/Kaizen.jpg" />
+                                                    </li>
+                                                    <li>
+                                                        <ul class="options">
+                                                            <li>
+                                                                <span>
+                                                                    Price: <span>118.75</span>
+                                                                    (<span id="" class="black">198</span>)
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <br>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                        <!-- End Body -->
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- END COPY HERE -->
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade in" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- NEW WIDGET START -->
+                    <article class="col-md-9">
+                        <!-- widget content -->
+                        <div class="widget-body">
+
+                            <div class="row no-padding">
+                                <form>
+                                    <fieldset>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Due</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <div class="input-group full-control">
+                                                        <input type="text" class="form-control" name="startdate" id="startdate" placeholder="1.000 BD">
+
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Paid</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <div class="input-group full-control">
+                                                        <input type="text" class="form-control" name="startdate" id="startdate" placeholder="0.000 BD">
+
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">To Pay</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <div class="input-group full-control">
+                                                        <input type="text" class="form-control" name="startdate" id="startdate" placeholder="1.000 BD">
+
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Cash</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <input type="text" class="form-control" name="startdate" id="startdate" placeholder="">
+
+                                                    <div class="input-group-btn">
+                                                        <a href="" class="btn btn-primary pull-right">Select</a>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Credit</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <input type="text" class="form-control" name="startdate" id="startdate" placeholder="">
+
+                                                    <div class="input-group-btn">
+                                                        <a href="" class="btn btn-primary pull-right">Select</a>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Debit</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <input type="text" class="form-control" name="startdate" id="startdate" placeholder="">
+
+                                                    <div class="input-group-btn">
+                                                        <a href="" class="btn btn-primary pull-right">Select</a>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Complimentary</label>
+                                                <div class="form-group input-group col-md-9">
+                                                    <input type="text" class="form-control" name="startdate" id="startdate" placeholder="">
+
+                                                    <div class="input-group-btn">
+                                                        <a href="" class="btn btn-primary pull-right">Select</a>
+                                                    </div>
+                                                </div>
+
+
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+                                                <label class="col-md-3">Remaining</label>
+                                                <div class="form-group input-group col-md-9">
+
+
+                                                    <div class="input-group full-control">
+                                                        <input type="text" class="form-control" name="startdate" id="startdate" placeholder="1.000 BD">
+
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col-md-12">
+
+                                                <a href="#" class="btn btn-lg btn-danger col-md-6">Cancel</a>
+                                                <a href="#" class="btn btn-lg btn-success col-md-6">Pay</a>
+
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+                        </div>
+                    </article>
+                    <article class="col-md-3 margin-top-140">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <a href="#" class="col-md-12 btn btn-lg btn-warning ">1.000 BD</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <a href="#" class="col-md-12 btn btn-lg btn-warning ">50.000 BD</a>
+                                <div class="form-group col-md-12">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <a href="#" class="col-md-12 btn btn-lg btn-warning ">100.000 BD</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <a href="#" class="col-md-12 btn btn-lg btn-warning ">Custom</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

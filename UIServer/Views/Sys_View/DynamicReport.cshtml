@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Reports";
+}
+<link href="~/ReportViewer/styles/telerikReportViewer.css" rel="stylesheet" />
+<script src="~/Scripts/kendo/2016.3.1118/kendo.web.min.js"></script>
+<script src="~/ReportViewer/js/telerikReportViewer-11.0.17.118.min.js"></script>
+<script src="~/ReportViewer/js/telerikReportViewer-11.0.17.118.js"></script>
+
+<style>
+    #reportViewer1 {
+        overflow: hidden;
+        font-family: Verdana, Arial;
+    }
+</style>
+
+<div>
+    <div id="reportViewer1" style="height:400px;width:100%;">
+        loading...
+    </div>
+    <br />
+</div>
+
+<script>
+    $(document).ready(function () {
+        //var ActiveScreenID = $("#ActiveScreenID").val();
+        var scope = angular.element(document.getElementById("main")).scope();
+        var oviewID = scope.ParmObject;
+        var CompanyID = scope.MY.CompanyID;
+        //alert(CompanyID);
+        //alert(scope.ParmObject);
+        //var YearCode = scope.MainFilter.YearCode;
+        $("#reportViewer1")
+            .telerik_ReportViewer({
+                serviceUrl: "/api/reports/",
+                
+                reportSource: {
+                    report: "UIServer.Reports.GridViewDynamic, UIServer"
+                    , parameters: { "ViewID": oviewID, "CompanyID": CompanyID }
+                },
+                viewMode: telerikReportViewer.ViewModes.INTERACTIVE,
+                scaleMode: telerikReportViewer.ScaleModes.SPECIFIC,
+                scale: 1.0,
+                ready: function () {
+                    //  this.refreshReport();
+                    //alert(DOCID);
+                },
+            });
+    });
+</script>
+
+
+
+
+

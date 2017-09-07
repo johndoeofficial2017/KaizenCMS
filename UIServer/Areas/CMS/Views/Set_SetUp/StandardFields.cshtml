@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateStandardFields();">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            <br />
+            Update
+        </a>
+    </header>
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Standard Fields Maintenance
+                                </legend>
+                            </fieldset>
+                            
+                            <fieldset ng-show="StandardFieldsList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="text-align-center">Field Name</th>
+                                                <th class="text-align-center">Field Type ID</th>
+                                                <th class="text-align-center">Field Display</th>
+                                                <th class="text-align-center">Is Required</th>
+                                                <th class="text-align-center">Field Order</th>
+                                                <th class="text-align-center">Field Width</th>
+                                                <th class="text-align-center">Is emailable</th>
+                                                <th class="text-align-center">Is Printable</th>
+                                                <th class="text-align-center">Is Active</th>
+                                                <th class="text-align-center">Is Locked</th>
+                                                <th class="text-align-center">Is Lockable</th>
+                                                <th class="text-align-center">Is Filterable</th>
+                                                <th class="text-align-center">Is Sortable</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="field in StandardFieldsList">
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Name" ng-model="field.FieldName" disabled="disabled" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" placeholder="Field Type ID" ng-model="field.FieldTypeID" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Code" ng-model="field.FieldDisplay" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.IsRequired" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Title" ng-model="field.FieldOrder" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Title" ng-model="field.FieldWidth" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.IsEmailable" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.IsPrintable" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.IsActive" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.Islocked" />
+                                                    
+                                               </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.Islockable" />
+                                                    
+                                               </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.IsFilterable" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="checkbox" name="checkbox" ng-model="field.IsSortable" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+</div>

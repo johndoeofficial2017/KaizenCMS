@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+<div id="FieldModal" style="z-index:10012;">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <span class="glyphicon glyphicon-list"></span> Fields
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <table id="fieldstable" data-ng-table="tableParams" data-show-filter="true" class="table table-bordered table-hover">
+                <thead>
+                    <tr style="text-transform: capitalize;">
+                        <th>Field ID</th>
+                        <th>Field Name</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="field in Details">
+                        <td>{{field.Index}}</td>
+                        <td>{{field.ColumnName}}</td>
+                        <td>
+                            <button class="btn btn-default" ng-click="SelectField(field)">Select</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
+
+
+
+

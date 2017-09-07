@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveSubstituteItem();">
+            <i class=" glyphicon glyphicon-floppy-disk icon-large"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-danger" ng-click="Delete();"
+           ng-show="IV00100.Status == 2">
+            <i class="glyphicon glyphicon-trash icon-default"></i><br /> Delete
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="glyphicon glyphicon-remove icon-large"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="glyphicon glyphicon-remove-circle icon-large"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Item</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Item ID"
+                                                   ng-model="IV00100.ItemID" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'Item')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Item Substitute</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Item Substitute"
+                                                   ng-model="SubstituteItemObject.ItemID" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'SubstituteItem')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <footer class="col col-md-12">
+                                <a href="javascript:void(0);" class="btn btn-default" ng-click="AddNewItem();">
+                                    <i class="glyphicon glyphicon-plus icon-large"></i><br /> Add Substitute
+                                </a>
+                            </footer>
+                            <div class="row" ng-show="SubstituteItems.length > 0">
+                                <div class="col col-md-12">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-align-center">Item ID</th>
+                                                <th class="text-align-center">Short Description</th>
+                                                <th class="text-align-center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in SubstituteItems" ng-class="{'deleted':item.status== 3}">
+                                                <td class="col-md-2">{{item.ItemID}}</td>
+                                                <td class="col-md-6">{{item.ShortDescription}}</td>
+                                                <td class="text-align-center col-md-2" style="font-size:20px;">
+                                                    <a href="" ng-click="Removeitem(item,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

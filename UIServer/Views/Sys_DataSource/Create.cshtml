@@ -1,0 +1,208 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="DT00100.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="DT00100.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="DT00100.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 col-sm-4 control-label">Source Name</label>
+                                        <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="Source Name" maxlength="50"
+                                                   ng-model="DT00100.SourceName">
+                                        </label>
+
+
+                                        <label class="col col-md-2 col-sm-4 control-label">Source Sql</label>
+                                        <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                            <input type="text" class="form-control" maxlength="4000"
+                                                   placeholder="Source Sql" ng-model="DT00100.SourceSql">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 col-sm-4 control-label">Module ID</label>
+                                        <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Module --'"
+                                                    k-ng-model="DT00100.ModuleID"
+                                                    k-data-text-field="'ModuleName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'ModuleID'"
+                                                    k-data-source="Modules"
+                                                    k-on-change="ModuleChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+
+
+                                        <label class="col col-md-2 col-sm-4 control-label">Menue Type ID</label>
+                                        <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Menue Type --'"
+                                                    k-ng-model="DT00100.MenueTypeID"
+                                                    k-data-text-field="'MenueTypeName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'MenueTypeID'"
+                                                    k-data-source="MenueTypes"
+                                                    k-on-change="MenueTypeChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 col-sm-4 control-label">Company ID</label>
+                                        <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Company --'"
+                                                    k-ng-model="DT00100.CompanyID"
+                                                    k-data-text-field="'CompanyName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'CompanyID'"
+                                                    k-data-source="CompanyList"
+                                                    k-on-change="CompanyChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+
+
+                                        <label class="col col-md-2 control-label">View Type</label>
+                                        <label class="input col col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select View Type --'"
+                                                    k-ng-model="DT00100.ViewType"
+                                                    k-data-text-field="'ViewName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'ViewType'"
+                                                    k-data-source="ViewTypes"
+                                                    k-on-change="ViewTypeChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 col-sm-4 control-label">Source Display</label>
+                                        <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                            <input type="text" class="form-control" placeholder="Source Display" maxlength="50"
+                                                   ng-model="DT00100.SourceDisplay">
+                                        </label>
+
+
+                                        <label class="col col-md-2 control-label">Source HTML</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" maxlength="4000"
+                                                   placeholder="Source HTML" ng-model="DT00100.SourceHTML">
+                                        </label>
+
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 col-sm-4 control-label">View Source</label>
+                                        <label class="col col-md-4 col-sm-8 col-xs-12">
+                                            <input kendo-numeric-text-box k-min="0"
+                                                   k-ng-model="DT00100.ViewSource" style="width: 100%;" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <label class="col">
+                                                    <input type="checkbox"
+                                                           class="checkbox style-0"
+                                                           ng-model="DT00100.IsGraph">
+                                                    <span>Is Graph</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col">
+                                                    <input type="checkbox"
+                                                           class="checkbox style-0"
+                                                           ng-model="DT00100.IsDataTable">
+                                                    <span>Is Data Table</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col">
+                                                    <input type="checkbox"
+                                                           class="checkbox style-0"
+                                                           ng-model="DT00100.IsAddNew">
+                                                    <span>Is Add New</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col">
+                                                    <input type="checkbox"
+                                                           class="checkbox style-0"
+                                                           ng-model="DT00100.IsEdit">
+                                                    <span>Is Edit</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>

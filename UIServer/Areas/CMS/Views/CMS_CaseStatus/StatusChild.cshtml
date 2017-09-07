@@ -1,0 +1,154 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<script>
+    function GetGenericKaizenPublicKeyWithStatus() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            CaseStatusID: scope.CM00700.SelectedStatus.CaseStatusID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    $(function () {
+        $('#GridCMS_CaseStatusChild').on('click', '.invertedchk', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#GridCMS_CaseStatusChild').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsSelected', checked);
+        })
+    });
+    $("#selectAll").on('click', function (e) {
+        var $cb = $(this);
+        var checked = $cb.is(':checked');
+        var grid = $('#GridCMS_CaseStatusChild').data('kendoGrid');
+        grid.table.find("tr").find("td:last input").attr("checked", checked);
+        //now making all the rows value to 1 or 0
+        var items = $("#GridCMS_CaseStatusChild").data("kendoGrid").dataSource.data();
+        for (i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.set('IsSelected', checked);
+            // var row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(0);
+            // grid.select(row);
+        }
+
+        if (!checked) {
+            $("#GridCMS_CaseStatusChild").data("kendoGrid").clearSelection();
+        }
+    });
+</script>
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <!-- widget div-->
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form id="GL_GLCategoryForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" 
+                                       class="btn btn-primary" ng-click="UpdateStatusChild();">
+                                        <i class="glyphicon glyphicon-edit"></i> Save Changes
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>
+                                    Case Status Child Maintenance
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Status</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-ng-model="CM00700.SelectedStatus"
+                                                k-options="CaseStatusHasChildOptions"
+                                                k-on-change="ChildStatusChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label text-left">Case Status Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="Case Status Name"
+                                               ng-model="CM00700.CaseStatusname" maxlength="50" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    @(Html.Kendo().Grid<Kaizen.CMS.CM00700>()
+            .Name("GridCMS_CaseStatusChild")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.IsSelected).Title("Select")
+                .ClientTemplate("<label><input type='checkbox' class='inverted invertedchk' #= IsSelected ? checked='checked' : '' #><span class='text'></span></label>")
+                .HeaderTemplate("<label><input type='checkbox' id='selectAll' class='inverted'><span class='text'></span></label>")
+                .Width(60).Sortable(false).Filterable(false);
+                columns.Bound(c => c.CaseStatusID).Width(60).Title("ID");
+                columns.Bound(c => c.CaseStatusname).Width(200);
+            })
+            .Filterable().AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Status from {0} to {1}. Total Statuses: <strong>{2}</strong>")
+            .ItemsPerPage("Status Per page").Empty("No Status Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(1500)
+            .Read(read => read.Action("GetStatusHasChildListGrid", "CMS_CaseStatus")
+            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKeyWithStatus"))
+            .Model(model =>
+            {
+                model.Id(o => o.CaseStatusID);
+                model.Field(o => o.CaseStatusID);
+                model.Field(o => o.CaseStatusname);
+                model.Field(o => o.CaseStatusParent);
+                model.Field(o => o.IsCloseReminder);
+                model.Field(o => o.IsHasChild);
+                model.Field(o => o.IsPaymentApply);
+                model.Field(o => o.IsPTP);
+                model.Field(o => o.IsPTPRequired);
+                model.Field(o => o.IsScripting);
+                model.Field(o => o.IsTaskList);
+                model.Field(o => o.RuleCondition);
+                model.Field(o => o.StatusActionTypeID);
+            })
+            )
+                                    )
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

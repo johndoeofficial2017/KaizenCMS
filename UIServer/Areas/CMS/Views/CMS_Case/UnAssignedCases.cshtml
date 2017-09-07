@@ -1,0 +1,263 @@
+﻿@{
+    Layout = null;
+}
+
+@(Html.Kendo().Grid<Kaizen.CMS.CM00203>()
+                            .Name("GridUnAssignedCases")
+                            .Columns(columns =>
+                            {
+                                foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+                                {
+                                    switch (column.field.Trim())
+                                    {
+                                        case "CaseRef":
+                                            columns.Bound(c => c.CaseRef).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Case_Click('#:CaseRef#');""> #:CaseRef# </a>")
+                                            .Width(column.width).Title(column.title).Locked(column.locked);
+                                            break;
+                                        case "TRXTypeID":
+                                            columns.Bound(c => c.TRXTypeID).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "TrxTypeName":
+                                            columns.Bound(c => c.TrxTypeName).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ContractID":
+                                            columns.Bound(c => c.ContractID).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ContractName":
+                                            columns.Bound(c => c.ContractName).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ClientID":
+                                            columns.Bound(c => c.ClientID).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ClientName":
+                                            columns.Bound(c => c.ClientName).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "BatchID":
+                                            columns.Bound(c => c.BatchID).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CurrencyCode":
+                                            columns.Bound(c => c.CurrencyCode).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ExchangeRate":
+                                            columns.Bound(c => c.ExchangeRate).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CIFNumber":
+                                            columns.Bound(c => c.CIFNumber).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CIFName":
+                                            columns.Bound(c => c.CIFName).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "IsJoint":
+                                            columns.Bound(c => c.IsJoint).ClientTemplate("# if(IsJoint) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Title("IsJoint").Filterable(false).Width(78).Locked(false).Lockable(false);
+                                            break;
+                                        case "AddressCode":
+                                            columns.Bound(c => c.AddressCode).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "AddressName":
+                                            columns.Bound(c => c.AddressName).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseAddess":
+                                            columns.Bound(c => c.CaseAddess).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseStatusID":
+                                            columns.Bound(c => c.CaseStatusID).Filterable(filterable => filterable.UI("StatusFilter")).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseStatusChild":
+                                            columns.Bound(c => c.CaseStatusChild).Filterable(filterable => filterable.UI("StatusFilter")).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseStatusname":
+                                            columns.Bound(c => c.CaseStatusname).Width(column.width).Locked(column.locked).Title(column.title).Filterable(ftb => ftb.Multi(true)
+                                            .DataSource(ds => ds.Read(r => r.Action("FillDropDownList", "CMS_Case").Data("{ field: 'CaseStatusname',KaizenPublicKey: sessionStorage.PublicKey }"))));
+                                            break;
+                                        case "CaseStatusChildName":
+                                            columns.Bound(c => c.CaseStatusChildName).Filterable(filterable => filterable.UI("StatusFilter")).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseStatusComment":
+                                            columns.Bound(c => c.CaseStatusComment).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ReminderDateTime":
+                                            columns.Bound(c => c.ReminderDateTime).Format("{0:dd/MM/yyyy hh:mm:ss tt}").Width(100).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "PTPAMT":
+                                            columns.Bound(c => c.PTPAMT).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.PTPAMT,data.DecimalDigit) #")
+                                          .HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "CYCLEDAY":
+                                            columns.Bound(c => c.CYCLEDAY).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "BucketPrev":
+                                            columns.Bound(c => c.BucketPrev).Filterable(filterable => filterable.UI("ActionPlanFilter")).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "BucketID":
+                                            columns.Bound(c => c.BucketID).Filterable(filterable => filterable.UI("ActionPlanFilter")).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "TxtField01":
+                                            columns.Bound(c => c.TxtField01).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "TxtField02":
+                                            columns.Bound(c => c.TxtField02).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "TxtField03":
+                                            columns.Bound(c => c.TxtField03).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "OutstandingAMT":
+                                            columns.Bound(c => c.OutstandingAMT).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.OutstandingAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "FinanceCharge":
+                                            columns.Bound(c => c.FinanceCharge).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.FinanceCharge,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "ClaimAmount":
+                                            columns.Bound(c => c.ClaimAmount).Width(column.width).Locked(column.locked).Title(column.title)
+                                           .ClientTemplate("#= FormatDecimalDigit(data.ClaimAmount,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "WriteOffAMT":
+                                            columns.Bound(c => c.PrincipleAmount).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.WriteOffAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "PrincipleAmount":
+                                            columns.Bound(c => c.PrincipleAmount).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.PrincipleAmount,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "CreditLimit":
+                                            columns.Bound(c => c.CreditLimit).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.CreditLimit,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "LastPaymentAMTUpload":
+                                            columns.Bound(c => c.LastPaymentAMTUpload).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.LastPaymentAMTUpload,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "TotalLifeCollactedAMT":
+                                            columns.Bound(c => c.TotalLifeCollactedAMT).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.TotalLifeCollactedAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "AMT01":
+                                            columns.Bound(c => c.PrincipleAmount).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.AMT01,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "AMT02":
+                                            columns.Bound(c => c.PrincipleAmount).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.AMT02,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "AMT03":
+                                            columns.Bound(c => c.PrincipleAmount).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.AMT03,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "CaseAccountNo":
+                                            columns.Bound(c => c.CaseAccountNo).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "InvoiceNumber":
+                                            columns.Bound(c => c.InvoiceNumber).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "TransactionDate":
+                                            columns.Bound(c => c.TransactionDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "OverDueDays":
+                                            columns.Bound(c => c.OverDueDays).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "OverDueDate":
+                                            columns.Bound(c => c.OverDueDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "FirstDisburementDate":
+                                            columns.Bound(c => c.FirstDisburementDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "LastPaymentDateUplod":
+                                            columns.Bound(c => c.LastPaymentDateUplod).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "ClosingDate":
+                                            columns.Bound(c => c.ClosingDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "BookingDate":
+                                            columns.Bound(c => c.BookingDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "FirstLifeOverDueDate":
+                                            columns.Bound(c => c.FirstLifeOverDueDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "Date01":
+                                            columns.Bound(c => c.Date01).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "Date02":
+                                            columns.Bound(c => c.Date02).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "Date03":
+                                            columns.Bound(c => c.Date03).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "Remarks":
+                                            columns.Bound(c => c.Remarks).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CreatedDate":
+                                            columns.Bound(c => c.CreatedDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "AgentID":
+                                            columns.Bound(c => c.AgentID).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "AssignDate":
+                                            columns.Bound(c => c.AssignDate).Format("{0:dd/MM/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "LastPaymentDate":
+                                            columns.Bound(c => c.LastPaymentDate).Format("{0:MM/dd/yyyy}").Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "LastCallactedAMT":
+                                            columns.Bound(c => c.LastCallactedAMT).Width(column.width).Locked(column.locked).Title(column.title)
+                                          .ClientTemplate("#= FormatDecimalDigit(data.LastCallactedAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "TotalCallactedAMT":
+                                            columns.Bound(c => c.TotalCallactedAMT).Width(column.width).Locked(column.locked).Title(column.title)
+                                         .ClientTemplate("#= FormatDecimalDigit(data.TotalCallactedAMT,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "LastPaymentBy":
+                                            columns.Bound(c => c.LastPaymentBy).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "PaymentProgress":
+                                            columns.Bound(o => o.PaymentProgress).Width(120).Title("Progress")
+                                            .ClientTemplate(@"<div class='progress no-margin'><div class='# if(PaymentProgress >= 0 && PaymentProgress < 40) { #progress-bar bg-color-redLight# } else if (PaymentProgress >= 40 && PaymentProgress < 80) { #progress-bar bg-color-yellow# }
+                                            else if (PaymentProgress >= 80 && PaymentProgress < 100) { #progress-bar bg-color-blue# } else if (PaymentProgress == 100) { #progress-bar bg-color-greenLight# }#' role='progressbar' aria-valuetransitiongoal='#=PaymentProgress #' aria-valuenow='#=PaymentProgress #' aria-valuemin='0' aria-valuemax='100' style='width: #=PaymentProgress#%'>
+                                                #=PaymentProgress # %
+                                            </div>
+										</div>");
+                                            break;
+                                        case "CaseYear":
+                                            columns.Bound(c => c.CaseYear).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseMonth":
+                                            columns.Bound(c => c.CaseMonth).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "CaseDay":
+                                            columns.Bound(c => c.CaseDay).Width(column.width).Locked(column.locked).Title(column.title);
+                                            break;
+                                        case "Balance":
+                                            columns.Bound(c => c.Balance).Width(column.width).Locked(column.locked).Title(column.title)
+                                         .ClientTemplate("#= FormatDecimalDigit(data.Balance,data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                    }
+                                }
+                            })
+                              .Excel(excel => excel.AllPages(true).FileName("CaseList.xlsx").Filterable(true))
+        .Pdf(pdf => pdf.FileName("CaseList.pdf").AllPages().Date(DateTime.Now))
+ .Pageable(pager => pager.Messages(messages => messages.Display("Showing Cases from {0} to {1}. Total Cases: <strong>{2}</strong>")
+        .ItemsPerPage("Case Per page").Empty("No Cases")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.CaseRef).Descending())
+    .Read(read => read.Action("GetDataListGrid", "CMS_Case")
+    .Type(HttpVerbs.Get).Data("GetKaizenPublicKeyWithView"))
+    .Model(model =>
+    {
+        model.Id(o => o.CaseRef);
+    })
+)
+)
+
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridUnAssignedCases");
+    })
+</script>
+
+

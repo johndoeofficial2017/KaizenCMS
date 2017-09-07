@@ -1,0 +1,17 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="Co_DebtorController">
+    <div id="widget-Co_Debtor">
+        <div ng-show="PagesCM00100.length >0">
+            <div ng-repeat="Page in PagesCM00100">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM00100.length == 0">
+            <div kendo-toolbar k-options="DebtorMaintoolbarOptions"></div>
+            <div ng-include="DebtorMainGridURL">Data Grid here</div>
+        </div>
+    </div>
+</div>
+

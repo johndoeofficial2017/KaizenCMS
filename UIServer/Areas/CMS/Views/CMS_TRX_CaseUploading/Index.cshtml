@@ -1,0 +1,703 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function CaseUploadFileAttachemnt_onSuccess(e) {
+        $(".k-upload-files.k-reset").find("li").remove();
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        scope.$apply(function () {
+            scope.UploadedData(responseTxt);
+        });
+    };
+    function DynamicOverride(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        scope.$apply(function () {
+            scope.DynamicOverride(dataItem);
+        });
+    };
+    function DynamicCancel(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        scope.$apply(function () {
+            scope.DynamicCancel(dataItem);
+        });
+    };
+    function DynamicView(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        scope.$apply(function () {
+            scope.DynamicView(dataItem);
+        });
+    };
+    function GetUploadValidationDebtorGridPram() {
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        return {
+            CurrentStep: scope.CurrentStep,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false"
+     ng-controller="CMS_TRX_CaseUploadingController" id="widget-CMS_TRX_CaseUploading">
+    <header class="button-header">
+        <a class='btn btn-danger txt-color-white' ng-click="FormClose('CMS_TRX_CaseUploading');">
+            <i class='glyphicon glyphicon-edit icon-large'></i><br />
+            Close
+        </a>
+        <a class='btn btn-success txt-color-white' ng-show="CurrentStep >= -2"
+           ng-click='GOBack();'>
+            <i class='glyphicon glyphicon-check icon-large'></i><br />Back
+        </a>
+        <a class="btn btn-success txt-color-white" ng-click="CheckStep();"
+           ng-show="(CurrentStep == -3 || CurrentStep == -2 || (CurrentStep ==11 && CaseKaizenColumn.length > 0)) && UploadObject.TRXTypeID != null && UploadObject.TRXTypeID != '' && UploadObject.SelectedStatusID != null && UploadObject.SelectedStatusID != '' && UploadObject.ClientID != null && UploadObject.ClientID != '' && UploadObject.ContractID != null && UploadObject.ContractID != '' && KaizenColumn.length > 0 ">
+            <i class="glyphicon glyphicon-upload icon-large"></i><br />
+            Upload
+        </a>
+        <a class='btn btn-default' ng-click="ExportExcel()"
+           ng-show='CurrentStep >= 0 && CurrentStep <= 8' href='#'>
+            <span class='k-icon k-i-excel'>
+            </span><br />Export to Excel
+        </a>
+
+        <a class='btn btn-danger txt-color-white'
+           data-toggle="modal" data-target="#UpdateOptionsModal" ng-show="CurrentStep == 19">
+            <i class='glyphicon glyphicon-edit icon-large'></i><br />Update Options
+        </a>
+
+        <a class='btn btn-default txt-color-black' ng-click="AdvancedAction_click();"
+           ng-show="CurrentStep == 18 && AdvancedActionPage == null">
+            <i class='glyphicon glyphicon-share icon-large'></i><br /> Action
+        </a>
+        <a class='btn btn-success txt-color-white'
+           ng-click='GONext();' ng-show="CurrentStep == 18 || CurrentStep == 19 || CurrentStep == 20 || AdvancedActionPage != null">
+            <i class='glyphicon glyphicon-check icon-large'></i><br />Go Next
+        </a>
+        <a class='btn btn-default txt-color-black' data-toggle="modal" ng-click="OpenDoAction_Click();"
+           ng-show="AdvancedActionPage != null">
+            <i class='glyphicon glyphicon-share icon-large'></i><br />Do Action
+        </a>
+        <a class='btn btn-default txt-color-black' data-toggle="modal" ng-click="CaseArchive_Click();"
+           ng-show="AdvancedActionPage != null">
+            <i class='glyphicon glyphicon-share icon-large'></i><br />Archive 
+        </a>
+        <a class='btn btn-default txt-color-black' data-toggle="modal" ng-click="CaseDelete_Click();"
+           ng-show="AdvancedActionPage != null">
+            <i class='glyphicon glyphicon-share icon-large'></i><br />Delete
+        </a>
+
+        @*<a class='btn btn-success txt-color-white' ng-show="CurrentStep >= 0 && CurrentStep <=19"
+           ng-click='CheckStep();'>
+            <i class='glyphicon glyphicon-check icon-large'></i><br />CheckStep
+        </a>*@
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset ng-show="AdvancedActionPage == null">
+                                <div class="row" ng-show="CurrentStep == -3">
+                                    <section class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Batch ID</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" placeholder="Batch ID"
+                                                           ng-model="UploadObject.BatchID"
+                                                           data-bv-notempty="true" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Client</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" readonly
+                                                               placeholder="Client ID" ng-model="UploadObject.ClientName" />
+                                                        <span class="input-group-btn input-group-sm">
+                                                            <button class="btn btn-default"
+                                                                    ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'UploadView')">
+                                                                <span class="glyphicon glyphicon-search"></span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Contract</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" readonly
+                                                               placeholder="Contract ID" ng-model="UploadObject.ContractName" />
+                                                        <span class="input-group-btn input-group-sm">
+                                                            <button class="btn btn-default" ng-show="UploadObject.ClientID != ''"
+                                                                    ng-click="OpenkendoWindowForm('CMS','CMS_Contract','PopUpByClient',UploadObject.ClientID,'UploadView')">
+                                                                <span class="glyphicon glyphicon-search"></span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Data Source</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'contains'"
+                                                            k-option-label="'-- Select Type --'"
+                                                            k-ng-model="UploadObject.TRXTypeID"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="TRXTypes"
+                                                            k-on-change="TransactionTypeChanged()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Book Date</label>
+                                                <div class="col-sm-8">
+                                                    <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                                           k-ng-model="UploadObject.BookingDate" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Closing Date</label>
+                                                <div class="col-sm-8">
+                                                    <input kendo-date-picker k-format="'dd/MM/yyyy'" k-min="UploadObject.BookingDate"  
+                                                           k-rebind="UploadObject.BookingDate"                                                          
+                                                           k-ng-model="UploadObject.ClosingDate" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Currency</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Currency"
+                                                               ng-model="UploadObject.CurrencyCode"
+                                                               data-bv-notempty="true" readonly
+                                                               data-bv-notempty-message="The Currency is required and cannot be empty" />
+                                                        <div class="input-group-btn input-group-sm" ng-disabled="UploadObject.CurrencyCode == undefined || UploadObject.CurrencyCode == ''"
+                                                            ng-click="OpenkendoWindow('GL_CurrencyLookUp')">
+                                                            <a href="javascript:void(0);" class="btn btn-default">T</a>
+                                                        </div>
+                                                        <div class="input-group-btn input-group-sm" ng-hide="UploadObject.CurrencyCode == undefined || UploadObject.CurrencyCode == '' || UploadObject.ExchangeTableID == undefined || UploadObject.ExchangeTableID == ''"
+                                                             ng-click="OpenkendoWindow('GL_CurrencyLookUpExchangeTable',UploadObject.CurrencyCode);">
+                                                            <a href="javascript:void(0);" class="btn btn-default" ng-show="UploadObject.ExchangeRate == undefined || UploadObject.ExchangeRate == '' || UploadObject.ExchangeRate == 0">Select Rate</a>
+                                                            <a href="javascript:void(0);" class="btn btn-default" ng-hide="UploadObject.CurrencyCode == undefined || UploadObject.CurrencyCode == ''">{{UploadObject.ExchangeRate}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-md-4 control-label txt-color-red bold">File</label>
+                                                <div class="col-sm-8">
+                                                    @(Html.Kendo().Upload().Name("CaseUploadFileAttachemnt")
+                                                    .Async(async => async.Save("SaveUploadFileTemp", "CMS_TRX_CaseUploading")
+                                                    .Remove("RemoveUploadFileTemp", "CMS_TRX_CaseUploading"))
+                                                    .Events(e => e.Success("CaseUploadFileAttachemnt_onSuccess"))
+                                                    )
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left txt-color-red bold">Case Status</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Status Action Type --'"
+                                                            k-ng-model="UploadObject.SelectedStatusID"
+                                                            k-data-text-field="'CaseStatusname'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'CaseStatusID'"
+                                                            k-data-source="CaseStatusestemp"
+                                                            k-on-change="UploadCaseStatusChanged()"
+                                                            style="width: 100%"></select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5" ng-show="UploadObject.SelectedStatus.IsHasChild">
+                                                <label class="col-sm-4 control-label text-left">Case Child Status</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="UploadObject.SelectedChild"
+                                                            k-options="CaseUploadStatusChildOptions"
+                                                            k-on-change="UploadChildStatusChanged()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5" ng-show="UploadObject.SelectedStatus.IsScripting">
+                                                <label class="col-sm-4 control-label text-left">Status Script</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="UploadObject.SelectedScript"
+                                                            k-options="CaseUploadStatusScriptOptions"
+                                                            k-on-change="ScriptUploadStatusChanged()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Address Type</label>
+                                                <div class="col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="SelectedLookUp.AddressTypes"
+                                                            k-options="DebtorAddressCodeTypeOptions"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Status Comment</label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" rows="4" placeholder="Status Comment"
+                                                              ng-model="UploadObject.CaseStatusComment"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="CurrentStep > -3">
+                                    <section class="col-md-1"></section>
+                                    <section class="col-md-10 form-group">
+                                        <!--  Map Debtor Fields -->
+                                        <div ng-show="CurrentStep == -2 && KaizenColumn.length > 0">
+                                            <legend class="text-center"><strong>Debtor Field Mapping</strong></legend>
+                                            <div class="widget no-margin-bottom">
+                                                <div class="widget-body">
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-align-center col-md-4">
+                                                                        Field
+                                                                    </th>
+                                                                    <th class="text-align-center col-md-4">
+                                                                        Map Field
+                                                                    </th>
+                                                                    <th class="text-align-center col-md-4"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="column in KaizenColumn" ng-if="$index < (KaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.IsRequired }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control input-sm no-padding-right no-padding-left"
+                                                                                ng-model="column.FieldValue" ng-change="SourceChanged(column);">
+                                                                            <option ng-repeat="excel in ExcelColumns"
+                                                                                    value="{{excel.Index}}">
+                                                                                {{excel.ColumnName}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div dynamic="column.html" ng-show="column.FieldValue =='Fixed'"></div>
+                                                                        @*<input type="text" class="form-control"
+                                                                            ng-model="column.FixedValue"
+                                                                            data-bv-notempty="true" />*@
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-align-center col-md-4">
+                                                                        Field
+                                                                    </th>
+                                                                    <th class="text-align-center col-md-4">
+                                                                        Map Field
+                                                                    </th>
+                                                                    <th class="text-align-center col-md-4"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="column in KaizenColumn" ng-if="$index >= (KaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.IsRequired }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control input-sm no-padding-right no-padding-left"
+                                                                                ng-model="column.FieldValue" ng-change="SourceChanged(column);">
+                                                                            <option ng-repeat="excel in ExcelColumns"
+                                                                                    value="{{excel.Index}}">
+                                                                                {{excel.ColumnName}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div dynamic="column.html" ng-show="column.FieldValue =='Fixed'"></div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="CurrentStep >= 0 && CurrentStep <= 8">
+                                            <legend class="text-center"><strong>{{ConditionVariable}}</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00150>()
+                                            .Name("GridCaseMissingDebtorData")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.DebtorID);
+                                                columns.Bound(c => c.EnglishFullName);
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Residence Number from {0} to {1}. Total Residence Numbers: <strong>{2}</strong>")
+                                            .ItemsPerPage("Residence Number Per page").Empty("No Residence Number Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetCaseMissingDebtorData", "CMS_TRX_CaseUploading")
+                                            .Type(HttpVerbs.Get).Data("GetUploadValidationDebtorGridPram"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.DebtorID);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                        <!--  Map Case Fields -->
+                                        <div ng-show="CurrentStep == 11 && CaseKaizenColumn.length > 0">
+                                            <legend class="text-center"><strong>Case Field Mapping</strong></legend>
+                                            <div class="widget no-margin-bottom">
+                                                <div class="widget-body">
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-align-center">
+                                                                        Field
+                                                                    </th>
+                                                                    <th class="text-align-center">
+                                                                        Map Field
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="column in CaseKaizenColumn" ng-if="$index < (CaseKaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.IsRequired }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control input-sm no-padding-right no-padding-left"
+                                                                                ng-model="column.FieldValue" ng-change="SourceChanged(column);">
+                                                                            <option ng-repeat="excel in ExcelColumns"
+                                                                                    value="{{excel.Index}}">
+                                                                                {{excel.ColumnName}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div dynamic="column.html" ng-show="column.FieldValue =='Fixed'"></div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-align-center">
+                                                                        Field
+                                                                    </th>
+                                                                    <th class="text-align-center">
+                                                                        Map Field
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="column in CaseKaizenColumn" ng-if="$index >= (CaseKaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.IsRequired }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-control input-sm no-padding-right no-padding-left"
+                                                                                ng-model="column.FieldValue" ng-change="SourceChanged(column);">
+                                                                            <option ng-repeat="excel in ExcelColumns"
+                                                                                    value="{{excel.Index}}">
+                                                                                {{excel.ColumnName}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div dynamic="column.html" ng-show="column.FieldValue =='Fixed'"></div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CaseMissingAgeUploading 12 -->
+                                        <div ng-show="CurrentStep >= 12 && CurrentStep <= 16">
+                                            <legend class="text-center"><strong>{{ConditionVariable}}</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00151>()
+                                            .Name("CM_CaseUploadMissingData")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.CIFNumber);
+                                                columns.Bound(c => c.CaseAccountNo);
+                                                columns.Bound(c => c.ClaimAmount);
+                                                columns.Bound(c => c.AgentID);
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Residence Number from {0} to {1}. Total Residence Numbers: <strong>{2}</strong>")
+                                            .ItemsPerPage("Residence Number Per page").Empty("No Residence Number Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetCaseMissingData", "CMS_TRX_CaseUploading")
+                                            .Type(HttpVerbs.Get).Data("GetUploadValidationDebtorGridPram"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.CaseRef);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                        <!--  Debtor Validation 12 -->
+                                        <div ng-show="CurrentStep==17">
+                                            <legend class="text-center"><strong>{{ConditionVariable}}</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00151>()
+                                            .Name("GridValidateCaseDuplicateForUploading")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.CaseAccountNo).Width(120).Title("CaseAccountNo").HeaderHtmlAttributes(new { style = "text-align:center;" }).HtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.CIFNumber).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" }).HtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.DuplicateRow).Width(250).HeaderHtmlAttributes(new { style = "text-align:center;" }).HtmlAttributes(new { style = "text-align:center;" });
+                                            })
+                                            .Excel(excel => excel.AllPages(true).FileName("Duplicate Debtor Data"))
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Debtor from {0} to {1}. Total Debtors: <strong>{2}</strong>")
+                                            .ItemsPerPage("Debtor Per page").Empty("No Debtor Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetCaseDuplicateForUploading", "CMS_TRX_CaseUploading")
+                                            .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.TableID);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                    
+                                        <!-- Old Cases-->
+                                        <div ng-show="CurrentStep == 18">
+                                            <legend class="text-center"><strong>Old Historical Cases</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00203>()
+                                            .Name("GridCM_CaseOldForUploading")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.CaseRef).Width(150).Title("Case Ref").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.CIFNumber).Width(150).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.CIFName);
+                                                columns.Bound(c => c.CaseAccountNo).Width(275).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.ClaimAmount).Width(75).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Historical Cases from {0} to {1}. Total: <strong>{2}</strong>")
+                                            .ItemsPerPage("Historical Cases Per page")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetCaseOldForUploading", "CMS_TRX_CaseUploading")
+                                            .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.CIFNumber);
+                                                model.Field(o => o.CaseAccountNo);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                        <!-- Duplicate Cases-->
+                                        <div ng-show="CurrentStep == 19">
+                                            <legend class="text-center"><strong>Duplicate Cases</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00151>()
+                                            .Name("GridCM_CaseDuplicateForUploading")
+                                            .Columns(columns =>
+                                            {
+                                            columns.Bound(c => c.CaseRef).Width(100).Title("Case Ref");
+                                            columns.Bound(c => c.CIFNumber).Width(100).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.Bound(c => c.CaseAccountNo).Width(275).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.Bound(c => c.ClaimAmount).Width(275).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.Group(g => g.Title("Actions")
+                                            .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                            .Columns(location =>
+                                            {
+                                            location.Command(command =>
+                                            {
+                                            command.Custom("Override").Click("DynamicOverride")
+                                            .Text("<span class='glyphicon glyphicon-ok-circle'></span> Update");
+                                            }).Title("Override").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            location.Command(command =>
+                                            {
+                                            command.Custom("Cancel").Click("DynamicCancel")
+                                            .Text("<span class='glyphicon glyphicon-remove'></span> Cancel");
+                                            }).Title("Cancel").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            })
+                                            );
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Duplicate from {0} to {1}. Total Duplicates: <strong>{2}</strong>")
+                                            .ItemsPerPage("Duplicates Per page")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetDuplicateCases", "CMS_TRX_CaseUploading")
+                                            .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                            .Model(model =>
+                                            {
+                                            model.Id(o => o.CIFNumber);
+                                            model.Field(o => o.CaseAccountNo);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                        <!-- New Cases-->
+                                        <div ng-show="CurrentStep == 20">
+                                            <legend class="text-center"><strong>New Cases</strong></legend>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00151>()
+                                            .Name("GridCM_CaseNewForUploading")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.CIFNumber).Width(150).Title("Debtor ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                //columns.Bound(c => c.CIFName).Width(250).Title("Debtor Name").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.CaseAccountNo).Width(200).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.ClaimAmount).Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            })
+                                            .Excel(excel => excel.AllPages(true).FileName("New Cases"))
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Case from {0} to {1}. Total Cases: <strong>{2}</strong>")
+                                            .ItemsPerPage("Case Per page").Empty("No Case Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetCaseNew", "CMS_TRX_CaseUploading")
+                                            .Type(HttpVerbs.Get).Data("GetGenericPopUpKaizenPublicKey"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.CIFNumber);
+                                                model.Field(o => o.CaseAccountNo);
+                                            })
+                                            )
+                                            )
+
+                                        </div>
+                                    </section>
+                                    <section class="col-md-1"></section>
+                                </div>
+                            </fieldset>
+                            <fieldset ng-show="AdvancedActionPage != null">
+                                <div class="row" >
+                                    <div ng-include="AdvancedActionPage"></div>
+                                </div>
+                            </fieldset>
+                        </form>
+
+
+
+                        <div class="modal fade" id="UpdateOptionsModal" tabindex="-1" role="dialog" aria-labelledby="UpdateOptionModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title">Update Case Options</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12 smart-form">
+                                                <div class="inline-group">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="UpdateOption.ClaimAmount">
+                                                        <i></i>Claim Amount
+                                                    </label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="UpdateOption.Remarks">
+                                                        <i></i>Remarks
+                                                    </label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="UpdateOption.AgentID">
+                                                        <i></i>Agent ID
+                                                    </label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="UpdateOption.InvoiceNumber">
+                                                        <i></i>Invoice Number
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" ng-click="UpdateOptionsAction();">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div kendo-window="DetailsWindow" k-title="'Details'" k-modal="true"
+                             k-actions="['Close']"
+                             k-width="1000" k-resizable="true" k-visible="false"></div>
+
+                        <div kendo-window="DoActionWindow" k-title="'Details'" k-modal="true"
+                             k-actions="['Refresh', 'Maximize', 'Close']"
+                             k-width="1000" k-resizable="true" k-visible="false"></div>
+
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

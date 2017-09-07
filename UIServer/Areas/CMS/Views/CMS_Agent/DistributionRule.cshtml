@@ -1,0 +1,95 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+    </header>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET ROW START -->
+            <!-- Widget ID (each widget will need unique ID)-->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget div-->
+                    <div class="no-padding-top">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <form id="GL_GLCategoryForm" class="form-horizontal"
+                                  data-bv-message="This value is not valid"
+                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+
+                                <fieldset>
+                                    <legend>
+                                        Distribution Rule Maintenance
+                                    </legend>
+
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-left">User</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Agent ID"
+                                                       ng-model="CM00105.AgentID">
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_AgentLookUp',null,'DistributionRuleUser')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label text-left">Condition</label>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" maxlength="50"
+                                                       placeholder="Where Condition" ng-model="CM00105.WhereCondition">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="form-controls">
+                                        <button class="btn btn-primary" ng-click="AddDistributionRule()" ng-show="CM00105.Status == 1">Add</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+            <!-- end widget -->
+        </div>
+        <!-- WIDGET ROW END -->
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>

@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+    @(Html.Kendo().Grid<Kaizen.CMS.CM10207>()
+                            .Name("GridCMS_Payment")
+                            .Columns(columns =>
+                            {
+                                foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+                                {
+                                    switch (column.field.Trim())
+                                    {
+                                        case "PaymentID":
+                                            columns.Bound(c => c.PaymentID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditPayment_Click('#:PaymentID#');""> #:PaymentID# </a>").Width(100).Title("Payment ID");
+                                            break;
+                                        case "CaseRef":
+                                            columns.Bound(c => c.CaseRef);
+                                            break;
+                                        case "CheckbookCode":
+                                            columns.Bound(c => c.CheckbookCode);
+                                            break;
+                                        case "CurrencyCode":
+                                            columns.Bound(c => c.CurrencyCode);
+                                            break;
+                                        case "ExchangeRate":
+                                            columns.Bound(c => c.PaymentAmount).ClientTemplate("#= FormatDecimalDigit(data.ExchangeRate,data.DecimalDigit) #")
+                                            .HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "PaymentAmount":
+                                            columns.Bound(c => c.PaymentAmount).ClientTemplate("#= FormatDecimalDigit(data.PaymentAmount,data.DecimalDigit) #")
+                                            .HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case "PaymentDate":
+                                            columns.Bound(c => c.PaymentDate).Format("{0:dd/MM/yyyy}");
+                                            break;
+                                        case "Description":
+                                            columns.Bound(c => c.Description);
+                                            break;
+                                        case "PaymentMethodID":
+                                            columns.Bound(c => c.PaymentMethodID).Filterable(filterable => filterable.UI("PaymentMethodFilter"));
+                                            break;
+                                        case "AgentID":
+                                            columns.Bound(c => c.AgentID);
+                                            break;
+                                        case "CreatedBy":
+                                            columns.Bound(c => c.CreatedBy);
+                                            break;
+                                        case "CreatedDate":
+                                            columns.Bound(c => c.CreatedDate).Format("{0:dd/MM/yyyy}");
+                                            break;
+
+                                        case "PaymentNumber":
+                                            columns.Bound(c => c.PaymentNumber);
+                                            break;
+                                        case "BankCode":
+                                            columns.Bound(c => c.BankCode);
+                                            break;
+                                        case "BankName":
+                                            columns.Bound(c => c.BankName);
+                                            break;
+                                        case "BankAccount":
+                                            columns.Bound(c => c.BankAccount);
+                                            break;
+                                        case "BankCheckDate":
+                                            columns.Bound(c => c.BankCheckDate).Format("{0:dd/MM/yyyy}");
+                                            break;
+                                    }
+                                }
+                            })
+                             .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing from {0} to {1}. Total: <strong>{2}</strong>")
+                            .ItemsPerPage("Per page").Empty("No Payment Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                            .Read(read => read.Action("GetDataListGrid", "CMS_Payment").Type(HttpVerbs.Get).Data("GetGridCMS_PaymentPram"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.PaymentID);
+                            })
+                        )
+    )
+
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridCMS_Payment");
+    })
+</script>

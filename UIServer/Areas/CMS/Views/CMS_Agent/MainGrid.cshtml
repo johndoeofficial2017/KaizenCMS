@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditAgent_Click(AgentID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        scope.$apply(function () {
+            scope.EditCM00105(AgentID);
+        });
+    }
+</script>
+
+@(Html.Kendo().Grid<Kaizen.CMS.CM00105>()
+                            .Name("GridCMS_Agent")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.AgentID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditAgent_Click('#:AgentID#');""> #:AgentID# </a>").Width(100).Title("Agent ID");
+                                columns.Bound(c => c.FullName).Width(150).Title("Full Name");
+                                columns.Bound(c => c.AgentGroup).Filterable(filterable => filterable.UI("GroupFilter"));
+                                columns.Bound(c => c.SuffixID).Filterable(filterable => filterable.UI("SuffixFilter"));
+                                columns.Bound(c => c.EmailAddress);
+                                columns.Bound(c => c.UserCode);
+                                columns.Bound(c => c.SupervisorID);
+                            })
+                            .Excel(excel => excel.AllPages(true).FileName("AgentList.xlsx").Filterable(true))
+        .Pdf(pdf => pdf.FileName("AgentList.pdf").AllPages().Date(DateTime.Now))
+ .Pageable(pager => pager.Messages(messages => messages.Display("Showing Agents from {0} to {1}. Total Agents: <strong>{2}</strong>")
+        .ItemsPerPage("Agent Per page").Empty("No Agent")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.AgentID).Descending())
+                        .Read(read => read.Action("GetDataListGrid", "CMS_Agent")
+                        .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.AgentID);
+                            })
+                        )
+)
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridCMS_Agent");
+    })
+</script>

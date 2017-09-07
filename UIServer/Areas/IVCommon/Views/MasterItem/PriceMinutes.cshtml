@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditItemPriceMinutes_Click(WeekDayID,SiteID,ItemID) {
+        var scope = angular.element(document.getElementById("widget-PriceMinutes")).scope();
+        scope.$apply(function () {
+            scope.EditIV00151(WeekDayID, SiteID, ItemID);
+        });
+    }
+</script>
+<div>
+    <div id="widget-PriceMinutes">
+        <div ng-show="PagesIV00151.length >0">
+            <div ng-repeat="Page in PagesIV00151">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div ng-show="PagesIV00151.length == 0">
+    <div kendo-toolbar k-options="IV_CO_PriceMinutestoolbarOptions"></div>
+    <div>
+        @(Html.Kendo().Grid<Kaizen.Inventory.IV00151>()
+                        .Name("GridIV_ItemIV00151")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditItemPriceMinutes_Click('#:WeekDayID#','#:SiteID#','#:ItemID#');""> #:WeekDayID# </a>").Width(100).Title("Week Day ID");
+                            columns.Bound(c => c.SiteID);
+                            columns.Bound(c => c.ItemID);
+                            columns.Bound(c => c.PeriodCount);
+                            columns.Bound(c => c.StartTimeFrom);
+                            columns.Bound(c => c.EndTimeTo);
+                            columns.Bound(c => c.CurrencyCode);
+                            columns.Bound(c => c.DecimalDigit);
+                            columns.Bound(c => c.ExchangeRate);
+                            columns.Bound(c => c.IsMultiply);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing item price minutes from {0} to {1}. Total price minutes: <strong>{2}</strong>").Empty("Price Minutes Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetDataListGridIV00151", "MasterItem")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.WeekDayID)))
+        )
+    </div>
+    <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="600" k-resizable="true" k-visible="false"></div>
+</div>
+

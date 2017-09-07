@@ -1,0 +1,83 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Reports";
+}
+<link href="~/ReportViewer/styles/telerikReportViewer.css" rel="stylesheet" />
+<script src="~/Scripts/kendo/2016.3.1118/kendo.web.min.js"></script>
+<script src="~/ReportViewer/js/telerikReportViewer-11.0.17.118.min.js"></script>
+<script src="~/ReportViewer/js/telerikReportViewer-11.0.17.118.js"></script>
+
+<style>
+    #reportViewer1 {
+        overflow: hidden;
+        font-family: Verdana, Arial;
+    }
+</style>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a ng-click="Cancel();" class="btn btn-default">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+            <br />Cancel
+        </a>
+    </header>
+    <div class="widget-body container-fluid">
+        <div class="row">
+            <div class="well no-padding-left no-padding-right no-padding-bottom">
+                <div>
+                    <div id="reportViewer1" style="height:400px;width:100%;">
+                        loading...
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        //var ActiveScreenID = $("#ActiveScreenID").val();
+        var scope = angular.element(document.getElementById("widget-Letters")).scope();
+        var oMessageTRXID = scope.CM00234.MessageTRXID;
+        var CompanyID = scope.MY.CompanyID;
+        //alert('ssssssssss')
+        //alert(oMessageTRXID);
+        //alert(CompanyID);
+        //var YearCode = scope.MainFilter.YearCode;
+        $("#reportViewer1")
+            .telerik_ReportViewer({
+                serviceUrl: "/api/reports/",
+                
+                reportSource: {
+                    report: "UIServer.Reports.CMLetterrpt, UIServer"
+                    , parameters: { "MessageTRXID": oMessageTRXID, "CompanyID": CompanyID }
+                },
+                viewMode: telerikReportViewer.ViewModes.INTERACTIVE,
+                scaleMode: telerikReportViewer.ScaleModes.SPECIFIC,
+                scale: 1.0,
+                ready: function () {
+                    //  this.refreshReport();
+                    //alert(DOCID);
+                },
+            });
+    });
+</script>
+
+
+
+
+
+

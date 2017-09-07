@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSys_View_Click(ViewID) {
+        var scope = angular.element(document.getElementById("widget-Sys_View")).scope();
+        scope.$apply(function () {
+            scope.EditKaizen00011(ViewID);
+        });
+    };
+    function GetGenericKaizenPublicKeyWithCompanyID() {
+        var searchcritaria = $("#Searchcritaria").val();
+        var widget = $("#widget-Sys_View")
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            CompanyID: scope.Kaizen00011.GridCompanyID,
+            ModuleID: scope.Kaizen00011.GridModuleID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+
+</script>
+<div ng-controller="Sys_Viewcontroller">
+        <div id="widget-Sys_View">
+            <div ng-show="PagesKaizen00011.length >0">
+                <div ng-repeat="Page in PagesKaizen00011">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div ng-show="PagesKaizen00011.length == 0">
+                <div kendo-toolbar k-options="toolbarOptionsSys_View"></div>
+                    @(Html.Kendo().Grid<Kaizen.Configuration.Kaizen00011>()
+                            .Name("GridSys_View")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.ViewID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSys_View_Click('#:ViewID#');""> #:ViewID# </a>").Width(100).Title("View ID");
+                                columns.Bound(c => c.ScreenID).Width(100);
+                                columns.Bound(c => c.ViewName).Title("View Name");
+                                columns.Bound(c => c.IsDefault).ClientTemplate("# if(IsDefault) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Title("Default").Filterable(false).Width(80);
+                                columns.Bound(c => c.ViewDescription).Title("View Description");
+                            })
+                            .Filterable().AutoBind(false)
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing View from {0} to {1}. Total Views: <strong>{2}</strong>")
+                            .ItemsPerPage("View Per page").Empty("No View Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(350))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Sys_View")
+                            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKeyWithCompanyID"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.ViewID);
+                                model.Field(o => o.ViewID);
+                                model.Field(o => o.ViewName);
+                                model.Field(o => o.ScreenID);
+                                model.Field(o => o.CompanyID);
+                                model.Field(o => o.ViewDescription);
+                                model.Field(o => o.IsDefault);
+                            })
+                        )
+                    )
+                </div>
+        
+        </div>
+</div>
+
+
+

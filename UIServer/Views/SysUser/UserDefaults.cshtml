@@ -1,0 +1,231 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetCompanyAccessListWithUser() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            UserName: scope.CompanyAccess.UserName,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditCompanyAccessbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-SysUser")).scope();
+        scope.$apply(function () {
+            scope.CompanyAccess = dataItem;
+            scope.CompanyAccess.Status = 2;
+        });
+    };
+    function DeleteCompanyAccessbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-SysUser")).scope();
+        scope.$apply(function () {
+            scope.CompanyAccess = dataItem;
+            scope.CompanyAccess.Status = 3;
+            scope.DeleteCompanyAccess();
+        });
+    };
+</script>
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="SysUserCompanyAccessForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateCompanyAccess();"
+                                       ng-show="CompanyAccess.Status == 2">
+                                        <i class="glyphicon glyphicon-edit"></i> Update & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    User Default Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">User</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="UserName" ng-model="User.UserName" readonly>
+                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('KaizenUser',null,'UserDefaults')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Company</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                id="Companies"
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Company --'"
+                                                k-ng-model="CompanyAccess.CompanyID"
+                                                k-data-text-field="'CompanyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'CompanyID'"
+                                                k-data-source="Companies"
+                                                k-on-change="CompanyChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CompanyAccess.CompanyID != undefined && CompanyAccess.CompanyID != ''">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Year</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-ng-model="CompanyAccess.YearCode"
+                                                k-data-text-field="'YearName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'YearCode'"
+                                                k-data-source="Years"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Currency</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Currency"
+                                                   ng-model="CompanyAccess.CurrencyCode"
+                                                   data-bv-notempty="true"
+                                                   data-bv-notempty-message="The Currency is required and cannot be empty" />
+                                            <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('GL_Currency', 'SinglePopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                            <div class="input-group-btn input-group-sm" ng-disabled="CompanyAccess.CurrencyCode == undefined || CompanyAccess.CurrencyCode == ''"
+                                                 ng-click="OpenkendoWindow('GL_Currency', 'ExchangeTablePopUp', CompanyAccess.CurrencyCode, '')">
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-show="CompanyAccess.ExchangeTableID == undefined || CompanyAccess.ExchangeTableID == ''">Select Table</a>
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-hide="CompanyAccess.ExchangeTableID == undefined || CompanyAccess.ExchangeTableID == ''">{{CompanyAccess.ExchangeTableID}}</a>
+                                            </div>
+                                            <div class="input-group-btn input-group-sm" ng-disabled="CompanyAccess.CurrencyCode == undefined || CompanyAccess.CurrencyCode == '' || CompanyAccess.ExchangeTableID == undefined || CompanyAccess.ExchangeTableID == ''"
+                                                 ng-click="OpenExchangeRateWindow();">
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-show="CompanyAccess.ExchangeRateID == undefined || CompanyAccess.ExchangeRateID == ''">Select Rate</a>
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-hide="CompanyAccess.ExchangeRateID == undefined || CompanyAccess.ExchangeRateID == ''">{{CompanyAccess.ExchangeRate}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CompanyAccess.CompanyID != undefined && CompanyAccess.CompanyID != ''">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Checkbook</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Checkbook Code" ng-model="CompanyAccess.CheckbookCode" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('GL_Checkbook','PopUp',CompanyAccess.CurrencyCode)">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Current Date</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-date-picker
+                                               k-format="'dd/MM/yyyy'"
+                                               k-ng-model="CompanyAccess.CurrentDate" style="width: 100%;" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CompanyAccess.CompanyID != undefined && CompanyAccess.CompanyID != ''">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Agent</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Agent ID" ng-model="CompanyAccess.AgentID" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('CMS_Agent','PopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Site</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Site ID" ng-model="CompanyAccess.SiteID" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('INV_Site','PopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CompanyAccess.CompanyID != undefined && CompanyAccess.CompanyID != ''">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Sales Type</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-ng-model="CompanyAccess.SOPTYPE"
+                                                k-data-text-field="'SOPTYPENAME'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'SOPTYPE'"
+                                                k-data-source="SOPTypes"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Sales Setup Type</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Sales Setup Type ID"
+                                                   ng-model="CompanyAccess.SOPTypeSetupID" />
+                                            <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('SOP_TypeSetup','PopUp',CompanyAccess.SOPTYPE)">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

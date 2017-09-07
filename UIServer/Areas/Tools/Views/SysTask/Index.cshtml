@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditTask_Click(TaskID) {
+        var scope = angular.element(document.getElementById("widget-SysTask")).scope();
+        scope.$apply(function () {
+            scope.EditSys00100(TaskID);
+        });
+    };
+    function TaskTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-SysTask")).scope();
+        element.kendoDropDownList({
+            dataTextField: "TaskTypeName",
+            dataValueField: "TaskTypeID",
+            dataSource: scope.TaskTypes,
+            optionLabel: "--Select Type--"
+        });
+    };
+    function PriorityFilter(element) {
+        var scope = angular.element(document.getElementById("widget-SysTask")).scope();
+        element.kendoDropDownList({
+            dataTextField: "PriorityName",
+            dataValueField: "PriorityID",
+            dataSource: scope.TaskPriorities,
+            optionLabel: "--Select Priority--"
+        });
+    };
+</script>
+<div ng-controller="SysTaskController">
+    <div class="widget" id="widget-SysTask">
+        <div ng-show="PagesSys00100.length > 0">
+            <div ng-repeat="Page in PagesSys00100">
+                <div ng-include="Page.url"></div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesSys00100.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions"></div>
+            </div>
+            <div style="overflow: hidden;">
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.Admin.Sys00100>().Name("GridSysTask")
+                .Columns(columns =>
+                {
+                    columns.Bound(c => c.TaskID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditTask_Click('#:TaskID#');""> #:TaskID# </a>").Width(100).Title("Task ID");
+                    columns.ForeignKey(c => c.TaskTypeID,
+                        (System.Collections.IEnumerable)ViewData["TaskTypes"], "TaskTypeID", "TaskTypeName")
+                        .Title("Task Type").Filterable(filterable => filterable.UI("TaskTypeFilter"));
+                    columns.Bound(c => c.TaskTitle).Title("Task Title");
+                    columns.Bound(c => c.UserAsginFrom).Title("User Assgin From");
+                    columns.Bound(c => c.UserAsginTO).Title("User Assgin To");
+                    columns.ForeignKey(c => c.PriorityID, (System.Collections.IEnumerable)ViewData["TaskPriorities"], "PriorityID", "PriorityName")
+                    .Title("Task Priority").Filterable(filterable => filterable.UI("PriorityFilter"));
+                    columns.Bound(c => c.TaskStartDate).Title("Start Date").Format("{0:dd/MM/yyyy}");
+                    columns.Bound(c => c.TaskEndDate).Title("End Date").Format("{0:dd/MM/yyyy}");
+                    columns.Bound(o => o.TaskProgress).Width(100)
+                            .ClientTemplate(@"<div class='progress margin-top-10'>
+                                            <div class='# if(TaskProgress > 0 && TaskProgress < 40) { #progress-bar bg-color-redLight# }
+else if (TaskProgress >= 40 && TaskProgress < 80) { #progress-bar bg-color-yellow# }
+else if (TaskProgress >= 80 && TaskProgress < 100) { #progress-bar bg-color-blue# }
+else if (TaskProgress == 1) { #progress-bar bg-color-greenLight# }#' role='progressbar' aria-valuenow='#=TaskProgress #' aria-valuemin='0' aria-valuemax='100' style='width: #=TaskProgress#%'>
+                                                <span>
+                                                    #=TaskProgress # % Complete
+                                                </span>
+                                            </div>
+                                        </div>");
+                })
+                .HtmlAttributes(new { style = "overflow:hidden;" })
+                .Excel(excel => excel.AllPages(true).FileName("Case Tasks.xlsx").Filterable(true))
+                .Pdf(pdf => pdf.FileName("Case Tasks.pdf").AllPages().Date(DateTime.Now))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Tasks from {0} to {1}. Total Case Tasks: <strong>{2}</strong>")
+                .ItemsPerPage("Task Per page").Empty("No Tasks Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu().Scrollable(s => s.Height(400)).Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                .Read(read => read.Action("GetDataListGrid", "SysTask").Type(HttpVerbs.Get)
+                .Data("GetGenericKaizenPublicKey"))
+                         .Model(model =>
+                         {
+                             model.Id(p => p.TaskID);
+                             model.Field(p => p.TaskID);
+                             model.Field(p => p.TaskTitle);
+                             model.Field(p => p.UserAsginFrom);
+                             model.Field(p => p.UserAsginTO);
+                             model.Field(p => p.TaskTypeID);
+                             model.Field(p => p.TaskStartDate);
+                             model.Field(p => p.TaskEndDate);
+                             model.Field(p => p.TaskDescription);
+                             model.Field(p => p.PriorityID);
+                             model.Field(p => p.AssignDate);
+                         })
+                )
+                    )
+                </div>
+            </div>
+            <div kendo-window="TaskActionWindow" k-title="'Task Action'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="800" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+

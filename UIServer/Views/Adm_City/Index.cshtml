@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCity_Click(CityID) {
+        var scope = angular.element(document.getElementById("widget-Adm_City")).scope();
+        scope.$apply(function () {
+            scope.EditSys00014(CityID);
+        });
+    }
+</script>
+<div ng-controller="Adm_CityController">
+    <div class="widget" id="widget-Adm_City">
+        <div ng-show="PagesSys00014.length >0">
+            <div ng-repeat="Page in PagesSys00014">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="widget-body" ng-show="PagesSys00014.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions">
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Admin.Sys00014>()
+                            .Name("GridAdm_City")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.CityID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCity_Click('#:CityID#');""> #:CityID# </a>").Width(100).Title("City ID");
+                                columns.Bound(c => c.CityName).Title("City");
+                            })
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Status from {0} to {1}. Total Statuses: <strong>{2}</strong>")
+                            .ItemsPerPage("Status Per page").Empty("No Status Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Adm_City")
+                            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.CityID);
+                                model.Field(o => o.CityName);
+                            })
+                        )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

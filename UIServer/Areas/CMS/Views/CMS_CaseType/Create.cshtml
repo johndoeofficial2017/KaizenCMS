@@ -1,0 +1,295 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <!-- widget grid -->
+    <div>
+        <header class="button-header">
+            <a class="btn btn-default" ng-click="SaveData();"
+               ng-show="CM00029.Status == 1">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Save &amp; Close
+            </a>
+            <a class="btn btn-default" ng-click="UpdateData();"
+               ng-show="CM00029.Status == 2">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Update &amp; Close
+            </a>
+            <a class="btn btn-default" ng-click="Delete();" ng-show="CM00029.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+            <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+            <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+            <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        </header>
+        <br /><br />
+        <div id="widget-Set_Accounting">
+            <div class="no-border overflow">
+                <div class="widget-body">
+                    <div class="row">
+                        <article class="col-md-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col col-md-4 control-label">Currency Code</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Currency Code" ng-model="CM00029.CurrencyCode" />
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default"
+                                                            ng-click="OpenkendoWindow('GL_CheckbookLookUp',null,'CaseTypeCurrencyCode')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col col-sm-4 control-label text-left">Case Type Name</label>
+                                        <div class="col col-sm-8">
+                                            <input type="text" class="form-control" maxlength="15"
+                                                   placeholder="Case Type Name" ng-model="CM00029.TrxTypeName">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col col-sm-4 control-label text-left">Next Document Number</label>
+                                        <div class="col col-sm-8">
+                                            <input type="text" class="form-control" maxlength="10"
+                                                   placeholder="Next Document Number" ng-model="CM00029.NextDocumentNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col col-sm-4 control-label text-left">Next Number Prefix</label>
+                                        <div class="col col-sm-8">
+                                            <input type="text" class="form-control" maxlength="5"
+                                                   placeholder="Next Number Prefix" ng-model="CM00029.NextNumberPrefix">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col col-sm-4 control-label text-left">Next Number Length</label>
+                                        <div class="col col-sm-8">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Next Number length" ng-model="CM00029.NextNumberlenth">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                        <label class="col col-sm-4 control-label text-left">Table Source</label>
+                                        <div class="col col-sm-8">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Table Source --'"
+                                                    k-ng-model="SelectedLookUp.SelectedTableSource"
+                                                    k-data-text-field="'TableSource'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'TableSource'"
+                                                    k-data-source="TableSourceList"
+                                                    k-on-change="TableSourceChanged()"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <section class="col-md-12">
+                                    <label class="col col-md-2 control-label"></label>
+                                    <label class="col col-md-4">
+                                        <input type="checkbox"
+                                               class="checkbox style-0"
+                                               ng-model="CM00029.IsCaseFixedSerial">
+                                        <span>Is Case Fixed Serial</span>
+                                    </label>
+
+                                </section>
+
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+
+        <header class="button-header">
+            <a class="btn btn-default" ng-click="SaveData();"
+               ng-show="CM00029.Status == 1">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Save &amp; Close
+            </a>
+            <a class="btn btn-default" ng-click="UpdateData();"
+               ng-show="CM00029.Status == 2">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Update &amp; Close
+            </a>
+            <a class="btn btn-default" ng-click="Delete();" ng-show="CM00029.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+            <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+            <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+            <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        </header>
+
+        <!-- widget div-->
+        <div class="no-border overflow">
+
+            <!-- widget edit box -->
+            <div class="jarviswidget-editbox">
+                <!-- This area used as dropdown edit box -->
+                <input class="form-control" type="text">
+            </div>
+            <!-- end widget edit box -->
+            <!-- widget content -->
+            <div class="widget-body">
+
+                <div class="row">
+
+                    <!-- NEW WIDGET START -->
+                    <article class="col-md-12 col-lg-12 separator">
+                        <div class="row no-padding">
+                            <form class="smart-form">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col col-md-4 control-label txt-color-red bold">Currency Code</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" readonly
+                                                                   placeholder="Currency Code" ng-model="CM00029.CurrencyCode" />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default"
+                                                                        ng-click="OpenkendoWindow('GL_CheckbookLookUp',null,'CaseTypeCurrencyCode')">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col col-sm-4 control-label text-left">Case Type Name</label>
+                                                    <div class="col col-sm-8">
+                                                        <input type="text" class="form-control" maxlength="15"
+                                                               placeholder="Case Type Name" ng-model="CM00029.TrxTypeName">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 control-label">Next Document Number</label>
+                                            <label class="input col col-md-4">
+                                                <input type="text" class="form-control" maxlength="10"
+                                                       placeholder="Next Document Number" ng-model="CM00029.NextDocumentNumber">
+                                            </label>
+
+
+                                            <label class="col col-md-2 control-label">Next Number Prefix</label>
+                                            <label class="input col col-md-4">
+                                                <input type="text" class="form-control" maxlength="5"
+                                                       placeholder="Next Number Prefix" ng-model="CM00029.NextNumberPrefix">
+                                            </label>
+
+                                        </section>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 control-label">Next Number length</label>
+                                            <label class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Next Number length" ng-model="CM00029.NextNumberlenth">
+                                            </label>
+
+                                            <label class="col col-md-2 control-label">Table Source</label>
+                                            <label class="input col col-md-4">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Table Source --'"
+                                                        k-ng-model="SelectedLookUp.SelectedTableSource"
+                                                        k-data-text-field="'TableSource'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'TableSource'"
+                                                        k-data-source="TableSourceList"
+                                                        k-on-change="TableSourceChanged()"
+                                                        style="width: 100%"></select>
+                                            </label>
+                                        </section>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 control-label">Is Case Fixed Serial</label>
+                                            <label class="col">
+                                                <input type="checkbox"
+                                                       class="checkbox style-0"
+                                                       ng-model="CM00029.IsCaseFixedSerial">
+                                                <span>Is Case Fixed Serial</span>
+                                            </label>
+
+                                        </section>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </form>
+                        </div>
+                    </article>
+                </div>
+                <!-- End Body -->
+            </div>
+            <!-- end widget content -->
+
+        </div>
+        <!-- end widget div -->
+    </div>*@
+
+
+
+
+
+

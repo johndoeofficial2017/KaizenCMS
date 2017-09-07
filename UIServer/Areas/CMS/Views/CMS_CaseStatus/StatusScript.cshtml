@@ -1,0 +1,114 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <!-- widget div-->
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form id="GL_GLCategoryForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveStatusScript();">
+                                        <i class="glyphicon glyphicon-edit"></i> Save Changes
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>
+                                    Case Status Script Maintenance
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Status</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-ng-model="CM00700.SelectedStatus"
+                                                k-options="CaseStatusHasScriptsOptions"
+                                                k-on-change="ScriptStatusChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label text-left">Script Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" 
+                                               placeholder="Status Script Name"
+                                               ng-model="CM00026.StatusScriptName" maxlength="25" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Script Main</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="4" placeholder="Status Script Main"
+                                                  ng-model="CM00026.StatusScriptMain" maxlength="2000"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-controls">
+                                    <button class="btn btn-primary" ng-click="AddNewScript()" ng-show="CM00026.status == 0">Add Script</button>
+                                    <button class="btn btn-primary" ng-click="UpdateScript()" ng-hide="CM00026.status == 0">Update Script</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="StatusScripts.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-align-center">Script Name</th>
+                                                <th class="text-align-center">Script Main</th>
+                                                <th class="text-align-center">Edit</th>
+                                                <th class="text-align-center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="script in StatusScripts" ng-class="{'deleted':script.status== 3}">
+                                                <td class="col-md-2">{{script.StatusScriptName}}</td>
+                                                <td class="col-md-4">{{script.StatusScriptMain}}</td>
+                                                <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                    <a href="" ng-click="EditScript(script)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                                </td>
+                                                <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                    <a href="" ng-click="RemoveStatusScript(script,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

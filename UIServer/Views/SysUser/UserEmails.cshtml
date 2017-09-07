@@ -1,0 +1,199 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetEmailListWithUser() {
+        var widget = $("#widget-SysUser")
+        var scope = angular.element(widget).scope();
+        //alert(scope.Kaizen00020.UserName);
+        return {
+            Searchcritaria: '',
+            UserName: scope.Kaizen00020.UserName,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditEmailbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-SysUser")).scope();
+        scope.$apply(function () {
+            scope.Kaizen00020 = dataItem;
+            scope.Kaizen00020.Status = 2;
+        });
+    };
+    function DeleteEmailbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-SysUser")).scope();
+        scope.$apply(function () {
+            scope.Kaizen00020 = dataItem;
+            scope.Kaizen00020.Status = 3;
+            scope.DeleteKaizen00020();
+        });
+    };
+</script>
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="SysUserEmailForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    User Email Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">User</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="UserName" ng-model="User.UserName" readonly>
+                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('KaizenUser',null,'EmailSetup')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Email</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="Email Name"
+                                               maxlength="50" ng-model="Kaizen00020.EmailID" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Email Title</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control"
+                                               placeholder="Email Title" ng-model="Kaizen00020.EmailTitle" />
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Email Password</label>
+                                    <div class="col-sm-4">
+                                        <input type="password" class="form-control" maxlength="50"
+                                               placeholder="Email Password" ng-model="Kaizen00020.EmailIPassword" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Incoming Protocal</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control"
+                                               placeholder="Incoming Protocal" ng-model="Kaizen00020.IncomingProtocal" />
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">InComing Port</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control"
+                                               placeholder="InComing Port" ng-model="Kaizen00020.InComingPort" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">OutGoing Protocal</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control"
+                                               placeholder="OutGoing Protocal" ng-model="Kaizen00020.OutGoingProtocal" />
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">OutGoingPort</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control"
+                                               placeholder="OutGoing Port" ng-model="Kaizen00020.OutGoingPort" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-actions no-margin">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-primary" ng-click="SaveKaizen00020()"
+                                                ng-show="Kaizen00020.Status == 1">
+                                            <i class="fa fa-plus-square"></i> Add Email
+                                        </button>
+                                        <button class="btn btn-default" ng-click="UpdateKaizen00020()" ng-show="Kaizen00020.Status == 2">
+                                            <i class="fa fa-edit"></i> Update Email
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div ng-show="User.UserName != '' && User.UserName != undefined">
+                            @(Html.Kendo().Grid<Kaizen.Configuration.Kaizen00020>()
+            .Name("GridSysUserByEmail")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.EmailID).Width(160).Title("Email");
+                columns.Bound(c => c.EmailTitle).Width(150);
+                columns.Bound(c => c.IncomingProtocal).Width(120);
+                columns.Bound(c => c.InComingPort).Width(80);
+                columns.Bound(c => c.OutGoingProtocal).Width(120);
+                columns.Bound(c => c.OutGoingPort).Width(80);
+                columns.Bound(c => c.IsSSL).Width(120);
+                columns.Group(g => g.Title("Actions")
+                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                .Columns(location =>
+                {
+                    location.Command(command =>
+                    {
+                        command.Custom("Edit").Click("EditEmailbtn")
+                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Delete").Click("DeleteEmailbtn")
+                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                })
+                );
+            })
+            .Filterable().AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Email from {0} to {1}. Total Properties: <strong>{2}</strong>")
+            .ItemsPerPage("Email Per page").Empty("No Email Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+            .Read(read => read.Action("GetEmailListGridWithUser", "SysUser")
+            .Type(HttpVerbs.Get).Data("GetEmailListWithUser"))
+            .Model(model =>
+            {
+                model.Id(o => o.EmailID);
+                model.Field(o => o.EmailID);
+                model.Field(o => o.EmailTitle);
+                model.Field(o => o.InComingPort);
+                model.Field(o => o.IncomingProtocal);
+                model.Field(o => o.OutGoingPort);
+                model.Field(o => o.OutGoingProtocal);
+                model.Field(o => o.IsSSL);
+                model.Field(o => o.UserName);
+            })
+            )
+                            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,118 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <header class="button-header">
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                        <i class="fa fa-arrow-left"></i>
+                        <br />
+                        Back
+                    </a>
+                </header>
+                <!-- widget grid -->
+                <section id="widget-grid" class="">
+                    <!-- row -->
+                    <div class="row">
+                        <!-- NEW WIDGET ROW START -->
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                                <!-- widget div-->
+                                <div class="no-padding-top">
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+                                        <form id="GL_GLCategoryForm" class="form-horizontal"
+                                              data-bv-message="This value is not valid"
+                                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                                            <fieldset>
+                                                <legend>
+                                                    Client Parent Maintenance
+                                                </legend>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label text-left txt-color-red bold">Parent Client ID</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" readonly
+                                                                   placeholder="Client ID" ng-model="CM00110.ParentClientID" />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default"
+                                                                        ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'ParentClientAssign')">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label text-left txt-color-red bold">Child Client ID</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" readonly
+                                                                   placeholder="Client ID" ng-model="CM00110.ClientID" />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default"
+                                                                        ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'ChildClient')">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <div class="form-controls">
+                                                    <button class="btn btn-primary" ng-click="UpdateClientData()" ng-show="CM00110.ClientID">Add Child Client</button>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <table class="table table-bordered table-hover table-responsive">
+                                                        <thead>
+                                                            <tr style="text-transform: capitalize;">
+                                                                <th>Client ID</th>
+                                                                <th>Client Name</th>
+                                                                <th>Parent ID</th>
+                                                                <th>Delete</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="clientParent in ClientParentList">
+                                                                <td>{{clientParent.ClientID}}</td>
+                                                                <td>{{clientParent.ClientName}}</td>
+                                                                <td>{{clientParent.ParentClientID}}</td>
+                                                                <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                                    <a href="" ng-click="DeleteParentClientID(clientParent,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
+                            </div>
+                        </article>
+                        <!-- end widget -->
+                    </div>
+                    <!-- WIDGET ROW END -->
+                    <!-- end row -->
+                </section>
+                <!-- end widget grid -->
+            </div>
+        </article>
+    </div>
+</section>

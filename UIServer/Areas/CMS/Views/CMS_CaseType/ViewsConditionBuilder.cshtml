@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = null;
+}
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+        <a ng-click="AddSeach(0);" class="btn btn-default btn-header">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            And Operator
+        </a>
+        <a ng-click="AddSeach(1);" class="btn btn-default btn-header">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            OR Operator
+        </a>
+        <a class="btn btn-default" ng-click="OperationSelectation()">
+            <i class="glyphicon glyphicon-remove-circle"></i><br />
+            {{IsOrOperation}} Operator
+        </a>
+        <a ng-click="UpdateConditionBuilder();" class="btn btn-default btn-header" ng-hide="SeachSQL==''">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Update
+        </a>
+    </header>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="col-sm-12 no-padding margin-bottom-5">
+                    <label class="col col-sm-4 control-label text-left">Case Type</label>
+                    <div class="col col-sm-8">
+                        <select kendo-drop-down-list
+                                k-ng-model="CM00029.SelectedCaseType"
+                                k-options="CaseTypeHasOptions"
+                                k-on-change="CaseTypeChangedForConditionBuilder()"
+                                k-rebind="CaseTypeHasOptions"
+                                style="width: 100%"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-sm-12 no-padding margin-bottom-5">
+                    <label class="col col-sm-4 control-label text-left">Select View</label>
+                    <div class="col col-sm-8">
+                        <select kendo-drop-down-list
+                                k-ng-model="CM00071.SelectedView"
+                                k-options="ViewHasOptions"
+                                k-on-change="ViewChangedForConditionBuilder()"
+                                k-rebind="ViewHasOptions"
+                                style="width: 100%"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        {{SeachText}}
+        <legend class="text-center"><strong>Seaching</strong></legend>
+        <div class="widget no-margin-bottom">
+            <div class="widget-body">
+                <div class="col-md-6">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-align-center">
+                                    Field
+                                </th>
+                                <th class="text-align-center">
+                                    Value
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="column in FieldsListByView" ng-if="$index < (FieldsListByView.length / 2)">
+                                <td>
+                                    <div>
+                                        <input type="checkbox"
+                                               ng-change="Filter_Selected(column)"
+                                               id="eq1{{$index}}" class="k-checkbox"
+                                               ng-model="column.IsChecked" checked="checked">
+                                        <label class="k-checkbox-label" for="eq1{{$index}}">{{column.FieldDisplay}}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div dynamic="column.html" ng-show="column.IsChecked"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-align-center">
+                                    Field
+                                </th>
+                                <th class="text-align-center">
+                                    Map Field
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="column in FieldsListByView" ng-if="$index >= (FieldsListByView.length / 2)">
+                                <td>
+                                    <div>
+                                        <input type="checkbox"
+                                               ng-change="Filter_Selected(column)"
+                                               id="eq1{{$index}}" class="k-checkbox"
+                                               ng-model="column.IsChecked" checked="checked">
+                                        <label class="k-checkbox-label" for="eq1{{$index}}">{{column.FieldName}}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div dynamic="column.html" ng-show="column.IsChecked"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

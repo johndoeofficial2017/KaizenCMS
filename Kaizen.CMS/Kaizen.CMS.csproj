@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{98F5F53B-E306-44A2-8F91-D2D9EBC27829}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kaizen.CMS</RootNamespace>
+    <AssemblyName>Kaizen.CMS</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\BusinessLogic\DLLFiles\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CMSDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CMSDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CMSDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CMSContext.cs" />
+    <Compile Include="CryptoGrapher.cs" />
+    <Compile Include="DataCollection.cs" />
+    <Compile Include="Dynamic.cs" />
+    <Compile Include="GenericDataRepository.cs" />
+    <Compile Include="IGenericDataRepository.cs" />
+    <Compile Include="KaizenDataTable.cs" />
+    <Compile Include="KaizenResult.cs" />
+    <Compile Include="KCM00203_Result.cs">
+      <DependentUpon>CMSDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CM00001.cs" />
+    <Compile Include="Models\CM00002.cs" />
+    <Compile Include="Models\CM00003.cs" />
+    <Compile Include="Models\CM00004.cs" />
+    <Compile Include="Models\CM00005.cs" />
+    <Compile Include="Models\CM00006.cs" />
+    <Compile Include="Models\CM00007.cs" />
+    <Compile Include="Models\CM00010.cs" />
+    <Compile Include="Models\CM00011.cs" />
+    <Compile Include="Models\CM00012.cs" />
+    <Compile Include="Models\CM00013.cs" />
+    <Compile Include="Models\CM00014.cs" />
+    <Compile Include="Models\CM00015.cs" />
+    <Compile Include="Models\CM00016.cs" />
+    <Compile Include="Models\CM00017.cs" />
+    <Compile Include="Models\CM00018.cs" />
+    <Compile Include="Models\CM00019.cs" />
+    <Compile Include="Models\CM00020.cs" />
+    <Compile Include="Models\CM00021.cs" />
+    <Compile Include="Models\CM00022.cs" />
+    <Compile Include="Models\CM00023.cs" />
+    <Compile Include="Models\CM00024.cs" />
+    <Compile Include="Models\CM00024_1290.cs" />
+    <Compile Include="Models\CM00024_2289.cs" />
+    <Compile Include="Models\CM00024_2312.cs" />
+    <Compile Include="Models\CM00024_2317.cs" />
+    <Compile Include="Models\CM00024_267.cs" />
+    <Compile Include="Models\CM00024_282.cs" />
+    <Compile Include="Models\CM00024_292.cs" />
+    <Compile Include="Models\CM00024_309.cs" />
+    <Compile Include="Models\CM00025.cs" />
+    <Compile Include="Models\CM00026.cs" />
+    <Compile Include="Models\CM00027.cs" />
+    <Compile Include="Models\CM00028.cs" />
+    <Compile Include="Models\CM00029.cs" />
+    <Compile Include="Models\CM00030.cs" />
+    <Compile Include="Models\CM00031.cs" />
+    <Compile Include="Models\CM00032.cs" />
+    <Compile Include="Models\CM00033.cs" />
+    <Compile Include="Models\CM00034.cs" />
+    <Compile Include="Models\CM00035.cs" />
+    <Compile Include="Models\CM00036.cs" />
+    <Compile Include="Models\CM00037.cs" />
+    <Compile Include="Models\CM00038.cs" />
+    <Compile Include="Models\CM00039.cs" />
+    <Compile Include="Models\CM00040.cs" />
+    <Compile Include="Models\CM00041.cs" />
+    <Compile Include="Models\CM00042.cs" />
+    <Compile Include="Models\CM00043.cs" />
+    <Compile Include="Models\CM00044.cs" />
+    <Compile Include="Models\CM00045.cs" />
+    <Compile Include="Models\CM00046.cs" />
+    <Compile Include="Models\CM00047.cs" />
+    <Compile Include="Models\CM00048.cs" />
+    <Compile Include="Models\CM00049.cs" />
+    <Compile Include="Models\CM00050.cs" />
+    <Compile Include="Models\CM00051.cs" />
+    <Compile Include="Models\CM00052.cs" />
+    <Compile Include="Models\CM00053.cs" />
+    <Compile Include="Models\CM00054.cs" />
+    <Compile Include="Models\CM00055.cs" />
+    <Compile Include="Models\CM00056.cs" />
+    <Compile Include="Models\CM00057.cs" />
+    <Compile Include="Models\CM00058.cs" />
+    <Compile Include="Models\CM00059.cs" />
+    <Compile Include="Models\CM00060.cs" />
+    <Compile Include="Models\CM00061.cs" />
+    <Compile Include="Models\CM00062.cs" />
+    <Compile Include="Models\CM00063.cs" />
+    <Compile Include="Models\CM00064.cs" />
+    <Compile Include="Models\CM00065.cs" />
+    <Compile Include="Models\CM00066.cs" />
+    <Compile Include="Models\CM00070.cs" />
+    <Compile Include="Models\CM00071.cs" />
+    <Compile Include="Models\CM00072.cs" />
+    <Compile Include="Models\CM00073.cs" />
+    <Compile Include="Models\CM00074.cs" />
+    <Compile Include="Models\CM00075.cs" />
+    <Compile Include="Models\CM00076.cs" />
+    <Compile Include="Models\CM00077.cs" />
+    <Compile Include="Models\CM00078.cs" />
+    <Compile Include="Models\CM00079.cs" />
+    <Compile Include="Models\CM00080.cs" />
+    <Compile Include="Models\CM00081.cs" />
+    <Compile Include="Models\CM00082.cs" />
+    <Compile Include="Models\CM00083.cs" />
+    <Compile Include="Models\CM00084.cs" />
+    <Compile Include="Models\CM00085.cs" />
+    <Compile Include="Models\CM00086.cs" />
+    <Compile Include="Models\CM00088.cs" />
+    <Compile Include="Models\CM00089.cs" />
+    <Compile Include="Models\CM00090.cs" />
+    <Compile Include="Models\CM00091.cs" />
+    <Compile Include="Models\CM00100.cs" />
+    <Compile Include="Models\CM00100View.cs" />
+    <Compile Include="Models\CM00101.cs" />
+    <Compile Include="Models\CM00102.cs" />
+    <Compile Include="Models\CM00104.cs" />
+    <Compile Include="Models\CM00105.cs" />
+    <Compile Include="Models\CM00106.cs" />
+    <Compile Include="Models\CM00107.cs" />
+    <Compile Include="Models\CM00108.cs" />
+    <Compile Include="Models\CM00109.cs" />
+    <Compile Include="Models\CM00110.cs" />
+    <Compile Include="Models\CM00111.cs" />
+    <Compile Include="Models\CM00112.cs" />
+    <Compile Include="Models\CM00113.cs" />
+    <Compile Include="Models\CM00115.cs" />
+    <Compile Include="Models\CM00116.cs" />
+    <Compile Include="Models\CM00117.cs" />
+    <Compile Include="Models\CM00118.cs" />
+    <Compile Include="Models\CM00119.cs" />
+    <Compile Include="Models\CM00120.cs" />
+    <Compile Include="Models\CM00130.cs" />
+    <Compile Include="Models\CM00131.cs" />
+    <Compile Include="Models\CM00140.cs" />
+    <Compile Include="Models\CM00141.cs" />
+    <Compile Include="Models\CM00150.cs" />
+    <Compile Include="Models\CM00151.cs" />
+    <Compile Include="Models\CM00152.cs" />
+    <Compile Include="Models\CM00153.cs" />
+    <Compile Include="Models\CM00154.cs" />
+    <Compile Include="Models\CM00155.cs" />
+    <Compile Include="Models\CM00170.cs" />
+    <Compile Include="Models\CM00200.cs" />
+    <Compile Include="Models\CM00201.cs" />
+    <Compile Include="Models\CM00202.cs" />
+    <Compile Include="Models\CM00203.cs" />
+    <Compile Include="Models\CM002030.cs" />
+    <Compile Include="Models\CM00203View01.cs" />
+    <Compile Include="Models\CM00203View02.cs" />
+    <Compile Include="Models\CM00204.cs" />
+    <Compile Include="Models\CM00205.cs" />
+    <Compile Include="Models\CM00205View01.cs" />
+    <Compile Include="Models\CM00206.cs" />
+    <Compile Include="Models\CM00207.cs" />
+    <Compile Include="Models\CM00208.cs" />
+    <Compile Include="Models\CM00209.cs" />
+    <Compile Include="Models\CM00210.cs" />
+    <Compile Include="Models\CM00211.cs" />
+    <Compile Include="Models\CM00212.cs" />
+    <Compile Include="Models\CM00213.cs" />
+    <Compile Include="Models\CM00214.cs" />
+    <Compile Include="Models\CM00215.cs" />
+    <Compile Include="Models\CM00216.cs" />
+    <Compile Include="Models\CM00217.cs" />
+    <Compile Include="Models\CM00220.cs" />
+    <Compile Include="Models\CM00230.cs" />
+    <Compile Include="Models\CM00231.cs" />
+    <Compile Include="Models\CM00232.cs" />
+    <Compile Include="Models\CM00233.cs" />
+    <Compile Include="Models\CM00234.cs" />
+    <Compile Include="Models\CM00235.cs" />
+    <Compile Include="Models\CM00307.cs" />
+    <Compile Include="Models\CM00308.cs" />
+    <Compile Include="Models\CM00309.cs" />
+    <Compile Include="Models\CM00700.cs" />
+    <Compile Include="Models\CM10100.cs" />
+    <Compile Include="Models\CM10107.cs" />
+    <Compile Include="Models\CM10201.cs" />
+    <Compile Include="Models\CM10110.cs" />
+    <Compile Include="Models\CM10200.cs" />
+    <Compile Include="Models\CM10207.cs" />
+    <Compile Include="Models\CM10307.cs" />
+    <Compile Include="Models\CM10701.cs" />
+    <Compile Include="Models\CM20200.cs" />
+    <Compile Include="Models\CM20201.cs" />
+    <Compile Include="Models\CM20202.cs" />
+    <Compile Include="Models\CM20203.cs" />
+    <Compile Include="Models\CM20205.cs" />
+    <Compile Include="Models\CM20206.cs" />
+    <Compile Include="Models\CM20207.cs" />
+    <Compile Include="Models\CM20210.cs" />
+    <Compile Include="Models\CM30200.cs" />
+    <Compile Include="Models\CM30201.cs" />
+    <Compile Include="Models\CM30202.cs" />
+    <Compile Include="Models\CM30203.cs" />
+    <Compile Include="Models\CM30204.cs" />
+    <Compile Include="Models\CM30205.cs" />
+    <Compile Include="Models\CM30206.cs" />
+    <Compile Include="Models\CM30207.cs" />
+    <Compile Include="Models\CM30230.cs" />
+    <Compile Include="Models\CMV00200.cs" />
+    <Compile Include="Models\CMV00201.cs" />
+    <Compile Include="Models\CMV00202.cs" />
+    <Compile Include="Models\CM_600200.cs" />
+    <Compile Include="Models\CM_60601.cs" />
+    <Compile Include="Models\CM_60610.cs" />
+    <Compile Include="Models\CM_CaseDuplicate.cs" />
+    <Compile Include="Models\CM_CaseDuplicateForUploading.cs" />
+    <Compile Include="Models\CM_CaseMissingAgeUploading.cs" />
+    <Compile Include="Models\CM_CaseNewForUploading.cs" />
+    <Compile Include="Models\CM_CaseOld.cs" />
+    <Compile Include="Models\CM_CaseOldForUploading.cs" />
+    <Compile Include="Models\CM_CaseUploadMissingAgent.cs" />
+    <Compile Include="Models\CM_CaseView.cs" />
+    <Compile Include="Models\CM_Client.cs" />
+    <Compile Include="Models\CM_DebtorForUploading.cs" />
+    <Compile Include="Models\CM_LetterView.cs" />
+    <Compile Include="Models\CM_UploadValidate00.cs" />
+    <Compile Include="Models\CM_UploadValidate01.cs" />
+    <Compile Include="Models\CM_UploadValidate02.cs" />
+    <Compile Include="Models\CM_UploadValidate03.cs" />
+    <Compile Include="Models\CM_UploadValidate04.cs" />
+    <Compile Include="Models\CM_UploadValidateEmail01.cs" />
+    <Compile Include="Models\CM_UploadValidateMissingNationalityID.cs" />
+    <Compile Include="Models\CM_UploadValidateMobileNo1.cs" />
+    <Compile Include="Models\CM_UploadValidateNationalityID.cs" />
+    <Compile Include="Models\CM_UploadValidateOccupation.cs" />
+    <Compile Include="Models\CM_UploadValidateOther01.cs" />
+    <Compile Include="Models\CM_UploadValidatePassportNumber.cs" />
+    <Compile Include="Models\CM_UploadValidatePnone01.cs" />
+    <Compile Include="Models\CM_UploadValidatePnone02.cs" />
+    <Compile Include="Models\CM_UploadValidatePnone03.cs" />
+    <Compile Include="Models\CM_UploadValidatePnone04.cs" />
+    <Compile Include="Models\CM_UploadValidateResidenceNo.cs" />
+    <Compile Include="Models\Mapping\CM00001Map.cs" />
+    <Compile Include="Models\Mapping\CM00002Map.cs" />
+    <Compile Include="Models\Mapping\CM00003Map.cs" />
+    <Compile Include="Models\Mapping\CM00004Map.cs" />
+    <Compile Include="Models\Mapping\CM00005Map.cs" />
+    <Compile Include="Models\Mapping\CM00006Map.cs" />
+    <Compile Include="Models\Mapping\CM00007Map.cs" />
+    <Compile Include="Models\Mapping\CM00008Map.cs" />
+    <Compile Include="Models\Mapping\CM00009Map.cs" />
+    <Compile Include="Models\Mapping\CM00010Map.cs" />
+    <Compile Include="Models\Mapping\CM00011Map.cs" />
+    <Compile Include="Models\Mapping\CM00012Map.cs" />
+    <Compile Include="Models\Mapping\CM00013Map.cs" />
+    <Compile Include="Models\Mapping\CM00014Map.cs" />
+    <Compile Include="Models\Mapping\CM00015Map.cs" />
+    <Compile Include="Models\Mapping\CM00016Map.cs" />
+    <Compile Include="Models\Mapping\CM00017Map.cs" />
+    <Compile Include="Models\Mapping\CM00018Map.cs" />
+    <Compile Include="Models\Mapping\CM00019Map.cs" />
+    <Compile Include="Models\Mapping\CM00020Map.cs" />
+    <Compile Include="Models\Mapping\CM00021Map.cs" />
+    <Compile Include="Models\Mapping\CM00022Map.cs" />
+    <Compile Include="Models\Mapping\CM00023Map.cs" />
+    <Compile Include="Models\Mapping\CM00024Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_1290Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_2289Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_2312Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_2317Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_267Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_282Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_292Map.cs" />
+    <Compile Include="Models\Mapping\CM00024_309Map.cs" />
+    <Compile Include="Models\Mapping\CM00025Map.cs" />
+    <Compile Include="Models\Mapping\CM00026Map.cs" />
+    <Compile Include="Models\Mapping\CM00027Map.cs" />
+    <Compile Include="Models\Mapping\CM00028Map.cs" />
+    <Compile Include="Models\Mapping\CM00029Map.cs" />
+    <Compile Include="Models\Mapping\CM00030Map.cs" />
+    <Compile Include="Models\Mapping\CM00031Map.cs" />
+    <Compile Include="Models\Mapping\CM00032Map.cs" />
+    <Compile Include="Models\Mapping\CM00033Map.cs" />
+    <Compile Include="Models\Mapping\CM00034Map.cs" />
+    <Compile Include="Models\Mapping\CM00035Map.cs" />
+    <Compile Include="Models\Mapping\CM00036Map.cs" />
+    <Compile Include="Models\Mapping\CM00037Map.cs" />
+    <Compile Include="Models\Mapping\CM00038Map.cs" />
+    <Compile Include="Models\Mapping\CM00039Map.cs" />
+    <Compile Include="Models\Mapping\CM00040Map.cs" />
+    <Compile Include="Models\Mapping\CM00041Map.cs" />
+    <Compile Include="Models\Mapping\CM00042Map.cs" />
+    <Compile Include="Models\Mapping\CM00043Map.cs" />
+    <Compile Include="Models\Mapping\CM00044Map.cs" />
+    <Compile Include="Models\Mapping\CM00045Map.cs" />
+    <Compile Include="Models\Mapping\CM00046Map.cs" />
+    <Compile Include="Models\Mapping\CM00047Map.cs" />
+    <Compile Include="Models\Mapping\CM00048Map.cs" />
+    <Compile Include="Models\Mapping\CM00049Map.cs" />
+    <Compile Include="Models\Mapping\CM00050Map.cs" />
+    <Compile Include="Models\Mapping\CM00051Map.cs" />
+    <Compile Include="Models\Mapping\CM00052Map.cs" />
+    <Compile Include="Models\Mapping\CM00053Map.cs" />
+    <Compile Include="Models\Mapping\CM00054Map.cs" />
+    <Compile Include="Models\Mapping\CM00055Map.cs" />
+    <Compile Include="Models\Mapping\CM00056Map.cs" />
+    <Compile Include="Models\Mapping\CM00057Map.cs" />
+    <Compile Include="Models\Mapping\CM00058Map.cs" />
+    <Compile Include="Models\Mapping\CM00059Map.cs" />
+    <Compile Include="Models\Mapping\CM00060Map.cs" />
+    <Compile Include="Models\Mapping\CM00061Map.cs" />
+    <Compile Include="Models\Mapping\CM00062Map.cs" />
+    <Compile Include="Models\Mapping\CM00063Map.cs" />
+    <Compile Include="Models\Mapping\CM00064Map.cs" />
+    <Compile Include="Models\Mapping\CM00065Map.cs" />
+    <Compile Include="Models\Mapping\CM00066Map.cs" />
+    <Compile Include="Models\Mapping\CM00070Map.cs" />
+    <Compile Include="Models\Mapping\CM00071Map.cs" />
+    <Compile Include="Models\Mapping\CM00072Map.cs" />
+    <Compile Include="Models\Mapping\CM00073Map.cs" />
+    <Compile Include="Models\Mapping\CM00074Map.cs" />
+    <Compile Include="Models\Mapping\CM00075Map.cs" />
+    <Compile Include="Models\Mapping\CM00076Map.cs" />
+    <Compile Include="Models\Mapping\CM00077Map.cs" />
+    <Compile Include="Models\Mapping\CM00078Map.cs" />
+    <Compile Include="Models\Mapping\CM00079Map.cs" />
+    <Compile Include="Models\Mapping\CM00080Map.cs" />
+    <Compile Include="Models\Mapping\CM00081Map.cs" />
+    <Compile Include="Models\Mapping\CM00082Map.cs" />
+    <Compile Include="Models\Mapping\CM00083Map.cs" />
+    <Compile Include="Models\Mapping\CM00084Map.cs" />
+    <Compile Include="Models\Mapping\CM00085Map.cs" />
+    <Compile Include="Models\Mapping\CM00086Map.cs" />
+    <Compile Include="Models\Mapping\CM00088Map.cs" />
+    <Compile Include="Models\Mapping\CM00089Map.cs" />
+    <Compile Include="Models\Mapping\CM00090Map.cs" />
+    <Compile Include="Models\Mapping\CM00091Map.cs" />
+    <Compile Include="Models\Mapping\CM00100Map.cs" />
+    <Compile Include="Models\Mapping\CM00100ViewMap.cs" />
+    <Compile Include="Models\Mapping\CM00101Map.cs" />
+    <Compile Include="Models\Mapping\CM00102Map.cs" />
+    <Compile Include="Models\Mapping\CM00104Map.cs" />
+    <Compile Include="Models\Mapping\CM00105Map.cs" />
+    <Compile Include="Models\Mapping\CM00106Map.cs" />
+    <Compile Include="Models\Mapping\CM00107Map.cs" />
+    <Compile Include="Models\Mapping\CM00108Map.cs" />
+    <Compile Include="Models\Mapping\CM00109Map.cs" />
+    <Compile Include="Models\Mapping\CM00110Map.cs" />
+    <Compile Include="Models\Mapping\CM00111Map.cs" />
+    <Compile Include="Models\Mapping\CM00112Map.cs" />
+    <Compile Include="Models\Mapping\CM00113Map.cs" />
+    <Compile Include="Models\Mapping\CM00115Map.cs" />
+    <Compile Include="Models\Mapping\CM00116Map.cs" />
+    <Compile Include="Models\Mapping\CM00117Map.cs" />
+    <Compile Include="Models\Mapping\CM00118Map.cs" />
+    <Compile Include="Models\Mapping\CM00119Map.cs" />
+    <Compile Include="Models\Mapping\CM00120Map.cs" />
+    <Compile Include="Models\Mapping\CM00130Map.cs" />
+    <Compile Include="Models\Mapping\CM00131Map.cs" />
+    <Compile Include="Models\Mapping\CM00140Map.cs" />
+    <Compile Include="Models\Mapping\CM00141Map.cs" />
+    <Compile Include="Models\Mapping\CM00150Map.cs" />
+    <Compile Include="Models\Mapping\CM00151Map.cs" />
+    <Compile Include="Models\Mapping\CM00152Map.cs" />
+    <Compile Include="Models\Mapping\CM00153Map.cs" />
+    <Compile Include="Models\Mapping\CM00154Map.cs" />
+    <Compile Include="Models\Mapping\CM00155Map.cs" />
+    <Compile Include="Models\Mapping\CM00170Map.cs" />
+    <Compile Include="Models\Mapping\CM00200Map.cs" />
+    <Compile Include="Models\Mapping\CM00201Map.cs" />
+    <Compile Include="Models\Mapping\CM00202Map.cs" />
+    <Compile Include="Models\Mapping\CM002030Map.cs" />
+    <Compile Include="Models\Mapping\CM00203Map.cs" />
+    <Compile Include="Models\Mapping\CM00203View01Map.cs" />
+    <Compile Include="Models\Mapping\CM00203View02Map.cs" />
+    <Compile Include="Models\Mapping\CM00204Map.cs" />
+    <Compile Include="Models\Mapping\CM00205Map.cs" />
+    <Compile Include="Models\Mapping\CM00205View01Map.cs" />
+    <Compile Include="Models\Mapping\CM00206Map.cs" />
+    <Compile Include="Models\Mapping\CM00207Map.cs" />
+    <Compile Include="Models\Mapping\CM00208Map.cs" />
+    <Compile Include="Models\Mapping\CM00209Map.cs" />
+    <Compile Include="Models\Mapping\CM00210Map.cs" />
+    <Compile Include="Models\Mapping\CM00211Map.cs" />
+    <Compile Include="Models\Mapping\CM00212Map.cs" />
+    <Compile Include="Models\Mapping\CM00213Map.cs" />
+    <Compile Include="Models\Mapping\CM00214Map.cs" />
+    <Compile Include="Models\Mapping\CM00215Map.cs" />
+    <Compile Include="Models\Mapping\CM00216Map.cs" />
+    <Compile Include="Models\Mapping\CM00217Map.cs" />
+    <Compile Include="Models\Mapping\CM00220Map.cs" />
+    <Compile Include="Models\Mapping\CM00230Map.cs" />
+    <Compile Include="Models\Mapping\CM00231Map.cs" />
+    <Compile Include="Models\Mapping\CM00232Map.cs" />
+    <Compile Include="Models\Mapping\CM00233Map.cs" />
+    <Compile Include="Models\Mapping\CM00234Map.cs" />
+    <Compile Include="Models\Mapping\CM00235Map.cs" />
+    <Compile Include="Models\Mapping\CM00307Map.cs" />
+    <Compile Include="Models\Mapping\CM00308Map.cs" />
+    <Compile Include="Models\Mapping\CM00309Map.cs" />
+    <Compile Include="Models\Mapping\CM00700Map.cs" />
+    <Compile Include="Models\Mapping\CM10100Map.cs" />
+    <Compile Include="Models\Mapping\CM10107Map.cs" />
+    <Compile Include="Models\Mapping\CM10201Map.cs" />
+    <Compile Include="Models\Mapping\CM10110Map.cs" />
+    <Compile Include="Models\Mapping\CM10200Map.cs" />
+    <Compile Include="Models\Mapping\CM10207Map.cs" />
+    <Compile Include="Models\Mapping\CM10307Map.cs" />
+    <Compile Include="Models\Mapping\CM10701Map.cs" />
+    <Compile Include="Models\Mapping\CM20200Map.cs" />
+    <Compile Include="Models\Mapping\CM20201Map.cs" />
+    <Compile Include="Models\Mapping\CM20202Map.cs" />
+    <Compile Include="Models\Mapping\CM20203Map.cs" />
+    <Compile Include="Models\Mapping\CM20205Map.cs" />
+    <Compile Include="Models\Mapping\CM20206Map.cs" />
+    <Compile Include="Models\Mapping\CM20207Map.cs" />
+    <Compile Include="Models\Mapping\CM20210Map.cs" />
+    <Compile Include="Models\Mapping\CM30200Map.cs" />
+    <Compile Include="Models\Mapping\CM30201Map.cs" />
+    <Compile Include="Models\Mapping\CM30202Map.cs" />
+    <Compile Include="Models\Mapping\CM30203Map.cs" />
+    <Compile Include="Models\Mapping\CM30204Map.cs" />
+    <Compile Include="Models\Mapping\CM30205Map.cs" />
+    <Compile Include="Models\Mapping\CM30206Map.cs" />
+    <Compile Include="Models\Mapping\CM30207Map.cs" />
+    <Compile Include="Models\Mapping\CM30230Map.cs" />
+    <Compile Include="Models\Mapping\CMV00200Map.cs" />
+    <Compile Include="Models\Mapping\CMV00201Map.cs" />
+    <Compile Include="Models\Mapping\CMV00202Map.cs" />
+    <Compile Include="Models\Mapping\CM_600200Map.cs" />
+    <Compile Include="Models\Mapping\CM_60601Map.cs" />
+    <Compile Include="Models\Mapping\CM_60610Map.cs" />
+    <Compile Include="Models\Mapping\CM_CaseDuplicateForUploadingMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseDuplicateMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseMissingAgeUploadingMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseNewForUploadingMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseOldForUploadingMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseOldMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseUploadMissingAgentMap.cs" />
+    <Compile Include="Models\Mapping\CM_CaseViewMap.cs" />
+    <Compile Include="Models\Mapping\CM_ClientMap.cs" />
+    <Compile Include="Models\CM00009.cs" />
+    <Compile Include="Models\CM00008.cs" />
+    <Compile Include="Models\Mapping\CM_DebtorForUploadingMap.cs" />
+    <Compile Include="Models\Mapping\CM_LetterViewMap.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidate00Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidate01Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidate02Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidate03Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidate04Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateEmail01Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateMissingNationalityIDMap.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateMobileNo1Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateNationalityIDMap.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateOccupationMap.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateOther01Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidatePassportNumberMap.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidatePnone01Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidatePnone02Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidatePnone03Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidatePnone04Map.cs" />
+    <Compile Include="Models\Mapping\CM_UploadValidateResidenceNoMap.cs" />
+    <Compile Include="MoreEnumerable.cs" />
+    <Compile Include="partial\CM00215.cs" />
+    <Compile Include="partial\CM10201.cs" />
+    <Compile Include="partial\CM00025.cs" />
+    <Compile Include="partial\CM00024.cs" />
+    <Compile Include="partial\CM00060.cs" />
+    <Compile Include="partial\CM0007.cs" />
+    <Compile Include="partial\CM00203View01.cs" />
+    <Compile Include="partial\CM00039.cs" />
+    <Compile Include="partial\CM20203.cs" />
+    <Compile Include="partial\CM00203Comparer.cs" />
+    <Compile Include="partial\CM00100.cs" />
+    <Compile Include="partial\CM00104.cs" />
+    <Compile Include="partial\CM00308.cs" />
+    <Compile Include="partial\CM10110.cs" />
+    <Compile Include="partial\CM00110.cs" />
+    <Compile Include="partial\CM00200.cs" />
+    <Compile Include="partial\CM00105.cs" />
+    <Compile Include="partial\CM00203View.cs" />
+    <Compile Include="partial\CM00107.cs" />
+    <Compile Include="partial\CM00212.cs" />
+    <Compile Include="partial\CM00210.cs" />
+    <Compile Include="partial\CM00208.cs" />
+    <Compile Include="partial\CM00203.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CM00118Repository.cs" />
+    <Compile Include="Repository\CM00037Repository.cs" />
+    <Compile Include="Repository\CM00090Repository.cs" />
+    <Compile Include="Repository\CM00117Repository.cs" />
+    <Compile Include="Repository\CM00058Repository.cs" />
+    <Compile Include="Repository\CM00086Repository.cs" />
+    <Compile Include="Repository\CM00082Repository.cs" />
+    <Compile Include="Repository\CM00205Repository.cs" />
+    <Compile Include="Repository\CM00050Repository.cs" />
+    <Compile Include="Repository\CM10307Repository.cs" />
+    <Compile Include="Repository\CM00080Repository.cs" />
+    <Compile Include="Repository\CM00081Repository.cs" />
+    <Compile Include="Repository\CM00002Repository.cs" />
+    <Compile Include="Repository\CM00034Repository.cs" />
+    <Compile Include="Repository\CM00047Repository.cs" />
+    <Compile Include="Repository\CM00031Repository.cs" />
+    <Compile Include="Repository\CM00063Repository.cs" />
+    <Compile Include="Repository\CM00066Repository.cs" />
+    <Compile Include="Repository\CM00065Repository.cs" />
+    <Compile Include="Repository\CM00064Repository.cs" />
+    <Compile Include="Repository\CM00038Repository.cs" />
+    <Compile Include="Repository\CM00040Repository.cs" />
+    <Compile Include="Repository\CM00078Repository.cs" />
+    <Compile Include="Repository\CM00077Repository.cs" />
+    <Compile Include="Repository\CM00076Repository.cs" />
+    <Compile Include="Repository\CM00033Repository.cs" />
+    <Compile Include="Repository\CM00141Repository.cs" />
+    <Compile Include="Repository\CM00155Repository.cs" />
+    <Compile Include="Repository\CM10207Repository.cs" />
+    <Compile Include="Repository\CM00028Repository.cs" />
+    <Compile Include="Repository\CM00075Repository.cs" />
+    <Compile Include="Repository\CM00074Repository.cs" />
+    <Compile Include="Repository\CM00073Repository.cs" />
+    <Compile Include="Repository\CM00072Repository.cs" />
+    <Compile Include="Repository\CM00071Repository.cs" />
+    <Compile Include="Repository\CM00070Repository.cs" />
+    <Compile Include="Repository\CM00057Repository.cs" />
+    <Compile Include="Repository\CM00056Repository.cs" />
+    <Compile Include="Repository\CM00039Repository.cs" />
+    <Compile Include="Repository\CM00215Repository.cs" />
+    <Compile Include="Repository\CM00205View01Repository.cs" />
+    <Compile Include="Repository\CM00140Repository.cs" />
+    <Compile Include="Repository\CM00131Repository.cs" />
+    <Compile Include="Repository\PartnerRepository.cs" />
+    <Compile Include="Repository\CM10201Repository.cs" />
+    <Compile Include="Repository\CM00202Repository.cs" />
+    <Compile Include="Repository\CM00017Repository.cs" />
+    <Compile Include="Repository\CM00016Repository.cs" />
+    <Compile Include="Repository\CM00235Repository.cs" />
+    <Compile Include="Repository\CM00234Repository.cs" />
+    <Compile Include="Repository\CM00036Repository.cs" />
+    <Compile Include="Repository\CM00233Repository.cs" />
+    <Compile Include="Repository\CM00232Repository.cs" />
+    <Compile Include="Repository\CM00035Repository.cs" />
+    <Compile Include="Repository\CM00203View02Repository.cs" />
+    <Compile Include="Repository\CM00062Repository.cs" />
+    <Compile Include="Repository\CM00061Repository.cs" />
+    <Compile Include="Repository\CM00055Repository.cs" />
+    <Compile Include="Repository\CM00054Repository.cs" />
+    <Compile Include="Repository\CM00053Repository.cs" />
+    <Compile Include="Repository\CM00052Repository.cs" />
+    <Compile Include="Repository\CM00051Repository.cs" />
+    <Compile Include="Repository\CM00060Repository.cs" />
+    <Compile Include="Repository\CM_60610Repository.cs" />
+    <Compile Include="Repository\CMV00201Repository.cs" />
+    <Compile Include="Repository\CM00109Repository.cs" />
+    <Compile Include="Repository\CM00231Repository.cs" />
+    <Compile Include="Repository\CM00230Repository.cs" />
+    <Compile Include="Repository\CM00220Repository.cs" />
+    <Compile Include="Repository\CM30200Repository.cs" />
+    <Compile Include="Repository\CM30201Repository.cs" />
+    <Compile Include="Repository\CM30202Repository.cs" />
+    <Compile Include="Repository\CM30205Repository.cs" />
+    <Compile Include="Repository\CM30206Repository.cs" />
+    <Compile Include="Repository\CM30203Repository.cs" />
+    <Compile Include="Repository\CM20201Repository.cs" />
+    <Compile Include="Repository\CM20206Repository.cs" />
+    <Compile Include="Repository\CM20205Repository.cs" />
+    <Compile Include="Repository\CM20200Repository.cs" />
+    <Compile Include="Repository\CM20202Repository.cs" />
+    <Compile Include="Repository\CM20203Repository.cs" />
+    <Compile Include="Repository\CM_CaseNewRepository.cs" />
+    <Compile Include="Repository\CM00152Repository.cs" />
+    <Compile Include="Repository\CM_CaseOldRepository.cs" />
+    <Compile Include="Repository\CM00102Repository.cs" />
+    <Compile Include="Repository\CM10100Repository.cs" />
+    <Compile Include="Repository\CM_CaseMissingAgeUploadingRepository.cs" />
+    <Compile Include="Repository\CM00309Repository.cs" />
+    <Compile Include="Repository\CM00308Repository.cs" />
+    <Compile Include="Repository\CM00307Repository.cs" />
+    <Compile Include="Repository\CM10110Repository.cs" />
+    <Compile Include="Repository\CM00203View01Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidateMissingNationalityIDRepository.cs" />
+    <Compile Include="Repository\CM_CaseOldForUploadingRepository.cs" />
+    <Compile Include="Repository\CM_CaseNewForUploadingRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidatePnone02Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidatePnone03Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidatePnone04Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidatePnone01Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidateResidenceNoRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidatePassportNumberRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidateOccupationRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidateOther01Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidateNationalityIDRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidateAddress1Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidateAddress2Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidateBirthDateRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidateDebtorNameRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidateEmail01Repository.cs" />
+    <Compile Include="Repository\CM_UploadValidateEmployerNameRepository.cs" />
+    <Compile Include="Repository\CM_UploadValidateMobileNo1Repository.cs" />
+    <Compile Include="Repository\CM_DebtorForUploadingRepository.cs" />
+    <Compile Include="Repository\CM00108Repository.cs" />
+    <Compile Include="Repository\CM00008Repository.cs" />
+    <Compile Include="Repository\CM00009Repository.cs" />
+    <Compile Include="Repository\ClientContactRepository.cs" />
+    <Compile Include="Repository\CM00003Repository.cs" />
+    <Compile Include="Repository\CM00005Repository.cs" />
+    <Compile Include="Repository\CM00026Repository.cs" />
+    <Compile Include="Repository\CM00025Repository.cs" />
+    <Compile Include="Repository\CM00032Repository.cs" />
+    <Compile Include="Repository\CM00030Repository.cs" />
+    <Compile Include="Repository\CM00043Repository.cs" />
+    <Compile Include="Repository\CM00107Repository.cs" />
+    <Compile Include="Repository\CM00150Repository.cs" />
+    <Compile Include="Repository\CM00151Repository.cs" />
+    <Compile Include="Repository\CM_CaseViewRepository .cs" />
+    <Compile Include="Repository\CM00004Repository.cs" />
+    <Compile Include="Repository\CM00006Repository.cs" />
+    <Compile Include="Repository\CM00007Repository.cs" />
+    <Compile Include="Repository\CM00212Repository.cs" />
+    <Compile Include="Repository\CM00214Repository.cs" />
+    <Compile Include="Repository\CM00027Repository.cs" />
+    <Compile Include="Repository\CM00204Repository.cs" />
+    <Compile Include="Repository\CM00206Repository.cs" />
+    <Compile Include="Repository\CM10701Repository.cs" />
+    <Compile Include="Repository\CM00213Repository.cs" />
+    <Compile Include="Repository\DebtorDocumentRepository.cs" />
+    <Compile Include="Repository\CM00106Repository.cs" />
+    <Compile Include="Repository\ClientDocumentRepository.cs" />
+    <Compile Include="Repository\CM00210Repository.cs" />
+    <Compile Include="Repository\CM00209Repository.cs" />
+    <Compile Include="Repository\CMS_203ViewRepository .cs" />
+    <Compile Include="Repository\ActionPlanRepository .cs" />
+    <Compile Include="Repository\DebtorAddressCodeRepository.cs" />
+    <Compile Include="Repository\CM00021Repository.cs" />
+    <Compile Include="Repository\CM00022Repository.cs" />
+    <Compile Include="Repository\ClientRepository.cs" />
+    <Compile Include="Repository\CLientAddressCodeRepository.cs" />
+    <Compile Include="Repository\CM00110Repository.cs" />
+    <Compile Include="Repository\AgentsRepository.cs" />
+    <Compile Include="Repository\AgentGroupRepository.cs" />
+    <Compile Include="Repository\BillingFrequencyRepository.cs" />
+    <Compile Include="Repository\PaymentBaseRepository.cs" />
+    <Compile Include="Repository\CM00089Repository.cs" />
+    <Compile Include="Repository\PriorityRepository.cs" />
+    <Compile Include="Repository\GroupRepository.cs" />
+    <Compile Include="Repository\ClassesRepository.cs" />
+    <Compile Include="Repository\CaseDocumentRepository.cs" />
+    <Compile Include="Repository\CM00100ViewRepository.cs" />
+    <Compile Include="Repository\ContractStatusRepository.cs" />
+    <Compile Include="Repository\ActionTypeRepository.cs" />
+    <Compile Include="Repository\CaseTypeRepository.cs" />
+    <Compile Include="Repository\CaseStatusRepository.cs" />
+    <Compile Include="Repository\DebtorStatusRepository.cs" />
+    <Compile Include="Repository\ContractLayerRepository.cs" />
+    <Compile Include="Repository\ContractRepository.cs" />
+    <Compile Include="Repository\CaseRepository.cs" />
+    <Compile Include="Repository\DebtorRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="CMSDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CMSDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CMSDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CMSDB.edmx</DependentUpon>
+      <LastGenOutput>CMSDB.Context.cs</LastGenOutput>
+    </None>
+    <None Include="CMSDB.edmx.diagram">
+      <DependentUpon>CMSDB.edmx</DependentUpon>
+    </None>
+    <None Include="CMSDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CMSDB.edmx</DependentUpon>
+      <LastGenOutput>CMSDB.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

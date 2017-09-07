@@ -1,0 +1,613 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function ItemImage_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            $("#imgUploaded").attr('src', "");
+        } else {
+            //$("#imgUploaded").attr('src', "\\Photo\\ClientTemp\\" + responseTxt);
+            var scope = angular.element(document.getElementById("widget-IV_Item")).scope();
+            scope.$apply(function () {
+                scope.SetPhotoExtension(responseTxt);
+            });
+        }
+    };
+</script>
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <header class="button-header">
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveData();"
+                       ng-show="IV00100.Status == 1 && IV00100.UFMID != undefined && IV00100.UFMID !=''">
+                        <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br /> Save & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateData();"
+                       ng-show="IV00100.Status == 2">
+                        <i class="glyphicon glyphicon-edit icon-default"></i><br /> Update & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Delete();"
+                       ng-show="IV00100.Status == 2">
+                        <i class="glyphicon glyphicon-trash icon-default"></i><br /> Delete
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+                        <i class="glyphicon glyphicon-remove icon-large"></i><br /> Clear
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                        <i class="glyphicon glyphicon-remove-circle icon-large"></i><br /> Cancel
+                    </a>
+                    <div class="smart-form pull-right padding-top-10 widget-toolbar">
+                        <label class="checkbox">
+                            <input type="checkbox" name="checkbox" ng-model="IV00100.IsinActive" />
+                            <i></i>InActive
+                        </label>
+                    </div>
+                    <div class="smart-form pull-right padding-top-10 widget-toolbar">
+                        <label class="checkbox">
+                            <input type="checkbox" name="checkbox" ng-model="IV00100.IsHold" />
+                            <i></i>Is Hold
+                        </label>
+                    </div>
+                </header>
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="IV_ItemForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="tabs-left">
+                                <ul class="nav nav-tabs tabs-left" id="demo-pill-nav">
+                                    <li class="active">
+                                        <a href="#tab-ItemMain" data-toggle="tab" aria-expanded="true"><span class="glyphicon glyphicon-list"></span> Basic Detail</a>
+                                    </li>
+                                    <li class="" ng-show="IV00100.UFMID != undefined && IV00100.UFMID !=''">
+                                        <a href="#tab-ItemSOP" data-toggle="tab" aria-expanded="false"><span class="glyphicon glyphicon-bookmark"></span> SOP</a>
+                                    </li>
+                                    <li class="" ng-show="IV00100.UFMID != undefined && IV00100.UFMID !=''">
+                                        <a href="#tab-ItemPOP" data-toggle="tab" aria-expanded="false"><span class="glyphicon glyphicon-bookmark"></span> POP</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#tab-ItemTrack" data-toggle="tab" aria-expanded="false"><span class="glyphicon glyphicon-map-marker"></span> Track</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#tab-ItemAccounts" data-toggle="tab" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Accounts</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content no-border">
+                                    <div class="tab-pane active" id="tab-ItemMain">
+                                        <fieldset>
+                                            <legend>
+                                                Item Basic Details
+                                            </legend>
+                                            <div class="form-group">
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item Class</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-filter="'contains'"
+                                                                    k-option-label="'-- Select Class --'"
+                                                                    k-ng-model="IV00100.ClassID"
+                                                                    k-data-text-field="'GroupName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'ClassID'"
+                                                                    k-data-source="ItemClasses"
+                                                                    k-on-change="OnClassChanged()"
+                                                                    ng-disabled="IV00100.Status==2"
+                                                                    data-bv-notempty="true"
+                                                                    ata-bv-notempty-message="The Class is required and cannot be empty"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item ID</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Item ID" ng-disabled="IV00100.Status==2"
+                                                                   data-bv-notempty="true" maxlength="10"
+                                                                   data-bv-notempty-message="The Item ID is required and cannot be empty"
+                                                                   ng-model="IV00100.ItemID" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" maxlength="150"
+                                                                   placeholder="Item Name" ng-model="IV00100.ItemName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Short Description</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" maxlength="25"
+                                                                   placeholder="Short Description" ng-model="IV00100.ShortDescription" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Generic Description</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control" rows="4" maxlength="50"
+                                                                      placeholder="Generic Description" ng-model="IV00100.GenericDescription" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Unit Measure Group</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Unit Measure Group"
+                                                                       ng-model="IV00100.UFMGroupID" readonly />
+                                                                <span class="input-group-btn input-group-sm"
+                                                                      ng-hide="IV00100.Status==2"
+                                                                      ng-click="OpenkendoWindow('INV_Set_UFMGroup','PopUp')">
+                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Country</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Country" ng-model="IV00100.CountryID" readonly>
+                                                                <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('Adm_Country','PopUp')">
+                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item Parent</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Item Parent" ng-model="IV00100.ItemParent" readonly>
+                                                                <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('IV_Item','ItemGroupPopUp',null,'GroupItem')">
+                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Primary Vendor</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Primary Vendor ID" ng-model="IV00100.PrimaryVendor" readonly>
+                                                                <span class="input-group-btn input-group-sm">
+                                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('POP_Vendor','PopUp',null,'PrimaryVendor')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Shipping Weight</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.ShippingWeight"
+                                                                   placeholder="Shipping Weight" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">BarCode</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" maxlength="50"
+                                                                   placeholder="BarCode" ng-model="IV00100.BarCode" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item Description</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control" rows="4" ng-model="IV00100.ItemDescription"
+                                                                      placeholder="Item Description" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left"></label>
+                                                        <div class="col-sm-8">
+                                                            <a href="" class="btn btn-danger pull-right" ng-click="DeletePicture()" ng-show="IV00100.PhotoExtension != null">
+                                                                <i class="glyphicon glyphicon-remove"></i> Delete Picture
+                                                            </a>
+                                                            <img ng-src="{{IV00100link}}" class="img-responsive" style="width: 100%!important; height: 250px;" alt="img">
+                                                            <ul class="list-inline">
+                                                                <li style="width:100%;">
+                                                                    @(Html.Kendo().Upload().Name("attachments")
+                                                                    .Async(async => async.Save("SaveImageTemp", "IV_Item")
+                                                                    .Remove("RemoveImagetemp", "IV_Item"))
+                                                                    .Events(e => e.Success("ItemImage_onSuccess"))
+                                                                    )
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item Type</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-filter="'contains'"
+                                                                    k-option-label="'-- Select Type --'"
+                                                                    k-ng-model="IV00100.ItemTypeID"
+                                                                    k-data-text-field="'ItemTypeName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'ItemTypeID'"
+                                                                    k-data-source="ItemTypes"
+                                                                    k-on-change="OnItemTypeIDChanged()"
+                                                                    ng-disabled="IV00100.Status==2"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Item Group</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-ng-model="IV00100.ItemGroupID"
+                                                                    k-data-text-field="'ItemGroupName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'ItemGroupID'"
+                                                                    k-data-source="ItemGroups"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Valuation Method</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-ng-model="IV00100.ValuationMethodID"
+                                                                    k-data-text-field="'ValuationMethodName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'ValuationMethodID'"
+                                                                    k-data-source="ValuationMethods"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">ABC</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-filter="'contains'"
+                                                                    k-option-label="'-- Select ABC --'"
+                                                                    k-ng-model="IV00100.ABCID"
+                                                                    k-data-text-field="'ABCName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'ABCID'"
+                                                                    k-data-source="ABCs"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Warranty Days</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" placeholder="Warranty Days"
+                                                                   ng-model="IV00100.WarrantyDays" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Shelf Life Days</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" placeholder="Shelf Life Days"
+                                                                   ng-model="IV00100.ShelfLifeDays" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Expiry Days</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" placeholder="Expiry Days"
+                                                                   ng-model="IV00100.ExpiryDays" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane" id="tab-ItemSOP" ng-show="IV00100.UFMID != undefined && IV00100.UFMID !=''">
+                                        <fieldset>
+                                            <legend>
+                                                Item Sales Details
+                                            </legend>
+                                            <div class="form-group">
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Unit Sale</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Unit Sale" ng-model="IV00100.UFMSale" readonly />
+                                                                <span class="input-group-btn input-group-sm"
+                                                                      ng-click="OpenkendoWindow('INV_Set_UFMGroup','UFMPopUp',IV00100.UFMGroupID,'Sale')">
+                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Unit Price</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.UnitPrice"
+                                                                   ng-decimal decimal="MY.DecimalDigit" placeholder="Unit Price" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Last Unit Price</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.LastUnitPrice"
+                                                                   ng-decimal decimal="MY.DecimalDigit" placeholder="Last Unit Price" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Promoted Price</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.PromotedPrice"
+                                                                   ng-decimal decimal="MY.DecimalDigit" placeholder="Promoted Price" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Price Method</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-filter="'contains'"
+                                                                    k-option-label="'-- Select Price Method --'"
+                                                                    k-ng-model="IV00100.PriceMethodCode"
+                                                                    k-data-text-field="'PriceMethodName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'PriceMethodCode'"
+                                                                    k-data-source="PriceMethods"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Price Level</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-filter="'contains'"
+                                                                    k-option-label="'-- Select Price Level --'"
+                                                                    k-ng-model="IV00100.PriceLevelCode"
+                                                                    k-data-text-field="'PriceLevelName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'PriceLevelCode'"
+                                                                    k-data-source="PriceLevels"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Sale Quantity</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.SaleQTY"
+                                                                   ng-quantity quantity="IV00100.DecimalDigitQuantity" placeholder="Sale Quantity" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane" id="tab-ItemPOP" ng-show="IV00100.UFMID != undefined && IV00100.UFMID !=''">
+                                        <fieldset>
+                                            <legend>
+                                                Item Purchase Details
+                                            </legend>
+                                            <div class="form-group">
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Unit Purchase</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Unit Purchase" ng-model="IV00100.UFMPurchase" readonly>
+                                                                <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('INV_Set_UFMGroup','UFMPopUp',IV00100.UFMGroupID,'Purchase')">
+                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Unit Cost</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.UnitCost" disabled
+                                                                   ng-decimal decimal="MY.DecimalDigit" placeholder="Unit Cost" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Last Unit Cost</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.LastUnitCost"
+                                                                   ng-decimal decimal="MY.DecimalDigit" placeholder="Last Unit Cost" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Quantity</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" ng-model="IV00100.PurchaseQTY"
+                                                                   ng-quantity quantity="IV00100.DecimalDigitQuantity" placeholder="Purchase Quantity" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane" id="tab-ItemTrack">
+                                        <fieldset>
+                                            <legend>
+                                                Item Track Details
+                                            </legend>
+                                            <div class="form-group">
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Track Type</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-ng-model="IV00100.TrackTypeID"
+                                                                    k-data-text-field="'TrackTypeName'"
+                                                                    k-value-primitive="true"
+                                                                    k-data-value-field="'TrackTypeID'"
+                                                                    k-data-source="TrackTypes"
+                                                                    k-on-change="TrackTypeChanged()"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5" ng-show="IV00100.TrackTypeID == 1">
+                                                        <label class="col-sm-4 control-label text-left">Lot</label>
+                                                        <div class="col-sm-8">
+                                                            <select kendo-drop-down-list
+                                                                    k-filter="'contains'"
+                                                                    k-option-label="'-- Select Lot --'"
+                                                                    k-ng-model="IV00100.SelectedLot"
+                                                                    k-data-text-field="'LotName'"
+                                                                    k-value-primitive="false"
+                                                                    k-data-value-field="'LotNumber'"
+                                                                    k-data-source="LotNumbers"
+                                                                    k-on-change="LotChanged()"
+                                                                    style="width: 100%"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5" ng-show="IV00100.TrackTypeID == 2">
+                                                        <label class="col-sm-4 control-label text-left">Track Serial Prefix</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" placeholder="Track Serial Prefix"
+                                                                   ng-model="IV00106.TrackSerialPrefix" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5" ng-show="IV00100.TrackTypeID == 2">
+                                                        <label class="col-sm-4 control-label text-left">Track Serial Number Length</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text" placeholder="Track Serial Number Length"
+                                                                   ng-model="IV00106.TrackSerialNumberLenth" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="tab-pane" id="tab-ItemAccounts">
+                                        <fieldset>
+                                            <legend>
+                                                Item Account Details
+                                            </legend>
+                                            <div class="form-group">
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Account</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Account Number"
+                                                                       k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.PurchaseNumber" readonly />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchase')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Trade Discount Account</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Trade Discount Account Number"
+                                                                       k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.PurchaseTradDiscountNumber" readonly />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseTradeDiscount')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Freight Account</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Freight Account Number"
+                                                                       k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.PurchaseFreightNumber" readonly />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseFreight')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Tax Account</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Tax Account Number"
+                                                                       k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.PurchaseTaxNumber" readonly />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseTax')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Misc. Account</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="input-group">
+                                                                <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Misc. Account Number"
+                                                                       k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.PurchaseMisNumber" readonly />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseMis')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 no-padding">
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Account Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Purchase Account Name"
+                                                                   ng-model="IV00101.PurchaseName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Trade Discount Account Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Purchase Trade Discount Account Name"
+                                                                   ng-model="IV00101.PurchaseTradDiscountName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Freight Account Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Purchase Freight Account Name"
+                                                                   ng-model="IV00101.PurchaseFreightName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Tax Account Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Purchase Tax Account Name"
+                                                                   ng-model="IV00101.PurchaseTaxName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding margin-bottom-5">
+                                                        <label class="col-sm-4 control-label text-left">Purchase Misc. Account Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Purchase Misc. Account Name"
+                                                                   ng-model="IV00101.PurchaseMisName" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

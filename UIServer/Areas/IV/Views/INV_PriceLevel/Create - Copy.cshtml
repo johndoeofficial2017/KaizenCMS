@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <!-- widget div-->
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form id="INV_PriceLevelForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveData();"
+                                       ng-show="IV00004.Status == 1">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateData();"
+                                       ng-show="IV00004.Status == 2">
+                                        <i class="glyphicon glyphicon-edit"></i> Update & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-danger" ng-click="Delete();"
+                                       ng-show="IV00004.Status == 2">
+                                        <i class="glyphicon glyphicon-remove"></i> Delete
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>
+                                    Price Level Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Price Level Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" maxlength="20"
+                                               placeholder="Price Level Name" ng-model="IV00004.PriceLevelName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+
+
+

@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetItemsListWithSite() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            SiteID: scope.IV00102.SiteID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body no-margin-bottom">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Site</label>
+                                        <label class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Site ID"
+                                                       ng-model="IV00011.SiteID" readonly />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('IV_Site',null,'ItemSite')"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="IV00011.SiteID != '' && IV00011.SiteID != undefined">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.Inventory.IV00102>()
+                                            .Name("GridINV_SiteItems")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.ItemID).Width(150).Title("Item ID");
+                                                columns.Bound(c => c.ItemName).Width(200).Title("Item Name");
+                                                columns.Bound(c => c.BarCode).Width(150).Title("Bar Code");
+                                                columns.Bound(c => c.ShortDescription).Width(200).Title("Short Description");
+                                                columns.Bound(c => c.GenericDescription).Width(200).Title("Generic Description");
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Item from {0} to {1}. Total Items: <strong>{2}</strong>")
+                                            .ItemsPerPage("Item Per page").Empty("No Item Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetItemsListGridWithSite", "INV_Site")
+                                            .Type(HttpVerbs.Get).Data("GetItemsListWithSite"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.ItemID);
+                                                model.Id(o => o.SiteID);
+                                                model.Field(o => o.ItemID);
+                                                model.Field(o => o.SiteID);
+                                                model.Field(o => o.BinTrack);
+                                                model.Field(o => o.BarCode);
+                                                model.Field(o => o.PrimaryVendor);
+                                                model.Field(o => o.ShortDescription);
+                                                model.Field(o => o.GenericDescription);
+                                                model.Field(o => o.ItemDescription);
+                                                model.Field(o => o.CostOfGoodsSold);
+                                                model.Field(o => o.SalesAcc);
+                                                model.Field(o => o.SalesReturnAcc);
+                                                model.Field(o => o.MarkdownAcc);
+                                                model.Field(o => o.InventoryAcc);
+                                                model.Field(o => o.InventoryReturnAcc);
+                                                model.Field(o => o.InventoryOffsetAcc);
+                                                model.Field(o => o.FreightAcc);
+                                                model.Field(o => o.TradeDiscountAcc);
+                                                model.Field(o => o.TaxAcc);
+                                                model.Field(o => o.Inactive);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

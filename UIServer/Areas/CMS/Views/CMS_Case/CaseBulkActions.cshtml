@@ -1,0 +1,133 @@
+﻿@model List<Kaizen.Configuration.Kaizen00001>
+@{
+    Layout = null;
+}
+<script>
+    $(function () {
+        $('#GridCMS_CaseBulkActions').on('click', '.invertedchk', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#GridCMS_CaseBulkActions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsSeleceted', checked);
+        })
+    });
+    $("#selectAll").on('click', function (e) {
+        var $cb = $(this);
+        var checked = $cb.is(':checked');
+        var grid = $('#GridCMS_CaseBulkActions').data('kendoGrid');
+        grid.table.find("tr").find("td:last input").attr("checked", checked);
+        //now making all the rows value to 1 or 0
+        var items = $("#GridCMS_CaseBulkActions").data("kendoGrid").dataSource.data();
+        for (i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.set('IsSeleceted', checked);
+            // var row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(0);
+            // grid.select(row);
+        }
+
+        if (!checked) {
+            $("#GridCMS_CaseBulkActions").data("kendoGrid").clearSelection();
+        }
+    });
+</script>
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-success txt-color-white" ng-click="openCaseAssignUploadWindow('CaseBulkDelete');">
+            <i class="fa fa-upload icon-large">
+            </i><br />
+            Upload
+        </a>
+        <a class="btn btn-danger txt-color-white" ng-click="BulkDelete();">
+            <i class="glyphicon glyphicon-trash"></i><br />Bulk Delete
+        </a>
+        <a class="btn btn-default" ng-click="OpenFilterWindow('GridCMS_CaseBulkActions','CMS_Case')">
+            <i class="fa fa-filter"></i><br />Filter
+        </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+    <div class="no-border overflow no-padding">
+        <div class="widget-body">
+            <div class="row">
+                <section class="col-md-12">
+                    <div style="overflow: hidden;">
+                        @(Html.Kendo().Grid<Kaizen.CMS.CM00203>()
+                           .Name("GridCMS_CaseBulkActions")
+                           .Columns(columns =>
+                           {
+                               columns.Bound(p => p.IsSeleceted).Title("Select")
+                               .ClientTemplate("<label><input type='checkbox' class='inverted invertedchk' #= IsSeleceted ? checked='checked' : '' #><span class='text'></span></label>")
+                               .HeaderTemplate("<label><input type='checkbox' id='selectAll' class='inverted'><span class='text'></span></label>")
+                               .Width(60).Sortable(false).Filterable(false);
+                               columns.Bound(c => c.CaseRef).Title("Case Reference");
+                               columns.Bound(c => c.ClientID).Title("Client ID");
+                               columns.Bound(c => c.AgentID).Title("Agent ID");
+                               columns.Bound(c => c.TRXTypeID).Title("Transaction Type").Filterable(filterable => filterable.UI("TransactionTypeFilter"));
+                               columns.Bound(c => c.ContractID).Title("Contract ID");
+                               columns.Bound(c => c.CurrencyCode).Title("Currency Code");
+                               columns.Bound(c => c.CIFNumber).Title("Debtor ID");
+                               columns.Bound(c => c.BucketID).Title("Action Plan ID").Filterable(filterable => filterable.UI("ActionPlanFilter"));
+                               columns.Bound(c => c.CaseStatusID).Title("Case Status ID").Filterable(filterable => filterable.UI("StatusFilter"));
+                               columns.Bound(c => c.ReminderDateTime).Title("Reminder DateTime").Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                               columns.Bound(c => c.BookingDate).Title("Booking Date").Format("{0:dd/MM/yyyy}");
+                               columns.Bound(c => c.ClaimAmount).Title("Claim Amount");
+                           })
+                            .ToolBar(toolBar =>
+                            {
+                            toolBar.Template(@<text>
+                            <label class="col-sm-1 margin-top-5 control-label">Client</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" readonly
+                                           placeholder="Client ID" ng-model="CM00203.ClientID" />
+                                    <span class="input-group-btn input-group-sm">
+                                        <button class="btn btn-default"
+                                                ng-click="OpenkendoWindow('CMS_CO_Client','PopUp',null,'Main')">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 margin-top-5 control-label">Contract</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" readonly
+                                           placeholder="Contract ID" ng-model="CM00203.ContractID" />
+                                    <span class="input-group-btn input-group-sm">
+                                        <button class="btn btn-default" ng-disabled="CM00203.ClientID == undefined || CM00203.ClientID == ''"
+                                                ng-click="OpenkendoWindow('CMS_Contract','PopUpByClient',CM00203.ClientID,'Main')">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <a class='btn btn-primary txt-color-white'
+                               ng-click='FilterBy();' ng-disabled="CM00203.ClientID == undefined || CM00203.ClientID == ''">
+                                <i class='glyphicon glyphicon-ok-circle icon-large'></i> Filter
+                            </a>
+                            </text>);
+                            })
+                           .AutoBind(false)
+                           .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                           .Navigatable().HtmlAttributes(new { style = "overflow:hidden" })
+                           .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                           .Reorderable(reorder => reorder.Columns(true))
+                           .Resizable(ss => ss.Columns(true))
+                           .ColumnMenu().Scrollable(s => s.Height("auto")).Filterable()
+                           .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(50)
+                           .Read(read => read.Action("GetDataListAssignGrid", "CMS_Case").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                           .Model(model => model.Id(p => p.CaseRef))
+                           )
+                        )
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

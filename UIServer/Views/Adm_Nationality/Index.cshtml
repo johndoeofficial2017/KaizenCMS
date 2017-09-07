@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditNationality_Click(NationalityID) {
+        var scope = angular.element(document.getElementById("widget-Adm_Nationality")).scope();
+        scope.$apply(function () {
+            scope.EditSys00030(NationalityID);
+        });
+    };
+</script>
+<div ng-controller="Adm_NationalityController">
+    <div>
+        <div class="widget" id="widget-Adm_Nationality">
+            <div ng-show="PagesSys00030.length >0">
+                <div ng-repeat="Page in PagesSys00030">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesSys00030.length == 0">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.Admin.Sys00030>()
+                            .Name("GridAdm_Nationality")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.NationalityID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditNationality_Click('#:NationalityID#');""> #:NationalityID# </a>").Width(150).Title("Nationality ID");
+                                columns.Bound(c => c.NationalityName).Title("Nationality");
+                            })
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Status from {0} to {1}. Total Statuses: <strong>{2}</strong>")
+                            .ItemsPerPage("Status Per page").Empty("No Status Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Adm_Nationality")
+                            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.NationalityID);
+                        
+                                model.Field(o => o.NationalityName);
+                            })
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

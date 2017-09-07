@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    $(function () {
+        $('#GridCMS_AdvancedAction').on('click', '.invertedchk', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#GridCMS_AdvancedAction').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsJoint', checked);
+            var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+            scope.$apply(function () {
+                scope.CaseChecked(dataItem);
+            });
+        })
+    });
+    $("#selectAll").on('click', function (e) {
+        var $cb = $(this);
+        var checked = $cb.is(':checked');
+        var grid = $('#GridCMS_AdvancedAction').data('kendoGrid');
+        grid.table.find("tr").find("td:last input").attr("checked", checked);
+        //now making all the rows value to 1 or 0
+        var items = $("#GridCMS_AdvancedAction").data("kendoGrid").dataSource.data();
+        for (i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.set('IsJoint', checked);
+            // var row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(0);
+            // grid.select(row);
+          
+        }
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        scope.$apply(function () {
+            scope.CaseCheckedAll(checked);
+        });
+        if (!checked) {
+            $("#GridCMS_AdvancedAction").data("kendoGrid").clearSelection();
+        }
+    });
+    function GetAdvancedActionKaizenPublicKey() {
+        var scope = angular.element(document.getElementById("widget-CMS_TRX_CaseUploading")).scope();
+        //alert(scope.AdvancedAction.CaseStatusID);
+        return {
+            CaseStatusID: scope.AdvancedAction.CaseStatusID,
+            CaseStatusChild: scope.AdvancedAction.CaseStatusChild,
+            CaseAccountNo: scope.AdvancedAction.CaseAccountNo,
+            //BucketID: scope.AdvancedAction.BucketID,
+            //TRXTypeID: scope.UploadObject.TRXTypeID, 
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    
+   
+    <div class="row">
+        <section class="col-md-12">
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00155>()
+                           .Name("GridCMS_AdvancedAction")
+                           .Columns(columns =>
+                           {
+                               columns.Bound(p => p.IsJoint).Title("Select")
+                               .ClientTemplate("<label><input type='checkbox' class='inverted invertedchk' #= IsJoint ? checked='checked' : '' #><span class='text'></span></label>")
+                               .HeaderTemplate("<label><input type='checkbox' id='selectAll' class='inverted'><span class='text'></span></label>")
+                               .Width(60).Sortable(false).Filterable(false);
+                               columns.Bound(c => c.CaseRef).Title("Case Ref");
+                               columns.Bound(c => c.AgentID).Title("Agent ID");
+                               columns.Bound(c => c.CIFNumber).Title("Debtor ID");
+                               columns.Bound(c => c.ClaimAmount).Title("Claim Amount");
+                           })
+                            .ToolBar(toolBar =>
+                            {
+                            toolBar.Template(@<text>
+                            <label class="col-sm-1 margin-top-5 control-label">Status</label>
+                            <div class="col-sm-2">
+                                <select kendo-drop-down-list
+                                        k-filter="'startswith'"
+                                        k-option-label="'-- Select Status Action Type --'"
+                                        k-ng-model="AdvancedAction.CaseStatusID"
+                                        k-data-text-field="'CaseStatusname'"
+                                        k-value-primitive="true"
+                                        k-data-value-field="'CaseStatusID'"
+                                        k-data-source="CaseStatusestemp"
+                                        k-on-change="AdvancedActionCaseStatusChanged()"
+                                        style="width: 100%"></select>
+                            </div>
+                            <div ng-show="AdvancedAction.SelectedStatus.IsHasChild">
+                                <label class="col-sm-1 margin-top-5 control-label">Sub Status</label>
+                                <div class="col-sm-2">
+                                    <select kendo-drop-down-list
+                                            k-ng-model="AdvancedAction.SelectedChild"
+                                            k-options="AdvancedActionChildOptions"
+                                            k-on-change="AdvancedActionChildStatusChanged()"
+                                            style="width: 100%"></select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 margin-top-5 control-label">Account No</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           placeholder="Account No" ng-model="AdvancedAction.CaseAccountNo" />
+                                </div>
+                            </div>
+                            <a class='btn btn-primary txt-color-white'
+                               ng-click='FilterBy();'>
+                                <i class='glyphicon glyphicon-ok-circle icon-large'></i> Filter
+                            </a>
+                            </text>);
+                            })
+                           .AutoBind(false)
+                           .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                           .Navigatable().HtmlAttributes(new { style = "overflow:hidden" })
+                           .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                           .Reorderable(reorder => reorder.Columns(true))
+                           .Resizable(ss => ss.Columns(true))
+                           .ColumnMenu().Scrollable(s => s.Height("auto")).Filterable()
+                           .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(100)
+                           .Read(read => read.Action("GetCaseOldAdvancedUploading", "CMS_TRX_CaseUploading")
+                           .Type(HttpVerbs.Get).Data("GetAdvancedActionKaizenPublicKey"))
+                           .Model(model => model.Id(p => p.CaseRef))
+                           )
+                )
+            </div>
+        </section>
+    </div>
+
+    
+</div>

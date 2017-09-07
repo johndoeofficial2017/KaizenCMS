@@ -1,0 +1,95 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a ng-click="AddSeach(0);" class="btn btn-default btn-header">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            And Operator
+        </a>
+        <a ng-click="AddSeach(1);" class="btn btn-default btn-header">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            OR Operator
+        </a>
+        <a class="btn btn-default" ng-click="OperationSelectation()">
+            <i class="glyphicon glyphicon-remove-circle"></i><br />
+            {{IsOrOperation}} Operator
+        </a>
+    </header>
+    <div>
+        {{SeachText}}
+        <legend class="text-center"><strong>Seaching</strong></legend>
+        <div class="widget no-margin-bottom">
+            <div class="widget-body">
+                <div class="col-md-6">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-align-center">
+                                    Field
+                                </th>
+                                <th class="text-align-center">
+                                    Value
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="column in CaseKaizenColumn" ng-if="$index < (CaseKaizenColumn.length / 2)">
+                                <td>
+                                    <div>
+                                        <input type="checkbox" 
+                                               ng-change="Filter_Selected(column)"
+                                               id="eq1{{$index}}" class="k-checkbox"
+                                               ng-model="column.IsChecked" checked="checked">
+                                        <label class="k-checkbox-label" for="eq1{{$index}}">{{column.title}}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div dynamic="column.html" ng-show="column.IsChecked"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-align-center">
+                                    Field
+                                </th>
+                                <th class="text-align-center">
+                                    Map Field
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="column in CaseKaizenColumn" ng-if="$index >= (CaseKaizenColumn.length / 2)">
+                                <td>
+                                    <div>
+                                        <input type="checkbox"
+                                               ng-change="Filter_Selected(column)"
+                                               id="eq1{{$index}}" class="k-checkbox"
+                                               ng-model="column.IsChecked" checked="checked">
+                                        <label class="k-checkbox-label" for="eq1{{$index}}">{{column.title}}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div dynamic="column.html" ng-show="column.IsChecked"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,136 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    var detailInit = function (e) {
+        kendo.bind(e.detailRow, e.data);
+    }
+    function GetDataWithCaseRef() {
+        var widget = $("#widget-CMS_Case");
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: '',
+            CaseRef: scope.CM00203.CaseRef,
+            StatusActionTypeID: scope.SelectedLookUp.StatusActionTypeID,
+            WithHistory: scope.CM00203.WithHistory,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<div class="no-padding no-border overflow">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false" 
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a ng-click="GoBack();" class="btn btn-default">
+                <i class="glyphicon glyphicon-remove-circle"></i>
+                <br />Cancel
+            </a>
+            <a ng-click="GoTo('CaseAction');" class="text-middle btn btn-default btn-header">
+                Do Action
+            </a>
+            <a ng-click="GoTo('CaseDocuments');" class="text-middle btn btn-default btn-header">
+                Documents
+            </a>
+           
+            <div class="btn-group">
+                <a class="btn btn-default btn-header" href="javascript:void(0);"><i class="glyphicon glyphicon-envelope"></i><br />Send As</a>
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a ng-click="ExportScreen('CMS_Case_Create', 'PDF', 'Case' + CM00203.CaseRef.trim());" href="javascript:void(0);">
+                            <i class="fa fa-file-pdf-o"></i> PDF
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-click="ExportScreen('CMS_Case_Create', 'PDF', 'Case' + CM00203.CaseRef.trim());" href="javascript:void(0);"><i class="fa fa-file-photo-o"></i> Image</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"><i class="glyphicon glyphicon-print"></i> Print </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <label class="col-md-2 control-label text-left txt-color-red bold">Status</label>
+                    <div class="form-group col-md-4">
+                        <select kendo-drop-down-list
+                                k-filter="'startswith'"
+                                k-option-label="'-- Select Status Action Type --'"
+                                k-ng-model="SelectedLookUp.StatusActionTypeID"
+                                k-data-text-field="'StatusActionTypeName'"
+                                k-value-primitive="true"
+                                k-data-value-field="'StatusActionTypeID'"
+                                k-data-source="CM00003List"
+                                k-on-change="GridRefresh('GridCMS_CaseStatusHistory')"
+                                style="width: 100%"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <fieldset>
+                        @(Html.Kendo().Grid<Kaizen.CMS.CM10701>().Name("GridCMS_CaseStatusHistory")
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(c => c.CreatedDate).Title("Created Date").Format("{0:dd/MM/yyyy hh:mm}");
+                                            columns.Bound(c => c.AgentID).Title("Agent ID");
+                                            columns.Bound(c => c.CaseStatusname).Title("CaseStatusname");
+                                            columns.Bound(c => c.PTPAMT).Title("PTP AMT");
+                                            columns.Bound(c => c.ReminderDateTime).Title("PTP Date").Format("{0:dd/MM/yyyy}");
+                                        })
+                                        .ClientDetailTemplateId("template")
+                                        .Excel(excel => excel.AllPages(true).FileName("CaseActions.xlsx").Filterable(true))
+                                        .Pdf(pdf => pdf.FileName("Case Actions.pdf").AllPages().Date(DateTime.Now))
+                                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Statuses from {0} to {1}. Total Case Statuses: <strong>{2}</strong>")
+                                        .ItemsPerPage("Status Per page").Empty("No Statuses Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                        .Navigatable()
+                                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                        .Reorderable(reorder => reorder.Columns(true))
+                                        .Resizable(ss => ss.Columns(true))
+                                        .Events(events => events.DetailInit("detailInit"))
+                                        .ColumnMenu().Scrollable(s => s.Height(250)).Filterable()
+                                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                        .Read(read => read.Action("GetCaseStatusHistoryDataListGrid", "CMS_Case").Type(HttpVerbs.Get)
+                                        .Data("GetDataWithCaseRef"))
+                                        .Model(model =>
+                                        {
+                                            model.Id(p => p.StatusHistoryID);
+                                            model.Field(p => p.CaseStatusID);
+                                            model.Field(p => p.AgentID);
+                                            model.Field(p => p.ChangeStatusSourceID);
+                                            model.Field(p => p.CreatedDate);
+                                            model.Field(p => p.CaseRef);
+                                            model.Field(p => p.CaseStatusComment);
+                                            model.Field(p => p.ReminderDateTime);
+                                            model.Field(p => p.PTPAMT);
+                                        })
+                                        )
+                        )
+                        <script id="template" type="text/kendo-tmpl">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label font-120">Remark</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" rows="4" readonly>#:CaseStatusComment#</textarea>
+                                </div>
+                            </div>
+                        </script>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,1063 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section AdditionalHeader
+{
+    @foreach (Kaizen.Configuration.Kaizen000 module in Kaizen.BusinessLogic.Master.MyModule(ViewBag.MenueALL))
+    {
+        switch (module.ModuleID)
+        {
+            case 1: 
+               
+                <script src="~/ScriptUI/Financial/GL_Set_BankListController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_Set_ExchangeTableController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_Set_SourceTableController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_TRX_GLEntryController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_ExchangeRateController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_BudgetEntryController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_BankReceiptController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_BankTransactionController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_BankTransferController.js"></script>
+
+                <script src="~/ScriptUI/Financial/GL_CurrencyController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_CheckbookController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_Inq_TRXEntryController.js"></script>
+
+                <script src="~/ScriptUI/Financial/GL_GLController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_BudgetTableController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_Inq_Acc_SummaryController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_GLCategoryController.js"></script>
+                <script src="~/ScriptUI/Financial/GL_BatchController.js"></script>
+                break;
+            case 2:
+                break;
+            case 3:
+                <script src="~/ScriptUI/Purchase/POP_Set_VendorStatusController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_VendorAddressCodeController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_TaxScheduleController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_ShippingMethodController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_PaymentTermController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Set_VendorClassController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_VendorController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_CO_BuyerController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Trx_POController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Trx_ManualPaymentController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Set_VendorClassController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_OrderController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_InvoiceController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Set_LandCostSetUpController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Trx_POInvoiceController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Set_PoTypeController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Set_SetupController.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Set_ReasonPaymentControlle.js"></script>
+                <script src="~/ScriptUI/Purchase/POP_Trx_ItemInvoiceController.js"></script>
+                break;
+            case 4:
+                <script src="~/ScriptUI/Sales/SOP_CUSTCLASController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_SalePersonTypeController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_Trx_DeliveryOrderController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_GroupController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_PriorityController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_StatusController.js"></script>
+
+                <script src="~/ScriptUI/Sales/SOP_InvoiceController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_Trx_PointOfSaleController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_SalePersonController.js"></script>
+                <script src="~/ScriptUI/Sales/Pro_Co_ProjectController.js"></script>
+
+                <script src="~/ScriptUI/Sales/SOP_Trx_GiftVoucherController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_CustomerController.js"></script>
+                <script src="~/ScriptUI/Sales/SOP_Set_SetupController.js"></script>
+                break;
+            case 5:
+                <script src="~/ScriptUI/Inventory/IV_CO_StoreMangerController.js"></script>
+                <script src="~/ScriptUI/Inventory/INV_Set_ItemClassController.js"></script>
+                <script src="~/ScriptUI/Inventory/INV_ItemTypeController.js"></script>
+                <script src="~/ScriptUI/Inventory/INV_PriceGroupController.js"></script>
+                <script src="~/ScriptUI/Inventory/INV_PriceLevelController.js"></script>
+                <script src="~/ScriptUI/Inventory/INV_UFMGroupController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_LOTController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_ReasonsController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_Set_ItemGroupController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_ItemController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_Trx_AdjustController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_Set_SetUpController.js"></script>
+                <script src="~/ScriptUI/Inventory/IV_ShortageItemsController.js"></script>
+                <script src="~/ScriptUI/Inventory/INV_SiteController.js"></script>
+                break;
+            case 6:
+                break;
+            case 7:
+                <script src="~/ScriptUI/HumanResources/HR_Set_LocationController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_CertificationTypeController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_LicenseTypeController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_EducationTypeController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_PublicHolidayController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_PositionController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_DepartmentController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_DivisionController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_LicenseAgentController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_CategoryController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_PayrollCategoryController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_HolidayGroupController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_MaritalController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Co_EmployeeController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HumanResources_SuffixController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_PrefixController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_DependantRelationController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_EmploymentTypeController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_GradeController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Set_SuffixController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_TRX_AttendanceController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_TRX_ShiftAdjustmentController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_TRX_EmployeeShiftEntryController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_TRX_TimeSheetentryController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Inq_AttendanceController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Co_AttendanceGroupController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Co_DependantController.js"></script>
+                <script src="~/ScriptUI/HumanResources/HR_Co_PropertyController.js"></script>
+
+                break;
+            case 8:
+                <script src="~/ScriptUI/CRM/leadsController.js"></script>
+                break;
+            case 9:
+                <script src="~/ScriptUI/CMS/CMS_CaseStatusController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ClientClassController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ActionPlanController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_AgentController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_AgentGroupController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_CalendarController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_CaseStatusController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_CaseTypeController.js"></script>
+                <script src="~/ScriptUI/CMS/graph.viewmodel.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ClientClassController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ClientController.js"></script>
+                <script src="~/ScriptUI/CMS/Co_DebtorController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_DebtorStatusController.js"></script>
+                
+
+                <script src="~/ScriptUI/CMS/CMS_GroupController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_JecketsController.js"></script>
+                <script src="~/ScriptUI/CMS/Set_PriorityController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Trx_CasesAssignmentController.js"></script>
+                <script src="~/ScriptUI/CMS/Uti_EmailController.js"></script>
+                <script src="~/ScriptUI/CMS/Uti_SMSController.js"></script>
+                <script src="~/ScriptUI/CMS/Uti_LetterController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_DebtorClassController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ClientStatusController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_CaseController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_TRX_CaseUploadingController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_TRX_ManualPaymentController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Trx_BatchRecoveryController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Trx_AgentReplacementController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_PaymentController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ContractController.js"></script>
+                <script src="~/ScriptUI/CMS/Set_SetUpController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_AddressCodeTypeClientController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_AddressCodeTypeDebtorController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_ContactTypeClientController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_ContactTypeDetorController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_DocumentTypeClientController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_DocumentTypeDebtorController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_DocumentTypeCaseController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_StatusActionTypeController.js"></script>
+                <script src="~/ScriptUI/CMS/Inq_CaseArchiveController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_Set_TargetController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_ReminderController.js"></script>
+                <script src="~/ScriptUI/CMS/CO_PartnerController.js"></script>
+                <script src="~/ScriptUI/CMS/CO_LegalController.js"></script>
+                <script src="~/ScriptUI/CMS/CO_SMSTemplateController.js"></script>
+                <script src="~/ScriptUI/CMS/CO_EmailController.js"></script>
+                <script src="~/ScriptUI/CMS/CO_DemandLetterController.js"></script>
+                <script src="~/ScriptUI/CMS/CO_WorkQueueController.js"></script>
+                <script src="~/ScriptUI/CMS/Set_Lookup01Controller.js"></script>
+                <script src="~/ScriptUI/CMS/Set_Lookup02Controller.js"></script>
+                <script src="~/ScriptUI/CMS/Set_ProductController.js"></script>
+                <script src="~/ScriptUI/CMS/Set_BucketController.js"></script>
+                <script src="~/ScriptUI/CMS/Inq_TargetController.js"></script>
+                <script src="~/ScriptUI/CMS/Inq_PaymentReceiptController.js"></script>
+                <script src="~/ScriptUI/CMS/DashoardController.js"></script>
+                <script src="~/ScriptUI/CMS/Set_AccountingController.js"></script>
+                <script src="~/ScriptUI/CMS/CMS_SecurityController.js"></script>
+                break;
+            case 10:
+                <script src="~/ScriptUI/Admin/Sys_DataSourceController.js"></script>
+                <script src="~/ScriptUI/Admin/Sys_DashboardController.js"></script>
+                break;
+            case 11:
+                <script src="~/ScriptUI/Medical/Med_Co_InsuranceController.js"></script>
+                <script src="~/ScriptUI/Medical/Med_Co_DoctorController.js"></script>
+                <script src="~/ScriptUI/Medical/Med_Co_HospitalController.js"></script>
+                <script src="~/ScriptUI/Medical/Med_Set_AddressController.js"></script>
+                <script src="~/ScriptUI/Medical/Med_Set_InsuranceClassController.js"></script>
+                <script src="~/ScriptUI/Medical/Med_Set_InsuranceStatusController.js"></script>
+                <script src="~/ScriptUI/Medical/Med_Set_PositionController.js"></script>
+                break;
+            case 12:
+                <script src="~/ScriptUI/PBX/PBX_Inq_CallLogsController.js"></script>
+                break;
+            case 13:
+                <script src="~/ScriptUI/Admin/TeamUpSchedulerController.js"></script>
+                <script src="~/ScriptUI/Admin/TeamUpRoomSchedulerController.js"></script>
+                <script src="~/ScriptUI/Admin/MeetingRoomController.js"></script>
+                <script src="~/ScriptUI/Admin/TeamCalendarController.js"></script>
+                <script src="~/ScriptUI/Admin/Event_CalendarController.js"></script>
+                <script src="~/ScriptUI/Admin/Event_SetupController.js"></script>
+                <script src="~/ScriptUI/Admin/Saved_PrinterController.js"></script>
+                <script src="~/ScriptUI/CMS/CPR_DataController.js"></script>
+                <script src="~/ScriptUI/Admin/CMS_MeetingRoom.js"></script>
+                break;
+            case 14:
+                <script src="~/ScriptUI/Admin/Ext_DBConnectionController.js"></script>
+                <script src="~/ScriptUI/Admin/TableSourceController.js"></script>
+                break;
+        }
+    }
+    <script src="~/ScriptUI/Financial/GL_Set_FiscalYearsController.js"></script>
+    <script src="~/ScriptUI/Admin/Sys_CompanyController.js"></script>
+    <script src="~/ScriptUI/Admin/SysUserController.js"></script>
+    <script src="~/ScriptUI/Admin/SysTaskController.js"></script>
+    <script src="~/ScriptUI/Admin/Sys_Viewcontroller.js"></script>
+    <script src="~/ScriptUI/Admin/Sys_roleController.js"></script>
+    <script src="~/ScriptUI/Admin/Adm_CityController.js"></script>
+    <script src="~/ScriptUI/Admin/Adm_CountryController.js"></script>
+    <script src="~/ScriptUI/Admin/Adm_NationalityController.js"></script>
+    <script src="~/ScriptUI/Admin/Sys_CurrencyController.js"></script>
+    <script src="~/ScriptUI/Admin/Sys_PopUpController.js"></script>
+<script src="~/ScriptUI/Admin/Sys_EncryptionController.js"></script>
+
+
+}
+
+        <div class="loading-spiner-holder" data-loading>
+    <div class="loading">Loading&#8230;</div>
+</div>
+
+@section MyOtherJavascript {
+        @if (ViewBag.ModuleConfiguration.Count > 0)
+    {
+        <div class="project-context hidden-xs">
+            <span class="label"></span>
+            <span class="project-selector dropdown-toggle"
+                  data-toggle="dropdown">
+                Configuration
+                <i class="fa fa-angle-down"></i>
+            </span>
+            <ul class="dropdown-menu multi-level">
+                @if (ViewBag.ModuleConfiguration.Count > 1)
+    {
+        foreach (Kaizen.Configuration.Kaizen000 ss in ViewBag.ModuleConfiguration)
+        {
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0);">@ss.ModuleName</a>
+                            <ul class="dropdown-menu">
+                                @foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ss.ModuleID, 1))
+                                {
+                                    <li>
+                                        @switch ((int)task.ModuleID)
+                                        {
+                                            case 1:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 2:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 3:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 4:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','SOP/@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 5:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IVConfiguration/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 6:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 7:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 8:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CRM/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 9:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 10:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 11:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 12:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 13:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Tools/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 14:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Extender/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ViewBag.ModuleConfiguration[0].ModuleID, 1))
+                    {
+                        <li>
+                            @switch ((int)task.ModuleID)
+                            {
+                                case 1:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 2:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 3:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 4:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','SOP/@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 5:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IVConfiguration/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 6:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 7:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 8:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 9:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 10:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 11:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 12:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 13:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Tools/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 14:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Extender/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                            }
+                        </li>
+                    }
+                }
+
+            </ul>
+        </div>
+    }
+    @if (ViewBag.ModuleUtility.Count > 0)
+    {
+        <div class="project-context hidden-xs">
+            <span class="label"></span>
+            <span class="project-selector dropdown-toggle"
+                  data-toggle="dropdown">
+                Utility
+                <i class="fa fa-angle-down"></i>
+            </span>
+            <ul class="dropdown-menu multi-level"> 
+                @if (ViewBag.ModuleUtility.Count > 1)
+                {
+                    foreach (Kaizen.Configuration.Kaizen000 ss in ViewBag.ModuleUtility)
+                    {
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0);">@ss.ModuleName</a>
+                            <ul class="dropdown-menu">
+                                @foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ss.ModuleID, 2))
+                                {
+                                    <li>
+                                        @switch ((int)task.ModuleID)
+                                        {
+                                            case 1:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 2:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 3:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 4:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','SOP/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 5:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IV/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 6:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 7:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 8:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 9:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 10:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 11:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 12:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 13:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Tools/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break; 
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ViewBag.ModuleUtility[0].ModuleID, 2))
+                    {
+                        <li>
+                            @switch ((int)task.ModuleID)
+                            {
+                                case 1:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 2:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 3:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 4:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','SOP/@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 5:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IV/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 6:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 7:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 8:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 9:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 10:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 11:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 12:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 13:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Tools/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                            }
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+    @if (ViewBag.ModuleCommon.Count > 0)
+    {
+        <div class="project-context hidden-xs">
+            <span class="label"></span>
+            <span class="project-selector dropdown-toggle"
+                  data-toggle="dropdown">
+                Common
+                <i class="fa fa-angle-down"></i>
+            </span>
+            <ul class="dropdown-menu multi-level">
+                @if (ViewBag.ModuleCommon.Count > 1)
+                {
+                    foreach (Kaizen.Configuration.Kaizen000 ss in ViewBag.ModuleCommon)
+                    {
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0);">@ss.ModuleName</a>
+                            <ul class="dropdown-menu">
+                                @foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ss.ModuleID, 4))
+                                {
+                                    <li>
+                                        @switch ((int)task.ModuleID)
+                                        {
+                                            case 1:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 2:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 3:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 4:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','SOP/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 5:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IVCommon/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 6:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 7:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 8:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 9:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 10:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 13:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Tools/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ViewBag.ModuleCommon[0].ModuleID, 4))
+                    {
+                        <li>
+                            @switch ((int)task.ModuleID)
+                            {
+                                case 1:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 2:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 3:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 4:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','SOP/@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 5:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IVCommon/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 6:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 7:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 8:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 9:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 10:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 11:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 12:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 13:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','Tools/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                            }
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+    @if (ViewBag.ModuleTransaction.Count > 0)
+    {
+        <div class="project-context hidden-xs">
+            <span class="label"></span>
+            <span class="project-selector dropdown-toggle"
+                  data-toggle="dropdown">
+                Transaction
+                <i class="fa fa-angle-down"></i>
+            </span>
+            <ul class="dropdown-menu multi-level">
+                @if (ViewBag.ModuleTransaction.Count > 1)
+                {
+                    foreach (Kaizen.Configuration.Kaizen000 ss in ViewBag.ModuleTransaction)
+                    {
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0);">@ss.ModuleName</a>
+                            <ul class="dropdown-menu">
+                                @foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ss.ModuleID, 3))
+                                {
+                                    <li>
+                                        @switch ((int)task.ModuleID)
+                                        {
+                                            case 1:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 2:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 3:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 4:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','SOP/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 5:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IV/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 6:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 7:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 8:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 9: 
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 10:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 11:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 12:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ViewBag.ModuleTransaction[0].ModuleID, 3))
+                    {
+                        <li>
+                            @switch ((int)task.ModuleID)
+                            {
+                                case 1:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 2:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 3:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 4:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','SOP/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 5:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IV/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 6:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 7:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 8:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 9:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 10:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 11:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 12:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                            }
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+    @if (ViewBag.ModuleInquiry.Count > 0)
+    {
+        <div class="project-context hidden-xs">
+            <span class="label"></span>
+            <span class="project-selector dropdown-toggle"
+                  data-toggle="dropdown">
+                Inquiry
+                <i class="fa fa-angle-down"></i>
+            </span>
+            <ul class="dropdown-menu multi-level">
+                @if (ViewBag.ModuleInquiry.Count > 1)
+                {
+                    foreach (Kaizen.Configuration.Kaizen000 ss in ViewBag.ModuleInquiry)
+                    {
+                        <li class="dropdown-submenu">
+                            <a href="javascript:void(0);">@ss.ModuleName</a>
+                            <ul class="dropdown-menu">
+                                @foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ss.ModuleID, 6))
+                                {
+                                    <li>
+                                        @switch ((int)task.ModuleID)
+                                        {
+                                            case 1:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 2:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 3:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 4:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','SOP/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 5:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IV/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 6:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 7:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 8:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 9:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 10:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 11:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                            case 12:
+                                                <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                                   id="@task.ScreenPath">@task.MenuName</a>
+                                                break;
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    foreach (Kaizen.Configuration.Kaizen004View task in Kaizen.BusinessLogic.Master.GetMyKaizenMenu(ViewBag.MenueALL, ViewBag.ModuleInquiry[0].ModuleID, 6))
+                    {
+                        <li>
+                            @switch ((int)task.ModuleID)
+                            {
+                                case 1:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','GL/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 2:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 3:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 4:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','SOP/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 5:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','IV/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 6:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 7:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 8:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 9:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','CMS/@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 10:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 11:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                                case 12:
+                                    <a href="#" ng-click="AddNewMainTab('@task.ScreenPath','@task.ScreenPath','@task.MenuName','@task.WindowPath')"
+                                       id="@task.ScreenPath">@task.MenuName</a>
+                                    break;
+                            }
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+}
+
+<div id="custom-content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <div class="jarviswidget" id="widget1-0" data-widget-colorbutton="false"
+                 data-widget-editbutton="false"
+                 data-widget-togglebutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-fullscreenbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-collapsed="false"
+                 data-widget-sortable="false">
+                <header id="custom-ribbon">
+                    <span class="ribbon-button-alignment pull-left">
+                        <span id="refresh" class="btn btn-ribbon"
+                              data-action="resetWidgets" data-title="refresh" rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+                            <i class="fa fa-refresh"></i>
+                        </span>
+                    </span>
+                    <a class="header-btns" id="widget1" ng-show="templates.length >0"
+                       ng-click="RefreshCurrentPage()" href="">
+                        <i class="fa fa-repeat"></i>
+                    </a>
+                    <a class="header-btns" id="widget1" ng-show="templates.length >0"
+                       ng-click="Formcollapse()" href="">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                    <a class="header-btns" id="widget1" ng-show="templates.length >0"
+                       ng-click="FormClose(ToolBar.ActiveScreen.ID)" href="#">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <a class="header-btns" id="widget1" ng-show="templates.length >0"
+                       ng-click="FormCloseAll()" href="">
+                        <i class="fa fa-times-circle"></i>
+                    </a>
+                    <a class="header-btns fullScreenButton" ng-click="kaixnss()"
+                       ng-show="templates.length >0" id="widget1"
+                       href="#">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                </header>
+                <a class="pull-right visible-full fullScreenButton" id="widget1"
+                   href="#">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <div class="widget-body no-padding-bottom">
+                    <article class="col-sm-12 sortable-grid ui-sortable no-padding">
+                        <header id="mainTab">
+                            <ul class="nav nav-tabs bordered">
+                                <li ng-repeat="template in templates | filter:filterFunction" ng-class="template.cssClass">
+                                    <a href="#tab{{template.ID}}info"
+                                       ng-click="ActivateTab(template)"
+                                       data-toggle="tab">
+                                        {{template.TabName}}
+                                        <span class="badge tabclose-hover bg-color-blue txt-color-white">
+                                            <i class="fa fa-times" style="cursor: pointer;"
+                                               ng-click="FormClose(template.ID)"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-gear"></i> <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="template in templates | filter:dropdownMenueFilter">
+                                            <a href="#tab{{template.ID}}info"
+                                               ng-click="ActivateDropDownTab(template)" data-toggle="tab">
+                                                {{template.TabName}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#tabinfo"
+                                               data-toggle="tab">
+                                                Active Screens
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </header>
+                        <div class="tab-content no-padding">
+                            <div ng-repeat="templatepane in templates" id="tab{{templatepane.ID}}info"
+                                 class="tab-pane no-padding overflow {{templatepane.cssClass}} in">
+                                <header class="hide-header">
+                                    <h2>{{templatepane.TabName}}</h2>
+                                </header>
+                                <div ng-include="templatepane.url"></div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div id="DIVMaindialog">
+    <div id="MainDialog"></div>
+    <div id="CustomDialog"></div>
+    @*<div kendo-window="GridFilterWindow" k-title="'Filter Grid'" k-modal="true"
+         k-actions="['Refresh', 'Close']"
+         k-content="{ url: '/Sys_Filter/Index' }"
+         k-width="600" k-resizable="true" k-visible="false"></div>*@
+    <div kendo-window="PopUpWindow" k-title="'Pop Up'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="600" k-resizable="true" k-visible="false"></div>
+</div>

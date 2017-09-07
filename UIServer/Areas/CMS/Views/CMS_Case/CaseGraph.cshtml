@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .options li {
+        list-style-type: none;
+    }
+</style>
+<div class="no-padding no-border overflow">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-6 col-lg-3">
+                        <select kendo-drop-down-list
+                                k-filter="'startswith'"
+                                k-option-label="'-- Select Graph --'"
+                                k-ng-model="SelectedLookUp.SelectedGraph"
+                                k-data-text-field="'GraphName'"
+                                k-data-value-field="'GraphID'"
+                                k-data-source="Graphs"
+                                k-on-change="GraphIdChanged()"
+                                style="width: 100%"></select>
+                    </article>
+                </div>
+                <br/>
+                <div class="row" ng-show="GraphTypeName==='bar'||GraphTypeName==='column'||GraphTypeName==='line'">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                <label class="col col-sm-4 control-label text-left">Functions</label>
+                                <label class="input col col-sm-8 col-xs-12">
+                                    <ul class="options">
+                                        <li>
+                                            <input id="typeColumn" name="seriesType"
+                                                   type="radio" value="column" ng-model="GraphTypeName" checked="checked" autocomplete="off" />
+                                            <label for="typeColumn">Columns</label>
+                                        </li>
+                                        <li>
+                                            <input id="typeBar" name="seriesType"
+                                                   type="radio" value="bar" ng-model="GraphTypeName" autocomplete="off" />
+                                            <label for="typeBar">Bars</label>
+                                        </li>
+                                        <li>
+                                            <input id="typeLine" name="seriesType"
+                                                   type="radio" value="line" ng-model="GraphTypeName" autocomplete="off" />
+                                            <label for="typeLine">Lines</label>
+                                        </li>
+                                        <li>
+                                            <input id="stack" type="checkbox" autocomplete="off" checked="checked" />
+                                            <label for="stack">Stacked</label>
+                                        </li>
+                                    </ul>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart">
+
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".options").bind("change", refresh);
+            });
+
+            function refresh() {
+                var chart = $("#chart").data("kendoChart"),
+                    type = $("input[name=seriesType]:checked").val(),
+                    stack = $("#stack").prop("checked");
+                debugger
+                for (var i = 0, length = chart.options.series.length; i < length; i++) {
+                    chart.options.series[i].stack = stack;
+                    chart.options.series[i].type = type;
+                };
+
+                chart.setOptions({
+                    series: chart.options.series
+                });
+            }
+        </script>
+    </div>
+</div>

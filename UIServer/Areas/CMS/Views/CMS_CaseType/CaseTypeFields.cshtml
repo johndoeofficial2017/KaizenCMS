@@ -1,0 +1,248 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+    </header>
+
+    
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Case Type Fields Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Case Type</label>
+                                                <div class="col col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Type --'"
+                                                            k-ng-model="SelectedLookUp.SelectedType"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="CaseTypes"
+                                                            k-on-change="CaseTypeChangedForFields()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Field Name</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control input-sm" placeholder="Field Name"
+                                                           ng-model="CM00070.FieldName" char-limit="20" maxlength="20" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Field Display</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <input type="text" class="form-control" maxlength="50"
+                                                           placeholder="Field Display" ng-model="CM00070.FieldDisplay">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Field Width</label>
+                                                <div class="col col-sm-8">
+                                                    <input kendo-numeric-text-box k-min="0"
+                                                           k-ng-model="CM00070.FieldWidth" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Field Type ID</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="CM00070.SelectedFieldType"
+                                                            k-options="FieldTypeHasOptions"
+                                                            k-on-change="FieldTypeChangedForCaseType()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Field Order</label>
+                                                <div class="col col-sm-8">
+                                                    <input kendo-numeric-text-box k-min="0" k-max="100"
+                                                           k-ng-model="CM00070.FieldOrder" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.IsEmailable">
+                                                        <span>Is Emailable</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.IsActive">
+                                                        <span>Is Active</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.Islockable">
+                                                        <span>Is lockable</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.TxtField01">
+                                                        <span>Is Required</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.IsPrintable">
+                                                        <span>Is Printable</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.Islocked">
+                                                        <span>Is locked</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.IsSortable">
+                                                        <span>Is Sortable</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="CM00070.IsFilterable">
+                                                        <span>Is Filterable</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-controls">
+                                    <button class="btn btn-primary" ng-click="AddNewField()" ng-show="CM00070.status == 0 || CM00070.status == 1">Add Field</button>
+                                    <button class="btn btn-primary" ng-click="UpdateField()" ng-show="CM00070.status == 2">Update Field</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CaseTypeFieldsList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-align-center">Field Name</th>
+                                            <th class="text-align-center">Field Display</th>
+                                            <th class="text-align-center">Field Type ID</th>
+                                            <th class="text-align-center">Edit</th>
+                                            <th class="text-align-center">Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="caseTypeField in CaseTypeFieldsList" ng-class="{'deleted':caseTypeField.status== 3}">
+                                            <td class="col-md-4">{{caseTypeField.FieldName}}</td>
+                                            <td class="col-md-4">{{caseTypeField.FieldDisplay}}</td>
+                                            <td class="col-md-2">{{caseTypeField.FieldTypeID}}</td>
+                                            <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                <a href="" ng-click="EditField(caseTypeField)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                            </td>
+                                            <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                <a href="" ng-click="RemoveCaseTypeField(caseTypeField,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

@@ -1,0 +1,17 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="Inq_CaseArchiveController">
+    <div id="widget-Inq_CaseArchive">
+        <div class="widget" ng-show="PagesCM20203.length >0">
+            <div ng-repeat="Page in PagesCM20203">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM20203.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+            <div ng-include="MainGridURL">Data Grid here</div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,243 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="IV_Set_SetUpController" id="widget-IV_Set_SetUp">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a class="btn btn-default" ng-click="SaveData();"
+               ng-show="IV000014.Status == 1">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Save &amp; Close
+            </a>
+            <a class="btn btn-default" ng-click="UpdateData();"
+               ng-show="IV000014.Status == 2">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Update &amp; Close
+            </a>
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-12 col-lg-12">
+                        <div class="row no-padding">
+                            <form class="">
+                                <fieldset>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title bold">Increase Adjust</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <section class="">
+                                                <label class="col col-md-1 control-label">Prefix</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control" maxlength="5"
+                                                           placeholder="Increase Adjust Prefix" ng-model="IV000014.PrefixIncreaseAdjust">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Length</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Increase Adjust Length" ng-model="IV000014.LenthIncreaseAdjust">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Last No.</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Increase Adjust Last Number" ng-model="IV000014.LastNumberIncreaseAdjust">
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title bold">Decrease Adjust</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <section class="">
+                                                <label class="col col-md-1 control-label">Prefix</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control" maxlength="5"
+                                                           placeholder="Decrease Adjust Prefix" ng-model="IV000014.PrefixDecreaseAdjust">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Length</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Decrease Adjust Length" ng-model="IV000014.LenthDecreaseAdjust">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Last No.</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Decrease Adjust Last Number" ng-model="IV000014.LastNumberDecreaseAdjust">
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title bold">Increase Variance</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <section class="col-md-12">
+                                                <label class="col col-md-1 control-label">Prefix</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control" maxlength="5"
+                                                           placeholder="Increase Variance Prefix" ng-model="IV000014.PrefixIncreaseVariance">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Length</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Increase Variance Length" ng-model="IV000014.LenthIncreaseVariance">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Last No.</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Increase Variance Last Number" ng-model="IV000014.LastNumberIncreaseVariance">
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title bold">Decrease Variance</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <section class="">
+                                                <label class="col col-md-1 control-label">Prefix</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control" maxlength="5"
+                                                           placeholder="Decrease Variance Prefix" ng-model="IV000014.PrefixDecreaseVariance">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Length</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Decrease Variance Length" ng-model="IV000014.LenthDecreaseVariance">
+                                                </div>
+                                                <label class="col col-md-1 control-label">Last No.</label>
+                                                <div class="input col col-md-3">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Decrease Variance Last Number" ng-model="IV000014.LastNumberDecreaseVariance">
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title bold">Accounts</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <section class="row">
+                                                <label class="col col-md-2 control-label">Purchase Account</label>
+                                                <div class="input col col-md-4">
+                                                    <div class="input-group">
+                                                        <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Account Number"
+                                                               k-mask="'{{MY.GLFormat}}'" ng-model="IV000014.PurchaseNumber" readonly />
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchase')"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <label class="col col-md-2 control-label">Purchase Account Name</label>
+                                                <div class="input col col-md-4">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Purchase Account Name"
+                                                           ng-model="IV000014.PurchaseName" />
+                                                </div>
+                                            </section>
+                                            <section class="row">
+                                                <label class="col col-md-2 control-label">Purchase Trade Discount Account</label>
+                                                <div class="input col col-md-4">
+                                                    <div class="input-group">
+                                                        <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Trade Discount Account Number"
+                                                               k-mask="'{{MY.GLFormat}}'" ng-model="IV000014.PurchaseTradDiscountNumber" readonly />
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseTradeDiscount')"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <label class="col col-md-2 control-label">Purchase Trade Discount Account Name</label>
+                                                <div class="input col col-md-4">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Purchase Trade Discount Account Name"
+                                                           ng-model="IV000014.PurchaseTradDiscountName" />
+                                                </div>
+                                            </section>
+                                            <section class="row">
+                                                <label class="col col-md-2 control-label">Purchase Freight Account</label>
+                                                <div class="input col col-md-4">
+                                                    <div class="input-group">
+                                                        <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Freight Account Number"
+                                                               k-mask="'{{MY.GLFormat}}'" ng-model="IV000014.PurchaseFreightNumber" readonly />
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseFreight')"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <label class="col col-md-2 control-label">Purchase Freight Account Name</label>
+                                                <div class="input col col-md-4">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Purchase Freight Account Name"
+                                                           ng-model="IV000014.PurchaseFreightName" />
+                                                </div>
+                                            </section>
+                                            <section class="row">
+                                                <label class="col col-md-2 control-label">Purchase Tax Account</label>
+                                                <div class="input col col-md-4">
+                                                    <div class="input-group">
+                                                        <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Tax Account Number"
+                                                               k-mask="'{{MY.GLFormat}}'" ng-model="IV000014.PurchaseTaxNumber" readonly />
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseTax')"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <label class="col col-md-2 control-label">Purchase Tax Account Name</label>
+                                                <div class="input col col-md-4">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Purchase Tax Account Name"
+                                                           ng-model="IV000014.PurchaseTaxName" />
+                                                </div>
+                                            </section>
+                                            <section class="row">
+                                                <label class="col col-md-2 control-label">Purchase Misc. Account</label>
+                                                <div class="input col col-md-4">
+                                                    <div class="input-group">
+                                                        <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Misc. Account Number"
+                                                               k-mask="'{{MY.GLFormat}}'" ng-model="IV000014.PurchaseMisNumber" readonly />
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMainPurchaseMis')"><span class="glyphicon glyphicon-search"></span></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <label class="col col-md-2 control-label">Purchase Misc. Account Name</label>
+                                                <div class="input col col-md-4">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Purchase Misc. Account Name"
+                                                           ng-model="IV000014.PurchaseMisName" />
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

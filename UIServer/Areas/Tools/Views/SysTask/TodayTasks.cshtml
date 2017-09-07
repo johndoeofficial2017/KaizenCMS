@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+}
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget no-margin-bottom" id="wid-id-2">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                    <h2>Today's Task List</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div class="no-padding-top">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                        <input class="form-control" type="text">
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding smart-form">
+                        <!-- content goes here -->
+                        <ul ng-repeat="(key, value) in TodayTaskList | groupBy: 'PriorityName'">
+                            <h5 class="todo-group-title"><i ng-class="{'fa fa-exclamation': key=='High','fa fa-warning':key=='Low'||key=='Meduim','fa fa-check': key=='Completed'}"></i> {{key}} (<small class="num-of-tasks">{{value.length}}</small>)</h5>
+                            <ul id="sortable{{$index}}" class="todo">
+                                <li ng-repeat="task in value" ng-class="{'complete':task.TaskProgress == 1}">
+                                    <span class="handle" ng-show="task.TaskProgress != 1">
+                                        <label ng-class="{'checkbox state-disabled': task.TaskProgress == 1,'checkbox': task.TaskProgress != 1}">
+                                            <input type="checkbox" name="checkbox-inline" ng-disabled="task.TaskProgress == 1">
+                                            <i></i>
+                                        </label>
+                                    </span>
+                                    <p>
+                                        <strong>Ticket #{{task.TaskID}}</strong> - {{task.TaskTitle}} <small>({{task.TaskTypeName}})</small> [<a href="javascript:void(0);" class="font-xs" ng-click="TaskView(task)">More Details</a>] <span class="text-muted">{{task.TaskDescription}} </span>
+                                        <span class="date">Assign Date : {{task.AssignDate | date:'dd/MM/yyyy'}}</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </ul>
+                        <!-- end content -->
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+<script>
+    $(document).ready(function () {
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+        pageSetUp();
+
+        // initialize sortable
+        $(function () {
+            $(".todo").sortable({
+                handle: '.handle',
+                connectWith: ".todo",
+            }).disableSelection();
+        });
+        // check and uncheck
+        $('.todo .checkbox > input[type="checkbox"]').click(function () {
+            var $this = $(this).parent().parent().parent();
+
+            if ($(this).prop('checked')) {
+                $this.addClass("complete");
+
+                // remove this if you want to undo a check list once checked
+                //$(this).attr("disabled", true);
+                $(this).parent().hide();
+
+                // once clicked - add class, copy to memory then remove and add to sortable3
+                $this.slideUp(500, function () {
+                    $this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
+                    $this.remove();
+                    countTasks();
+                });
+            } else {
+                // insert undo code here...
+            }
+
+        })
+        // count tasks
+        function countTasks() {
+
+            $('.todo-group-title').each(function () {
+                var $this = $(this);
+                $this.find(".num-of-tasks").text($this.next().find("li").size());
+            });
+
+        }
+    })
+</script>

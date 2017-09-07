@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetGenericKaizenPublicKeyWithContactSource() {
+        return {
+            Searchcritaria: '',
+            KaizenPublicKey: sessionStorage.PublicKey,
+            ContactSourceID: 1
+        };
+    };
+
+    function btnEditCMS_Set_ContactTypeClient_Click(ContactTypeID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Set_ContactTypeClient")).scope();
+        scope.$apply(function () {
+            scope.EditSys00006(ContactTypeID);
+        });
+    };
+</script>
+
+<div ng-controller="CMS_Set_ContactTypeClientController">
+    <div class="widget" id="widget-CMS_Set_ContactTypeClient">
+        <div ng-show="PagesSys00006.length > 0">
+            <div ng-repeat="Page in PagesSys00006">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesSys00006.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Admin.Sys00006>()
+                                .Name("GridCMS_Set_ContactTypeClient")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ContactTypeID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Set_ContactTypeClient_Click('#:ContactTypeID#');""> #:ContactTypeID# </a>").Width(100).Title("Contact Type ID");
+                            columns.Bound(c => c.ContactTypeName);
+                        })
+                .HtmlAttributes(new { style = "height:500px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Contact Types from {0} to {1}. Total Contact Types: <strong>{2}</strong>").Empty("No Contact Type Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true)).ColumnMenu().Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGridWithContactSource", "Admin_ContactType")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKeyWithContactSource"))
+                .Model(model => model.Id(p => p.ContactTypeID)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

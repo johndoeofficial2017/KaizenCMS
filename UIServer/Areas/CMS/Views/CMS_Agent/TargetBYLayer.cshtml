@@ -1,0 +1,153 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="CMS_AgentTargetForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);"
+                                       class="btn btn-primary" ng-click="SaveTargetInfo();"
+                                       ng-show="CM00107List.length > 0">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    Target Maintenance
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Year</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Year --'"
+                                                k-ng-model="CM00107.SelectedYear"
+                                                k-data-text-field="'YearName'"
+                                                k-value-primitive="false"
+                                                k-data-value-field="'YearCode'"
+                                                k-data-source="Years"
+                                                k-on-change="YearTargetBYLayer_Changed()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Agent</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Agent ID"
+                                                   ng-model="CM00107.AgentID" readonly />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('CMS_AgentLookUp',null,'TargetBYLayer')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Target</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Type --'"
+                                                k-ng-model="SelectedLookUp.SelectedTarget"
+                                                k-data-text-field="'TargetName'"
+                                                k-data-value-field="'TargetID'"
+                                                k-data-source="TargetLayers"
+                                                k-on-change="TargetID_ChangedBYLayer()"
+                                                style="width: 100%"></select>
+
+                                        @*<select kendo-multi-select k-ng-model="CM00107.SelectedTarget"
+                                                    k-data-text-field="'TargetName'"
+                                                    k-value-primitive="false"
+                                                    k-data-value-field="'TargetID'"
+                                                    k-data-source="TargetLayers"
+                                                    k-on-change="TargetLayer_Changed()"
+                                                    style="width: 100%"
+                                                    >
+                                            </select>*@
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset ng-show="CM00107.SelectedYear.YearCode != undefined && CM00107.SelectedYear.YearCode != ''">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">From</label>
+                                    <div class="col-sm-4">
+                                        <h5 class="row-title before-blueberry">
+                                            <i class="fa fa-calendar-o blueberry"></i> {{CM00107.SelectedYear.PeriodFrom | date:'dd/MM/yyyy'}}
+                                        </h5>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">To</label>
+                                    <div class="col-sm-4">
+                                        <h5 class="row-title before-blueberry">
+                                            <i class="fa fa-calendar-o blueberry"></i> {{CM00107.SelectedYear.PeriodTo | date:'dd/MM/yyyy'}}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CM00107List.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-hover table-striped table-bordered text-center">
+                                        <thead class="bordered-themeprimary">
+                                            <tr>
+                                                <th class="text-center">Period Name</th>
+                                                <th class="text-center">From</th>
+                                                <th class="text-center">To</th>
+                                                <th class="text-center">Target Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="oCM00107 in CM00107List">
+                                                <td style="vertical-align: middle;">{{oCM00107.PeriodName}}</td>
+                                                <td style="vertical-align: middle;">
+                                                    <h5 class="row-title before-blueberry">
+                                                        <i class="fa fa-calendar-o blueberry"></i> {{oCM00107.StartDate | date:'dd/MM/yyyy'}}
+                                                    </h5>
+                                                </td>
+                                                <td style="vertical-align: middle;">
+                                                    <h5 class="row-title before-blueberry">
+                                                        <i class="fa fa-calendar-o blueberry"></i> {{oCM00107.EndDate | date:'dd/MM/yyyy'}}
+                                                    </h5>
+                                                </td>
+                                                <td style="vertical-align: middle;">
+                                                    <input kendo-numeric-text-box
+                                                           k-options="NumberFormatOptions(MY.CurrencyCode,MY.DecimalDigit,true)"
+                                                           k-ng-model="oCM00107.TargetClaimAmount" style="width: 100%;" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>

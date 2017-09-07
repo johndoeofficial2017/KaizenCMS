@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+<style>
+  
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="widget">
+    <div class="widget-body container-fluid" style="padding-top: 10px;">
+        <div class="container-fluid">
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label class="control-label font-120">Field</label>
+                </div>
+                <div class="col-md-7">
+                    <select kendo-drop-down-list
+                            k-ng-model="Filter.SelectedColumn"
+                            k-data-text-field="'title'"
+                            k-data-value-field="'field'"
+                            k-data-source="Columns"
+                            k-on-change="ColumnChanged()"
+                            style="width: 100%"></select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label class="control-labe font-120">Operator</label>
+                </div>
+                <div class="col-md-7">
+                    <select class="form-control" ng-model="Filter.operator" ng-disabled="Filter.SelectedColumn.field == -1">
+                        <option ng-repeat="operator in GridOperators | filter: { type: Filter.SelectedColumn.type }" value="{{operator.operator}}">{{operator.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label class="control-label font-120">Value</label>
+                </div>
+                <div class="col-md-7" ng-show="Filter.SelectedColumn.type == 'number'">
+                    <input type="number" class="form-control" ng-model="Filter.numvalue" />
+                </div>
+                <div class="col-md-7" ng-show="Filter.SelectedColumn.type == 'date'">
+                    <input kendo-date-picker
+                           k-ng-model="Filter.dtvalue" style="width: 100%;" />
+                </div>
+                <div class="col-md-7" ng-show="Filter.SelectedColumn.type == 'string'">
+                    <input type="text" class="form-control" ng-model="Filter.strvalue" />
+                </div>
+                <div class="col-md-7" ng-show="Filter.SelectedColumn.type == 'dropdown'">
+                    <select kendo-drop-down-list
+                            k-filter="'contains'"
+                            k-option-label="'-- Select --'"
+                            k-ng-model="Filter.ddlvalue"
+                            k-data-text-field="'{{Filter.SelectedColumn.key}}'"
+                            k-value-primitive="true"
+                            k-data-value-field="'{{Filter.SelectedColumn.field}}'"
+                            k-data-source="{{Filter.SelectedColumn.source}}"
+                            style="width: 100%"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-9">
+                    <button ng-click="ApplyFilters(Filter.grid)" class="btn btn-primary">
+                        <i class="fa fa-filter"></i> Apply Filters
+                    </button>
+                    <button ng-click="AddFilter()" class="btn btn-default">
+                        <i class="fa fa-plus-square-o"></i> Add Filter
+                    </button>
+                </div>
+            </div>
+            <div class="labels-container" ng-show="Grid.Filter.length > 0">
+                <span class="label label-azure" ng-repeat="filter in Grid.Filter" style="background: cadetblue;">
+                    {{filter.FilterText}} <i class="glyphicon glyphicon-remove hoverme" ng-click="RemoveFilter($index)"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,68 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditClientClass_Click(CUSTCLAS) {
+        var DV = document.getElementById("widget-CMS_ClientClass");
+        var scope = angular.element(DV).scope();
+        scope.$apply(function () {
+            scope.EditCM00021(CUSTCLAS);
+        });
+    }
+</script>
+<div ng-controller="CMS_ClientClassController">
+        <div class="widget" id="widget-CMS_ClientClass">
+            <div ng-show="PagesCM00021.length >0">
+                <div ng-repeat="Page in PagesCM00021">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesCM00021.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.CMS.CM00021>()
+                            .Name("GridCMS_ClientClass")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.CUSTCLAS).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditClientClass_Click('#:CUSTCLAS#');""> #:CUSTCLAS# </a>").Width(100).Title("Class ID");
+                                columns.Bound(c => c.CUSTCLASNAME).Title("Class Name");
+                                columns.Bound(c => c.Prefixlengh);
+                                columns.Bound(c => c.PrefixValue);
+                                columns.Bound(c => c.LastClientID);
+                            })
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Class from {0} to {1}. Total Classes: <strong>{2}</strong>")
+                            .ItemsPerPage("Class Per page").Empty("No Class Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "CMS_ClientClass")
+                            .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.CUSTCLAS);
+                                model.Field(o => o.CUSTCLAS);
+                                model.Field(o => o.CUSTCLASNAME);
+                                model.Field(o => o.Prefixlengh);
+                                model.Field(o => o.PrefixValue);
+                                model.Field(o => o.LastClientID);
+                            })
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+
+
+

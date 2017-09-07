@@ -1,0 +1,142 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+    </header>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET ROW START -->
+            <!-- Widget ID (each widget will need unique ID)-->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget div-->
+                    <div class="no-padding-top">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <form id="GL_GLCategoryForm" class="form-horizontal"
+                                  data-bv-message="This value is not valid"
+                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+
+                                <fieldset>
+                                    <legend>
+                                        Source User Maintenance
+                                    </legend>
+
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 col-sm-2 col-xs-12 control-label">Source ID</label>
+                                            <label class="input col col-md-4 col-sm-4 col-xs-12">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Source --'"
+                                                        k-ng-model="DT00103.SourceID"
+                                                        k-data-text-field="'SourceName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'SourceID'"
+                                                        k-data-source="SourceList"
+                                                        k-on-change="SourceIDChanged()"
+                                                        style="width: 100%"></select>
+                                            </label>
+
+                                            <label class="col col-md-2 col-sm-2 col-xs-12 control-label">User Name</label>
+                                            <label class="input col col-md-4 col-sm-4 col-xs-12">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="UserName" ng-model="DT00103.UserName" readonly>
+                                                    <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('KaizenUser',null,'SourceUsers')">
+                                                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                    </span>
+                                                </div>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <div class="col-md-2 col-sm-2 col-xs-12 ">
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12  no-padding">
+                                                    <div class="margin-bottom-5">
+                                                        <label class="col">
+                                                            <input type="checkbox"
+                                                                   class="checkbox style-0"
+                                                                   ng-model="DT00103.IsDefault">
+                                                            <span>Is Default</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="form-controls">
+                                        <button class="btn btn-primary" ng-click="AddSourceUser()">Add User</button>
+                                    </div>
+                                </fieldset>
+                                <br/>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <table class="table table-bordered table-hover table-responsive">
+                                            <thead>
+                                                <tr style="text-transform: capitalize;">
+                                                    <th class="text-align-center">User Name</th>
+                                                    <th class="text-align-center">Is Default</th>
+                                                    <th class="text-align-center">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="user in SourceUsers">
+                                                    <td>{{user.UserName}}</td>
+                                                    <td class="col-sm-2 col-md-2 smart-form">
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" name="checkbox" ng-model="user.IsDefault" ng-click="UpdateSourceUser(user)" />
+                                                            <i></i>
+                                                        </label>
+                                                    </td>
+                                                    <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                        <a href="" ng-click="RemoveSourceUser(user,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+            <!-- end widget -->
+        </div>
+        <!-- WIDGET ROW END -->
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>

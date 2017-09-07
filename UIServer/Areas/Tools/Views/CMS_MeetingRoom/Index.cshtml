@@ -1,0 +1,111 @@
+﻿@{
+    Layout = null;
+}
+
+<div ng-controller="CMS_MeetingRoomController">
+    <div class="widget" id="widget-CMS_MeetingRoom">
+        <div ng-show="PagesMet00204.length >0">
+            <div ng-repeat="Page in PagesMet00204">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="widget-body" ng-show="PagesMet00204.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div class="jarviswidget" data-widget-colorbutton="false"
+                 data-widget-editbutton="false"
+                 data-widget-togglebutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-fullscreenbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-collapsed="false"
+                 data-widget-sortable="false">
+
+                <div class="no-border overflow">
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                        <input class="form-control" type="text">
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget grid -->
+                    <section id="widget-grid">
+
+                        <div class="row">
+
+                            <!-- NEW WIDGET START -->
+                            <article class="col-md-12 col-lg-12 separator">
+                                <!-- widget content-->
+                                <div class="widget-body">
+                                    <form class="form-horizontal">
+                                        <fieldset>
+                                            <legend>
+                                                Event Rooms Maintenance
+                                            </legend>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6">
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col col-sm-4 control-label text-left">Meeting Room Name</label>
+                                                            <label class="input col col-sm-8 col-xs-12">
+                                                                <input type="text" class="form-control input-sm" placeholder="Meeting Room Name"
+                                                                       ng-model="Met00204.MeetingRoomName" char-limit="50" maxlength="50" />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                            <div class="form-controls">
+                                                <button class="btn btn-primary" ng-click="AddMeetingRoom()" ng-show="Met00204.status == 0 || Met00204.status == 1">Add Room</button>
+                                                <button class="btn btn-primary" ng-click="UpdateMeetingRoom()" ng-show="Met00204.status == 2">Update Room</button>
+                                            </div>
+                                        </fieldset>
+
+                                        <br />
+
+                                        <fieldset ng-show="MeetingRoomList.length > 0">
+                                            <div class="form-group">
+                                                <table class="table table-bordered table-hover table-responsive">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-align-center">Meeting Room Name</th>
+                                                            <th class="text-align-center">Edit</th>
+                                                            <th class="text-align-center">Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="teamUpObj in MeetingRoomList" ng-class="{'deleted':teamUpObj.status== 3}">
+                                                            <td class="col-md-2">{{teamUpObj.MeetingRoomName}}</td>
+                                                            <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                                <a href="" ng-click="EditMeetingRoom(teamUpObj)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                                            </td>
+                                                            <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                                <a href="" ng-click="RemoveMeetingRoom(teamUpObj,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </article>
+                        </div>
+                        <!-- End Body -->
+                    </section>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+            </div>
+        </div>
+    </div>
+</div>

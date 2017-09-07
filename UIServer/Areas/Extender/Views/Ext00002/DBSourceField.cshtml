@@ -1,0 +1,205 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+    </header>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET ROW START -->
+            <!-- Widget ID (each widget will need unique ID)-->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget div-->
+                    <div class="no-padding-top">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <form id="GL_GLCategoryForm" class="form-horizontal"
+                                  data-bv-message="This value is not valid"
+                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                                
+                                <fieldset>
+                                    <legend>
+                                        Database Source Field Maintenance
+                                    </legend>
+
+                                </fieldset>
+
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 col-sm-4 control-label">DataBase Source ID</label>
+                                            <label class="col col-md-4 col-sm-8 col-xs-12">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select DataBase Source --'"
+                                                        k-ng-model="SelectedSource.DataBaseSourceID"
+                                                        k-data-text-field="'DataBaseSourceID'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'DataBaseSourceID'"
+                                                        k-data-source="DataBaseSourceList"
+                                                        k-on-change="SourceIDChangedForField()"
+                                                        style="width: 100%" ng-disabled="Ext00003.Status == 2"></select>
+                                            </label>
+
+                                            <label class="col col-md-2 col-sm-4 control-label">Com Table Name</label>
+                                            <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Com Table Name --'"
+                                                        k-ng-model="SelectedSource.ComTableName"
+                                                        k-data-text-field="'ComTableName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'ComTableName'"
+                                                        k-data-source="ComTableNameList"
+                                                        k-on-change="ComTableNameChanged()"
+                                                        style="width: 100%" ng-disabled="Ext00003.Status == 2"></select>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 col-sm-4 control-label">Field Type ID</label>
+                                            <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Field Type --'"
+                                                        k-ng-model="SelectedSource.FieldTypeID"
+                                                        k-data-text-field="'FieldTypeName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'FieldTypeID'"
+                                                        k-data-source="FieldTypes"
+                                                        k-on-change="SourceFieldTypeChanged()"
+                                                        style="width: 100%"></select>
+                                            </label>
+
+
+                                            <label class="col col-md-2 col-sm-4 control-label">Field Name</label>
+                                            <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                                <input type="text" class="form-control" placeholder="Field Name" maxlength="20"
+                                                       ng-model="Ext00003.FieldName" ng-disabled="Ext00003.Status == 2">
+                                            </label>
+
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 col-sm-4 control-label">Field Display</label>
+                                            <label class="input col col-md-4 col-sm-8 col-xs-12">
+                                                <input type="text" class="form-control" maxlength="50"
+                                                       placeholder="Field Display" ng-model="Ext00003.FieldDisplay">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 col-sm-4 col-xs-12 control-label">Field Order</label>
+                                            <label class="col col-md-4 col-sm-8 col-xs-12">
+                                                <input kendo-numeric-text-box k-min="0"
+                                                       k-ng-model="Ext00003.FieldOrder" style="width: 100%;" />
+                                            </label>
+
+
+                                            <label class="col col-md-2 col-sm-4 col-xs-12 control-label">Field Width</label>
+                                            <label class="col col-md-4 col-sm-8 col-xs-12">
+                                                <input kendo-numeric-text-box k-min="0"
+                                                       k-ng-model="Ext00003.FieldWidth" style="width: 100%;" />
+                                            </label>
+
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="Ext00003.IsColumn01">
+                                                        <span>Is Column01</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="col">
+                                                        <input type="checkbox"
+                                                               class="checkbox style-0"
+                                                               ng-model="Ext00003.IsRequired">
+                                                        <span>Is Required</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <br />
+                                <fieldset>
+                                    <div class="form-controls">
+                                        <button class="btn btn-primary margin-left-15" ng-click="AddSourceField()" ng-show="Ext00003.Status == 0 || Ext00003.Status == 1">Add Field</button>
+                                        <button class="btn btn-primary" ng-click="UpdateSourceField()" ng-show="Ext00003.Status == 2">Update Field</button>
+                                        <button class="btn btn-primary" ng-click="CancelSourceField()" ng-show="Ext00003.Status == 2">Cancel</button>
+                                    </div>
+                                </fieldset>
+                                <br />
+                                <fieldset>
+                                    <div class="form-group">
+                                        <table class="table table-bordered table-hover table-responsive">
+                                            <thead>
+                                                <tr style="text-transform: capitalize;">
+                                                    <th class="text-align-center">DB Source ID</th>
+                                                    <th class="text-align-center">Com Table Name</th>
+                                                    <th class="text-align-center">Field Type ID</th>
+                                                    <th class="text-align-center">Field Name</th>
+                                                    <th class="text-align-center">Edit</th>
+                                                    <th class="text-align-center">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="sourceField in SourceFieldList">
+                                                    <td>{{sourceField.DataBaseSourceID}}</td>
+                                                    <td>{{sourceField.ComTableName}}</td>
+                                                    <td>{{sourceField.FieldTypeID}}</td>
+                                                    <td>{{sourceField.FieldName}}</td>
+                                                    <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                        <a href="" ng-click="EditSourceField(sourceField)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                                    </td>
+                                                    <td class="text-align-center col-md-1" style="font-size: 20px;">
+                                                        <a href="" ng-click="RemoveSourceField(sourceField,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+            <!-- end widget -->
+        </div>
+        <!-- WIDGET ROW END -->
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>

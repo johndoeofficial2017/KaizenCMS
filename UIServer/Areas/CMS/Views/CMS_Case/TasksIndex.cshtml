@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditTask_Click(TaskID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        scope.$apply(function () {
+            scope.EditSys00100(TaskID);
+        });
+    };
+    function TaskTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "TaskTypeName",
+            dataValueField: "TaskTypeID",
+            dataSource: scope.TaskTypes,
+            optionLabel: "--Select Type--"
+        });
+    };
+    function PriorityFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "PriorityName",
+            dataValueField: "PriorityID",
+            dataSource: scope.TaskPriorities,
+            optionLabel: "--Select Priority--"
+        });
+    };
+</script>
+<div id="DV{{ToolBar.ActiveScreen.ID}}">
+
+
+    <div kendo-toolbar k-options="CMS_TaskstoolbarOptions"></div>
+
+
+    @(Html.Kendo().Grid<Kaizen.CMS.CM00213>()
+                            .Name("GridTasks")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.TaskID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditTask_Click('#:TaskID#');""> #:TaskID# </a>").Width(75).Title("Ref");
+                                columns.Bound(c => c.TaskTitle).Title("TaskTitle");
+                                columns.ForeignKey(c => c.TaskTypeID,(System.Collections.IEnumerable)ViewData["TaskTypes"], "TaskTypeID", "TaskTypeName").Title("Type").Filterable(filterable => filterable.UI("TaskTypeFilter")).Width(150);
+                                columns.Bound(c => c.CaseRef).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Case_Click('#:CaseRef#');""> #:CaseRef# </a>").Width(150).Title("Case Reference");
+                            })
+                                            .Filterable()
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Reminders from {0} to {1}. Total Reminders: <strong>{2}</strong>")
+                                            .ItemsPerPage("Reminder Per page").Empty("No Reminders Information")).Refresh(true).PageSizes(true)
+                                            .Input(true).ButtonCount(5))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple).Type(GridSelectionType.Row))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(ss => ss.Height(360))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                                            .Read(read => read.Action("GetTaskDataListGrid", "CMS_Case").Type(HttpVerbs.Get)
+                                            .Data("GetReminderGridPram"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.CaseRef);
+                                            })
+                                        )
+    )
+    <script>
+        $(document).ready(function () {
+            resizeGrid("GridTasks");
+        })
+    </script>
+</div>

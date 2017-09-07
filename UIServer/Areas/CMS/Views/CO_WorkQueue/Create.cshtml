@@ -1,0 +1,217 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function AgentImage_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            //$("#imgUploaded").attr('src', "");
+        } else {
+            var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+            scope.$apply(function () {
+                scope.SetPhotoExtension(responseTxt);
+            });
+        }
+    };
+    function AgentSignature_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            //$("#imgUploaded").attr('src', "");
+        } else {
+            var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+            scope.$apply(function () {
+                scope.SetSignatureExtension(responseTxt);
+            });
+        }
+    };
+</script>
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <header class="button-header">
+                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveData();"
+                       ng-show="CM00105.Status == 1">
+                        <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateData();"
+                       ng-show="CM00105.Status == 2">
+                        <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Delete();"
+                       ng-show="CM00105.Status == 2">
+                        <i class="glyphicon glyphicon-remove"></i><br /> Delete
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+                        <i class="fa fa-eraser"></i><br /> Clear
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                        <i class="fa fa-ban"></i><br /> Cancel
+                    </a>
+                    <div class="smart-form pull-right">
+                        <label class="toggle">
+                            <input type="checkbox" id="demo-switch-to-pills" ng-model="CM00105.Inactive" name="checkbox-toggle">
+                            <i data-swchon-text="TRUE" data-swchoff-text="FALSE"></i>Inactive
+                        </label>
+                    </div>
+                </header>
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="CMS_AgentForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <fieldset>
+                                <legend>
+                                    Agent Maintenance
+                                </legend>
+                                <div class="form-group">
+                                    <div class="col-sm-6 no-padding">
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Agent Group</label>
+                                            <div class="col-sm-8"> 
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Agent Group --'"
+                                                        k-ng-model="CM00105.AgentGroup"
+                                                        k-data-text-field="'AgentGroupName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'AgentGroup'"
+                                                        k-data-source="AgentGroups"
+                                                        data-bv-notempty="true"
+                                                        k-on-change="OnGroupChanged()"
+                                                        data-bv-notempty-message="The Group is required and cannot be empty"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Suffix</label>
+                                            <div class="col-sm-8">
+                                                <div class="col-md-8 no-padding-right">
+                                                    <input class="form-control" type="text" placeholder="work ID"
+                                                           data-bv-notempty="true" maxlength="10" ng-disabled="CM00105.Status==2"
+                                                           data-bv-notempty-message="The Agent ID is required and cannot be empty"
+                                                           ng-model="CM00105.AgentID" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Gender</label>
+                                            <div class="col-sm-8">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Gender --'"
+                                                        k-ng-model="CM00105.GenderID"
+                                                        k-data-text-field="'GenderName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'GenderID'"
+                                                        k-data-source="agentGender"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">First Name</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="First Name" ng-model="CM00105.FirstName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Middle Name</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Middle Name" ng-model="CM00105.MidName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Last Name</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Last Name" ng-model="CM00105.LastName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Supervisor</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Supervisor ID" ng-model="CM00105.SupervisorID" readonly>
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_Agent','PopUp',null,'Supervisor')"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Employee</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Employee ID" ng-model="CM00105.EmployeeID" readonly>
+                                                    <span class="input-group-btn input-group-sm">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('HR_Co_Employee','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 no-padding">
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Email Address</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Email Address" ng-model="CM00105.EmailAddress" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Phone Code Area</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Phone Code Area" ng-model="CM00105.PhoneCodeArea" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Phone Extension</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Phone Extension" ng-model="CM00105.PhoneExtension" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Direct Phone</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Direct Phone" ng-model="CM00105.DirectPhon" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Calendar</label>
+                                            <div class="col-sm-8">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Calendar --'"
+                                                        k-ng-model="CM00105.CalendarID"
+                                                        k-data-text-field="'CalendarName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'CalendarID'"
+                                                        k-data-source="Calendars"
+                                                        ng-disabled="CM00105.Status==2"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-padding margin-bottom-15">
+                                            <label class="col-sm-4 control-label text-left">Budget Amount</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text"
+                                                       placeholder="Budget Amount" ng-model="CM00105.BudgetAmount" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

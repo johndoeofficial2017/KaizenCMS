@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCaseStatus_Click(CaseStatusID) {
+        var scope = angular.element(document.getElementById("widget-CMS_CaseStatus")).scope();
+        scope.$apply(function () {
+            scope.EditCM00700(CaseStatusID);
+        });
+    }
+</script>
+<div ng-controller="CMS_CaseStatuscontroller">
+    
+    <div>
+        <div class="widget" id="widget-CMS_CaseStatus">
+            <div ng-show="PagesCM00700.length >0">
+                <div ng-repeat="Page in PagesCM00700">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesCM00700.length == 0">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.CMS.CM00700>()
+                          .Name("GridCMS_CaseStatus")
+                          .Columns(columns =>
+                          {
+                              columns.Bound(c => c.CaseStatusID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCaseStatus_Click('#:CaseStatusID#');""> #:CaseStatusID# </a>").Width(100).Title("Case Status ID");
+                              columns.Bound(c => c.CaseStatusname).Title("Case Status");
+                          })
+                          .Filterable()
+                          .Pageable(pager => pager.Messages(messages => messages.Display("Showing Status from {0} to {1}. Total Statuses: <strong>{2}</strong>")
+                              .ItemsPerPage("Status Per page").Empty("No Status Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                          .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                          .Navigatable()
+                          .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                          .Reorderable(reorder => reorder.Columns(true))
+                          .Resizable(ss => ss.Columns(true))
+                          .ColumnMenu().Scrollable(s => s.Height(400))
+                          .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                              .Read(read => read.Action("GetDataListGrid", "CMS_CaseStatus")
+                                  .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                              .Model(model =>
+                              {
+                                  model.Id(o => o.CaseStatusID);
+                                  model.Field(o => o.CaseStatusID);
+                                  model.Field(o => o.CaseStatusname);
+                              })
+                          )
+                          )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

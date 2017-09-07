@@ -1,0 +1,268 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetDocumentListWithDebtor() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            DebtorID: scope.CM00100.DebtorID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditDocumentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.CM00101 = dataItem;
+            scope.CM00101.Status = 2;
+        });
+    };
+    function DeleteDocumentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.CM00101 = dataItem;
+            scope.CM00101.Status = 3;
+            scope.DeleteDebtorDocument();
+        });
+    };
+    function DownloadDocumentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.DownloadFile(dataItem.DocumentName + dataItem.PhotoExtension, 'DebtorDocuments');
+        });
+    };
+    function ViewDocumentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        scope.$apply(function () {
+            scope.OpenFile(dataItem.DocumentName + dataItem.PhotoExtension, 'DebtorDocuments', dataItem.PhotoExtension);
+        });
+    };
+
+    function DocumentTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        element.kendoDropDownList({
+            dataTextField: "DocumentTypeName",
+            dataValueField: "DocumentTypeID",
+            dataSource: scope.DebtorDocumentTypes,
+            optionLabel: "--Select Type--"
+        });
+    };
+    function CMS_DebtorDocumentattachments_onSuccess(e) {
+        var scope = angular.element(document.getElementById("widget-CMS_Debtor")).scope();
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            scope.$apply(function () {
+                scope.RemoveDebtorFileExtension(responseTxt);
+            });
+        } else {
+            scope.$apply(function () {
+                scope.SetDebtorFileExtension(responseTxt);
+            });
+        }
+    };
+</script>
+<!-- Widget ID (each widget will need unique ID)-->
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveDebtorDocument();"
+           ng-show="CM00101.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateDebtorDocument();"
+           ng-show="CM00101.Status == 2">
+            <i class="glyphicon glyphicon-edit icon-large"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser icon-large"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Print();">
+            <i class="glyphicon glyphicon-print icon-large"></i><br /> Print
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban icon-large"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow no-padding-top">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body no-padding-bottom">
+            <article class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset class="margin-right-15 margin-left-15">
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Debtor</label>
+                                        <label class="input col-md-4">
+                                            <i ng-click="OpenkendoWindow('CMS_Debtor','PopUp',null,'DebtorDocument')" class="icon-append fa fa-search"></i>
+                                            <input type="text" class="form-control" placeholder="Debtor ID"
+                                                   ng-model="CM00100.DebtorID"
+                                                   data-bv-notempty="true" readonly
+                                                   data-bv-notempty-message="The Debtor ID is required and cannot be empty" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Document Type</label>
+                                        <div class="col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Document Type --'"
+                                                    k-ng-model="CM00101.DocumentTypeID"
+                                                    k-data-text-field="'DocumentTypeName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'DocumentTypeID'"
+                                                    k-data-source="DebtorDocumentTypes"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="CM00101.DocumentTypeID != '' && CM00101.DocumentTypeID != undefined">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Document Name</label>
+                                        <label class="input col-md-4">
+                                            <input type="text" class="form-control" maxlength="25"
+                                                   placeholder="Document Name" ng-model="CM00101.DocumentName" />
+                                        </label>
+                                        <label class="col col-md-2 control-label"></label>
+                                        <label class="input col-md-4" ng-show="CM00101.Status == 1">
+                                            <div class="fileinput fileinput-new col col-md-12" data-provides="fileinput">
+                                                @(Html.Kendo().Upload().Name("CMS_DebtorDocumentattachments")
+                                                 .Async(async => async.Save("SaveDebtorDocumentTemp", "CMS_Debtor")
+                                                 .Remove("RemoveDebtorDocumentTemp", "CMS_Debtor"))
+                                                 .Events(e => e.Success("CMS_DebtorDocumentattachments_onSuccess"))
+                                                )
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="CM00101.ContactTypeID != '' && CM00101.ContactTypeID != undefined">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Document Description</label>
+                                        <label class="input col-md-10">
+                                           <textarea class="form-control" rows="4"
+                                                     placeholder="Document Description" ng-model="CM00101.DocumentDescription"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <a href="javascript:void(0);" ng-click="SaveDebtorDocument()" ng-show="CM00101.Status == 1"
+                                   class="btn btn-success pull-left">Add Document</a>
+                                <a href="javascript:void(0);" ng-click="UpdateDebtorDocument()" ng-show="CM00101.Status == 2"
+                                   class="btn btn-success pull-left">Update Document</a>
+                            </footer>
+                        </form>
+                    </div>
+                </article>
+            </article>
+        </div>
+        <div class="row" ng-show="CM00100.DebtorID != '' && CM00100.DebtorID != undefined">
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00101>()
+            .Name("GridCMS_DebtorDocumentByDebtor")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.DocumentID).Width(80).Title("ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.ForeignKey(c => c.DocumentTypeID,
+                (System.Collections.IEnumerable)ViewData["DocumentTypes"], "DocumentTypeID", "DocumentTypeName")
+                .Title("Type").Width(100).Filterable(filterable => filterable.UI("DocumentTypeFilter"))
+                .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.DocumentName).Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.DocumentDescription).Width(200).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Group(g => g.Title("Actions")
+                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                .Columns(location =>
+                {
+                    location.Command(command =>
+                    {
+                        command.Custom("View").Click("ViewDocumentbtn")
+                        .Text("<span class='fa fa-eye'></span> View");
+                    }).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Download").Click("DownloadDocumentbtn")
+                        .Text("<span class='fa fa-cloud-download'></span> Download");
+                    }).Title("Download").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Edit").Click("EditDocumentbtn")
+                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Delete").Click("DeleteDocumentbtn")
+                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                })
+                );
+            })
+            .Filterable().AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Document from {0} to {1}. Total Documents: <strong>{2}</strong>")
+            .ItemsPerPage("Document Per page").Empty("No Document Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+            .Read(read => read.Action("GetDocumentListGridWithDebtor", "CMS_Debtor")
+            .Type(HttpVerbs.Get).Data("GetDocumentListWithDebtor"))
+            .Model(model =>
+            {
+                model.Id(o => o.DocumentID);
+                model.Field(o => o.DocumentTypeID);
+                model.Field(o => o.DebtorID);
+                model.Field(o => o.DocumentName);
+                model.Field(o => o.DocumentDescription);
+                model.Field(o => o.PhotoExtension);
+            })
+            )
+                )
+            </div>
+        </div>
+        <!-- End Body -->
+    </div>
+    <!-- end widget content -->
+
+</div>
+<!-- end widget div -->

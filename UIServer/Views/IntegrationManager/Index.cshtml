@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function IntegrationManagerFileAttachemnt_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        scope.$apply(function () {
+            scope.UploadedData(responseTxt);
+        });
+    }
+</script>
+<div class="widget">
+    <div class="widget-header">
+        <div class="widget-buttons buttons-bordered" ng-show="ExcelColumns.length > 0">
+            <button ng-click="SaveUploadedData();" class="btn btn-success">
+                <i class="fa fa-thumbs-o-up"></i> Confirm & Save
+            </button>
+        </div>
+    </div>
+    <div class="widget-body container-fluid no-padding-right no-padding-left padd-top-10">
+        <form class="form-horizontal" name="caseAssignUploadform">
+            <div role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#mainTab" aria-controls="main" role="tab" data-toggle="tab">Main</a></li>
+                    <li role="presentation" ng-show="Kaizen00003.length > 0"><a href="#extra" aria-controls="extra" role="tab" data-toggle="tab">Extra Fields</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="mainTab">
+                        <div class="container-fluid no-padding-right no-padding-left">
+                            <div ng-hide="ExcelColumns.length > 0">
+                                @(Html.Kendo().Upload().Name("IntegrationManagerFileAttachemnt")
+                                              .Async(async => async.Save("SaveIntegrationManagerFil", "CMS_CaseAsgin"))
+                                              .Events(e => e.Success("IntegrationManagerFileAttachemnt_onSuccess"))
+                                )
+                            </div>
+                            <div class="row no-margin-bottom" ng-show="ExcelColumns.length > 0">
+                                <div class="well with-header no-margin-bottom">
+                                    <div class="header bordered-pink">
+                                        Map Fields
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-align-center">
+                                                    Field
+                                                </th>
+                                                <th class="text-align-center">
+                                                    Map Field
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="column in KaizenColumn">
+                                                <td>
+                                                    <label class="control-label">{{column.FieldName}}</label>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control input-sm no-padding-right no-padding-left" ng-model="column.FieldValue">
+                                                        <option ng-repeat="excel in ExcelColumns" value="{{excel.Index}}">{{excel.ColumnName}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="extra" ng-show="Kaizen00003.length > 0">
+                        <div class="container-fluid" style="padding: 15px;">
+                            <div class="row" ng-repeat="dynColumn in Kaizen00003">
+                                <div class="col-xs-12 col-sm-6 col-md-6" style="padding-bottom: 10px;">
+                                    <div class="col-sm-3 col-md-4">
+                                        <label class="control-label"></label>
+                                    </div>
+                                    <div class="col-sm-9 col-md-8">
+                                        <div class="col-sm-9 col-md-8">
+                                            <label class="control-label">{{dynColumn.FieldName}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6" style="padding-bottom: 10px;">
+                                    <div class="col-sm-3 col-md-4">
+                                        <select class="form-control input-sm" ng-model="dynColumn.SourceValue" ng-change="GetKaizenDropDownTable(dynColumn)">
+                                            <option value="1">Source</option>
+                                            <option value="2">Fixed Value</option>
+                                            <option value="3">Default Value</option>
+                                            <option value="4">Null</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 col-md-4" ng-show="dynColumn.SourceValue == 1">
+                                        <select class="form-control input-sm" ng-model="dynColumn.FieldValue">
+                                            <option ng-repeat="excel in ExcelColumns" value="{{excel.Index}}">{{excel.ColumnName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 col-md-4" ng-show="dynColumn.SourceValue == 2">
+                                        <div class="input-group my-zindex" ng-show="dynColumn.FieldType == 1">
+                                            <input type="text" class="form-control" ng-model="dynColumn.FieldValue"
+                                                   data-date-format="dd/MM/yyyy" placeholder="Booking Date" bs-datepicker>
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <div ng-show="dynColumn.FieldType == 2">
+                                            <input type="text" class="form-control" ng-model="dynColumn.FieldValue" placeholder="">
+                                        </div>
+                                        <div ng-show="dynColumn.FieldType == 3">
+                                            <select class="form-control input-sm" ng-model="dynColumn.FieldValue">
+                                                <option ng-repeat="model in KaizenDropDownTable | filter:dynColumn.KaizenDropDownTable" value="{{model.Index}}">{{model.ColumnName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

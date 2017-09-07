@@ -1,0 +1,97 @@
+﻿@model System.Data.DataTable
+@{
+    Layout = null;
+}
+
+<script>
+    function GetActionManamgmentGridKaizenPublicKey() {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        //var info = $("#searchTerm").val();
+        return {
+            CaseStatusID: scope.ActionMngObject.CaseStatusID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+
+@(Html.Kendo().Grid<dynamic>()
+                            .Name("GridCMS_Case_ActionManamgment")
+                            .Columns(columns =>
+                            {
+                                if (Model == null) return;
+                                foreach (System.Data.DataRow row in Model.Rows)
+                                {
+                                    //if (row["FieldTypeID"].ToString() == "-1")
+                                    //{
+                                    //    columns.Bound(row["FieldCode"].ToString().Trim()).Title("CaseRef");
+                                    //}
+                                    //if (row["FieldTypeID"].ToString() == "-2")
+                                    //{
+                                    //    columns.Bound(row["FieldCode"].ToString().Trim()).Title("ClaimAmount");
+                                    //}
+                                    if (row["FieldTypeID"].ToString() == "1")
+                                    {
+                                        columns.Bound(row["FieldCode"].ToString().Trim()).Title(row["FieldTitle"].ToString().Trim() + "Code");
+                                        columns.Bound(row["FieldCode"].ToString().Trim() + "ValueName").Title(row["FieldTitle"].ToString().Trim());
+                                    }
+                                    if (row["FieldTypeID"].ToString() == "2")
+                                    {
+                                        columns.Bound(row["FieldCode"].ToString().Trim())
+                                        .ClientTemplate("#= kendo.toString(kendo.parseDate(" + row["FieldCode"].ToString().Trim() + "), 'dd/MM/yyyy') #")
+                                        .Title(row["FieldTitle"].ToString().Trim());
+                                    }
+                                    if (row["FieldTypeID"].ToString() == "3")
+                                    {
+                                        columns.Bound(row["FieldCode"].ToString().Trim()).Title(row["FieldTitle"].ToString().Trim());
+                                    }
+                                    if (row["FieldTypeID"].ToString() == "4")
+                                    {
+                                        columns.Bound(row["FieldCode"].ToString().Trim())
+                                        .ClientTemplate("# if(" + row["FieldCode"].ToString().Trim() + ") { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #")
+                                        .Title(row["FieldTitle"].ToString().Trim());
+                                    }
+                                    if (row["FieldTypeID"].ToString() == "5")
+                                    {
+                                        if (row["FieldCode"].ToString().Trim() == "CreatedDate")
+                                        {
+                                            columns.Bound(row["FieldCode"].ToString().Trim())
+                                         .ClientTemplate("#= kendo.toString(kendo.parseDate(" + row["FieldCode"].ToString().Trim() + "), 'dd/MM/yyyy') #")
+                                         .Title(row["FieldTitle"].ToString().Trim());
+                                        }
+                                        else
+                                        if (row["FieldCode"].ToString().Trim() == "CaseRef")
+                                        {
+                                            columns.Bound(row["FieldCode"].ToString().Trim()).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Case_Click('#:CaseRef#');""> #:CaseRef# </a>")
+                                           .Width(130).Title(row["FieldTitle"].ToString().Trim());
+
+                                        }
+                                        else
+                                        {
+                                            columns.Bound(row["FieldCode"].ToString().Trim()).Title(row["FieldTitle"].ToString().Trim());
+                                        }
+                                    }
+                                }
+                            }).AutoBind(false)
+                     .Excel(excel => excel.AllPages(true).FileName("CaseList.xlsx").Filterable(true))
+        .Pdf(pdf => pdf.FileName("CaseList.pdf").AllPages().Date(DateTime.Now))
+ .Pageable(pager => pager.Messages(messages => messages.Display("Showing Cases from {0} to {1}. Total Cases: <strong>{2}</strong>")
+        .ItemsPerPage("Case Per page").Empty("No Cases")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20)
+                        .Read(read => read.Action("GetActionManamgmentGrid", "CMS_Case")
+                        .Type(HttpVerbs.Get).Data("GetActionManamgmentGridKaizenPublicKey"))
+
+)
+)
+
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridCMS_Case_ActionManamgment");
+    })
+</script>
+

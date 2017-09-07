@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnChangeUserPassword_Click(UserName) {
+        var scope = angular.element(document.getElementById("widget-SysUser")).scope();
+        scope.$apply(function () {
+            scope.ChangeUserPassword(UserName);
+        });
+    }
+    function btnEditUser_Click(UserName) {
+        var scope = angular.element(document.getElementById("widget-SysUser")).scope();
+        scope.$apply(function () { 
+            scope.EditUser(UserName); 
+        });
+    }
+    function ShowUserImage(data) {
+        var UserName;
+        var PhotoExtension;
+        if (data.PhotoExtension == null) {
+            UserName = "EmpCard";
+            PhotoExtension = "jpg";
+        } else {
+            UserName = kaizenTrim(data.UserName);
+            PhotoExtension = kaizenTrim(data.PhotoExtension);
+        }
+        PhotoExtension += "?c=" + Math.random();
+        var html = kendo.format("<img alt='' onclick=\"return btnEditUser_Click('" + kaizenTrim(data.UserName) + "');return false;\" src='/Photo/UserLogin/{0}.{1}' style='width:40px;height:35px;cursor:pointer'/>",
+            UserName, PhotoExtension
+        );
+        return html;
+    }
+</script>
+<div ng-controller="SysUserController">
+    <script id="notificationTemplate" type="text/x-kendo-template">
+        <p style="width: 16em; padding:1em;white-space:nowrap"> {{ngValue}}, #= kValue # </p>
+    </script>
+    <span kendo-notification="notf1" k-options="notf1Options"></span>
+    <div id="widget-SysUser">
+        <div ng-show="UserPages.length >0">
+            <div ng-repeat="Page in UserPages">
+                <div ng-include="Page.url"></div>
+            </div>
+        </div>
+        <div ng-show="UserPages.length == 0">
+            <div kendo-toolbar k-options="SysUserMaintoolbarOptions"></div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Configuration.User>().Name("GridSysUser")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.PhotoExtension).ClientTemplate("#= ShowUserImage(data) #").Title("").Width(50);
+                        columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' class='btn btn-default' onclick=""btnChangeUserPassword_Click('#:UserName#');""><i class='fa fa-lock'></i> Change Password</a>")
+                        .Title("").Width(180).HtmlAttributes(new { style = "text-align: center;" });
+                        columns.Bound(c => c.UserName).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditUser_Click('#:UserName#');""> #:UserName# </a>").Title("Usernsame").Width(78);
+                        columns.Bound(c => c.FirstName);
+                        columns.Bound(c => c.FullName);
+                        columns.Bound(c => c.IsDisabled).ClientTemplate("# if(!IsDisabled) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Title("Active").Filterable(false).Width(78);
+                        columns.Bound(c => c.IsPasswordchange).ClientTemplate("# if(IsPasswordchange) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Title("Change pass").Filterable(false).Width(78);
+                    })
+                          .Excel(excel => excel.AllPages(true).FileName("UsersList.xlsx").Filterable(true))
+        .Pdf(pdf => pdf.FileName("UsersList.pdf").AllPages().Date(DateTime.Now))
+ .Pageable(pager => pager.Messages(messages => messages.Display("Showing Items from {0} to {1}. Total Items: <strong>{2}</strong>")
+        .ItemsPerPage("User Per page").Empty("No Users")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.UserName).Descending())
+                        .Read(read => read.Action("GetDataListGrid", "SysUser").Type(HttpVerbs.Get).Data("GetKaizenPublicKeyValue"))
+                        .Model(model =>
+                        {
+                            model.Id(o => o.UserName);
+                        })
+                      )
+                )
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+            <div kendo-window="ExchangeRateWindow" k-title="'Exchange Rate'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="800" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

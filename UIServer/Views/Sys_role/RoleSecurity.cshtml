@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveRoleSecurityChanges();"
+           ng-show="Tasks.length > 0">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Company</label>
+                                        <label class="input col col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Company --'"
+                                                    k-ng-model="Kaizen004.CompanyID"
+                                                    k-data-text-field="'CompanyName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'CompanyID'"
+                                                    k-data-source="Companies"
+                                                    k-on-change="RoleModuleChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Module</label>
+                                        <label class="input col col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Module --'"
+                                                    k-ng-model="Kaizen004.ModuleID"
+                                                    k-data-text-field="'ModuleName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'ModuleID'"
+                                                    k-data-source="Modules"
+                                                    k-on-change="RoleModuleChanged()"
+                                                    style="width: 100%"></select>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Role</label>
+                                        <label class="input col col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Role --'"
+                                                    k-ng-model="Kaizen004.RoleID"
+                                                    k-data-text-field="'RoleName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'RoleID'"
+                                                    k-data-source="Roles"
+                                                    k-on-change="RoleChanged()"
+                                                    style="width: 100%"></select>
+                                    </section>
+                                </div>
+                                <section class="col-xs-12 col-sm-12 col-md-12" ng-show="Tasks.length > 0">
+                                    <table class="table table-bordered table-hover table-responsive smart-form">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="col-sm-2 smart-form">
+                                                    <label class="checkbox no-padding-top">
+                                                        <input type="checkbox" name="checkbox" checkbox-all="Tasks.isSelected" />
+                                                        <i></i> Select All
+                                                    </label>
+                                                </th>
+                                                <th>Task Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="task in Tasks track by $index">
+                                                <td class="col-sm-2 col-md-2">
+                                                    <label class="checkbox no-padding-top">
+                                                        <input type="checkbox" name="checkbox" 
+                                                               ng-model="task.isSelected" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="col-sm-4 col-md-4">{{task.MenuName}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

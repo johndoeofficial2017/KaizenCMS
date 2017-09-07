@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditIV_Set_ItemGroup_Click(ItemGroupID) {
+        var scope = angular.element(document.getElementById("widget-IV_Set_ItemGroup")).scope();
+        scope.$apply(function () {
+            scope.EditIV00020(ItemGroupID);
+        });
+    };
+</script>
+
+<div ng-controller="IV_Set_ItemGroupController">
+    <div class="widget" id="widget-IV_Set_ItemGroup">
+        <div ng-show="PagesIV00020.length > 0">
+            <div ng-repeat="Page in PagesIV00020">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesIV00020.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+                @(Html.Kendo().Grid<Kaizen.Inventory.IV00020>()
+                                .Name("GridIV_Set_ItemGroup")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ItemGroupID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditIV_Set_ItemGroup_Click('#:ItemGroupID#');""> #:ItemGroupID# </a>").Width(100).Title("Item Group ID");
+                            columns.Bound(c => c.ItemGroupName);
+                        })
+                .HtmlAttributes(new { style = "height:350px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Item Groups from {0} to {1}. Total Item Groups: <strong>{2}</strong>").Empty("No Item Group Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "IV_Set_ItemGroup")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.ItemGroupID)))
+                )
+        </div>
+    </div>
+</div>
+

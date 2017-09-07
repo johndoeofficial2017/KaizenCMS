@@ -1,0 +1,148 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .k-panelbar .k-tabstrip > .k-content, .k-tabstrip > .k-content {
+        margin: 0px;
+    }
+</style>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+    </header>
+
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row" id="widget-CMS_CaseTypeGraphView">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Case Type Email Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 col-xs-12 control-label text-left">Case Type</label>
+                                                <div class="col col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="CM00029.SelectedCaseType"
+                                                            k-options="CaseTypeHasOptions"
+                                                            k-on-change="CaseTypeChangedForEmail()"
+                                                            style="width: 100%"
+                                                            k-rebind="CaseTypeHasOptions"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">View</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="CM00071.SelectedView"
+                                                            k-options="ViewHasOptions"
+                                                            k-on-change="ViewChangedForEmail()"
+                                                            style="width: 100%"
+                                                            k-rebind="ViewHasOptions"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">From</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-ng-model="Kaizen00020.SelectedEmail"
+                                                            k-options="EmailHasOptions"
+                                                            k-on-change="EmailChangedForUser()"
+                                                            style="width: 100%"
+                                                            k-rebind="EmailHasOptions"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Subject</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control input-sm" placeholder=""
+                                                           ng-model="emailObj.subject" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">To</label>
+                                                <div class="col-sm-8">
+                                                    @*<input type="text" data-role="tagsinput" class="form-control input-sm" placeholder="" />*@
+                                                    <tags-input ng-model="emailToList" placeholder="Add email ids with ," ></tags-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col-sm-4 control-label text-left">Message</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" ng-model="emailObj.message" class="form-control input-sm" placeholder="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a class="btn btn-default" ng-click="SendEmailData();"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp; Send </a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

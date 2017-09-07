@@ -1,0 +1,258 @@
+﻿@{
+    Layout = null;
+}
+
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <header class="button-header">
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveDataPriceMinutes();"
+                       ng-show="IV00151.Status == 1">
+                        <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br /> Save & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateDataPriceMinutes();"
+                       ng-show="IV00151.Status == 2">
+                        <i class="glyphicon glyphicon-edit icon-default"></i><br /> Update & Close
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="DeleteDataPriceMinutes();"
+                       ng-show="IV00151.Status == 2">
+                        <i class="glyphicon glyphicon-trash icon-default"></i><br /> Delete
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="ClearPriceMinutes();">
+                        <i class="glyphicon glyphicon-remove icon-large"></i><br /> Clear
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-default" ng-click="CancelIV00151();">
+                        <i class="glyphicon glyphicon-remove-circle icon-large"></i><br /> Cancel
+                    </a>
+                </header>
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="IV_ItemForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <br/>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Item</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Item ID"
+                                                           ng-model="IV00151.ItemID" readonly />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'WeekItemPriceMinutes')" ng-disabled="IV00151.Status == 2"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Site</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Site ID" ng-model="IV00151.SiteID" readonly />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('IV_Site',null,'WeekSitePriceMinutes')" ng-disabled="IV00151.Status == 2"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Currency</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Currency"
+                                                           ng-model="IV00151.CurrencyCode"
+                                                           data-bv-notempty="true" readonly
+                                                           data-bv-notempty-message="The Currency is required and cannot be empty" />
+                                                    <div class="input-group-btn input-group-sm" ng-disabled="IV00151.CurrencyCode == undefined || IV00151.CurrencyCode == ''"
+                                                         ng-click="OpenkendoWindow('GL_CurrencyLookUp')">
+                                                        <a href="javascript:void(0);" class="btn btn-default">T</a>
+                                                    </div>
+                                                    <div class="input-group-btn input-group-sm" ng-hide="IV00151.CurrencyCode == undefined || IV00151.CurrencyCode == '' || IV00151.ExchangeTableID == undefined || IV00151.ExchangeTableID == ''"
+                                                         ng-click="OpenkendoWindow('GL_CurrencyLookUpExchangeTable',IV00151.CurrencyCode);">
+                                                        <a href="javascript:void(0);" class="btn btn-default" ng-show="IV00151.ExchangeRate == undefined || IV00151.ExchangeRate == '' || IV00151.ExchangeRate == 0">Select Rate</a>
+                                                        <a href="javascript:void(0);" class="btn btn-default" ng-hide="IV00151.CurrencyCode == undefined || IV00151.CurrencyCode == ''">{{IV00151.ExchangeRate}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Week Day</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Week Day --'"
+                                                            k-ng-model="SelectedLookup.SelectedWeekDay"
+                                                            k-data-text-field="'WeekDayName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'WeekDayID'"
+                                                            k-data-source="WeekDays"
+                                                            k-on-change="WeekDayChangedForPriceMeetings()"
+                                                            style="width: 100%"
+                                                            ng-disabled="IV00151.Status == 2"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Start Time From</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input kendo-time-picker
+                                                           k-rebind="IV00151.StartTimeFrom"
+                                                           k-ng-model="IV00151.StartTimeFrom"  
+                                                           style="width: 100%;"
+                                                           k-format="'h:mm tt'" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">End Time To</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input kendo-time-picker
+                                                           k-rebind="IV00151.EndTimeTo"
+                                                           k-ng-model="IV00151.EndTimeTo"
+                                                           style="width: 100%;"
+                                                           k-format="'h:mm tt'" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Period Count</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input kendo-numeric-text-box k-min="0" k-on-change="PeriodCountChanged()"
+                                                           k-ng-model="IV00151.PeriodCount" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Decimal Digit</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input kendo-numeric-text-box k-min="0"
+                                                           k-ng-model="IV00151.DecimalDigit" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <label class="col-sm-4 control-label text-left txt-color-red bold">Exchange Rate</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <input kendo-numeric-text-box k-min="0"
+                                                           k-ng-model="IV00151.ExchangeRate" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 no-padding margin-bottom-5">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col">
+                                                    <input type="checkbox"
+                                                           class="checkbox style-0"
+                                                           ng-model="IV00151.IsMultiply">
+                                                    <span>Is Multiply</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <br/>
+                            <br/>
+
+                            <fieldset ng-show="IV00152List.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="text-align-center">Period Name</th>
+                                                <th class="text-align-center">Start Time From</th>
+                                                <th class="text-align-center">End Time To</th>
+                                                <th class="text-align-center">Unit Minutes</th>
+                                                <th class="text-align-center">Unit Price</th>
+                                                <th class="text-align-center">Loyality Points</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="field in IV00152List">
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Period Name" ng-model="IV00152List[$index].PeriodName"  maxlength="50" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input kendo-time-picker ng-disabled="IV00151.StartTimeFrom==undefined || IV00151.EndTimeTo==undefined"
+                                                           k-rebind="IV00152List[$index].StartTimeFrom"
+                                                           k-ng-model="IV00152List[$index].StartTimeFrom"
+                                                           style="width: 100%;" 
+                                                           k-format="'h:mm tt'" 
+                                                           k-min="IV00151.StartTimeFrom"
+                                                           k-max="IV00151.EndTimeTo"/>
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input kendo-time-picker ng-disabled="IV00151.StartTimeFrom==undefined || IV00151.EndTimeTo==undefined"
+                                                           k-rebind="IV00152List[$index].EndTimeTo"
+                                                           k-ng-model="IV00152List[$index].EndTimeTo"
+                                                           style="width: 100%;"
+                                                           k-format="'h:mm tt'"
+                                                           k-min="IV00151.StartTimeFrom"
+                                                           k-max="IV00151.EndTimeTo" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" ng-model="IV00152List[$index].UnitMinutes" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" ng-model="IV00152List[$index].UnitPrice" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" ng-model="IV00152List[$index].LoyalityPoints" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSOP_Set_Territory_Click(Territory) {
+        var scope = angular.element(document.getElementById("widget-SOP_Set_Territory")).scope();
+        scope.$apply(function () {
+            scope.EditSOP00003(Territory);
+        });
+    };
+</script>
+
+<div ng-controller="SOP_Set_TerritoryController">
+    <div class="widget" id="widget-SOP_Set_Territory">
+        <div ng-show="PagesSOP00003.length > 0">
+            <div ng-repeat="Page in PagesSOP00003">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesSOP00003.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.SOP.SOP00003>()
+                                .Name("GridSOP_Set_Territory")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.Territory).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_Set_Territory_Click('#:Territory#');""> #:Territory# </a>").Width(100).Title("Territory ID");
+                            columns.Bound(c => c.TerritoryName);
+                        })
+                .HtmlAttributes(new { style = "height:500px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Territories from {0} to {1}. Total Territories: <strong>{2}</strong>").Empty("No Territory Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true)).ColumnMenu().Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "SOP_Set_Territory")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.Territory)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,53 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditPro_Co_Project_Click(ProjectID) {
+        var scope = angular.element(document.getElementById("widget-Pro_Co_Project")).scope();
+        scope.$apply(function () {
+            scope.EditPROJ00100(ProjectID);
+        });
+    }
+</script>
+
+<div ng-controller="Pro_Co_ProjectController">
+    <div class="widget" id="widget-Pro_Co_Project">
+        <div ng-show="PagesPROJ00100.length > 0">
+            <div ng-repeat="Page in PagesPROJ00100">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesPROJ00100.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.SOP.PROJ00100>()
+                                .Name("GridPro_Co_Project")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ProjectID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditPro_Co_Project_Click('#:ProjectID#');""> #:ProjectID# </a>").Width(100).Title("Project ID");
+                            columns.Bound(c => c.ProjectName);
+                            columns.Bound(c => c.ProjectDescription);
+                        })
+                            .HtmlAttributes(new { style = "height:500px;" })
+                            .Scrollable(scrollable => scrollable.Virtual(true))
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Projects from {0} to {1}. Total Projects: <strong>{2}</strong>").Empty("No Project Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Pro_Co_Project")
+                            .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model => model.Id(p => p.ProjectID)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,301 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveItemAccount();"
+           ng-show="IV00101.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateItemAccount();"
+           ng-show="IV00101.Status == 2">
+            <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="DeleteItemAccount();"
+           ng-show="IV00101.Status == 2">
+            <i class="glyphicon glyphicon-edit"></i><br /> Delete
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Item</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Item ID"
+                                                   ng-model="IV00100.ItemID" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'Account')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Sales Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Sales Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.SalesAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemSales')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Sales Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Sales Account Name"
+                                               ng-model="IV00101.SalesAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Sales Return Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Sales Return Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.SalesReturnAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemSalesReturn')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Sales Return Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Sales Return Account Name"
+                                               ng-model="IV00101.SalesReturnAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Markdown Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Markdown Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.MarkdownAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemMarkDown')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Markdown Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Markdown Account Name"
+                                               ng-model="IV00101.MarkdownAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Inventory Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Inventory Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.InventoryAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemInventory')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Inventory Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Inventory Account Name"
+                                               ng-model="IV00101.InventoryAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Inventory Return Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Inventory Return Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.InventoryReturnAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemInventoryReturn')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Inventory Return Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Inventory Return Account Name"
+                                               ng-model="IV00101.InventoryReturnAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Inventory Offset Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Inventory Offset Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.InventoryOffsetAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemInventoryOffset')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Inventory Offset Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Inventory Offset Account Name"
+                                               ng-model="IV00101.InventoryOffsetAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Purchase Price Variance Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Purchase Price Variance Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.PurchasePriceVarianceAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemPurchasePriceVariance')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Purchase Price Variance Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Purchase Price Variance Account Name"
+                                               ng-model="IV00101.PurchasePriceVarianceAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Freight Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Freight Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.FreightAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemFreight')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Freight Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Freight Account Name"
+                                               ng-model="IV00101.FreightAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Trade Discount Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Trade Discount Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.TradeDiscountAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemTradeDiscount')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Trade Discount Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Trade Discount Account Name"
+                                               ng-model="IV00101.TradeDiscountAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Cost Of Goods Sold Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Cost Of Goods Sold Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.CostOfGoodsSoldAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemCostOfGoodsSold')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Cost Of Goods Sold Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Cost Of Goods Sold Account Name"
+                                               ng-model="IV00101.CostOfGoodsSoldAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Tax Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Tax Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00101.TaxAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'ItemTax')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Tax Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Tax Account Name"
+                                               ng-model="IV00101.TaxAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="col col-md-12">
+                                <button class="btn btn-primary" ng-click="SaveItemAccount()" ng-show="IV00101.Status == 1">
+                                    <i class="fa fa-plus-square"></i> Add Item Account
+                                </button>
+                                <button class="btn btn-primary" ng-click="UpdateItemAccount()" ng-show="IV00101.Status == 2">
+                                    <i class="fa fa-edit"></i> Update Item Account
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

@@ -1,0 +1,230 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetContactListWithCustomer() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            CUSTNMBR: scope.SOP00100.CUSTNMBR,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditContactbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-SOP_Customer")).scope();
+        scope.$apply(function () {
+            scope.SOP00105 = dataItem;
+            scope.SOP00105.Status = 2;
+        });
+    };
+    function DeleteContactbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-SOP_Customer")).scope();
+        scope.$apply(function () {
+            scope.SOP00105 = dataItem;
+            scope.SOP00105.Status = 3;
+            scope.DeleteCustomerContact();
+        });
+    };
+    function ContactTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-SOP_Customer")).scope();
+        element.kendoDropDownList({
+            dataTextField: "ContactTypeName",
+            dataValueField: "ContactTypeID",
+            dataSource: scope.CustomerContactTypes,
+            optionLabel: "--Select Type--"
+        });
+    };
+</script>
+<!-- Widget ID (each widget will need unique ID)-->
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveCustomerContact();"
+           ng-show="SOP00105.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateCustomerContact();"
+           ng-show="SOP00105.Status == 2">
+            <i class="glyphicon glyphicon-edit icon-large"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser icon-large"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Print();">
+            <i class="glyphicon glyphicon-print icon-large"></i><br /> Print
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban icon-large"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow no-padding-top">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body no-padding-bottom">
+            <article class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset class="margin-right-15 margin-left-15">
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Customer</label>
+                                        <label class="input col-md-4">
+                                            <i ng-click="OpenkendoWindow('SOP_Customer','PopUp',null,'CustomerContact')" class="icon-append fa fa-search"></i>
+                                            <input type="text" class="form-control" placeholder="Customer ID"
+                                                   ng-model="SOP00100.CUSTNMBR"
+                                                   data-bv-notempty="true" readonly
+                                                   data-bv-notempty-message="The Customer ID is required and cannot be empty" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Contact Type</label>
+                                        <div class="col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Contact Type --'"
+                                                    k-ng-model="SOP00105.ContactTypeID"
+                                                    k-data-text-field="'ContactTypeName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'ContactTypeID'"
+                                                    k-data-source="CustomerContactTypes"
+                                                    k-on-change="ContactTypeChanged()"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="SOP00105.ContactTypeID != '' && SOP00105.ContactTypeID != undefined">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Contact Person</label>
+                                        <label class="input col-md-4">
+                                            <input type="text" class="form-control" maxlength="50"
+                                                   placeholder="Contact Person" ng-model="SOP00105.ContactPerson" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Person Email Address</label>
+                                        <label class="input col-md-4">
+                                            <input type="text" class="form-control" maxlength="50"
+                                                   placeholder="Person Email" ng-model="SOP00105.PersonEmailAdd">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="SOP00105.ContactTypeID != '' && SOP00105.ContactTypeID != undefined">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Person Position</label>
+                                        <label class="input col-md-4">
+                                            <input type="text" class="form-control" maxlength="50"
+                                                   placeholder="Person Position" ng-model="SOP00105.PersonPosition">
+                                        </label>
+                                        <label class="col col-md-2 control-label">Other Info</label>
+                                        <label class="input col-md-4">
+                                            <input type="text" class="form-control" maxlength="50"
+                                                   placeholder="Other Info" ng-model="SOP00105.OtherInfo">
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <a href="javascript:void(0);" ng-click="SaveCustomerContact()" ng-show="SOP00105.Status == 1"
+                                   class="btn btn-success pull-left">Add Contact</a>
+                                <a href="javascript:void(0);" ng-click="UpdateCustomerContact()" ng-show="SOP00105.Status == 2"
+                                   class="btn btn-success pull-left">Update Contact</a>
+                            </footer>
+                        </form>
+                    </div>
+                </article>
+            </article>
+        </div>
+        <div class="row" ng-show="SOP00100.CUSTNMBR != '' && SOP00100.CUSTNMBR != undefined">
+            <div>
+                @(Html.Kendo().Grid<Kaizen.SOP.SOP00105>()
+            .Name("GridSOP_CustomerContactByCustomer")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.ContactPerson).Width(80).Title("ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.ForeignKey(c => c.ContactTypeID,
+                (System.Collections.IEnumerable)ViewData["ContactTypes"], "ContactTypeID", "ContactTypeName")
+                .Title("Type").Width(100).Filterable(filterable => filterable.UI("ContactTypeFilter"))
+                .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.PersonPosition).Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.PersonEmailAdd).Width(200).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Group(g => g.Title("Actions")
+                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                .Columns(location =>
+                {
+                    location.Command(command =>
+                    {
+                        command.Custom("Edit").Click("EditContactbtn")
+                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Delete").Click("DeleteContactbtn")
+                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                })
+                );
+            })
+            .Filterable().AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Contact from {0} to {1}. Total Contacts: <strong>{2}</strong>")
+            .ItemsPerPage("Contact Per page").Empty("No Contact Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+            .Read(read => read.Action("GetContactListGridWithCustomer", "SOP_Customer")
+            .Type(HttpVerbs.Get).Data("GetContactListWithCustomer"))
+            .Model(model =>
+            {
+                model.Id(o => o.ContactTypeID);
+                model.Id(o => o.CUSTNMBR);
+                model.Field(o => o.ContactTypeID);
+                model.Field(o => o.CUSTNMBR);
+                model.Field(o => o.ContactPerson);
+                model.Field(o => o.PersonPosition);
+                model.Field(o => o.PersonEmailAdd);
+                model.Field(o => o.OtherInfo);
+            })
+            )
+                )
+            </div>
+        </div>
+        <!-- End Body -->
+    </div>
+    <!-- end widget content -->
+
+</div>
+<!-- end widget div -->

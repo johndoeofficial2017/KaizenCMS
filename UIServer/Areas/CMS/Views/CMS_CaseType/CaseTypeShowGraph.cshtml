@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .k-panelbar .k-tabstrip > .k-content, .k-tabstrip > .k-content {
+        margin: 0px;
+    }
+    .options li{
+        list-style-type:none;
+    }
+</style>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+        @*<a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateGraphViewsFields();">
+                <i class="glyphicon glyphicon-floppy-disk"></i>
+                <br />
+                Update
+            </a>*@
+    </header>
+
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row" id="widget-CMS_CaseTypeGraphView">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Graph View
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Case Type</label>
+                                                <div class="col col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Type --'"
+                                                            k-ng-model="SelectedLookUp.SelectedType"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="CaseTypes"
+                                                            k-on-change="CaseTypeChangedToShowGraph()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">View</label>
+                                                <div class="col col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select View --'"
+                                                            k-ng-model="SelectedLookUp.SelectedView"
+                                                            k-data-text-field="'ViewName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'ViewID'"
+                                                            k-data-source="CaseTypeViews"
+                                                            k-on-change="ViewChangedToShowGraph()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Select Graph</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Graph --'"
+                                                            k-ng-model="SelectedLookUp.SelectedGraph"
+                                                            k-data-text-field="'GraphName'"
+                                                            k-data-value-field="'GraphID'"
+                                                            k-data-source="Graphs"
+                                                            k-on-change="GraphIdChanged()"
+                                                            style="width: 100%"></select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="GraphTypeName==='bar'||GraphTypeName==='column'||GraphTypeName==='line'">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Functions</label>
+                                                <label class="input col col-sm-8 col-xs-12">
+                                                    <ul class="options">
+                                                        <li>
+                                                            <input id="typeColumn" name="seriesType"
+                                                                   type="radio" value="column" ng-model="GraphTypeName" checked="checked" autocomplete="off" />
+                                                            <label for="typeColumn">Columns</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="typeBar" name="seriesType"
+                                                                   type="radio" value="bar" ng-model="GraphTypeName" autocomplete="off" />
+                                                            <label for="typeBar">Bars</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="typeLine" name="seriesType"
+                                                                   type="radio" value="line" ng-model="GraphTypeName" autocomplete="off" />
+                                                            <label for="typeLine">Lines</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="stack" type="checkbox" autocomplete="off" checked="checked" />
+                                                            <label for="stack">Stacked</label>
+                                                        </li>
+                                                    </ul>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="caseTypeChart">
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".options").bind("change", refresh);
+        });
+
+        function refresh() {
+            var chart = $("#caseTypeChart").data("kendoChart"),
+                type = $("input[name=seriesType]:checked").val(),
+                stack = $("#stack").prop("checked");
+            debugger
+            for (var i = 0, length = chart.options.series.length; i < length; i++) {
+                chart.options.series[i].stack = stack;
+                chart.options.series[i].type = type;
+            };
+
+            chart.setOptions({
+                series: chart.options.series
+            });
+        }
+    </script>
+</div>
+
+
+
+
+

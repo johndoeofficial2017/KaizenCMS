@@ -1,0 +1,231 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetConditionListWithAgent() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            AgentID: scope.CM00105.AgentID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditConditionbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        scope.$apply(function () {
+            scope.CM00109 = dataItem;
+            scope.CM00109.SelectedField = scope.GetSingle(scope.CaseKaizenColumns, "FieldName", scope.CM00109.FieldName);
+            scope.CM00109.Status = 2;
+            scope.SourceChanged();
+        });
+    };
+    function DeleteConditionbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Agent")).scope();
+        scope.$apply(function () {
+            scope.CM00109 = dataItem;
+            scope.CM00109.Status = 3;
+            scope.DeleteAgentCondition();
+        });
+    };
+</script>
+<!-- Widget ID (each widget will need unique ID)-->
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveAgentCondition();"
+           ng-show="CM00109.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateAgentCondition();"
+           ng-show="CM00109.Status == 2">
+            <i class="glyphicon glyphicon-edit icon-large"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser icon-large"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Print();">
+            <i class="glyphicon glyphicon-print icon-large"></i><br /> Print
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban icon-large"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow no-padding-top">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body no-padding-bottom">
+            <article class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset class="margin-right-15 margin-left-15">
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Agent</label>
+                                        <label class="input col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" readonly
+                                                       placeholder="Agent ID"
+                                                       ng-model="CM00105.AgentID">
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('CMS_Agent','PopUp',null,'AgentCondition')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="CM00109.AgentID != '' && CM00109.AgentID != undefined">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Field Name</label>
+                                        <label class="input col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Field --'"
+                                                    k-ng-model="CM00109.SelectedField"
+                                                    k-data-text-field="'FieldDisplay'"
+                                                    k-value-primitive="false"
+                                                    k-data-value-field="'FieldName'"
+                                                    k-data-source="CaseKaizenColumns"
+                                                    k-on-change="SourceChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+                                        <label class="col col-md-2 control-label">Field Value</label>
+                                        <label class="input col-md-4">
+                                            <div dynamic="CM00109.SelectedField.html"></div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="CM00109.AgentID != '' && CM00109.AgentID != undefined">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Field Condition</label>
+                                        <label class="input col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Condition --'"
+                                                    k-ng-model="CM00109.FieldCondition"
+                                                    k-value-primitive="true"
+                                                    style="width: 100%;">
+                                                <option value="==">Equal</option>
+                                                <option value="!=">Not Equal</option>
+                                                <option value="%">Like</option>
+                                                <option value=">">Greater Than</option>
+                                                <option value="<">less Than</option>
+                                                <option value=">=">Greater Than And Equal</option>
+                                                <option value="<=">Less Than And Equal</option>
+                                            </select>
+                                        </label>
+                                        <label class="input col-md-4 smart-form">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="checkbox" ng-model="CM00109.FieldOperatorAnd" />
+                                                <i></i>Is AND Operator
+                                            </label>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <a href="javascript:void(0);" ng-click="SaveAgentCondition()" ng-show="CM00109.Status == 1"
+                                   class="btn btn-success pull-left">Add Condition</a>
+                                <a href="javascript:void(0);" ng-click="UpdateAgentCondition()" ng-show="CM00109.Status == 2"
+                                   class="btn btn-success pull-left">Update Condition</a>
+                            </footer>
+                        </form>
+                    </div>
+                </article>
+            </article>
+        </div>
+        <div class="row" ng-show="CM00105.AgentID != '' && CM00105.AgentID != undefined">
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00109>()
+            .Name("GridCMS_AgentConditionByAgent")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.FieldName).Width(80).Title("Field Name").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.FieldValue).Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.FieldCondition).Width(200).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Bound(c => c.FieldOperatorAnd).Title("Is And").Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                columns.Group(g => g.Title("Actions")
+                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                .Columns(location =>
+                {
+                    location.Command(command =>
+                    {
+                        command.Custom("Edit").Click("EditConditionbtn")
+                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                    location.Command(command =>
+                    {
+                        command.Custom("Delete").Click("DeleteConditionbtn")
+                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                })
+                );
+            })
+            .Filterable().AutoBind(false)
+            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Condition from {0} to {1}. Total Conditions: <strong>{2}</strong>")
+            .ItemsPerPage("Condition Per page").Empty("No Condition Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+            .Navigatable()
+            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+            .Reorderable(reorder => reorder.Columns(true))
+            .Resizable(ss => ss.Columns(true))
+            .ColumnMenu().Scrollable(s => s.Height(400))
+            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+            .Read(read => read.Action("GetConditionListGridWithAgent", "CMS_Agent")
+            .Type(HttpVerbs.Get).Data("GetConditionListWithAgent"))
+            .Model(model =>
+            {
+                model.Id(o => o.ConditionID);
+                model.Field(o => o.ConditionID);
+                model.Field(o => o.AgentID);
+                model.Field(o => o.FieldName);
+                model.Field(o => o.FieldValue);
+                model.Field(o => o.FieldCondition);
+                model.Field(o => o.FieldOperatorAnd);
+            })
+            )
+                )
+            </div>
+        </div>
+        <!-- End Body -->
+    </div>
+    <!-- end widget content -->
+
+</div>
+<!-- end widget div -->

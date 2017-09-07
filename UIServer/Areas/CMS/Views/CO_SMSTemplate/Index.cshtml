@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCMS_CM00035_Click(TemplateID) {
+        var scope = angular.element(document.getElementById("widget-CO_SMSTemplate")).scope();
+        scope.$apply(function () {
+            scope.EditCM00035(TemplateID);
+        });
+    }
+</script>
+<!-- widget grid -->
+<div ng-controller="CO_SMSTemplateController">
+    <div id="widget-CO_SMSTemplate">
+        <div ng-show="PagesCM00035.length > 0">
+            <div ng-repeat="Page in PagesCM00035">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM00035.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00035>()
+                        .Name("GridCMS_CM00035")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_CM00035_Click('#:TemplateID#');""> #:TemplateID# </a>").Width(100).Title("Template ID");
+                            columns.Bound(c => c.TemplateName);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Templates from {0} to {1}. Total Templates: <strong>{2}</strong>").Empty("Template Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetDataListGrid", "CO_SMSTemplate")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.TemplateID)))
+                )
+            </div>
+        </div>
+    </div>
+</div>

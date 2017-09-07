@@ -1,0 +1,61 @@
+﻿@model Kaizen.Configuration.Kaizen00010
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditAdmin_Screen_Click(ScreenID) {
+        var scope = angular.element(document.getElementById("widget-Admin_Screen")).scope();
+        scope.$apply(function () {
+            scope.EditKaizen00010(ScreenID);
+        });
+    };
+</script>
+
+<div ng-controller="Admin_ScreenController">
+    <div class="widget" id="widget-Admin_Screen">
+        <div ng-show="PagesKaizen00010.length > 0">
+            <div ng-repeat="Page in PagesKaizen00010">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="widget-body" ng-show="PagesKaizen00010.length == 0">
+            <div kendo-toolbar>
+                <button class="mybtn" ng-click="AddKaizen00010()">New Screen</button>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Configuration.Kaizen00010>()
+                                .Name("GridAdmin_Screen")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ScreenID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditAdmin_Screen_Click('#:ScreenID#');""> #:ScreenID# </a>").Width(100).Title("Screen ID");
+                            columns.Bound(c => c.ScreenName);
+                            columns.Bound(c => c.ScreenDescription);
+                        })
+                            .HtmlAttributes(new { style = "height:500px;" })
+                            .Scrollable(scrollable => scrollable.Virtual(true))
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Screens from {0} to {1}. Total Screens: <strong>{2}</strong>").Empty("No Screen Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu()
+                            .Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                            .Read(read => read.Action("GetDataListGrid", "Admin_Screen")
+                            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(p => p.ScreenID);
+                                model.Field(p => p.ScreenID);
+                                model.Field(p => p.ScreenName);
+                                model.Field(p => p.ScreenDescription);
+                                model.Field(p => p.HasSubScreen);
+                            })
+                        )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

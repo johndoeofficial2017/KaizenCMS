@@ -1,0 +1,237 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .k-panelbar .k-tabstrip>.k-content, .k-tabstrip>.k-content {
+        margin: 0px;
+    }
+</style>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+        @*<a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateGraphViewsFieldSummary();">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        <br />
+        Update
+    </a>*@
+    </header>
+
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row" id="widget-CMS_CaseTypeGraphView">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    View Field Summary Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 col-xs-12 control-label text-left">Case Type</label>
+                                                <div class="col col-sm-8 col-xs-12">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Type --'"
+                                                            k-ng-model="SelectedLookUp.SelectedType"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="CaseTypes"
+                                                            k-on-change="CaseTypeChangedForViewFieldSummary()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">View</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select View --'"
+                                                            k-ng-model="SelectedLookUp.SelectedView"
+                                                            k-data-text-field="'ViewName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'ViewID'"
+                                                            k-data-source="CaseTypeViewsList"
+                                                            k-on-change="ViewChangedForFieldSummary()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Graph</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select View --'"
+                                                            k-ng-model="SelectedLookUp.SelectedGraph"
+                                                            k-data-text-field="'GraphName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'GraphID'"
+                                                            k-data-source="CaseTypeGraphList"
+                                                            k-on-change="GraphViewChangedForFieldSummary()"
+                                                            style="width: 100%"></select>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                        </div>
+                                    </div>
+                                </div>*@
+                            </fieldset>
+                            <br/>
+                            <fieldset>
+                                <div class="demo-section k-content">
+                                    @(Html.Kendo().TabStrip()
+                                          .Name("graphViewFieldSummary")                                          
+                                          .Items(tabstrip =>
+                                          {
+                                              tabstrip.Add().Text("CM00082")
+                                                  .Selected(true)
+                                                  .Content(@<text>
+                                                               <header class="button-header" ng-show="FieldSummaryListByView.length > 0">
+                                                                   <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateCM00082();">
+                                                                       <i class="glyphicon glyphicon-floppy-disk"></i>
+                                                                       <br />
+                                                                       Update
+                                                                   </a>
+                                                               </header>
+                                                               <div class="form-group" ng-show="FieldSummaryListByView.length > 0">
+                                                                   <table class="table table-bordered table-hover table-responsive">
+                                                                       <thead>
+                                                                       <tr style="text-transform: capitalize;">
+                                                                           <th class="text-align-center smart-form">
+
+                                                                           </th>
+                                                                           <th class="text-align-center">Field Name</th>
+                                                                           <th class="text-align-center">Field Display</th>
+                                                                       </tr>
+                                                                       </thead>
+                                                                       <tbody>
+                                                                       <tr ng-repeat="field in FieldSummaryListByView">
+                                                                           <td class="text-align-center smart-form col-md-1">
+                                                                               <label class="checkbox">
+                                                                                   <input type="checkbox" name="checkbox" ng-model="field.isSelected" ng-click="AddOrDeleteCM00082(field)"/>
+                                                                                   <i></i>
+                                                                               </label>
+                                                                           </td>
+
+                                                                           <td class="text-align-center col-md-2">
+                                                                               <input type="text" class="form-control" placeholder="Field Name" ng-model="field.FieldName" disabled="disabled"/>
+                                                                           </td>
+                                                                           <td class="text-align-center col-md-2">
+                                                                               <input type="text" class="form-control" placeholder="Field Display" ng-model="field.FieldDisplay" maxlength="50" />
+                                                                           </td>
+                                                                       </tr>
+                                                                       </tbody>
+                                                                   </table>
+                                                               </div>
+                                                            </text>);
+
+                                              tabstrip.Add().Text("CM00083")
+                                                  .Content(@<text>
+                                                               <header class="button-header" ng-show="FieldSummaryListByView.length > 0">
+                                                                   <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateCM00083();">
+                                                                       <i class="glyphicon glyphicon-floppy-disk"></i>
+                                                                       <br />
+                                                                       Update
+                                                                   </a>
+                                                               </header>
+                                                               <div class="form-group" ng-show="FieldSummaryListByView.length > 0">
+                                                                   <table class="table table-bordered table-hover table-responsive">
+                                                                       <thead>
+                                                                       <tr style="text-transform: capitalize;">
+                                                                           <th class="text-align-center smart-form">
+
+                                                                           </th>
+                                                                           <th class="text-align-center">Field Name</th>
+                                                                           <th class="text-align-center">Field Display</th>
+                                                                           <th class="text-align-center">Summary Type</th>
+                                                                       </tr>
+                                                                       </thead>
+                                                                       <tbody>
+                                                                       <tr ng-repeat="field in FieldSummaryListByView_GraphSummary">
+                                                                           <td class="text-align-center smart-form col-md-1">
+                                                                               <label class="checkbox">
+                                                                                   <input type="checkbox" name="checkbox" ng-model="field.isSelected" ng-click="AddOrDeleteCM00083(field)"/>
+                                                                                   <i></i>
+                                                                               </label>
+                                                                           </td>
+
+                                                                           <td class="text-align-center col-md-2">
+                                                                               <input type="text" class="form-control" placeholder="Field Name" ng-model="field.FieldName" disabled="disabled"/>
+                                                                           </td>
+                                                                           <td class="text-align-center col-md-2">
+                                                                               <input type="text" class="form-control" placeholder="Field Display" ng-model="field.FieldDisplay" maxlength="50" />
+                                                                           </td>
+                                                                           <td>
+                                                                               <select kendo-drop-down-list
+                                                                                       k-filter="'startswith'"
+                                                                                       k-option-label="'-- Select View --'"
+                                                                                       k-ng-model="field.SummaryType"
+                                                                                       k-data-text-field="'SummeryTypeName'"
+                                                                                       k-value-primitive="true"
+                                                                                       k-data-value-field="'SummeryTypeID'"
+                                                                                       k-data-source="SummaryTypeList"
+                                                                                       k-on-change="ViewFieldSummaryTypeChanged(field)"
+                                                                                       style="width: 100%"></select> 
+                                                                           </td>
+                                                                       </tr>
+                                                                       </tbody>
+                                                                   </table>
+                                                               </div>
+                                                            </text>);
+                                          }))
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

@@ -1,0 +1,138 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetGenericKaizenPublicKeyWithAddressCode() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            AddressCode: scope.CM00104.AddressCode,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Send();">
+            <i class="glyphicon glyphicon-send icon-large"></i><br /> Send & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban icon-large"></i><br /> Cancel
+        </a>
+    </header>
+    <div class="no-border overflow no-padding-top">
+        <div class="widget-body no-padding-bottom">
+            <article class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset class="margin-right-15 margin-left-15">
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Address Type</label>
+                                        <label class="input col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Address Type --'"
+                                                    k-ng-model="CM00104.AddressCode"
+                                                    k-data-text-field="'AddressName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'AddressCode'"
+                                                    k-data-source="AddressTypes"
+                                                    ng-disabled="CM00104.status==2"
+                                                    k-on-change="GridRefresh('GridCMS_DebtorEmails')"
+                                                    style="width: 100%"></select>
+                                        </label>
+                                        <label class="col col-md-2 control-label">Email Columns</label>
+                                        <div class="col-md-4">
+                                            <select kendo-multi-select
+                                                    k-auto-bind="false" k-value-primitive="true"
+                                                    k-ng-model="selectedIds">
+                                                <option value="Email01">Email Address 01</option>
+                                                <option value="Email02">Email Address 02</option>
+                                                <option value="Email03">Email Address 03</option>
+                                                <option value="Email04">Email Address 04</option>
+                                            </select>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Template</label>
+                                        <label class="input col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Template --'"
+                                                    k-ng-model="CM00104.TemplateID"
+                                                    k-data-text-field="'TemplateName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'TemplateID'"
+                                                    k-data-source="Templates"
+                                                    k-on-change="OnTemplateChanged()"
+                                                    style="width: 100%"></select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Body Content</label>
+                                        <label class="input col-md-10">
+                                            <textarea kendo-editor k-tools="FullEditorTools" id="DebtorBodyContent"
+                                                      k-ng-model="CM00104.TemplateContant" k-messages="messages" k-stylesheets="stylesheets"></textarea>
+                                        </label>
+                                    </section>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </article>
+        </div>
+        <button ng-click="OpenFilterWindow('GridCMS_DebtorEmails','CMS_Debtor')" class="row btn btn-primary">
+            <i class="fa fa-filter"></i> Filter
+        </button>
+        <div class="row">
+            @(Html.Kendo().Grid<Kaizen.CMS.CM00104>().Name("GridCMS_DebtorEmails")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.DebtorID).Title("Debtor ID");
+                columns.Bound(c => c.Email01).Title("Email Address 01");
+                columns.Bound(c => c.Email02).Title("Email Address 02");
+                columns.Bound(c => c.Email03).Title("Email Address 03");
+                columns.Bound(c => c.Email04).Title("Email Address 04");
+            })
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Addresses from {0} to {1}. Total Addresses: <strong>{2}</strong>")
+                .ItemsPerPage("Address Per page").Empty("No Addresses Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu().Scrollable(s => s.Height(310)).Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                .Read(read => read.Action("GetListGridWithAddressCode", "CMS_Debtor").Type(HttpVerbs.Get)
+                .Data("GetGenericKaizenPublicKeyWithAddressCode"))
+                .Model(model =>
+                {
+                    model.Id(p => p.AddressCode);
+                    model.Id(p => p.DebtorID);
+                    model.Field(o => o.Email01);
+                    model.Field(o => o.Email02);
+                    model.Id(o => o.Email03);
+                    model.Field(o => o.Email04);
+                })
+              )
+            )
+        </div>
+    </div>
+</div>

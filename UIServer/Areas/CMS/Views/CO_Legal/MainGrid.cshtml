@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+}
+@(Html.Kendo().Grid<Kaizen.CMS.CM00140>()
+.Name("GridCO_Legal")
+.Columns(columns =>
+{
+    @*foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+    {
+        switch (column.field.Trim())
+        {
+            case "PhotoExtension":
+                columns.Template(@<text></text>).ClientTemplate("#= ShowItemImage(data) #").Locked(column.locked).Width(column.width);
+                break;
+           
+        }
+    }*@
+
+    columns.Bound(c => c.LegalID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditLegal_Click('#:LegalID#');""> #:LegalID# </a>").Width(100).Title("Legal ID");
+    columns.Bound(c => c.LegalName).ClientTemplate(@"#:LegalName# </a>").Width(100).Title("Legal Name");
+    columns.Bound(c => c.ShortName).ClientTemplate(@"#:ShortName# </a>").Width(100).Title("Short Name");
+    columns.Bound(c => c.LegalClassID).ClientTemplate(@"#:LegalClassID# </a>").Width(100).Title("Legal Class ID");
+    columns.Bound(c => c.StatusID).ClientTemplate(@"#:StatusID# </a>").Width(100).Title("Status ID");
+})
+    .Excel(excel => excel.AllPages(true).FileName("LegalList.xlsx").Filterable(true))
+    .Pdf(pdf => pdf.FileName("LegalList.pdf")
+    .AllPages().Date(DateTime.Now))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Legals from {0} to {1}. Total Legals: <strong>{2}</strong>")
+        .ItemsPerPage("Legal Per page").Empty("No Legals")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.LegalID).Descending())
+.Read(read => read.Action("GetDataListGrid", "CO_Legal").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+.Model(model =>
+{
+    model.Id(o => o.LegalID);
+})
+)
+)
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

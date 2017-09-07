@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSOP_Trx_GiftVoucher_Click(VoucherTrxNumber) {
+        var scope = angular.element(document.getElementById("widget-SOP_Trx_GiftVoucher")).scope();
+        scope.$apply(function () {
+            scope.EditSOP10305(VoucherTrxNumber);
+        });
+    };
+</script>
+
+<div ng-controller="SOP_Trx_GiftVoucherController">
+    <div class="widget" id="widget-SOP_Trx_GiftVoucher">
+        <div ng-show="PagesSOP10305.length > 0">
+            <div ng-repeat="Page in PagesSOP10305">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesSOP10305.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.SOP.SOP10305>()
+                                .Name("GridSOP_Trx_GiftVoucher")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.VoucherTrxNumber).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_Trx_GiftVoucher_Click('#:VoucherTrxNumber#');""> #:VoucherTrxNumber# </a>").Width(100).Title("Gift Voucher ID");
+                            columns.Bound(c => c.VoucherCount);
+                            columns.Bound(c => c.VoucherAMT);
+                            columns.Bound(c => c.VoucherStartDate);
+                            columns.Bound(c => c.VoucherEndDate);
+                        })
+                .HtmlAttributes(new { style = "height:500px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Vouchers from {0} to {1}. Total Vouchers: <strong>{2}</strong>").Empty("No Voucher Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true)).ColumnMenu().Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "SOP_Trx_GiftVoucher")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.VoucherTrxNumber)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+
+<div ng-controller="CMS_Set_AddressCodeTypePartnerController">
+    <div class="widget" id="widget-CMS_Set_AddressCodeTypePartner">
+        <div ng-show="PagesCM00033.length > 0">
+            <div ng-repeat="Page in PagesCM00033">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00033.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div ng-repeat="Page in GridPages">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+    </div>
+</div>
+

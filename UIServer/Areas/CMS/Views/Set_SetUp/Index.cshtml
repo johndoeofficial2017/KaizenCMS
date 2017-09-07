@@ -1,0 +1,225 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="Set_SetUpController">
+    <div id="widget-Set_SetUp">
+        <div ng-show="PagesCM00000.length > 0">
+            <div ng-repeat="Page in PagesCM00000">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM00000.length == 0">
+            <div class="jarviswidget" data-widget-colorbutton="false"
+                 data-widget-editbutton="false"
+                 data-widget-togglebutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-fullscreenbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-collapsed="false"
+                 data-widget-sortable="false">
+                <header class="button-header">
+                    <a class="btn btn-default" ng-click="SaveData();"
+                       ng-show="CM00000.Status == 1">
+                        <i class="glyphicon glyphicon-floppy-disk icon-large">
+                        </i><br />
+                        Save &amp; Close
+                    </a>
+                    <a class="btn btn-default" ng-click="UpdateData();"
+                       ng-show="CM00000.Status == 2">
+                        <i class="glyphicon glyphicon-floppy-disk icon-large">
+                        </i><br />
+                        Update &amp; Close
+                    </a>
+                    <a class="btn btn-default" ng-click="StandardFields();">
+                        <i class="glyphicon glyphicon-floppy-disk icon-large">
+                        </i><br />
+                        Standard Fields
+                    </a>
+                </header>
+                <div class="no-border overflow">
+                    <div class="widget-body">
+                        <div class="row">
+                            <article class="col-md-12 col-lg-12">
+                                <div class="row no-padding">
+                                    <form class="">
+                                        <fieldset>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title bold">Receipt Setup</h4>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <section class="">
+                                                        <label class="col col-md-1 control-label">Prefix</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control" maxlength="5"
+                                                                   placeholder="Receipt Prefix" ng-model="CM00000.RCTPrefix" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Length</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Receipt Length" ng-model="CM00000.RCTLenth" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Last No.</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Receipt Last Number" ng-model="CM00000.RCTLastNumber">
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title bold">
+                                                        <div class="smart-form">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="checkbox"
+                                                                       ng-model="CM00000.IsClientSerial"
+                                                                       ng-change="ActiveChanged()" />
+                                                                <i></i>Is Client Serial
+                                                            </label>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="checkbox"
+                                                                       ng-model="CM00000.IsCLientPublicSerial"
+                                                                       ng-change="ActiveChanged()" />
+                                                                <i></i>Is Public Client Serial
+                                                            </label>
+                                                        </div>
+                                                    </h4>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <section class="">
+                                                        <label class="col col-md-1 control-label">Prefix</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control" maxlength="5"
+                                                                   placeholder="Client Prefix" ng-model="CM00000.ClientPrefixValue" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Length</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Client Length" ng-model="CM00000.ClientPrefixlengh" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Last No.</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Client Last Number" ng-model="CM00000.ClientLastClientID">
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title bold">
+                                                        <div class="smart-form">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="checkbox"
+                                                                       ng-model="CM00000.IsAgentSerial"
+                                                                       ng-change="ActiveChanged()" />
+                                                                <i></i>Is Agent Serial
+                                                            </label>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="checkbox"
+                                                                       ng-model="CM00000.IsAgentPublicSerial"
+                                                                       ng-change="ActiveChanged()" />
+                                                                <i></i>Is Public Agent Serial
+                                                            </label>
+                                                        </div>
+                                                    </h4>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <section class="">
+                                                        <label class="col col-md-1 control-label">Prefix</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control" maxlength="5"
+                                                                   placeholder="Agent Prefix" ng-model="CM00000.AgentPrefixValue" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Length</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Agent Length" ng-model="CM00000.AgentPefixlengh" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Last No.</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Agent Last Number" ng-model="CM00000.AgentLastID">
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title bold">
+                                                        Batch Setup
+                                                    </h4>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <section class="">
+                                                        <label class="col col-md-1 control-label">Prefix</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control" maxlength="5"
+                                                                   placeholder="Batch Prefix" ng-model="CM00000.BatchPrefixValue" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Length</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Batch Length" ng-model="CM00000.BatchPrefixlengh" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Last No.</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Batch Last Number" ng-model="CM00000.BatchLastID">
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title bold">
+                                                        <div class="smart-form">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="checkbox"
+                                                                       ng-model="CM00000.IsCaseFixedSerial"
+                                                                       ng-change="ActiveChanged()" />
+                                                                <i></i>Is Fixed Case Serial
+                                                            </label>
+                                                        </div>
+                                                    </h4>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <section class="">
+                                                        <label class="col col-md-1 control-label">Prefix</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control" maxlength="5"
+                                                                   placeholder="Case Prefix" ng-model="CM00000.CaseFixedPrefix" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Length</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Case Length" ng-model="CM00000.CaseFixedLenth" />
+                                                        </div>
+                                                        <label class="col col-md-1 control-label">Last No.</label>
+                                                        <div class="input col col-md-3">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Case Last Number" ng-model="CM00000.CaseFixedLastNumber">
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

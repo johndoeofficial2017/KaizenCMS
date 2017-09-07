@@ -1,0 +1,175 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="SysViewScreenMangementForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveViewManagement();">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    User View Access Setup
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Company</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Company --'"
+                                                k-ng-model="Kaizen00026.CompanyID"
+                                                k-data-text-field="'CompanyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'CompanyID'"
+                                                k-data-source="Companies"
+                                                k-on-change="ModuleCompanyChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Module</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Module --'"
+                                                k-ng-model="Kaizen00026.ModuleID"
+                                                k-data-text-field="'ModuleName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ModuleID'"
+                                                k-data-source="CompanyModules"
+                                                k-on-change="ModuleChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Screen</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Screen --'"
+                                                k-ng-model="Kaizen00026.ScreenID"
+                                                k-data-text-field="'ScreenName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ScreenID'"
+                                                k-data-source="ModuleScreens"
+                                                k-on-change="CompanyScreenChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">View</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select View --'"
+                                                k-ng-model="Kaizen00026.ViewID"
+                                                k-data-text-field="'ViewName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ViewID'"
+                                                k-data-source="RelatedViews"
+                                                k-on-change="ViewChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="DefaultViewSettings.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" checkbox-all="DefaultViewSettings.isSelected" />
+                                                        <i></i>
+                                                    </label>
+                                                </th>
+                                                <th class="text-align-center">Title</th>
+                                                <th class="text-align-center">Width</th>
+                                                <th class="text-align-center">Order</th>
+                                                <th class="text-align-center">Filterable</th>
+                                                <th class="text-align-center">Hidden</th>
+                                                <th class="text-align-center">Is Active</th>
+                                                <th class="text-align-center">Locked</th>
+                                                <th class="text-align-center">Lockable</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="field in DefaultViewSettings">
+                                                <td class="text-align-center smart-form col-md-1">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.isSelected" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Name" ng-model="field.title" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" placeholder="Width" ng-model="field.width" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Order" ng-model="field.ColumnOrder" />
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.filterable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.hidden" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsActive" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.locked" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.lockable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+

@@ -1,0 +1,53 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditINV_ItemType_Click(ItemTypeID) {
+        var scope = angular.element(document.getElementById("widget-INV_ItemType")).scope();
+        scope.$apply(function () {
+            scope.EditIV00008(ItemTypeID);
+        });
+    };
+</script>
+
+<div ng-controller="INV_ItemTypeController">
+    <div class="widget" id="widget-INV_ItemType">
+        <div ng-show="PagesIV00008.length > 0">
+            <div ng-repeat="Page in PagesIV00008">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesIV00008.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Inventory.IV00008>()
+                                .Name("GridINV_ItemType")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ItemTypeID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditINV_ItemType_Click('#:ItemTypeID#');""> #:ItemTypeID# </a>").Width(100).Title("Inventory Type ID");
+                            columns.Bound(c => c.ItemTypeName);
+                        })
+                .HtmlAttributes(new { style = "height:500px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Inventory Types from {0} to {1}. Total Inventory Types: <strong>{2}</strong>").Empty("No Inventory Type Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "INV_ItemType")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.ItemTypeID)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

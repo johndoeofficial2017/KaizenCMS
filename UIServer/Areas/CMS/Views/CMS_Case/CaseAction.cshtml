@@ -1,0 +1,304 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div class="no-padding no-border overflow">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a ng-click="SaveCaseAction();" class="btn btn-default btn-header">
+                <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+                Save & Close
+            </a>
+            <a ng-click="GoBack();" class="btn btn-default">
+                <i class="glyphicon glyphicon-remove-circle"></i>
+                <br />Cancel
+            </a> 
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-12 col-lg-12 well-10">
+                        <div class="row no-padding">
+                            <form>
+                                <fieldset class="well well-10 well-10">
+                                    <div class="row">
+                                        &nbsp;
+                                    </div> 
+                                    <div class="row">
+                                        <label class="col-md-2 control-label text-left txt-color-red bold">Action Type</label>
+                                        <div class="form-group col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Status Action Type --'"
+                                                    k-ng-model="SelectedLookUp.StatusActionTypeID"
+                                                    k-data-text-field="'StatusActionTypeName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'StatusActionTypeID'"
+                                                    k-data-source="CM00003List"
+                                                    k-on-change="ActionTypeChanged()"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-2 control-label text-left txt-color-red bold">Status</label>
+                                        <div class="form-group col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Status Action Type --'"
+                                                    k-ng-model="SelectedLookUp.SelectedStatusID"
+                                                    k-data-text-field="'CaseStatusname'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'CaseStatusID'"
+                                                    k-data-source="CaseStatusestemp"
+                                                    k-on-change="StatusChanged()"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                        <div ng-repeat="casestatus in StatusDynamicChilds" ng-show="SelectedLookUp.SelectedStatus.IsHasChild">
+                                            <label class="col-sm-2 control-label text-left">Child Status</label>
+                                            <div class="col-sm-4">
+                                                <select ng-change="CaseStatusChildChanged(casestatus.CaseStatusChildID)"
+                                                        class="form-control custom"
+                                                        ng-model="casestatus.CaseStatusChildID">
+                                                    <option ng-repeat="excel in casestatus.StatusChilds"
+                                                            value="{{excel.CaseStatusID}}">
+                                                        {{excel.CaseStatusname}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label text-left" ng-show="SelectedLookUp.SelectedStatus.IsReminder">Reminder On</label>
+                                        <div class="col-sm-4" ng-show="SelectedLookUp.SelectedStatus.IsReminder">
+                                            <input kendo-date-time-picker
+                                                   k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                                   k-ng-model="CM10701.ReminderDateTime"
+                                                   style="width: 100%;" />
+                                        </div>
+                                        <label class="col-sm-2 control-label text-left"
+                                               ng-show="SelectedLookUp.SelectedStatus.IsPTP">Amount</label>
+                                        <div class="col-sm-4" ng-show="SelectedLookUp.SelectedStatus.IsPTP">
+                                            <input type="text" class="form-control"
+                                                   ng-decimal decimal="CM00203.DecimalDigit" select-on-click
+                                                   placeholder="Amount" ng-model="CM10701.PTPAMT" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label text-left"
+                                               ng-show="StatusScripts.length > 0">Status Script</label>
+                                        <div class="col-sm-4" ng-show="StatusScripts.length > 0">
+                                            <select ng-change="ScriptStatusChanged()"
+                                                    class="form-control custom"
+                                                    ng-model="CM10701.StatusScriptID">
+                                                <option ng-repeat="excel in StatusScripts"
+                                                        value="{{excel.StatusScriptID}}">
+                                                    {{excel.StatusScriptName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-2 control-label text-left txt-color-red bold">Rule Condition</label>
+                                        <div class="form-group col-md-10">
+                                            <textarea class="form-control" rows="4" placeholder="Status Comment"
+                                                      ng-model="CM10701.CaseStatusComment"></textarea>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+                <div class="row" ng-show="SelectedLookUp.SelectedStatus.StatusHTML != '' && SelectedLookUp.SelectedStatus.StatusHTML != null">
+                    <article class="col-md-12 col-lg-12 well-10">
+                        <div class="row no-padding">
+                            <form>
+                                <fieldset class="well well-10 well-10">
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+
+                                    <div dynamic="SelectedLookUp.SelectedStatus.StatusHTML"></div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding margin-bottom-10">
+                        <form>
+                            <fieldset ng-show="StatusTasks.length > 0">
+                                <div class="form-group margin-bottom-5">
+                                    <div class="table-scrollable">
+                                        <table class="table table-bordered table-hover table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th class="text-align-center">Task</th>
+                                                    <th class="text-align-center">Start Date</th>
+                                                    <th class="text-align-center">End Date</th>
+                                                    <th class="text-align-center"></th>
+                                                    <th class="text-align-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat-start="task in StatusTasks">
+                                                    <td class="col-md-1">
+                                                        <button class="btn btn-default input-sm" ng-if="task.expanded" ng-click="task.expanded = false">
+                                                            <span class="glyphicon glyphicon-minus"></span>
+                                                        </button>
+                                                        <button class="btn btn-default input-sm" ng-if="!task.expanded" ng-click="task.expanded = true">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td class="col-md-5">
+                                                        {{task.TaskTitle}}
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <input kendo-date-time-picker
+                                                               k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                                               k-ng-model="task.TaskStartDate"
+                                                               k-on-change="DateTaskChanged(task)"
+                                                               style="width: 100%;" />
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <input kendo-date-time-picker
+                                                               k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                                               k-ng-model="task.TaskEndDate"
+                                                               k-max="task.TaskEndMaxDate"
+                                                               k-rebind="task.TaskEndMaxDate"
+                                                               style="width: 100%;" />
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <a href="javascript:void(0);"
+                                                           ng-click="ComplateTask(task)"
+                                                           class="btn btn-success">
+                                                            Complate
+                                                        </a>
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        <a href="javascript:void(0);" 
+                                                           ng-click="DeleteActionTask(task.TaskID)"
+                                                           class="btn btn-danger">
+                                                            Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="task.expanded" ng-repeat-end="">
+                                                    <td class="container-fluid" colspan="5">
+                                                        <div class="row" style="margin-right:5px;margin-left:5px;">
+                                                            <div class="col-sm-2 col-md-2">
+                                                                Agent:
+                                                            </div>
+                                                            <div class="col-sm-4 col-md-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Agent ID" ng-model="task.AgentID" readonly>
+                                                                    <span class="input-group-btn">
+                                                                        <button ng-click="OpenAgentPopUp($index);" class="btn btn-default">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-2 col-md-2">
+                                                                Assign Date:
+                                                            </div>
+                                                            <div class="col-sm-4 col-md-4">
+                                                                <input kendo-date-time-picker
+                                                                       k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                                                       k-ng-model="task.AssignDate"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-right:5px;margin-left:5px;">
+                                                            <div class="col-sm-2 col-md-2">
+                                                                Task Type
+                                                            </div>
+                                                            <div class="col-sm-4 col-md-4">
+                                                                <select kendo-drop-down-list
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Task Type --'"
+                                                                        k-ng-model="task.TaskTypeID"
+                                                                        k-data-text-field="'TaskTypeName'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'TaskTypeID'"
+                                                                        k-data-source="TaskTypes"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                            <div class="col-sm-2 col-md-2">
+                                                                Task Priority
+                                                            </div>
+                                                            <div class="col-sm-4 col-md-4">
+                                                                <select kendo-drop-down-list
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Priority --'"
+                                                                        k-ng-model="task.PriorityID"
+                                                                        k-data-text-field="'PriorityName'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'PriorityID'"
+                                                                        k-data-source="TaskPriorities"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-right:5px;margin-left:5px;">
+                                                            <div class="col-sm-2 col-md-2">
+                                                                Task Description
+                                                            </div>
+                                                            <div class="col-sm-4 col-md-4">
+                                                                <textarea class="form-control" rows="4"
+                                                                          ng-model="task.TaskDescription"></textarea>
+                                                            </div>
+                                                            <div class="col-sm-2 col-md-2">
+                                                                Task Progress
+                                                            </div>
+                                                            <div class="col-sm-4 col-md-4">
+                                                                <input kendo-numeric-text-box k-min="0" k-max="100"
+                                                                       k-ng-model="task.TaskProgress" style="width: 100%;" />
+                                                                <input kendo-slider k-min="0"
+                                                                       k-max="100" style="width: 100%"
+                                                                       k-show-buttons="true"
+                                                                       k-small-step="5"
+                                                                       k-large-step="10"
+                                                                       ng-model="task.TaskProgress">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

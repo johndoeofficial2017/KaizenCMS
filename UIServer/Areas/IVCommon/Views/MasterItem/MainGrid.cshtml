@@ -1,0 +1,199 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditItem_Click(ItemID) {
+        var scope = angular.element(document.getElementById("widget-MasterItem")).scope();
+        scope.$apply(function () {
+            scope.EditIV00100(ItemID);
+        });
+    }
+    function ShowItemImage(data) {
+        var ItemID;
+        var PhotoExtension;
+        if (data.PhotoExtension == null) {
+            ItemID = "ItemID";
+            PhotoExtension = "jpg";
+        } else {
+            ItemID = kaizenTrim(data.ItemID);
+            PhotoExtension = kaizenTrim(data.PhotoExtension);
+        }
+        var Photopath = '/Photo/ItemPhoto/' + ItemID + '.' + PhotoExtension + "?c=" + Math.random();
+        var html = kendo.format("<img alt='' onclick=\"return btnEditItem_Click('" + kaizenTrim(data.ItemID) + "');return false;\" src='{0}' style='width:40px;height:35px;cursor:pointer'/>",
+            Photopath
+        );
+        return html;
+    }
+</script>
+@(Html.Kendo().Grid<Kaizen.Inventory.IV00100>()
+    .Name("GridIV_Item")
+    .Columns(columns => 
+    {
+    foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+    {
+        switch (column.field.Trim())
+        { 
+            case "PhotoExtension":
+                columns.Template(@<text></text>).ClientTemplate("#= ShowItemImage(data) #").Locked(column.locked).Width(column.width);
+                    break;
+                case "ItemID": 
+                    columns.Bound("ItemID").ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditItem_Click('#:ItemID#');""> #:ItemID# </a>").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ItemName":
+                    columns.Bound(c => c.ItemName).Title("ItemName").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ShortDescription":
+                    columns.Bound(c => c.ShortDescription).Title("ShortDescription").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "GenericDescription":
+                    columns.Bound(c => c.GenericDescription).Title("GenericDescription").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ItemDescription":
+                    columns.Bound(c => c.ItemDescription).Title("ItemDescription").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "BarCode":
+                    columns.Bound(c => c.BarCode).Title("BarCode").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "IsinActive":
+                    columns.Bound(c => c.IsinActive).ClientTemplate("# if(IsinActive) { #<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #")
+                    .Title("In Active").Filterable(false).Width(column.width).Locked(column.locked);
+                    break;
+                case "IsHold":
+                    columns.Bound(c => c.IsHold).ClientTemplate("# if(IsHold) { #<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #")
+                    .Title("Hold").Filterable(false).Width(column.width).Locked(column.locked);
+                    break;
+                case "WarrantyDays":
+                    columns.Bound(c => c.WarrantyDays).Title("WarrantyDays").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ShelfLifeDays":
+                    columns.Bound(c => c.WarrantyDays).Title("ShelfLifeDays").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ExpiryDays":
+                    columns.Bound(c => c.ExpiryDays).Title("ExpiryDays").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "UFMGroupID":
+                    columns.Bound("UFMGroupID").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PriceMethodCode":
+                    columns.Bound(c => c.PriceMethodCode).ClientTemplate("# if(PriceMethodCode == 1) { #Fixed Price# } else if(PriceMethodCode ==2) { #variable Amount# } else if(PriceMethodCode ==3) { #Fixed Cost Percent# } #")
+                    .Title("Inactive").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ItemTypeID":
+                    columns.Bound(c => c.ItemTypeID).ClientTemplate("# if(ItemTypeID == 1 ) { #Sales Inventory# } else if(ItemTypeID == 2 ) { #Discontinued# } else if(ItemTypeID == 3){ #Miscellaneous Charges# } else if(ItemTypeID == 4){ #Kit# } else if(ItemTypeID == 5){ #Services# }else if(ItemTypeID == 6){ #Flat Fees# }#")
+                  .Title("Item Type").Filterable(false).Width(column.width).Locked(column.locked);
+                    break;
+                case "ItemGroupID":
+                    columns.Bound("ItemGroupID").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ClassID":
+                    columns.Bound("ClassID").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ShippingWeight":
+                    columns.Bound(c => c.ShippingWeight).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ABCID":
+                    columns.Bound(c => c.ABCID).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "UFMPurchase":
+                    columns.Bound(c => c.UFMPurchase).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "UnitCost":
+                    columns.Bound(c => c.UnitCost).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "LastUnitCost":
+                    columns.Bound(c => c.LastUnitCost).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PurchaseQTY":
+                    columns.Bound(c => c.PurchaseQTY).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "UFMSale":
+                    columns.Bound(c => c.UFMSale).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PriceLevelCode":
+                    columns.Bound(c => c.PriceLevelCode).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ValuationMethodID":
+                    columns.Bound(c => c.ValuationMethodID).ClientTemplate("# if(ValuationMethodID == 1 ) { #Moving average# } else if(ItemTypeID == 2 ) { #FIFO perpetual# } else if(ItemTypeID == 3){ #LIFO perpetual# } else if(ItemTypeID == 4){ #LIFO perpetual# } else if(ItemTypeID == 5){ #LIFO periodic# }#")
+                .Title("Valuation Method").Filterable(false).Width(column.width).Locked(column.locked);
+                    break;
+                case "TrackTypeID":
+                    columns.Bound(c => c.TrackTypeID).ClientTemplate("# if(TrackTypeID == 1 ) { #LOT# } else if(ItemTypeID == 2 ) { #Serial# }#")
+              .Title("Item Type").Filterable(false).Width(column.width).Locked(column.locked);
+                    break;
+                case "LotNumber":
+                    columns.Bound(c => c.LotNumber).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "UnitPrice":
+                    columns.Bound(c => c.UnitPrice).Width(column.width).Locked(column.locked).Title(column.title)
+                                     .ClientTemplate("#= FormatDecimalDigit(data.UnitPrice) #").HtmlAttributes(new { style = "text-align:center;" });
+                    break;
+                case "SaleQTY":
+                    columns.Bound(c => c.SaleQTY).Width(column.width).Locked(column.locked).Title(column.title)
+                                     .ClientTemplate("#= FormatDecimalDigit(data.SaleQTY) #").HtmlAttributes(new { style = "text-align:center;" });
+                    break;
+                case "PromotedPrice":
+                    columns.Bound(c => c.PromotedPrice).Width(column.width).Locked(column.locked).Title(column.title)
+                                     .ClientTemplate("#= FormatDecimalDigit(data.PromotedPrice) #").HtmlAttributes(new { style = "text-align:center;" });
+                    break;
+                case "LastUnitPrice":
+                    columns.Bound(c => c.LastUnitPrice).Width(column.width).Locked(column.locked).Title(column.title)
+                                     .ClientTemplate("#= FormatDecimalDigit(data.LastUnitPrice) #").HtmlAttributes(new { style = "text-align:center;" });
+                    break;
+                case "PrimaryVendor":
+                    columns.Bound(c => c.PrimaryVendor).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CountryID":
+                    columns.Bound(c => c.CountryID).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CreatedBy":
+                    columns.Bound(c => c.CreatedBy).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CreatedDate":
+                    columns.Bound(c => c.CreatedDate).Format("{0:dd/MM/yyyy}").Width(100).Locked(column.locked).Title(column.title);
+                    break;
+            }
+        }
+    })
+        .Excel(excel => excel.AllPages(true).FileName("ItemList.xlsx").Filterable(true))
+        .Pdf(pdf => pdf.FileName("ItemList.pdf").AllPages().Date(DateTime.Now))
+ .Pageable(pager => pager.Messages(messages => messages.Display("Showing Items from {0} to {1}. Total Items: <strong>{2}</strong>")
+        .ItemsPerPage("Item Per page").Empty("No Item")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.ItemID).Descending())
+
+    .Read(read => read.Action("GetDataListGrid", "MasterItem").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+    .Model(model =>
+    {
+        model.Id(o => o.ItemID);
+        model.Field(o => o.ItemID);
+        model.Field(o => o.UFMGroupID);
+        model.Field(o => o.DecimalDigitQuantity);
+        model.Id(o => o.PriceMethodCode);
+        model.Field(o => o.ItemTypeID);
+        model.Field(o => o.IsinActive);
+        model.Field(o => o.ClassID);
+        model.Id(o => o.ShortDescription);
+        model.Field(o => o.GenericDescription);
+        model.Field(o => o.ItemDescription);
+        model.Field(o => o.ShippingWeight);
+        model.Id(o => o.PhotoExtension);
+        model.Field(o => o.ABCID);
+        model.Id(o => o.UFMPurchase);
+        model.Field(o => o.UFMSale);
+        model.Field(o => o.PriceLevelCode);
+        model.Field(o => o.ValuationMethodID);
+    })
+)
+)
+
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

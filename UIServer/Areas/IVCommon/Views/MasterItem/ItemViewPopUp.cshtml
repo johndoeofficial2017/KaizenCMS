@@ -1,0 +1,144 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnSelect_Click(e) {
+        e.preventDefault();
+        try {
+            var ActiveScreenID = $("#ActiveScreenID").val();
+            var widget = $("#widget-" + ActiveScreenID)
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+            var scope = angular.element(widget).scope();
+            scope.$apply(function () {
+                scope.ItemBack(data);
+            });
+            var kendoWindow = $("#MainDialog").data("kendoWindow");
+            kendoWindow.close();
+        }
+        catch (err) {
+            alert("Error \n\n" + err.message);
+        }
+    };
+    function GetGenericKaizenPublicKeyWithSite() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            SiteID: scope.ParmObject,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function ShowItemImage(data) {
+        var ItemID;
+        var PhotoExtension;
+        if (data.PhotoExtension == null) {
+            ItemID = "ItemID";
+            PhotoExtension = "jpg";
+        } else {
+            ItemID = kaizenTrim(data.ItemID);
+            PhotoExtension = kaizenTrim(data.PhotoExtension);
+        }
+        var html = kendo.format("<img alt='' src='/Photo/ItemPhoto/{0}.{1}' style='width:40px;height:35px;cursor:pointer'/>",
+            ItemID
+            , PhotoExtension
+        );
+        return html;
+    };
+    function RefreshGrid() {
+        var grid = $("#GridIV_ItemPopUp").data("kendoGrid");
+        grid.dataSource.read();
+    };
+</script>
+<div class="panel panel-default">
+    <div class="panel-body no-padding">
+        <fieldset class="margin-15">
+            <div class="form-group">
+                <label class="col-sm-1 control-label text-center">Field</label>
+                <div class="col-sm-2">
+                    <select id="DropFieldID" class="form-control" style="height: auto;">
+                        <option value="ItemID" selected>Item ID</option>
+                        <option value="ItemName">Item Name</option>
+                        <option value="BarCode">Bar Code</option>
+                        <option value="ShortDescription">Short Description</option>
+                        <option value="GenericDescription">Generic Description</option>
+                        <option value="ItemDescription">Item Description</option>
+                        <option value="ItemTypeID">Item Type ID</option>
+                        <option value="UFMGroupID">UFM Group ID</option>
+                        <option value="UFMPurchase">UFM Purchase</option>
+                        <option value="UFMSale">UFM Sale</option>
+                        <option value="UnitPrice">Unit Price</option>
+                        <option value="UnitCost">Unit Cost</option>
+                        <option value="IsinActive">Is Inactive</option>
+                        <option value="-1">All</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label text-center">Operator</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="DropFltrOperator" style="height: auto;">
+                        <option value="0">Is Less Than</option>
+                        <option value="1">Is Less Than Or Equal To</option>
+                        <option value="2">Is Equal To</option>
+                        <option value="3">Is Not Equal To</option>
+                        <option value="4">Is Greater Than Or Equal To</option>
+                        <option value="5">Is Greater Than</option>
+                        <option value="6">Starts With</option>
+                        <option value="7">Ends With</option>
+                        <option value="8" selected>Contains</option>
+                        <option value="9">Is Contained In</option>
+                        <option value="10">Does Not Contain</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    <div class="input-group">
+                        <input class="form-control" id="SearchcritariaPopUp" type="text">
+                        <div class="input-group-btn input-group-sm" onclick="RefreshGrid()">
+                            <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    @(Html.Kendo().Grid<Kaizen.Inventory.IV00102Item>().Name("GridIV_ItemPopUp")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ItemID).Title("Item ID");
+                            columns.Bound(c => c.ItemName).Title("Item Name");
+                            columns.Bound(c => c.UnitPrice).Title("Unit Price");
+                            columns.Bound(c => c.UnitCost).Title("Unit Cost");
+                            columns.Command(command => command.Custom("Select").SendDataKeys(true)
+                            .Click("btnSelect_Click"));
+                        })
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Item from {0} to {1}. Total Items: <strong>{2}</strong>")
+                            .ItemsPerPage("Item Per page").Empty("No Item Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(350)).Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetListItemViewPopUpGridWithSite", "IV_Item").Type(HttpVerbs.Get)
+                            .Data("GetGenericKaizenPublicKeyWithSite"))
+                            .Model(model => model.Id(p => p.ItemID))
+                )
+    )
+</div>
+
+

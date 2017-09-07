@@ -1,0 +1,312 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+
+<style type="text/css">
+    .fieldValueList div, .fieldLabelList div {
+        display: inline-block;
+        width: 200px;
+    }
+</style>
+
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false"
+     ng-show="IsShowCM00074FieldOrder===false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-show="CaseTypeStandardFieldsList.length>0" ng-click="UpdateStandardFields();">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            <br />
+            Update
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="LoadStandardFieldOrder();">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            <br />
+            Field Order
+        </a>
+    </header>
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Case Type Standard Fields Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Case Type</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Type --'"
+                                                            k-ng-model="CM00029.SelectedCaseType"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="CaseTypes"
+                                                            k-on-change="CaseTypeChangedForStandardFields()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CaseTypeStandardFieldsList.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr style="text-transform: capitalize;">
+                                                <th class="text-align-center">Field Name</th>
+                                                <th class="text-align-center">Field Display</th>
+                                                @*<th class="text-align-center">Field Order</th>*@
+                                                <th class="text-align-center">Field Width</th>
+                                                <th class="text-align-center">Is Required</th>
+                                                <th class="text-align-center">Is Emailable</th>
+                                                <th class="text-align-center">Is Printable</th>
+                                                <th class="text-align-center">Is Active</th>
+                                                <th class="text-align-center">Is Locked</th>
+                                                <th class="text-align-center">Is Lockable</th>
+                                                <th class="text-align-center">Is Filterable</th>
+                                                <th class="text-align-center">Is Sortable</th>
+                                                <th class="text-align-center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="field in CaseTypeStandardFieldsList">
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Name" ng-model="field.FieldName" disabled="disabled" />
+                                                </td>
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="text" class="form-control" placeholder="Field Display" ng-model="field.FieldDisplay" maxlength="50" />
+                                                </td>
+                                                @*<td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" placeholder="Field Order" ng-model="field.FieldOrder" />
+                                                </td>*@
+                                                <td class="text-align-center col-md-2">
+                                                    <input type="number" class="form-control" placeholder="Field Width" ng-model="field.FieldWidth" />
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsRequired" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsEmailable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsPrintable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsActive" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.Islocked" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.Islockable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsFilterable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox" ng-model="field.IsSortable" />
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td class="text-align-center smart-form">
+                                                    <label class="checkbox">
+                                                        <button class="btn btn-primary" ng-click="DeleteCM00074(field,$index)">Delete</button>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+</div>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false"
+     ng-show="IsShowCM00074FieldOrder===true">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="BackFieldOrderCM00074();">
+            <i class="fa fa-arrow-left"></i>
+            <br />
+            Back
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-show="CaseTypeStandardFieldsList.length>0" ng-click="UpdateStandardFieldOrder();">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            <br />
+            Save Order
+        </a>
+    </header>
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal" dnd-list="CaseTypeStandardFieldsList">
+                            <fieldset>
+                                <legend>
+                                    Standard Fields Order Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label text-left">Case Type</label>
+                                                <div class="col col-sm-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Type --'"
+                                                            k-ng-model="CM00029.SelectedCaseType"
+                                                            k-data-text-field="'TrxTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'TRXTypeID'"
+                                                            k-data-source="CaseTypes"
+                                                            k-on-change="CaseTypeChangedForStandardFields()"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <br /><br />
+                            <fieldset ng-show="CaseTypeStandardFieldsList.length > 0">
+                                <ul>
+                                    <li class="fieldLabelList" style="list-style-type:none">
+                                        <div class="text-align-center"><b>Field Name</b></div>
+                                        <div class="text-align-center"><b>Field Display</b></div>
+                                        <div class="text-align-center"><b>Field Order</b></div>
+                                        <div class="text-align-center"><b>Field Width</b></div>
+                                    </li>
+                                </ul>
+                                <ul dnd-list="CaseTypeStandardFieldsList">
+                                    <li style="list-style-type:none"
+                                        ng-repeat="field in CaseTypeStandardFieldsList"
+                                        dnd-draggable="field"
+                                        dnd-effect-allowed="move"
+                                        dnd-moved="CaseTypeStandardFieldsList.splice($index, 1); "
+                                        dnd-selected="CaseTypeStandardFieldsList.selected = field">
+                                        <div style="padding-bottom:10px" class="fieldValueList">
+                                            <div>
+                                                <dnd-nodrag>
+                                                    <span>
+                                                        <span dnd-handle>
+                                                            <i class="glyphicon glyphicon-move"></i>
+                                                        </span>
+                                                    </span>
+                                                </dnd-nodrag>
+                                                <input type="text" placeholder="Field Name" ng-model="field.FieldName" disabled="disabled" />
+                                            </div>
+                                            <div>
+                                                <input type="text" placeholder="Field Display" ng-model="field.FieldDisplay" disabled="disabled" maxlength="50" />
+                                            </div>
+                                            <div>
+                                                <input type="number" placeholder="Field Order" ng-model="field.FieldOrder" disabled="disabled" />
+                                            </div>
+                                            <div>
+                                                <input type="number" placeholder="Field Width" ng-model="field.FieldWidth" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </article>
+
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+</div>

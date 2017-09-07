@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Reports";
+}
+<link href="~/ReportViewer/styles/telerikReportViewer.css" rel="stylesheet" />
+<script src="~/Scripts/kendo/2016.3.1118/kendo.web.min.js"></script>
+<script src="~/ReportViewer/js/telerikReportViewer-11.0.17.118.min.js"></script>
+<script src="~/ReportViewer/js/telerikReportViewer-11.0.17.118.js"></script>
+
+<style>
+    #IV_ShortageItems_reportViewer {
+        overflow: hidden;
+        font-family: Verdana, Arial;
+    }
+</style>
+
+<div>
+    <div id="IV_ShortageItems_reportViewer" style="height:600px;width:100%;">
+        loading...
+    </div>
+    <br />
+</div>
+
+<script>
+    $(document).ready(function () {
+        var scope = angular.element(document.getElementById("widget-IV_ShortageItems")).scope();
+        $("#IV_ShortageItems_reportViewer")
+            .telerik_ReportViewer({
+                serviceUrl: "/api/reports/",
+                
+                reportSource: {
+                    report: "KaizenReport.POSReport.rptMissingItems, KaizenReport"
+                },
+                viewMode: telerikReportViewer.ViewModes.INTERACTIVE,
+                scaleMode: telerikReportViewer.ScaleModes.SPECIFIC,
+                scale: 1.0,
+                ready: function () {
+                    //  this.refreshReport();
+                },
+            });
+    });
+
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) { return pair[1]; }
+        }
+        return (false);
+    };
+</script>

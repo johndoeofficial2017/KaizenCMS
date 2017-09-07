@@ -1,0 +1,249 @@
+﻿@{
+    Layout = null;
+}
+<script id="editor" type="text/x-kendo-template">
+    <div style="padding:10px">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="inputCaseRef" class="control-label col-md-4">Case Ref: </label>
+                <div class="col-md-6">
+                    <input name="CaseRef" id="inputCaseRef" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputReminderDate" class="control-label col-md-4">Reminder Date: </label>
+                <div class="col-md-6">
+                    <input data-role="datetimepicker" name="start" id="inputReminderDate" disabled="disabled" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">Client Name: </label>
+                <div class="col-md-6">
+                    <input name="ClientName" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">CIF Name: </label>
+                <div class="col-md-6">
+                    <input name="CIFName" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">CIF Number: </label>
+                <div class="col-md-6">
+                    <input name="CIFNumber" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">CPRCRNo: </label>
+                <div class="col-md-6">
+                    <input name="CPRCRNo" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">Case Status Name: </label>
+                <div class="col-md-6">
+                    <input name="CaseStatusname" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">Claim Amount: </label>
+                <div class="col-md-6">
+                    <input name="ClaimAmount" disabled="disabled" class="form-control input-sm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-4">Case Status Comment: </label>
+                <div class="col-md-6">
+                    <textarea name="CaseStatusComment" disabled="disabled" cols="40" rows="5" class="form-control input-sm"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/javascript">
+    var resources = [];
+
+    //$.ajax({
+    //    method: 'get',
+    //    url: "/CMS_Agent/GetAllAgents?KaizenPublicKey=" + sessionStorage.PublicKey,
+    //    contentType: "application/json; charset=utf-8",
+    //    success: function (data) {
+    //        var res = [];
+    //        $.each(data, function (i, v) {
+    //            res.push({ text: v.FirstName, value: v.AgentID });
+    //        });
+    //        var resource = [{
+    //            field: "AgentID",
+    //            name: "AgentID",
+    //            dataSource: res,
+    //            title: "Agent ID"
+    //        }];
+    //        resources = resource;
+    //        console.log("resources: " + resources);
+    //    }
+    //});
+
+    $(function () {
+
+        $("#scheduler").kendoScheduler({
+            date: new Date("2017/03/01"),
+            messages: {
+                editor: {
+                    editorTitle: "Reminder"
+                }
+            },
+            startTime: new Date("2017/03/01 07:00 AM"),
+            height: 600,
+            views: [
+                "day",
+                "week",
+                { type: "month", selected: true },
+                "agenda",
+                "timeline"
+            ],
+            editable: {
+                template: $("#editor").html(),
+                destroy: false,
+                create: false
+            },
+            edit: function (e) {
+                var saveBtn = $('.k-scheduler-update');
+                if (saveBtn)
+                    saveBtn.hide();
+            },
+            //timezone: "Etc/UTC",
+            dataSource: {
+                batch: true,
+                transport: {
+                    read: {
+                        url: "/CMS_Agent/GetAgentCaseStatus?KaizenPublicKey=" + sessionStorage.PublicKey,
+                        dataType: "json"
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "CaseRef",
+                        fields: {
+                            CaseRef: { from: "CaseRef", type: "number" },
+                            ClientName: { from: "ClientName" },
+                            CIFName: { from: "CIFName" },
+                            title: { from: "AgentID" },
+                            CIFNumber: { from: "CIFNumber" },
+                            CPRCRNo: { from: "CPRCRNo" },
+                            CaseStatusname: { from: "CaseStatusname" },
+                            start: { type: "date", from: "ReminderDateTime" },
+                            end: { type: "date", from: "ClosingDate" },
+                            ClaimAmount: { from: "ClaimAmount" },
+                            CaseStatusComment: { from: "CaseStatusComment" }//,
+                            //AgentID: { from: "AgentID" }
+                        }
+                    }
+                }
+            },
+            resources: resources
+        });
+
+        $("#agent-schedule").delegate(".chkAgent", "change", function () {
+
+            var checked = $.map($("#agent-schedule :checked"), function (checkbox) {
+                return $(checkbox).val();
+            });
+
+            var scheduler = $("#scheduler").data("kendoScheduler");
+
+            var filter = {
+                logic: "or",
+                filters: $.map(checked, function (value) {
+                    return {
+                        operator: "eq",
+                        field: "title",
+                        value: value
+                    };
+                })
+            };
+            scheduler.dataSource.filter(filter);
+        });
+    });
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();"><i class="fa fa-arrow-left"></i><br />Back </a>
+    </header>
+
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget grid -->
+        <section id="widget-grid">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <!-- widget content-->
+                    <div class="widget-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Agent Case Status Maintenance
+                                </legend>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                            <div id="agent-schedule">
+                                                <div ng-repeat="agent in Agents" class="col-sm-2">
+                                                    <span>
+                                                        <input type="checkbox" checked class="chkAgent" ng-value="agent.AgentID" />{{agent.AgentID}}-{{agent.FirstName}}
+                                                    </span>
+                                                </div>
+                                                @*<input checked type="checkbox" id="alex" value="1">
+                                                    <input checked type="checkbox" id="bob" value="2">
+                                                    <input type="checkbox" id="charlie" value="3">*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="scheduler"></div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </section>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

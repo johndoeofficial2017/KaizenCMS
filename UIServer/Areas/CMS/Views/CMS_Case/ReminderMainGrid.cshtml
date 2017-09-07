@@ -1,0 +1,171 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetReminderGridPram() {
+        var scope = angular.element(document.getElementById('widget-CMS_Case')).scope();
+        var ViewID = -1;
+        if (scope.SelectedLookUp.SelectedView != null)
+            ViewID = scope.SelectedLookUp.SelectedView.ViewID
+        return {
+            IsOverDue: scope.IsOverDue,
+            FromReminder: scope.Reminder.FromReminder,
+            ToReminder: scope.Reminder.ToReminder,
+            AgentID: scope.SelectedLookUp.SelectedAgent.AgentID,
+            CaseReminderType: scope.CaseReminderFilterationbytoggle,
+            ViewID: ViewID,
+            Searchcritaria: scope.SelectedLookUp.Searchcritaria,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+  
+</script>
+        @(Html.Kendo().Grid<Kaizen.CMS.CM00203>()
+                            .Name("GridCMS_Reminder")
+                            .Columns(columns =>
+                            { 
+                                foreach (Kaizen.CMS.CM00075 column in ViewBag.KaizenGridViewColumn)
+                                {
+                                    switch (column.FieldTypeID)
+                                    {
+                                        case 2:
+                                            columns.Bound(column.FieldName.Trim()).Format("{0:dd/MM/yyyy}").Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case 4:
+                                            columns.Bound(column.FieldName.Trim()).ClientTemplate("# if(!" + column.FieldName.Trim() + ") { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Title(column.FieldDisplay).Filterable(false).Width(column.FieldWidth);
+                                            break;
+                                        case 6:
+                                            columns.Bound(column.FieldName.Trim()).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay)
+                                            .ClientTemplate("#= FormatDecimalDigit(" + column.FieldName.Trim() + ",data.DecimalDigit) #").HtmlAttributes(new { style = "text-align:center;" });
+                                            break;
+                                        case 7:
+                                            columns.Bound(c => c.CaseRef).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Case_Click('#:CaseRef#');""> #:CaseRef# </a>")
+                                           .Width(column.FieldWidth).Title(column.FieldDisplay).Locked(column.Islocked);
+                                            break;
+                                        case 8:
+                                            columns.Bound(c => c.CaseRef).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Case_Click('#:CaseRef#');""> #:CaseRef# </a>")
+                                             .Width(column.FieldWidth).Title(column.FieldDisplay).Locked(column.Islocked);
+                                            break;
+                                        case 9:
+                                            columns.Bound(o => o.PaymentProgress).Width(120).Title("Progress")
+                                           .ClientTemplate(@"<div class='progress no-margin'><div class='# if(PaymentProgress >= 0 && PaymentProgress < 40) { #progress-bar bg-color-redLight# } else if (PaymentProgress >= 40 && PaymentProgress < 80) { #progress-bar bg-color-yellow# }
+                                            else if (PaymentProgress >= 80 && PaymentProgress < 100) { #progress-bar bg-color-blue# } else if (PaymentProgress == 100) { #progress-bar bg-color-greenLight# }#' role='progressbar' aria-valuetransitiongoal='#=PaymentProgress #' aria-valuenow='#=PaymentProgress #' aria-valuemin='0' aria-valuemax='100' style='width: #=PaymentProgress#%'>
+                                                #=PaymentProgress # %
+                                            </div>
+										</div>");
+                                            break;
+                                        case 10:
+                                            columns.Bound(o => o.TaskComplated).Width(120).Title("Task Progress")
+                                          .ClientTemplate(@"<div class='progress no-margin'><div class='# if(TaskComplated >= 0 && TaskComplated < 40) { #progress-bar bg-color-redLight# } else if (TaskComplated >= 40 && TaskComplated < 80) { #progress-bar bg-color-yellow# }
+                                            else if (TaskComplated >= 80 && TaskComplated < 100) { #progress-bar bg-color-blue# } else if (TaskComplated == 100) { #progress-bar bg-color-greenLight# }#' role='progressbar' aria-valuetransitiongoal='#=TaskComplated #' aria-valuenow='#=TaskComplated #' aria-valuemin='0' aria-valuemax='100' style='width: #=TaskComplated#%'>
+                                                #=PaymentProgress # %
+                                            </div>
+										</div>");
+                                            break;
+                                        default:
+                                            columns.Bound(column.FieldName.Trim()).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                    }
+                                    switch (column.FieldName.Trim())
+                                    {
+                                        case "CaseStatusID":
+                                            columns.Bound(c => c.CaseStatusID).Filterable(filterable => filterable.UI("StatusFilter").Multi(true)).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "CaseStatusChild":
+                                            columns.Bound(c => c.CaseStatusChild).Filterable(filterable => filterable.UI("StatusFilter").Multi(true)).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "CaseStatusname":
+                                            columns.Bound(c => c.CaseStatusname).Width(100).Locked(column.Islocked).Title(column.FieldDisplay).Filterable(filterable => filterable.UI("StatusFilter"));
+                                            break;
+                                        case "CaseStatusChildName":
+                                            columns.Bound(c => c.CaseStatusChildName).Width(100).Locked(column.Islocked).Title(column.FieldDisplay).Filterable(filterable => filterable.UI("StatusFilter"));
+                                            break;
+                                        case "CaseStatusComment":
+                                            columns.Bound(c => c.CaseStatusComment).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "PTPCount":
+                                            columns.Bound(c => c.PTPCount).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "PTPBroken":
+                                            columns.Bound(c => c.PTPBroken).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "PTPkept":
+                                            columns.Bound(c => c.PTPkept).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "LastCaseStatusID":
+                                            columns.Bound(c => c.LastCaseStatusID).Filterable(filterable => filterable.UI("StatusFilter").Multi(true)).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "LastCasStatusChldID":
+                                            columns.Bound(c => c.LastCasStatusChldID).Filterable(filterable => filterable.UI("StatusFilter").Multi(true)).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "LastCasStatusname":
+                                            columns.Bound(c => c.LastCasStatusname).Width(100).Locked(column.Islocked).Title(column.FieldDisplay).Filterable(filterable => filterable.UI("StatusFilter"));
+                                            break;
+                                        case "LastCasStatusChldNam":
+                                            columns.Bound(c => c.LastCasStatusChldNam).Width(100).Locked(column.Islocked).Title(column.FieldDisplay).Filterable(filterable => filterable.UI("StatusFilter"));
+                                            break;
+                                        case "LastCasStatusComment":
+                                            columns.Bound(c => c.LastCasStatusComment).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "MidCasStatusID":
+                                            columns.Bound(c => c.MidCasStatusID).Filterable(filterable => filterable.UI("StatusFilter").Multi(true)).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "MidCasStatusChld":
+                                            columns.Bound(c => c.MidCasStatusChld).Filterable(filterable => filterable.UI("StatusFilter").Multi(true)).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "MidCasStatusnam":
+                                            columns.Bound(c => c.MidCasStatusnam).Width(100).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "MidCasStatusChldName":
+                                            columns.Bound(c => c.MidCasStatusChldName).Width(100).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "MidCasStatusComment":
+                                            columns.Bound(c => c.MidCasStatusComment).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "CYCLEDAY":
+                                            columns.Bound(c => c.CYCLEDAY).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "BucketPrev":
+                                            columns.Bound(c => c.BucketPrev).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "BucketPrevName":
+                                            columns.Bound(c => c.BucketPrevName).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "BucketID":
+                                            columns.Bound(c => c.BucketID).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "Remarks":
+                                            columns.Bound(c => c.Remarks).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                        case "AddressCode":
+                                            columns.Bound(c => c.AddressCode).Width(column.FieldWidth).Locked(column.Islocked).Title(column.FieldDisplay);
+                                            break;
+                                    }
+                                }
+                            })
+                                            .Filterable()
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Reminders from {0} to {1}. Total Reminders: <strong>{2}</strong>")
+                                            .ItemsPerPage("Reminder Per page").Empty("No Reminders Information")).Refresh(true).PageSizes(true)
+                                            .Input(true).ButtonCount(5))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple).Type(GridSelectionType.Row))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(ss => ss.Height(360))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                                            .Read(read => read.Action("GetReminderDataListGrid", "CMS_Case").Type(HttpVerbs.Get)
+                                            .Data("GetReminderGridPram"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.CaseRef);
+                                                model.Id(o => o.TRXTypeID);
+                                            })
+                                        )
+)
+
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridCMS_Reminder");
+    })
+</script>

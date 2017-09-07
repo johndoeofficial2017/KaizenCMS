@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSys_Company_Click(CompanyID) {
+        var scope = angular.element(document.getElementById("widget-Sys_Company")).scope();
+        scope.$apply(function () {
+            scope.EditCompany(CompanyID);
+        });
+    };
+</script>
+
+<div ng-controller="Sys_CompanyController">
+        <div class="widget" id="widget-Sys_Company"> 
+            <div ng-show="PagesCompany.length > 0">
+                <div ng-repeat="Page in PagesCompany">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="k-content" ng-show="PagesCompany.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.Configuration.Company>()
+                                .Name("GridSys_Company")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSys_Company_Click('#:CompanyID#');""> #:CompanyID# </a>").Width(100).Title("Company ID");
+                            columns.Bound(c => c.CompanyName);
+                            columns.Bound(c => c.SegmentMark);
+                        })
+                             .Pageable(pager => pager.Messages(messages => messages.Display("Showing Companies from {0} to {1}. Total Companies: <strong>{2}</strong>")
+                             .ItemsPerPage("Company Per page").Empty("No Company Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                             .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                             .Navigatable()
+                             .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                             .Reorderable(reorder => reorder.Columns(true))
+                             .Resizable(ss => ss.Columns(true))
+                             .ColumnMenu().Scrollable(s => s.Height(500)).Filterable()
+                             .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(15)
+                             .Read(read => read.Action("GetDataListGrid", "Sys_Company").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                             .Model(model =>
+                                {
+                                  model.Id(o => o.CompanyID);
+                                  model.Field(o => o.CompanyName);
+                                  model.Field(o => o.CheckbookCode);
+                                  model.Field(o => o.CurrencyCode);
+                                  model.Field(o => o.DecimalDigit);
+                                })
+                         )
+                    )
+                </div>
+
+
+                <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                     k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                     k-width="600" k-resizable="true" k-visible="false"></div>
+
+                <div kendo-window="ExchangeRateWindow" k-title="'Exchange Rate'" k-modal="true"
+                     k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                     k-width="800" k-resizable="true" k-visible="false"></div>
+
+            </div>
+        </div>
+</div>

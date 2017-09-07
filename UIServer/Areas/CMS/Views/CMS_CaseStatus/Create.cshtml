@@ -1,0 +1,207 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM00700.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM00700.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="DeleteData();"
+           ng-show="CM00700.Status == 2">
+            <i class="glyphicon glyphicon-trash"></i><br />
+            DeleteData
+        </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 well-10">
+                    <form>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-2 control-label text-left txt-color-red bold">Status Action Type</label>
+                            <div class="form-group col-md-4">
+                                <select kendo-drop-down-list
+                                        k-filter="'contains'"
+                                        k-option-label="'-- Select Status Action Type --'"
+                                        k-ng-model="CM00700.StatusActionTypeID"
+                                        k-data-text-field="'StatusActionTypeName'"
+                                        k-value-primitive="true"
+                                        k-data-value-field="'StatusActionTypeID'"
+                                        k-data-source="StatusActionTypes"
+                                        style="width: 100%"></select>
+                            </div>
+
+                            <label class="col-md-2 control-label text-left txt-color-red bold">Case Status Name</label>
+                            <div class="form-group col-md-4 no-padding-l">
+                                <input type="text" class="form-control" placeholder="Case Status Name"
+                                       ng-model="CM00700.CaseStatusname" maxlength="25" />
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-2 control-label text-left txt-color-red bold">Status Parent</label>
+                            <div class="form-group col-md-4">
+                                <select kendo-drop-down-list
+                                        k-filter="'contains'"
+                                        k-option-label="'-- Select Parent Status --'"
+                                        k-ng-model="CM00700.CaseStatusParent"
+                                        k-data-text-field="'CaseStatusname'"
+                                        k-value-primitive="true"
+                                        k-data-value-field="'CaseStatusID'"
+                                        k-data-source="StatusParents"
+                                        style="width: 100%"></select>
+                            </div>
+
+                            <label class="col-md-2 control-label text-left txt-color-red bold">Rule Condition</label>
+                            <div class="form-group col-md-4 no-padding-l">
+                                <textarea placeholder="Case Remarks" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="CM00700.RuleCondition" rows="4" maxlength="500"></textarea>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <label class="col-md-2 control-label text-left txt-color-red bold">Required Days</label>
+                            <div class="form-group col-md-4">
+                                <div class="input-group full-control">
+                                    <input kendo-numeric-text-box
+                                           k-ng-model="CM00700.RequiredDays" style="width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                @*<div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" 
+                                               class="checkbox style-0" 
+                                               ng-model="CM00700.IsCaseEffect">
+                                        <span>Is Case Effected</span>
+                                    </label>
+                                </div>*@
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" 
+                                               ng-model="CM00700.IsPTP">
+                                        <span>Promise To Pay</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsCloseReminder">
+                                        <span>Close Reminder</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" 
+                                               ng-model="CM00700.IsHasChild">
+                                        <span>Has Child</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsCaseCondition">
+                                        <span>Is Case Condition</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" 
+                                               class="checkbox style-0" 
+                                                ng-model="CM00700.IsPTPRequired">
+                                        <span>Promise To Pay Required</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsTaskList">
+                                        <span>Has Tasks</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsArchive">
+                                        <span>Is Archive</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsReminder">
+                                        <span>Is Reminder</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsPaymentApply">
+                                        <span>Is Payment Apply</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsScripting">
+                                        <span>Has Scripts</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkbox style-0" ng-model="CM00700.IsMidCaseStatus">
+                                        <span>Is Mid Case Status</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </article>
+
+
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+</div>
+
+

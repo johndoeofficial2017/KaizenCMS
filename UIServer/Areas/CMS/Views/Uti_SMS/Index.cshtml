@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCM00232_Click(CUSTCLAS) {
+        var DV = document.getElementById("widget-SMS");
+        var scope = angular.element(DV).scope();
+        scope.$apply(function () {
+            scope.EditCM00232(CUSTCLAS);
+        });
+    }
+    function StatusFilter(element) {
+        var scope = angular.element(document.getElementById("widget-SMS")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CaseStatusname",
+            dataValueField: "CaseStatusID",
+            dataSource: scope.CM00700List,
+            optionLabel: "--Select Status--"
+        });
+    };
+</script>
+<div ng-controller="Uti_SMSController">
+    <div class="widget" id="widget-SMS">
+        <div ng-show="PagesCM00232.length >0">
+            <div ng-repeat="Page in PagesCM00232">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM00232.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00232>()
+                            .Name("GridCMS_CM00232")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.MessageTRXID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCM00232_Click('#:MessageTRXID#');""> #:MessageTRXID# </a>").Width(100).Title("Class ID");
+                                columns.Bound(c => c.CreatedBy).Width(120);
+                                columns.Bound(c => c.CreatedDate).Format("{0:MM/dd/yyyy}").Width(120);
+                                columns.Bound(c => c.TrxComment);
+                                columns.Bound(c => c.MobileNo1).ClientTemplate("# if(data.MobileNo1) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(50).Title("01");
+                                columns.Bound(c => c.MobileNo2).ClientTemplate("# if(data.MobileNo2) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(50).Title("02");
+                                columns.Bound(c => c.MobileNo3).ClientTemplate("# if(data.MobileNo3) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(50).Title("03");
+                                columns.Bound(c => c.MobileNo4).ClientTemplate("# if(data.MobileNo4) { #" + "<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(50).Title("04");
+                            })
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Class from {0} to {1}. Total Classes: <strong>{2}</strong>")
+                            .ItemsPerPage("Class Per page").Empty("No Class Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Uti_SMS")
+                            .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.MessageTRXID);
+                            })
+                        )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridCMS_CM00232");
+    })
+</script>
+
+
+
+
+
+

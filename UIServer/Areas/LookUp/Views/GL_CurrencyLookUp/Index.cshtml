@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnSelect_Click(e) {
+        e.preventDefault();
+        try {
+            var ActiveScreenID = $("#ActiveScreenID").val();
+            var widget = $("#widget-" + ActiveScreenID)
+            var data = this.dataItem($(e.currentTarget).closest("tr"));
+            var scope = angular.element(widget).scope();
+            scope.$apply(function () {
+                scope.CurrencyBack(data);
+            });
+            var kendoWindow = $("#MainDialog").data("kendoWindow");
+            kendoWindow.close();
+        }
+        catch (err) {
+            alert("Error \n\n" + err.message);
+        }
+    };
+    function RefreshGrid() {
+        var grid = $("#GridGL_CurrencyPopUp").data("kendoGrid");
+        grid.dataSource.read();
+    };
+</script>
+<div class="panel panel-default">
+    <div class="panel-body no-padding">
+        <fieldset class="margin-15">
+            <div class="form-group">
+                <label class="col-sm-1 control-label text-center">Field</label>
+                <div class="col-sm-2">
+                    <select id="DropFieldID" class="form-control" style="height: auto;">
+                        <option value="CurrencyCode" selected>Currency Code</option>
+                        <option value="CurrencyName">Currency Name</option>
+                        <option value="ISOCode">ISO Code</option>
+                        <option value="Unit">Unit</option>
+                        <option value="SubUnit">Sub Unit</option>
+                        <option value="-1">All</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label text-center">Operator</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="DropFltrOperator" style="height: auto;">
+                        <option value="2">Is Equal To</option>
+                        <option value="3">Is Not Equal To</option>
+                        <option value="6">Starts With</option>
+                        <option value="7">Ends With</option>
+                        <option value="8" selected>Contains</option>
+                        <option value="10">Does Not Contain</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    <div class="input-group">
+                        <input class="form-control" id="SearchcritariaPopUp" type="text">
+                        <div class="input-group-btn input-group-sm" onclick="RefreshGrid()">
+                            <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    @(Html.Kendo().Grid<Kaizen.GL.GL00102>().Name("GridGL_CurrencyPopUp")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.CurrencyCode).Title("Currency Code");
+                        columns.Bound(c => c.CurrencyName).Title("Currency Name");
+                        columns.Bound(c => c.CurrencySymbol).Title("Currency Symbol");
+                        columns.Bound(c => c.DecimalDigit).Title("Decimal Digit");
+                        columns.Command(command => command.Custom("Select").SendDataKeys(true)
+                        .Click("btnSelect_Click"));
+                    })
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Currency from {0} to {1}. Total Currencies: <strong>{2}</strong>")
+                        .ItemsPerPage("Currency Per page").Empty("No Currency Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu().Scrollable(s => s.Height(350)).Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                        .Read(read => read.Action("GetListPopUpGrid", "GL_CurrencyLookUp").Type(HttpVerbs.Get)
+                        .Data("GetGenericPopUpKaizenPublicKey"))
+                        .Model(model =>
+                        {
+                            model.Id(o => o.CurrencyCode);
+                            model.Field(o => o.CurrencyName);
+                            model.Field(o => o.CurrencySymbol);
+                            model.Field(o => o.DecimalDigit);
+                            model.Id(o => o.DecimalSeparator);
+                            model.Field(o => o.ExchangeRate);
+                            model.Field(o => o.ExchangeRateID);
+                            model.Field(o => o.ExchangeTableID);
+                            model.Field(o => o.GroupSeparator);
+                            model.Id(o => o.GroupSizes);
+                            model.Field(o => o.IsAfterSymbol);
+                            model.Field(o => o.IsMultiply);
+                            model.Field(o => o.ISOCode);
+                            model.Id(o => o.SubUnit);
+                            model.Field(o => o.Unit);
+                            model.Field(o => o.UnitConnector);
+                        })
+                        )
+    )
+</div>
+

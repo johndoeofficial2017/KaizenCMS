@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditINV_Set_UFMGroup_Click(UFMGroupID) {
+        var scope = angular.element(document.getElementById("widget-INV_Set_UFMGroup")).scope();
+        scope.$apply(function () {
+            scope.EditIV00002(UFMGroupID);
+        });
+    };
+</script>
+
+<div ng-controller="INV_Set_UFMGroupController">
+    <div class="widget" id="widget-INV_Set_UFMGroup">
+        <div ng-show="PagesIV00002.length > 0">
+            <div ng-repeat="Page in PagesIV00002">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesIV00002.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+            @(Html.Kendo().Grid<Kaizen.Inventory.IV00002>()
+                                .Name("GridINV_Set_UFMGroup")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.UFMGroupID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditINV_Set_UFMGroup_Click('#:UFMGroupID#');""> #:UFMGroupID# </a>").Width(100).Title("Inventory Type ID");
+                            columns.Bound(c => c.UFMGroupName);
+                            columns.Bound(c => c.DecimalDigitQuantity);
+                        })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Inventory Types from {0} to {1}. Total Inventory Types: <strong>{2}</strong>").Empty("No Inventory Type Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "INV_Set_UFMGroup")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.UFMGroupID)))
+            )
+        </div>
+    </div>
+</div>
+

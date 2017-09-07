@@ -1,0 +1,95 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="IV00120.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="IV00120.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="IV00120.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Store Manager ID</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Store Manager ID"
+                                                   ng-disabled="IV00120.Status == 2" ng-model="IV00120.StoreManagerID" maxlength="10">
+                                        </label>
+                                        <label class="col col-md-2 control-label">Store Manager Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Store Manager Name"
+                                                   ng-model="IV00120.StoreManagerName" maxlength="50">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Site</label>
+                                        <label class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Site ID" readonly
+                                                       ng-model="IV00120.SiteID" />
+                                                <div class="input-group-btn input-group-sm">
+                                                    <a href="javascript:void(0);" ng-click="OpenkendoWindow('INV_Site','PopUp')" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Bin</label>
+                                        <label class="input col col-md-4">
+                                            <select class="form-control" ng-model="IV00120.BinID" ng-change="BinChanged()" convert-to-number>
+                                                <option value="{{bin.BinID}}" ng-repeat="bin in SiteBins">{{bin.BinName}}</option>
+                                            </select>
+                                        </label>
+                                        <label class="col col-md-2 control-label" ng-show="IV00120.IsBinGroup">Sub Bin</label>
+                                        <label class="input col col-md-4" ng-show="IV00120.IsBinGroup">
+                                            <select class="form-control" ng-model="IV00120.SubBinID">
+                                                <option value="{{bin.SubBinID}}" ng-repeat="bin in SiteSubBins">{{bin.SubBinName}}</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>

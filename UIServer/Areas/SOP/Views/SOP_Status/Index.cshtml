@@ -1,0 +1,49 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditSOP_Status_Click(StatusID) {
+        var scope = angular.element(document.getElementById("widget-SOP_Status")).scope();
+        scope.$apply(function () {
+            scope.EditSOP00014(StatusID);
+        });
+    };
+</script>
+
+<div ng-controller="SOP_StatusController">
+        <div class="widget" id="widget-SOP_Status">
+            <div ng-show="PagesSOP00014.length > 0">
+                <div ng-repeat="Page in PagesSOP00014">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="k-content" ng-show="PagesSOP00014.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>                <div>
+                    @(Html.Kendo().Grid<Kaizen.SOP.SOP00014>()
+                                .Name("GridSOP_Status")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_Status_Click('#:StatusID#');""> #:StatusID# </a>").Width(100).Title("Status ID");
+                            columns.Bound(c => c.StatusName);
+                        })
+                            .HtmlAttributes(new { style = "height:500px;" })
+                            .Scrollable(scrollable => scrollable.Virtual(true))
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Statuses from {0} to {1}. Total Statuses: <strong>{2}</strong>").Empty("No Status Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu()
+                            .Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17).Read(read => read.Action("GetDataListGrid", "SOP_Status")
+                            .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.StatusID)))
+                    )
+                </div>
+            </div>
+        </div>
+</div>

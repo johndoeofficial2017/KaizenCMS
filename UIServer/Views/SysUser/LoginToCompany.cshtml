@@ -1,0 +1,93 @@
+﻿@model Kaizen.Configuration.User
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<!-- MAIN CONTENT -->
+<form class="lockscreen animated flipInY" action="index.html">
+    <div class="logo">
+        <h1 class="semi-bold"><img src="/img/favicon/favicon.ico" alt="" /> Kaizen</h1>
+    </div>
+    <div>
+        <img src="/Photo/UserLogin/@Kaizen.BusinessLogic.Master.GetMyPhoto(Model)" alt="" width="120" height="120" />
+        <div>
+            <h1><i class="fa fa-user fa-3x text-muted air air-top-right hidden-mobile"></i>@Model.FirstName  @Model.LastName <small><i class="glyphicon glyphicon-time text-muted"></i> &nbsp;@DateTime.Now.ToString()</small></h1>
+            <p class="text-muted">
+            </p>
+            <div class="input-group">
+                @(Html.Kendo().DropDownList()
+                                    .Name("productComboBox")
+                                    .HtmlAttributes(new { style = "width:100%;" })
+                                    .DataTextField("CompanyName")
+                                    .DataValueField("CompanyID")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("MyCompanies", "SysUser");
+                                        });
+
+                                    })
+                )
+                <div class="input-group-btn">
+                    <a href="javascript:void(0);" class="btn btn-primary" onclick="onClick(event);">
+                        <i class="glyphicon glyphicon-lock"></i> Login
+                    </a>
+                </div>
+                <div class="input-group-btn">
+                    <a href="javascript:void(0);" class="btn btn-defaults" onclick="UserLogout(event);">
+                        <i class="fa fa-sign-out fa-lg"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+        @if (!Model.IsPasswordchange)
+        {
+            <div class="">
+                <a href="@Url.Action("CompanyChangePassword","SysUser")" class="">
+                    Change Password
+                </a>
+            </div>
+        }
+       
+        <div class="">
+            <a href="@Url.Action("Logs","SysUser")" class="">
+                Logs
+            </a>
+        </div>
+    </div>
+    <p class="font-sm margin-top-5">
+        Copyright Kaizen @DateTime.Now.Year
+    </p>
+</form>
+
+<script>
+    function onClick(e) {
+        alert("clicked");
+        var dropdownlist = $("#productComboBox").data("kendoDropDownList");
+        //alert(dropdownlist.value());
+        alert("clicked call");
+
+        var url = "/SysUser/LogKaizenSession?CompanyID=KHCB";
+        $.ajax({ url: url, success: DataRetrieved, type: 'POST', dataType: 'json' });
+    };
+    function UserLogout(e) {
+        var url = "/SysUser/CompanySignOut";
+        $.ajax({
+            url: url, type: 'POST', success: function (result) {
+                window.location.replace("/SysUser\\Login");
+            }
+        });
+    };
+    function DataRetrieved(data) {
+        //alert(data);
+        if (data == 'No')
+        {
+            window.location.replace("/SysUser\\Login");
+            return;
+        }
+        sessionStorage.PublicKey = data;
+        window.location.replace("/Home/Index?KaizenPublicKey=" + sessionStorage.PublicKey);
+    };
+
+</script>
+

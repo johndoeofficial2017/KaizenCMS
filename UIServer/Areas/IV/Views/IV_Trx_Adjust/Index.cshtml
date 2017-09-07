@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditIV_Trx_Adjust_Click(TransactionID, TransactionTypeID) {
+        var scope = angular.element(document.getElementById("widget-IV_Trx_Adjust")).scope();
+        scope.$apply(function () {
+            scope.EditIV00200(TransactionID, TransactionTypeID);
+        });
+    };
+</script>
+
+<div ng-controller="IV_Trx_AdjustController">
+    <div id="widget-IV_Trx_Adjust">
+        <div ng-show="PagesIV00200.length > 0">
+            <div ng-repeat="Page in PagesIV00200">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesIV00200.length == 0">
+            <div kendo-toolbar k-options="IV_Trx_AdjusttoolbarOptions"></div>
+            @(Html.Kendo().Grid<Kaizen.Inventory.IV00200>()
+                        .Name("GridIV_Trx_Adjust")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.TransactionID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditIV_Trx_Adjust_Click('#:TransactionID#','#:TransactionTypeID#');""> #:TransactionID# </a>").Width(100).Title("Transaction ID");
+                            columns.Bound(c => c.DOCAMNT).Width(100).Title("AMT")
+                                .ClientTemplate("#= FormatDecimalDigit(data.DOCAMNT) #").HtmlAttributes(new { style = "text-align:center;" });
+                            columns.Bound(c => c.TransactionDate).Format("{0:MM/dd/yyyy}");
+                            columns.Bound(c => c.BatchID);
+                            columns.Bound(c => c.SiteID);
+                            columns.Bound(c => c.ReasonID);
+                            columns.Bound(c => c.TransactionNote);
+                        })
+                        .Excel(excel => excel.AllPages(true).FileName("ItemList.xlsx").Filterable(true))
+                    .Pdf(pdf => pdf.FileName("ItemList.pdf").AllPages().Date(DateTime.Now))
+                    .Pageable(pager => pager.Messages(messages => messages.Display("Showing Transactions from {0} to {1}. Total Items: <strong>{2}</strong>")
+                    .ItemsPerPage("Transaction Per page").Empty("No Transaction")).Refresh(true)
+                    .PageSizes(true).Input(true).ButtonCount(5))
+                    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                    .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                    .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+                    .ColumnMenu().Scrollable().Filterable()
+                    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+                    .PageSize(20).Sort(sort => sort.Add(ss => ss.TransactionID).Descending())
+
+                    .Read(read => read.Action("GetDataListGrid", "IV_Trx_Adjust")
+                    .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.TransactionID)))
+            )
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>
+

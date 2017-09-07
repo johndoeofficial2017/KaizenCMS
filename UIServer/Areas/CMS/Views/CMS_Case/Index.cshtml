@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+} 
+<script>
+    function GetMainCaseGridPram() {
+        //var ActiveScreenID = $("#ActiveScreenID").val();
+        //var scope = angular.element(document.getElementById('DV' + ActiveScreenID)).scope();
+        var scope = angular.element(document.getElementById('widget-CMS_Case')).scope();
+        var ViewID = -1;
+        if (scope.SelectedLookUp.SelectedView != null)
+            ViewID = scope.SelectedLookUp.SelectedView.ViewID
+        //alert(ViewID);
+        //alert(scope.SelectedLookUp.SelectedView.ViewWhereCondition)
+        return {
+            ViewID: ViewID,
+            Searchcritaria: scope.SelectedLookUp.Searchcritaria,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+    //function GetReminderGridPram() {
+    //    var scope = angular.element(document.getElementById('widget-CMS_Case')).scope();
+    //    return {
+    //        IsOverDue: scope.IsOverDue,
+    //        FromReminder: scope.Reminder.FromReminder,
+    //        ToReminder: scope.Reminder.ToReminder,
+    //        AgentID: scope.SelectedLookUp.SelectedAgent.AgentID,
+    //        KaizenPublicKey: sessionStorage.PublicKey
+    //    };
+    //}
+    function btnEditCMS_Case_Click(CaseRef) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        scope.$apply(function () {
+            scope.EditCase(CaseRef);
+        });
+    };
+
+    function GetGenericKaizenPublicKeyWithCaseRef() {
+        var searchcritaria = $("#Searchcritaria").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            CaseRef: scope.CM00203.CaseRef,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetCaseRef() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return scope.CM00203.CaseRef;
+    };
+    function StatusFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CaseStatusname",
+            dataValueField: "CaseStatusID",
+            dataSource: scope.CM00700List,
+            optionLabel: "--Select Status--"
+        });
+    };
+    function JecketFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "JecketName",
+            dataValueField: "JecketsID",
+            dataSource: scope.Jeckets,
+            optionLabel: "--Select Jecket--"
+        });
+    };
+    
+    function ActionPlanFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "ActionPlanName",
+            dataValueField: "ActionPlanID",
+            dataSource: scope.Actionplans,
+            optionLabel: "--Select Action Plan--"
+        });
+    };
+</script>
+<div id="widget-CMS_Case" ng-controller="CMS_CaseController">
+
+    <div ng-show="ToolBar.ActiveScreen.CurrentWindow =='MainGrid'">
+        <div kendo-toolbar k-options="CMS_CaseMaintoolbarOptions" k-rebind="CMS_CaseMaintoolbarOptions"></div>
+        <div ng-include="MainGridURL">Data Grid here</div>
+    </div>
+    <div ng-show="ToolBar.ActiveScreen.CurrentWindow =='Reminder'">
+        <div kendo-toolbar k-options="CMS_RemindertoolbarOptions" k-rebind="CMS_RemindertoolbarOptions"></div>
+        <div ng-include="ReminderMainGridPath">Data Grid here</div>
+    </div>
+    <div ng-hide="MainURL ==''" ng-include="MainURL">Data Grid here</div>
+   
+   
+    <div kendo-window="CaseActionPlanWindow" k-title="'Case Reminder'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="800" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="CaseAssignHistoryWindow" k-title="'Case Assign History'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="800" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="CaseAssignUploadWindow" k-title="'Case Assign Upload'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="500" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="CasePaymentWindow" k-title="'Case Payment'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="800" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="ComposeEmailWindow" k-title="'Compose Email'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="600" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="TempalteEmailWindow" k-title="'Template Email'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="600" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="ExchangeRateWindow" k-title="'Exchange Rate'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="800" k-resizable="true" k-visible="false"></div>
+    <div kendo-window="CaseBulkUploadActionWindow" k-title="'Case Upload Update'" k-modal="true"
+         k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+         k-width="500" k-resizable="true" k-visible="false">
+        <div kendo-window="DetailsWindow" k-title="'Customer Details'" k-modal="true"
+             k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+             k-width="1000" k-resizable="true" k-visible="false"></div>
+
+    </div>
+</div>

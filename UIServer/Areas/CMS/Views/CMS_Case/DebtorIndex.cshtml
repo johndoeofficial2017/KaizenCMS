@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    function btnEditDebtor_Click(DebtorID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        scope.$apply(function () {
+            scope.EditCM00100(DebtorID);
+        });
+    };
+    function ClassFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CUSTCLASNAME",
+            dataValueField: "CUSTCLAS",
+            dataSource: scope.debtorClasses,
+            optionLabel: "--Select Class--"
+        });
+    };
+    function GroupFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "GroupName",
+            dataValueField: "GroupID",
+            dataSource: scope.debtorGroups,
+            optionLabel: "--Select Group--"
+        });
+    };
+    function PriorityFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "PriorityName",
+            dataValueField: "PriorityID",
+            dataSource: scope.debtorPriorities,
+            optionLabel: "--Select Priority--"
+        });
+    };
+    //function StatusFilter(element) {
+    //    var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+    //    element.kendoDropDownList({
+    //        dataTextField: "DebtorStatusName",
+    //        dataValueField: "DebtorStatusID",
+    //        dataSource: scope.CM00700List,
+    //        optionLabel: "--Select Action Plan--"
+    //    });
+    //};
+</script>
+<div kendo-toolbar k-options="DebtorCasetoolbarOptions"></div>
+<div ng-include="DebtorMainGrid">Data Grid here</div>

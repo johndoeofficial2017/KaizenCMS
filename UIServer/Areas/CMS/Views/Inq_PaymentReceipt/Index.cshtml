@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditPayment_Click(PaymentID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Payment")).scope();
+        scope.$apply(function () {
+            scope.EditCM30207(PaymentID);
+        });
+    };
+    function FormatAmount(data) {
+        var number = kendo.toString(data.Amount, "n" + data.DecimalDigit);
+        return number;
+    };
+    function PaymentMethodFilter(element) {
+        var scope = angular.element(document.getElementById("widget-GridCMS_Payment")).scope();
+        element.kendoDropDownList({
+            dataTextField: "PaymentMethodName",
+            dataValueField: "PaymentMethodID",
+            dataSource: scope.Paymentmethods,
+            optionLabel: "--Select Payment Method--"
+        });
+    };
+</script>
+<div ng-controller="Inq_PaymentReceiptController">
+    <div id="widget-CMS_Payment">
+        <div ng-show="PagesCM30207.length >0">
+            <div ng-repeat="Page in PagesCM30207">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesCM30207.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions"></div>
+            <div ng-include="MainGridURL">Data Grid here</div>
+        </div>
+    </div>
+</div>

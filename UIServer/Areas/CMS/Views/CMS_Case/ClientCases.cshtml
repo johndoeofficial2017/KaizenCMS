@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="GoBack();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col-md-2 control-label">CLient Class</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'contains'"
+                                                        k-option-label="'-- Select Class --'"
+                                                        k-ng-model="CM00203.CUSTCLAS"
+                                                        k-data-text-field="'CUSTCLASNAME'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'CUSTCLAS'"
+                                                        k-data-source="clientClasses"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </label>
+                                        <label class="col-md-2 control-label">Client</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Replaced Agent ID"
+                                                       ng-model="CM00203.ClientName" readonly />
+                                                <span class="input-group-btn input-group-sm" ng-hide="CM00203.CUSTCLAS != undefined && CM00203.CUSTCLAS != ''">
+                                                    <button class="btn btn-default"
+                                                            ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUp',null,'ClientCases')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                                <span class="input-group-btn input-group-sm" ng-show="CM00203.CUSTCLAS != undefined && CM00203.CUSTCLAS != ''">
+                                                    <button class="btn btn-default"
+                                                            ng-click="OpenkendoWindowForm('CMS','CMS_CO_Client','PopUpByClass',CM00203.CUSTCLAS,'ClientCases')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col-md-2 control-label">Data Source</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <select kendo-drop-down-list k-ng-model="SelectedLookUp.SelectedDocType"
+                                                        k-options="CaseTypeOptions"
+                                                        k-on-change="GridRefresh('GridCMS_CaseAssign')"
+                                                        style="width:200PX"></select>
+                                            </div>
+                                        </label>
+                                        <label class="col-md-2 control-label">Product</label>
+                                        <label class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Replaced Agent ID"
+                                                       ng-model="CM00203.ContractName" readonly />
+                                                <span class="input-group-btn input-group-sm">
+                                                    <button class="btn btn-default"
+                                                            ng-click="OpenkendoWindowForm('CMS','CMS_Contract','PopUpByClient',CM00203.ClientID,'Main')">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.CMS.CM00206>().Name("GridCMS_CaseAssignHistory")
+                                              .Columns(columns =>
+                                              {
+                                                  columns.Bound(c => c.AgentID).Title("Agent ID");
+                                                  columns.Bound(c => c.AssignHistoryDate).Title("Assign Date").Format("{0:dd/MM/yyyy}");
+                                              })
+                                              .Pageable(pager => pager.Messages(messages => messages.Display("Showing Case Assign History from {0} to {1}. Total Case Assign History: <strong>{2}</strong>")
+                                                  .ItemsPerPage("Case Assign History Per page").Empty("No Case Assign History Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                                              .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                              .Navigatable()
+                      .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .Resizable(ss => ss.Columns(true))
+                      .ColumnMenu().Scrollable(s => s.Height(300)).Filterable()
+                      .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                          .Read(read => read.Action("GetCaseAssignHistoryDataListGrid", "CMS_Case").Type(HttpVerbs.Get)
+                              .Data("GetGenericKaizenPublicKeyWithCaseRef"))
+                          .Model(model =>
+                          {
+                              model.Id(p => p.AssignLineID);
+                              model.Field(p => p.AgentID);
+                              model.Field(p => p.AssignHistoryDate);
+                              model.Field(p => p.CaseRef);
+                          })
+                      )
+                                            )
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

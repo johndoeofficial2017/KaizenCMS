@@ -1,0 +1,111 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM00010.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM00010.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CM00010.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label">Debtor Class ID</label>
+                                                <label class="input col col-sm-8">
+                                                    <input type="text" class="form-control" maxlength="10"
+                                                           placeholder="Debtor Class ID" ng-model="CM00010.CUSTCLAS"
+                                                           ng-disabled="CM00010.Status == 2">
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label">Prefix Value</label>
+                                                <label class="input col col-sm-8">
+                                                    <input type="text" class="form-control input-sm" placeholder="Prefix Value"
+                                                           ng-model="CM00010.PrefixValue" char-limit="5" maxlength="5" />
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label">Last Debtor ID</label>
+                                                <div class="col col-sm-8">
+                                                    <input kendo-numeric-text-box k-min="0" k-max="100"
+                                                           k-ng-model="CM00010.LastDebtorID" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label">Debtor Class Name</label>
+                                                <label class="input col col-sm-8">
+                                                    <input type="text" class="form-control" maxlength="50"
+                                                           placeholder="Debtor Class Name" ng-model="CM00010.CUSTCLASNAME">
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 no-padding margin-bottom-5">
+                                                <label class="col col-sm-4 control-label">Prefix Length</label>
+                                                <div class="col col-sm-8">
+                                                    <input kendo-numeric-text-box k-min="0" k-max="100"
+                                                           k-ng-model="CM00010.Prefixlengh" style="width: 100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>
+
+
+
+
+

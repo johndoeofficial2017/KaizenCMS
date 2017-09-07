@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <fieldset class="widget-body no-padding-bottom">
+                        <form id="CMS_CaseClientForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    Filter
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Agent</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" readonly
+                                                   placeholder="Agent ID" ng-model="CM00203.AgentID" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('CMS_Agent','PopUp',null,'AgentCases')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-actions">
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="ApplyCaseViewFilter();">
+                                        <i class="fa fa-filter"></i> Apply
+                                    </a>
+                                </div>
+                            </fieldset>
+                            <script>
+                                function GetAgentCasesData() {
+                                    var ActiveScreenID = $("#ActiveScreenID").val();
+                                    var widget = $("#widget-" + ActiveScreenID)
+                                    var scope = angular.element(widget).scope();
+                                    return {
+                                        AgentID: scope.CM00203.AgentID,
+                                        KaizenPublicKey: sessionStorage.PublicKey
+                                    };
+                                };
+                            </script>
+                            <fieldset>
+                                <div class="form-group no-margin-bottom">
+                                    @(Html.Kendo().Grid<Kaizen.CMS.CM00203View01>()
+                        .Name("GridCMS_CaseView01")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.ClientID);
+                            columns.Bound(c => c.ClientName);
+                            columns.Bound(c => c.CaseStatusID);
+                            columns.Bound(c => c.CaseStatusname);
+                            columns.Bound(c => c.CaseStatusChild);
+                            columns.Bound(c => c.CaseStatusChildName);
+                            columns.Bound(c => c.AgentID);
+                            columns.Bound(c => c.PTPAMT);
+                            columns.Bound(c => c.OSAmount);
+                            columns.Bound(c => c.FinanceCharge);
+                            columns.Bound(c => c.PrincipleAmount);
+                            columns.Bound(c => c.ClaimAmount);
+                            columns.Bound(c => c.CaseCount).Title("No. Of Cases");
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true)).AutoBind(false)
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Transactions from {0} to {1}. Total Transactions: <strong>{2}</strong>").Empty("Transaction Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetAgentCasesData", "CMS_Case")
+                        .Type(HttpVerbs.Get).Data("GetAgentCasesData")).Model(model => model.Id(p => p.ClientID)))
+                                    )
+                                </div>
+                            </fieldset>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

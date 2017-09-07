@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="CMS_Set_AddressCodeTypeDebtorController">
+    <div class="widget" id="widget-CMS_Set_AddressCodeTypeDebtor">
+        <div ng-show="PagesCM00009.length > 0">
+            <div ng-repeat="Page in PagesCM00009">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00009.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div ng-repeat="Page in GridPages">
+                <div id="DebtorPageGrid" ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+    </div>
+</div>
+

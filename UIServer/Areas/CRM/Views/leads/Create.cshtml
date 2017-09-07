@@ -1,0 +1,149 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveLeadsData();"
+           ng-show="CRM00200.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CRM00200.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CRM00200.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+
+            <div class="row">
+
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-sm-4 control-label text-left">Case Type</label>
+                                        <div class="col col-sm-8 col-xs-12">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Type --'"
+                                                    k-ng-model="SelectedLookUp.SelectedType"
+                                                    k-data-text-field="'TrxTypeName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'TRXTypeID'"
+                                                    k-data-source="CaseTypes"
+                                                    k-on-change="CaseTypeChangedForLeads()"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div ng-show="KaizenColumn.length > 0">
+                                            <legend class="text-center"><strong>Field Mapping</strong></legend>
+                                            <div class="widget no-margin-bottom">
+                                                <div class="widget-body">
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">
+                                                            <tbody>
+                                                                
+                                                                <tr ng-repeat="column in KaizenColumn" ng-if="$index < (KaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.IsRequired }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div ng-if="column.FieldTypeID==2">
+                                                                            <input kendo-date-picker k-parse-formats="['yyyy-MM-ddTHH:mm:ss']" k-format='dd/MM/yyyy' k-ng-model='column.FieldValue' style='width: 100%;' />
+                                                                        </div>
+                                                                        <div ng-if="column.FieldTypeID==3">
+                                                                            <input type="text" class="form-control" placeholder="{{column.FieldDisplay}}" ng-model="column.FieldValue" />
+                                                                        </div>
+                                                                        <div ng-if="column.FieldTypeID==4">
+                                                                            <input type="checkbox"
+                                                                                   class="style-0"
+                                                                                   ng-model="column.FieldValue">
+                                                                        </div>
+                                                                        <div ng-if="column.FieldTypeID==6">
+                                                                            <input kendo-numeric-text-box k-min="0"
+                                                                                   k-ng-model="column.FieldValue" style="width: 100%;" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered table-hover">                                                            
+                                                            <tbody>
+                                                                <tr ng-repeat="column in KaizenColumn" ng-if="$index >= (KaizenColumn.length / 2)">
+                                                                    <td>
+                                                                        <label ng-class="['control-label', {'txt-color-red bold': column.IsRequired }]">{{column.FieldDisplay}}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div ng-if="column.FieldTypeID==2">
+                                                                            <input kendo-date-picker k-parse-formats="['yyyy-MM-ddTHH:mm:ss']" k-format='dd/MM/yyyy' k-ng-model='column.FieldValue' style='width: 100%;' />
+                                                                        </div>
+                                                                        <div ng-if="column.FieldTypeID==3">
+                                                                            <input type="text" class="form-control" placeholder="{{column.FieldDisplay}}" ng-model="column.FieldValue" />
+                                                                        </div>
+                                                                        <div ng-if="column.FieldTypeID==4">
+                                                                            <input type="checkbox"
+                                                                                   class="style-0"
+                                                                                   ng-model="column.FieldValue">
+                                                                        </div>
+                                                                        <div ng-if="column.FieldTypeID==6">
+                                                                            <input kendo-numeric-text-box k-min="0"
+                                                                                   k-ng-model="column.FieldValue" style="width: 100%;" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+
+    </div>
+    <!-- end widget div -->
+</div>

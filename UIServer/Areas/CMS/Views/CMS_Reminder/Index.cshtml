@@ -1,0 +1,206 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetReminderGridPram() {
+        var scope = angular.element(document.getElementById("widget-CMS_Reminder")).scope();
+        return {
+            IsOverDue: scope.IsOverDue,
+            FromReminder: scope.FromReminder,
+            ToReminder: scope.ToReminder,
+            AgentID: scope.SelectedAgent.AgentID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+
+    function GetGenericKaizenPublicKeyWithCaseRef() {
+        var searchcritaria = $("#Searchcritaria").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            CaseRef: scope.CM00203.CaseRef,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetGenericKaizenPublicKeyWithDebtorID() {
+        var searchcritaria = $("#Searchcritaria").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            DebtorID: scope.CM00203.DebtorID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+
+    function GetAgents() {
+        alert('GetAgents');
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            AgentID: scope.MY.AgentID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetKaizenPublicKey() {
+        return {
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetCaseRef() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return scope.CM00203.CaseRef;
+    };
+    function StatusFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CaseStatusname",
+            dataValueField: "CaseStatusID",
+            dataSource: scope.CaseStatuses,
+            optionLabel: "--Select Status--"
+        });
+    };
+    function JecketFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "JecketName",
+            dataValueField: "JecketsID",
+            dataSource: scope.Jeckets,
+            optionLabel: "--Select Jecket--"
+        });
+    };
+    function TransactionTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "TrxTypeName",
+            dataValueField: "TRXTypeID",
+            dataSource: scope.TRXTypes,
+            optionLabel: "--Select Transaction Type--"
+        });
+    };
+    function ActionPlanFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "ActionPlanName",
+            dataValueField: "ActionPlanID",
+            dataSource: scope.Actionplans,
+            optionLabel: "--Select Action Plan--"
+        });
+    };
+
+</script>
+<div ng-controller="CMS_ReminderController">
+    <div>
+        <div class="widget" id="widget-CMS_Reminder">
+            <div ng-show="Screens.length > 0">
+                <div ng-repeat="oCasePage in Screens">
+                    <div ng-include="oCasePage.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div ng-show="ToolBar.ActiveScreen.CurrentWindow == 'MainGrid'" class="k-content wide bordered-bottom bordered-palegreen" ng-show="Screens.length == 0">
+                <div kendo-toolbar k-options="CMS_RemindertoolbarOptions"></div>
+                <div ng-include="MainGridURL">Data Grid here</div>
+            </div>
+            <div ng-show="ToolBar.ActiveScreen.CurrentWindow == 'DebtorPayment'" class="k-content wide bordered-bottom bordered-palegreen" ng-show="Screens.length == 0">
+                <div ng-include="DebtorPaymentPath">Data Grid here</div>
+            </div>
+            <div ng-show="ToolBar.ActiveScreen.CurrentWindow == 'CaseView'" class="k-content wide bordered-bottom bordered-palegreen" ng-show="Screens.length == 0">
+                <div ng-include="CaseViewPath">Data Grid here</div>
+            </div>
+            <div ng-show="ToolBar.ActiveScreen.CurrentWindow == 'ManualPayment'" class="k-content wide bordered-bottom bordered-palegreen" ng-show="Screens.length == 0">
+                <div ng-include="ManualPaymentPath">Data Grid here</div>
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+            <div kendo-window="ExchangeRateWindow" k-title="'Exchange Rate'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="800" k-resizable="true" k-visible="false"></div>
+
+            <div kendo-window="ManualPaymentWindow" k-title="'Manual Payment'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="800" k-resizable="true" k-visible="false"></div>
+
+            <div kendo-window="SearchWindow" k-title="'Search Debtors'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="800" k-resizable="true" k-visible="false">
+                <div class="panel panel-default">
+                    <div class="panel-body no-padding">
+                        <fieldset class="margin-15">
+                            <div class="form-group">
+                                <div class="col-sm-3 pull-right">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" ng-model="Search" />
+                                        <div class="input-group-btn input-group-sm" ng-click="GridRefresh('GridCMS_ReminderDebtorPopUp')">
+                                            <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <script>
+                        function btnSelect_Click(e) {
+                            e.preventDefault();
+                            try {
+                                var ActiveScreenID = $("#ActiveScreenID").val();
+                                var widget = $("#widget-" + ActiveScreenID)
+                                var data = this.dataItem($(e.currentTarget).closest("tr"));
+                                var scope = angular.element(widget).scope();
+                                scope.$apply(function () {
+                                    scope.GoTo('CaseView');
+                                    scope.CurrentControl = "ReminderCase";
+                                    scope.DebtorBack(data);
+                                });
+                                scope.SearchWindow.close();
+                            }
+                            catch (err) {
+                                alert("Error \n\n" + err.message);
+                            }
+                        };
+                        function GetSearchParameters() {
+                            var ActiveScreenID = $("#ActiveScreenID").val();
+                            var widget = $("#widget-" + ActiveScreenID)
+                            var scope = angular.element(widget).scope();
+                            return {
+                                Searchcritaria: scope.Search,
+                                KaizenPublicKey: sessionStorage.PublicKey
+                            };
+                        };
+                    </script>
+                    @(Html.Kendo().Grid<Kaizen.CMS.CM00100>().Name("GridCMS_ReminderDebtorPopUp")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.DebtorID).Title("Debtor ID");
+                            columns.Bound(c => c.EnglishFullName).Title("Debtor Name").Width(200);
+                            columns.Bound(c => c.CPRCRNo).Title("CPRCR No");
+                            columns.Command(command => command.Custom("Select").SendDataKeys(true)
+                            .Click("btnSelect_Click"));
+                        })
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Debtor from {0} to {1}. Total Debtors: <strong>{2}</strong>")
+                            .ItemsPerPage("Debtor Per page").Empty("No Debtor Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(350)).Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetListReminderPopUpGrid", "CMS_Debtor").Type(HttpVerbs.Get)
+                            .Data("GetSearchParameters"))
+                            .Model(model => model.Id(p => p.DebtorID))
+                )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

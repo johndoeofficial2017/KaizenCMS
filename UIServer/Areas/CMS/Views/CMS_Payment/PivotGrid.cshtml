@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <!-- widget div-->
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="widget-body-toolbar">
+                                <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                    <i class="fa fa-ban"></i> Cancel
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 no-padding-left">
+                                @(Html.Kendo().PivotConfigurator()
+                                .Name("configurator")
+                                .HtmlAttributes(new { style = "width: 100%;" })
+                                .Height(570)
+                                )
+                            </div>
+                            <div class="col-md-8 no-padding-right">
+                                @(Html.Kendo().PivotGrid<Kaizen.CMS.CM00203>()
+                                .Name("pivotgrid")
+                                .HtmlAttributes(new { @class = "hidden-on-narrow" })
+                                .Configurator("#configurator")
+                                .ColumnWidth(120)
+                                .Height(570)
+                                .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Transport(transport => transport
+                                .Read(read => read.Action("ttt", "CMS_Case")
+                                .Type(HttpVerbs.Post).Data("GetKaizenPublicKey")))
+                                .Schema(schema => schema
+                                .Cube(cube => cube
+                                .Dimensions(dimensions =>
+                                {
+                                    dimensions.Add(model => model.CaseRef).Caption("All CaseRef");
+                                    dimensions.Add(model => model.ClientID).Caption("All ClientID");
+                                    dimensions.Add(model => model.DebtorID).Caption("Is DebtorID");
+                                    dimensions.Add(model => model.CurrencyCode).Caption("All Currencies");
+                                    dimensions.Add(model => model.ClaimAmount).Caption("ClaimAmount");
+                                })
+                                .Measures(measures => measures.Add("ClaimAmount").Field(model => model.ClaimAmount).AggregateName("sum"))
+                            ))
+                                .Columns(columns =>
+                                {
+                                    columns.Add("ClientID");
+                                })
+                                .Rows(rows => rows.Add("CaseRef").Expand(true))
+                                .Measures(measures => measures.Values("ClaimAmount"))
+                                )
+                            )
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

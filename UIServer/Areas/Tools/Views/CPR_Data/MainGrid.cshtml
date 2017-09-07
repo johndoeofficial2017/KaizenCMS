@@ -1,0 +1,308 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditDebtor_Click(DebtorID) {
+        var scope = angular.element(document.getElementById("widget-CPR_Data")).scope();
+        scope.$apply(function () {
+            scope.EditCPR00100(DebtorID);
+        }); 
+    };
+    function ClassFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CPR_Data")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CUSTCLASNAME",
+            dataValueField: "CUSTCLAS",
+            dataSource: scope.debtorClasses,
+            optionLabel: "--Select Class--"
+        });
+    };
+    function GroupFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CPR_Data")).scope();
+        element.kendoDropDownList({
+            dataTextField: "GroupName",
+            dataValueField: "GroupID",
+            dataSource: scope.debtorGroups,
+            optionLabel: "--Select Group--"
+        });
+    };
+    function PriorityFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CPR_Data")).scope();
+        element.kendoDropDownList({
+            dataTextField: "PriorityName",
+            dataValueField: "PriorityID",
+            dataSource: scope.debtorPriorities,
+            optionLabel: "--Select Priority--"
+        });
+    };
+    function StatusFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CPR_Data")).scope();
+        element.kendoDropDownList({
+            dataTextField: "DebtorStatusName",
+            dataValueField: "DebtorStatusID",
+            dataSource: scope.debtorStatuses,
+            optionLabel: "--Select Action Plan--"
+        });
+    };
+
+    function GetGridCPR_DataPram() {
+        var scope = angular.element(document.getElementById('widget-CPR_Data')).scope();
+        var ViewID = -1;
+        var AddressCode = "KaizenSystem";
+        var ViewWhereCondition = 'Nothing';
+        var ViewSortCondition = "";
+        if (scope.SelectedLookUp.SelectedDebtorView != null)
+        {
+            ViewID = scope.SelectedLookUp.SelectedDebtorView.ViewID;
+            ViewWhereCondition = scope.SelectedLookUp.SelectedDebtorView.ViewWhereCondition;
+            ViewSortCondition = scope.SelectedLookUp.SelectedDebtorView.ViewSortCondition;
+        }
+        if (scope.SelectedLookUp.AddressTypes != null)
+            AddressCode = scope.SelectedLookUp.AddressTypes.AddressCode
+        //alert(ViewID);
+        return {
+            viewID: ViewID,
+            //AddressCode: AddressCode,
+            ViewWhereCondition: ViewWhereCondition,
+            ViewSortCondition : ViewSortCondition,
+            Searchcritaria: "",
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+
+</script>
+@(Html.Kendo().Grid<Kaizen.Admin.CPR00100>()
+    .Name("GridCPR_Data") 
+    .Columns(columns =>
+    {
+        foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+        {
+            switch (column.field.Trim())
+            {
+                case "PhotoExtension":
+                    columns.Bound(c => c.DebtorID).ClientTemplate(@"<a href='javascript:void(0)' onclick="" btnEditDebtor_Click('#:DebtorID#'); ""> #:DebtorID# </a>")
+                    .Width(column.width).Title(column.title).Locked(column.locked);
+                    break;
+                case "DebtorID":
+                    columns.Bound(c => c.DebtorID).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "GenderID":
+                    columns.Bound(c => c.GenderID).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "BirthDate":
+                    columns.Bound(c => c.BirthDate).Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "DebtorDescription":
+                    columns.Bound("DebtorDescription").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "AddressEnglish":
+                    columns.Bound("AddressEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "FirstNameEnglish":
+                    columns.Bound("FirstNameEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EnglishFullName":
+                    columns.Bound("EnglishFullName").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "LastNameEnglish":
+                    columns.Bound("LastNameEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "MiddleName1English":
+                    columns.Bound("MiddleName1English").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "MiddleName2English":
+                    columns.Bound("MiddleName2English").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "MiddleName3English":
+                    columns.Bound("MiddleName3English").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "MiddleName4English":
+                    columns.Bound("MiddleName4English").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ContactNo":
+                    columns.Bound("ContactNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "Email":
+                    columns.Bound("Email").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ResidenceNo":
+                    columns.Bound("ResidenceNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "FlatNo":
+                    columns.Bound("FlatNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "BuildingNo":
+                    columns.Bound("BuildingNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "BuildingAlpha":
+                    columns.Bound("BuildingAlpha").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "RoadName":
+                    columns.Bound("RoadName").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "RoadNo":
+                    columns.Bound("RoadNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "BlockNo":
+                    columns.Bound("BlockNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "BlockName":
+                    columns.Bound("BlockName").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "GovernorateNo":
+                    columns.Bound("GovernorateNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "GovernorateNameEnglish":
+                    columns.Bound("GovernorateNameEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EmployerFlag1":
+                    columns.Bound("EmployerFlag1").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EmployerName1":
+                    columns.Bound("EmployerName1").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EmployerNo1":
+                    columns.Bound("EmployerNo1").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EmploymentFlag1":
+                    columns.Bound("EmploymentFlag1").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "LaborForceParticipation":
+                    columns.Bound("LaborForceParticipation").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "LatestEducationDegree":
+                    columns.Bound("LatestEducationDegree").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EmploymentNameEnglish":
+                    columns.Bound("EmploymentNameEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "OccupationDescription1":
+                    columns.Bound("OccupationDescription1").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "SponsorCPRNoorUnitNo":
+                    columns.Bound("SponsorCPRNoorUnitNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "SponsorFlag":
+                    columns.Bound("SponsorFlag").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "SponsorName":
+                    columns.Bound("SponsorName").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "SponserId":
+                    columns.Bound("SponserId").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "SponserNameEnglish":
+                    columns.Bound("SponserNameEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "LfpNameEnglish":
+                    columns.Bound("LfpNameEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "EnglishCountryName":
+                    columns.Bound("EnglishCountryName").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "IACOCode":
+                    columns.Bound("IACOCode").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "FingerprintCode":
+                    columns.Bound("FingerprintCode").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "IdNumber":
+                    columns.Bound("IdNumber").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "OccupationEnglish":
+                    columns.Bound("OccupationEnglish").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CUSTCLAS":
+                    columns.Bound("CUSTCLAS").Locked(column.locked).Width(column.width).Title(column.title)
+                    .Filterable(filterable => filterable.UI("ClassFilter"));
+                    break;
+                case "GroupID":
+                    columns.Bound("GroupID").Locked(column.locked).Width(column.width).Title(column.title)
+                    .Filterable(filterable => filterable.UI("GroupFilter"));
+                    break;
+                case "PriorityID":
+                    columns.Bound("PriorityID").Locked(column.locked).Width(column.width).Title(column.title)
+                    .Filterable(filterable => filterable.UI("PriorityFilter"));
+                    break;
+                case "DebtorStatusID":
+                    columns.Bound("DebtorStatusID").Locked(column.locked).Width(column.width).Title(column.title)
+                    .Filterable(filterable => filterable.UI("StatusFilter"));
+                    break;
+                case "CPRExpiryDate":
+                    columns.Bound("CPRExpiryDate").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CPRIssueDate":
+                    columns.Bound("CPRIssueDate").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CPRSerialNumber":
+                    columns.Bound("CPRSerialNumber").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "CPRCRNo":
+                    columns.Bound("CPRCRNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PassportExpiryDate":
+                    columns.Bound("PassportExpiryDate").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PassportIssueDate":
+                    columns.Bound("PassportIssueDate").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PassportNumber":
+                    columns.Bound("PassportNumber").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PassportSequnceNo":
+                    columns.Bound("PassportSequnceNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "PassportType":
+                    columns.Bound("PassportType").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "VisaNo":
+                    columns.Bound("VisaNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "VisaExpiryDate":
+                    columns.Bound("VisaExpiryDate").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "VisaType":
+                    columns.Bound("VisaType").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ResidentPermitNo":
+                    columns.Bound("ResidentPermitNo").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "ResidentPermitExpiryDate":
+                    columns.Bound("ResidentPermitExpiryDate").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "TypeOfResident":
+                    columns.Bound("TypeOfResident").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+                case "NationalityID":
+                    columns.Bound("NationalityID").Locked(column.locked).Width(column.width).Title(column.title);
+                    break;
+            }
+
+        }
+    })
+     .Excel(excel => excel.AllPages(true).FileName("DebtorList.xlsx").Filterable(true))
+        .Pdf(pdf => pdf.FileName("DebtorList.pdf").AllPages().Date(DateTime.Now))
+ .Pageable(pager => pager.Messages(messages => messages.Display("Debtor from {0} to {1}. Total: <strong>{2}</strong>")
+        .ItemsPerPage("Debtor Per page").Empty("No Debtors")).Refresh(true)
+        .PageSizes(true).Input(true).ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+        .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+        .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+        .ColumnMenu().Scrollable().Filterable()
+        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+        .PageSize(20).Sort(sort => sort.Add(ss => ss.DebtorID).Descending())
+
+    .Read(read => read.Action("GetDataListGrid", "CPR_Data")
+    .Type(HttpVerbs.Get).Data("GetGridCPR_DataPram"))
+    .Model(model =>
+    {
+        model.Id(o => o.DebtorID);
+    })
+)
+)
+
+<script>
+    $(document).ready(function () {
+        resizeGrid("GridCPR_Data");
+    })
+</script>

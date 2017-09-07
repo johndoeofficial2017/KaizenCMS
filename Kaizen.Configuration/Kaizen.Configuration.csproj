@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DAE51895-6E40-41E9-8E7E-E3A13308DEA0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kaizen.Configuration</RootNamespace>
+    <AssemblyName>Kaizen.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\BusinessLogic\DLLFiles\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CryptoGrapher.cs" />
+    <Compile Include="DataCollection.cs" />
+    <Compile Include="Dynamic.cs" />
+    <Compile Include="ExcelColumns.cs" />
+    <Compile Include="ExceptionUtility.cs" />
+    <Compile Include="ExpressionHelper.cs" />
+    <Compile Include="GenericDataRepository.cs" />
+    <Compile Include="ConfigurationContext.cs" />
+    <Compile Include="IGenericDataRepository.cs" />
+    <Compile Include="KaizenResult.cs" />
+    <Compile Include="Master.cs" />
+    <Compile Include="Models\CM00000.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CompanyAccess.cs" />
+    <Compile Include="Models\CompanySegment.cs" />
+    <Compile Include="Models\Config00000.cs" />
+    <Compile Include="Models\Config00001.cs" />
+    <Compile Include="Models\Config00100.cs" />
+    <Compile Include="Models\DT00001.cs" />
+    <Compile Include="Models\DT00100.cs" />
+    <Compile Include="Models\DT00101.cs" />
+    <Compile Include="Models\DT00102.cs" />
+    <Compile Include="Models\DT00103.cs" />
+    <Compile Include="Models\Ext00001.cs" />
+    <Compile Include="Models\Ext00002.cs" />
+    <Compile Include="Models\Ext00003.cs" />
+    <Compile Include="Models\Ext00004.cs" />
+    <Compile Include="Models\Ext00005.cs" />
+    <Compile Include="Models\Kaizen000.cs" />
+    <Compile Include="Models\Kaizen00000.cs" />
+    <Compile Include="Models\Kaizen00001.cs" />
+    <Compile Include="Models\Kaizen00002.cs" />
+    <Compile Include="Models\Kaizen00003.cs" />
+    <Compile Include="Models\Kaizen00004.cs" />
+    <Compile Include="Models\Kaizen00005.cs" />
+    <Compile Include="Models\Kaizen00006.cs" />
+    <Compile Include="Models\Kaizen00007.cs" />
+    <Compile Include="Models\Kaizen00008.cs" />
+    <Compile Include="Models\Kaizen00009.cs" />
+    <Compile Include="Models\Kaizen00010.cs" />
+    <Compile Include="Models\Kaizen00011.cs" />
+    <Compile Include="Models\Kaizen00012.cs" />
+    <Compile Include="Models\Kaizen00013.cs" />
+    <Compile Include="Models\Kaizen00014.cs" />
+    <Compile Include="Models\Kaizen00015.cs" />
+    <Compile Include="Models\Kaizen00016.cs" />
+    <Compile Include="Models\Kaizen00020.cs" />
+    <Compile Include="Models\Kaizen00024.cs" />
+    <Compile Include="Models\Kaizen00025.cs" />
+    <Compile Include="Models\Kaizen00026.cs" />
+    <Compile Include="Models\Kaizen00030.cs" />
+    <Compile Include="Models\Kaizen00040.cs" />
+    <Compile Include="Models\Kaizen00050.cs" />
+    <Compile Include="Models\Kaizen00051.cs" />
+    <Compile Include="Models\Kaizen00052.cs" />
+    <Compile Include="Models\Kaizen00053.cs" />
+    <Compile Include="Models\Kaizen00054.cs" />
+    <Compile Include="Models\Kaizen00055.cs" />
+    <Compile Include="Models\Kaizen001.cs" />
+    <Compile Include="Models\Kaizen00100.cs" />
+    <Compile Include="Models\Kaizen00101.cs" />
+    <Compile Include="Models\Kaizen002.cs" />
+    <Compile Include="Models\Kaizen003.cs" />
+    <Compile Include="Models\Kaizen004.cs" />
+    <Compile Include="Models\Kaizen00400.cs" />
+    <Compile Include="Models\Kaizen004View.cs" />
+    <Compile Include="Models\Kaizen006.cs" />
+    <Compile Include="Models\Kaizen007.cs" />
+    <Compile Include="Models\Kaizen10200.cs" />
+    <Compile Include="Models\KaizenAudit.cs" />
+    <Compile Include="Models\KaizenGridViewAccess.cs" />
+    <Compile Include="Models\KaizenSequence.cs" />
+    <Compile Include="Models\KaizenSession.cs" />
+    <Compile Include="Models\KaizenSessionFail.cs" />
+    <Compile Include="Models\KaizenUserRole.cs" />
+    <Compile Include="Models\Mapping\CM00000Map.cs" />
+    <Compile Include="Models\Mapping\CompanyAccessMap.cs" />
+    <Compile Include="Models\Mapping\CompanyMap.cs" />
+    <Compile Include="Models\Mapping\CompanySegmentMap.cs" />
+    <Compile Include="Models\Mapping\Config00000Map.cs" />
+    <Compile Include="Models\Mapping\Config00001Map.cs" />
+    <Compile Include="Models\Mapping\Config00100Map.cs" />
+    <Compile Include="Models\Mapping\DT00001Map.cs" />
+    <Compile Include="Models\Mapping\DT00100Map.cs" />
+    <Compile Include="Models\Mapping\DT00101Map.cs" />
+    <Compile Include="Models\Mapping\DT00102Map.cs" />
+    <Compile Include="Models\Mapping\DT00103Map.cs" />
+    <Compile Include="Models\Mapping\Ext00001Map.cs" />
+    <Compile Include="Models\Mapping\Ext00002Map.cs" />
+    <Compile Include="Models\Mapping\Ext00003Map.cs" />
+    <Compile Include="Models\Mapping\Ext00004Map.cs" />
+    <Compile Include="Models\Mapping\Ext00005Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00000Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00001Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00002Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00003Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00004Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00005Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00006Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00007Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00008Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00009Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00010Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00011Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00012Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00013Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00014Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00015Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00016Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00020Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00024Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00025Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00026Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00030Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00040Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00050Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00051Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00052Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00053Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00054Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00055Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen000Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00100Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00101Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen001Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen002Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen003Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen00400Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen004Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen004ViewMap.cs" />
+    <Compile Include="Models\Mapping\Kaizen006Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen007Map.cs" />
+    <Compile Include="Models\Mapping\Kaizen10200Map.cs" />
+    <Compile Include="Models\Mapping\KaizenAuditMap.cs" />
+    <Compile Include="Models\Mapping\KaizenGridViewAccessMap.cs" />
+    <Compile Include="Models\Mapping\KaizenSequenceMap.cs" />
+    <Compile Include="Models\Mapping\KaizenSessionFailMap.cs" />
+    <Compile Include="Models\Mapping\KaizenSessionMap.cs" />
+    <Compile Include="Models\Mapping\KaizenUserRoleMap.cs" />
+    <Compile Include="Models\Mapping\Met00001Map.cs" />
+    <Compile Include="Models\Mapping\Met00002Map.cs" />
+    <Compile Include="Models\Mapping\Met00003Map.cs" />
+    <Compile Include="Models\Mapping\Met00005Map.cs" />
+    <Compile Include="Models\Mapping\Met00006Map.cs" />
+    <Compile Include="Models\Mapping\Met00007Map.cs" />
+    <Compile Include="Models\Mapping\Met00008Map.cs" />
+    <Compile Include="Models\Mapping\Met00009Map.cs" />
+    <Compile Include="Models\Mapping\Met00011Map.cs" />
+    <Compile Include="Models\Mapping\Met00012Map.cs" />
+    <Compile Include="Models\Mapping\Met00013Map.cs" />
+    <Compile Include="Models\Mapping\Met00100Map.cs" />
+    <Compile Include="Models\Mapping\Met00101Map.cs" />
+    <Compile Include="Models\Mapping\Met00102Map.cs" />
+    <Compile Include="Models\Mapping\Met00200Map.cs" />
+    <Compile Include="Models\Mapping\Met00201Map.cs" />
+    <Compile Include="Models\Mapping\Met00202Map.cs" />
+    <Compile Include="Models\Mapping\Met00203Map.cs" />
+    <Compile Include="Models\Mapping\Met00204Map.cs" />
+    <Compile Include="Models\Mapping\Met00205Map.cs" />
+    <Compile Include="Models\Mapping\Met00206Map.cs" />
+    <Compile Include="Models\Mapping\Prn00001Map.cs" />
+    <Compile Include="Models\Mapping\Prn00100Map.cs" />
+    <Compile Include="Models\Mapping\Prn00101Map.cs" />
+    <Compile Include="Models\Mapping\UserMap.cs" />
+    <Compile Include="Models\Mapping\WorkstationMap.cs" />
+    <Compile Include="Models\Met00001.cs" />
+    <Compile Include="Models\Met00002.cs" />
+    <Compile Include="Models\Met00003.cs" />
+    <Compile Include="Models\Met00005.cs" />
+    <Compile Include="Models\Met00006.cs" />
+    <Compile Include="Models\Met00007.cs" />
+    <Compile Include="Models\Met00008.cs" />
+    <Compile Include="Models\Met00009.cs" />
+    <Compile Include="Models\Met00011.cs" />
+    <Compile Include="Models\Met00012.cs" />
+    <Compile Include="Models\Met00013.cs" />
+    <Compile Include="Models\Met00100.cs" />
+    <Compile Include="Models\Met00101.cs" />
+    <Compile Include="Models\Met00102.cs" />
+    <Compile Include="Models\Met00200.cs" />
+    <Compile Include="Models\Met00201.cs" />
+    <Compile Include="Models\Met00202.cs" />
+    <Compile Include="Models\Met00203.cs" />
+    <Compile Include="Models\Met00204.cs" />
+    <Compile Include="Models\Met00205.cs" />
+    <Compile Include="Models\Met00206.cs" />
+    <Compile Include="Models\Prn00001.cs" />
+    <Compile Include="Models\Prn00100.cs" />
+    <Compile Include="Models\Prn00101.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Workstation.cs" />
+    <Compile Include="MoreEnumerable.cs" />
+    <Compile Include="Partial\Kaizen00015.cs" />
+    <Compile Include="Partial\Kaizen004View.cs" />
+    <Compile Include="Partial\CompanyAccess.cs" />
+    <Compile Include="Partial\GridFieldView.cs" />
+    <Compile Include="Partial\GridIV00100.cs" />
+    <Compile Include="Partial\GridCM00100.cs" />
+    <Compile Include="Partial\Kaizen00001.cs" />
+    <Compile Include="Partial\KaizenMenu.cs" />
+    <Compile Include="Partial\DataGrid.cs" />
+    <Compile Include="Partial\KaizenUser.cs" />
+    <Compile Include="Partial\User.cs" />
+    <Compile Include="Partial\KaizenTask.cs" />
+    <Compile Include="Partial\KaizenSession.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Met00009Repository.cs" />
+    <Compile Include="Repository\Met00206Repository.cs" />
+    <Compile Include="Repository\Kaizen001Repository.cs" />
+    <Compile Include="Repository\DT00101Repository.cs" />
+    <Compile Include="Repository\Met00001Repository.cs" />
+    <Compile Include="Repository\CM00000Repository.cs" />
+    <Compile Include="Repository\Kaizen00040Repository.cs" />
+    <Compile Include="Repository\KaizenAuditRepository.cs" />
+    <Compile Include="Repository\Kaizen00015Repository.cs" />
+    <Compile Include="Repository\Kaizen006Repository.cs" />
+    <Compile Include="Repository\Kaizen007Repository.cs" />
+    <Compile Include="Repository\Kaizen00014Repository.cs" />
+    <Compile Include="Repository\Kaizen00013Repository.cs" />
+    <Compile Include="Repository\Kaizen00101Repository.cs" />
+    <Compile Include="Repository\Kaizen00100Repository.cs" />
+    <Compile Include="Repository\CHattingMessageRepository.cs" />
+    <Compile Include="Repository\CompanySegmentRepository.cs" />
+    <Compile Include="Repository\GridFieldViewRepository.cs" />
+    <Compile Include="Repository\GridFieldRepository.cs" />
+    <Compile Include="Repository\Kaizen00002Repository.cs" />
+    <Compile Include="Repository\Kaizen00006Repository.cs" />
+    <Compile Include="Repository\Kaizen00009Repository.cs" />
+    <Compile Include="Repository\Kaizen00008Repository.cs" />
+    <Compile Include="Repository\Kaizen00020Repository.cs" />
+    <Compile Include="Repository\Kaizen002Repository.cs" />
+    <Compile Include="Repository\Kaizen000Repository.cs" />
+    <Compile Include="Repository\KaizenUserRoleRepository.cs" />
+    <Compile Include="Repository\Kaizen004ViewRepository.cs" />
+    <Compile Include="Repository\Met00003Repository.cs" />
+    <Compile Include="Repository\Met00005Repository.cs" />
+    <Compile Include="Repository\Met00100Repository.cs" />
+    <Compile Include="Repository\Met00006Repository.cs" />
+    <Compile Include="Repository\Kaizen00007Repository.cs" />
+    <Compile Include="Repository\Met00101Repository.cs" />
+    <Compile Include="Repository\Kaizen00050Repository.cs" />
+    <Compile Include="Repository\Met00002Repository.cs" />
+    <Compile Include="Repository\Met00102Repository.cs" />
+    <Compile Include="Repository\Met00007Repository.cs" />
+    <Compile Include="Repository\Met00200Repository.cs" />
+    <Compile Include="Repository\UserAccessRepository.cs" />
+    <Compile Include="Repository\GridIV00100Repository.cs" />
+    <Compile Include="Repository\Config00001Repository.cs" />
+    <Compile Include="Repository\Kaizen00003Repository.cs" />
+    <Compile Include="Repository\Kaizen004Repository.cs" />
+    <Compile Include="Repository\KaizenSequenceEmpRepository.cs" />
+    <Compile Include="Repository\KaizenGridViewAccessRepository.cs" />
+    <Compile Include="Repository\FieldRepository.cs" />
+    <Compile Include="Repository\languageRepository.cs" />
+    <Compile Include="Repository\TaskRepository.cs" />
+    <Compile Include="Repository\Ext00002Repository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\KaizenModuleRepository.cs" />
+    <Compile Include="Repository\InventoryRepository.cs" />
+    <Compile Include="Repository\Kaizen00010Repository.cs" />
+    <Compile Include="Repository\CompanyAccessRepository.cs" />
+    <Compile Include="Repository\Kaizen00011Repository.cs" />
+    <Compile Include="Repository\CompanyRepository.cs" />
+    <Compile Include="Repository\KaizenRoleRepository.cs" />
+    <Compile Include="Repository\KaizenTasksRepository.cs" />
+    <Compile Include="Repository\KaizenSessionRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SQL\CM_Case.sql" />
+    <Content Include="SQL\CM_CLient.sql" />
+    <Content Include="SQL\HumanResources_Employee.sql" />
+    <Content Include="SQL\POP_Vendor.sql" />
+    <Content Include="SQL\Sales.sql" />
+    <Content Include="SQL\CMS_Debtor.sql" />
+    <Content Include="SQL\CMS_Agent.SQL" />
+    <Content Include="SQL\CMSSetup.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

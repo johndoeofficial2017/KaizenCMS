@@ -1,0 +1,761 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="IV00200.Status == 1 && TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="IV00200.Status == 2 && TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="OnPosting();"
+           ng-show="TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-send"></i><br />
+            Post
+        </a>
+        <a class="btn btn-default" ng-click="LoadLineDistribution(IV00200.TransactionID,IV00200.TransactionTypeID);"
+           data-toggle="modal" data-target="#AccountDistribution"
+           ng-show="TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-send"></i><br />
+            Distribution
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="IV00200.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+
+        <a class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br />Clear
+        </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();">
+            <i class="glyphicon glyphicon-remove">
+            </i><br />Cancel
+        </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body no-padding-bottom">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col-md-1">TRX Type</label>
+                                        <div class="form-group col-md-3">
+                                            <div class="input-group full-control">
+                                                <select kendo-drop-down-list
+                                                        ng-disabled="IV00200.Status == 2"
+                                                        k-filter="'startswith'"
+                                                        k-ng-model="IV00200.TransactionTypeID"
+                                                        k-data-text-field="'TransactionTypeName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'TransactionTypeID'"
+                                                        k-data-source="TransactionTypes"
+                                                        k-on-change="OnTransactionTypeID_Change()"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-1">Number</label>
+                                        <div class="form-group col-md-3">
+                                            <div class="input-group full-control">
+                                                <input type="text" class="form-control" placeholder="Transaction No."
+                                                       ng-disabled="IV00200.Status == 2"
+                                                       ng-model="IV00200.TransactionID" maxlength="10" />
+                                            </div>
+                                        </div>
+                                        <label class="col-md-1">Reasons</label>
+                                        <div class="form-group col-md-3">
+                                            <div class="input-group full-control">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-ng-model="IV00200.ReasonID"
+                                                        k-data-text-field="'ReasonName'"
+                                                        k-value-primitive="true"
+                                                        k-data-value-field="'ReasonID'"
+                                                        k-data-source="Reasons"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-1 control-label">DOC Date</label>
+                                        <div class="form-group col-md-3">
+                                            <div class="input-group full-control">
+                                                <input kendo-date-picker
+                                                       k-ng-model="IV00200.TransactionDate"
+                                                       k-format="'dd/MM/yyyy'"
+                                                       style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                        <label class="col col-md-1 control-label">Batch</label>
+                                        <div class="form-group col-md-3">
+                                            <div class="input-group full-control">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Batch ID" ng-model="IV00200.BatchID" readonly />
+                                                <div class="input-group-btn input-group-sm">
+                                                    <a href="javascript:void(0);" ng-click="OpenkendoWindow('POP_Batch','PopUp')" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="col col-md-1 control-label">Site</label>
+                                        <div class="form-group col-md-3">
+                                            <div class="input-group full-control">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Site ID" ng-model="IV00200.SiteID" readonly />
+                                                <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('INV_Site','PopUp',null,'Main')">
+                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div class="col-md-12">
+                                            <textarea class="form-control" placeholder="Transaction Notes"
+                                                      ng-model="IV00200.TransactionNote" rows="4"></textarea>
+                                            <br />
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+
+                <article class="col-md-12 col-lg-12">
+                    <div class="no-padding">
+                        <form class="form-horizontal">
+                            <fieldset ng-show="IsOpenItemPanel==true">
+                                <div class="form-group">
+                                    <header id="tabheader" class="tabHeader">
+                                        <ul class="nav nav-tabs in" id="myTab">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#s1_AdjustLine">Main</a>
+                                            </li>
+                                        </ul>
+                                    </header>
+                                    <div class="no-padding" role="content">
+                                        <div class="widget-body">
+                                            <!-- content -->
+                                            <div id="myTabContent" class="tab-content">
+                                                <!-- Start Tab1 -->
+                                                <div class="tab-pane fade padding-10 no-padding-bottom active in" id="s1_AdjustLine">
+                                                    <form class="smart-form">
+                                                        <fieldset>
+                                                            <div class="row">
+                                                                <section class="col-sm-12">
+                                                                    <label class="col col-md-1 ">Item</label>
+                                                                    <div class="col-md-2">
+                                                                        <div class="input-group full-control">
+                                                                            <input type="text" class="form-control"
+                                                                                   placeholder="Item ID" ng-model="IV00201.ItemID" readonly />
+                                                                            <div class="input-group-btn input-group-sm">
+                                                                                <a href="javascript:void(0);" class="btn btn-default" ng-click="OpenkendoWindow('IV_Item','ItemViewPopUp',IV00201.SiteID)"><i class="glyphicon glyphicon-search"></i></a>
+                                                                            </div>
+                                                                            <div class="input-group-btn input-group-sm"
+                                                                                 ng-show="IV00201.LotNumber != null && IV00201.LotNumber != ''">
+                                                                                <a href="javascript:void(0);" class="btn btn-default"
+                                                                                   data-toggle="modal" data-target="#ItemFields"
+                                                                                   ng-click="GetItemFields();"><i class="fa fa-arrow-right"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="col col-md-1">UFM</label>
+                                                                    <div class="col-md-2">
+                                                                        <div class="input-group full-control">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control"
+                                                                                       placeholder="UFM ID" ng-model="IV00201.UFMID" readonly />
+                                                                                <div class="input-group-btn input-group-sm">
+                                                                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="OpenkendoWindow('INV_Set_UFMGroup','UFMPopUp',IV00201.UFMGroupID)"><i class="glyphicon glyphicon-search"></i></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="col col-md-1">Quantity</label>
+                                                                    <div class="col-md-2">
+                                                                        <div class="input-group full-control">
+                                                                            <input kendo-numeric-text-box ng-blur="CalculatePrice()"
+                                                                                   ng-disabled="IV00205.length > 0"
+                                                                                   k-options="NumberFormatOptions(IV00201.UFMID,IV00201.DecimalDigitQuantity,true)"
+                                                                                   k-ng-model="IV00201.ItemQuantity" style="width: 100%;" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="col col-md-1">Unit Cost</label>
+                                                                    <div class="col-md-2">
+                                                                        <div class="input-group full-control">
+                                                                            <input kendo-numeric-text-box ng-blur="CalculatePrice()"
+                                                                                   k-options="NumberFormatOptions(MY.CurrencyCode,MY.DecimalDigit,true)"
+                                                                                   k-ng-model="IV00201.ItemUnitCost" style="width: 100%;" />
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                            <div class="row">
+                                                                <section class="col-sm-12">
+                                                                    <label class="col col-md-1">Name</label>
+                                                                    <div class="col-md-5">
+                                                                        <div class="input-group full-control">
+                                                                            <input type="text" class="form-control"
+                                                                                   placeholder="Item Name" ng-model="IV00201.ItemName" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="col col-md-1">Site</label>
+                                                                    <div class="col-md-2">
+                                                                        <div class="input-group full-control">
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control"
+                                                                                       placeholder="Site ID" ng-model="IV00201.SiteID" readonly />
+                                                                                <span class="input-group-btn input-group-sm"
+                                                                                      ng-hide="IV00205.length>0"
+                                                                                      ng-click="OpenkendoWindow('INV_Site','PopUp',null,'Line')">
+                                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                                </span>
+                                                                                <span class="input-group-btn input-group-sm"
+                                                                                      ng-show="IV00201.BinTrack != null && IV00201.BinTrack == true && SiteBins.length > 0 && IV00201.ItemQuantity >0"
+                                                                                      data-toggle="modal" data-target="#SiteBins" ng-click="LoadLineBins();">
+                                                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="col col-md-1">EXT Cost</label>
+                                                                    <div class="col-md-2">
+                                                                        <div class="input-group full-control">
+                                                                            <input kendo-numeric-text-box
+                                                                                   k-options="NumberFormatOptions(MY.CurrencyCode,MY.DecimalDigit,true)"
+                                                                                   k-ng-model="IV00201.ExtendedCost" style="width: 100%;" />
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                            <div class="row">
+                                                                <section class="col-sm-12">
+                                                                    <label class="col col-md-1">Description</label>
+                                                                    <div class="col-md-11">
+                                                                        <div class="input-group full-control">
+                                                                            <textarea class="form-control" rows="4" ng-model="IV00201.ItemDescription"
+                                                                                      placeholder="Item Description" />
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="form-actions no-margin-top">
+                                        <fieldset class="padding-left-30">
+                                            <a href="javascript:void(0);" class="btn btn-primary"
+                                               ng-click="AddNewLine();"
+                                               ng-show="(IV00201.status == 0 || IV00201.status == 1) && ((IV00201.LotNumber != null && IV00201.LotNumber != '' && IV00201.IV00202.length > 0) || (IV00201.LotNumber == null || IV00201.LotNumber == ''));">
+                                                <i class="glyphicon glyphicon-floppy-disk"></i> Add Item
+                                            </a>
+                                            <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateLine();"
+                                               ng-show="IV00201.status == 2 && ((IV00201.LotNumber != null && IV00201.LotNumber != '' && IV00202.length > 0) || (IV00201.LotNumber == null || IV00201.LotNumber == ''))">
+                                                <i class="glyphicon glyphicon-edit"></i> Update Item
+                                            </a>
+                                            <a href="javascript:void(0);" class="btn btn-default"
+                                               ng-click="OpenItemPanel(false)">
+                                                <i class="glyphicon glyphicon-remove-circle"></i> Cancel
+                                            </a>
+                                        </fieldset>
+                                    </footer>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+
+                <article class="col-md-12 col-lg-12">
+                    <div class="row">
+                        <button class="btn btn-primary" ng-click="OpenItemPanel(true)" ng-show="IsOpenItemPanel==false">Add</button>
+                        <div class="panel panel-default">
+                            <table class="table table-bordered table-responsive"
+                                   ng-show="TransactionLines.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-align-center">Photo</th>
+                                        <th class="text-align-center">Code</th>
+                                        <th class="text-align-center">Item</th>
+                                        <th class="text-align-center">Site</th>
+                                        <th class="text-align-center">UFM</th>
+                                        <th class="text-align-center">QTY</th>
+                                        <th class="text-align-center">U-Cost</th>
+                                        <th class="text-align-center">Ex-Cost</th>
+                                        <th class="text-align-center">Edit</th>
+                                        <th class="text-align-center">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="line in TransactionLines" ng-class="{'deleted':line.status== 3}">
+                                        <td class="col-md-pull-0 text-align-center">
+                                            <img alt='' ng-src='{{line.IV00100link}}' style='width:40px;height:35px;cursor:pointer' />
+                                        </td>
+                                        <td class="col-md-1 text-align-center">{{line.ItemID}}</td>
+                                        <td class="col-md-4 text-align-center">{{line.ItemName}}</td>
+                                        <td class="col-md-1 text-align-center">{{line.SiteID}}</td>
+                                        <td class="col-md-1 text-align-center">{{line.UFMID}}</td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input kendo-numeric-text-box
+                                                   k-options="NumberFormatOptions('',line.DecimalDigitQuantity,false)"
+                                                   k-ng-model="line.ItemQuantity" disabled style="width: 100%;" />
+                                        </td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input kendo-numeric-text-box
+                                                   k-options="NumberFormatOptions('',MY.DecimalDigit,false)"
+                                                   k-ng-model="line.ItemUnitCost" disabled style="width: 100%;" />
+                                        </td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input kendo-numeric-text-box
+                                                   k-options="NumberFormatOptions('',MY.DecimalDigit,false)"
+                                                   k-ng-model="line.ExtendedCost" disabled style="width: 100%;" />
+                                        </td>
+                                        <td class="col-md-pull-0 text-align-center" style="font-size:20px;">
+                                            <a href="" ng-click="EditLine(line)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                        </td>
+                                        <td class="col-md-pull-0 text-align-center" style="font-size:20px;">
+                                            <a href="" ng-click="RemoveLine(line,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="col-md-12 col-lg-12">
+                    <div class="row">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2">Total Cost</label>
+                                    <div class="col-md-4">
+                                        <input kendo-numeric-text-box
+                                               k-options="NumberFormatOptions(MY.CurrencyCode,MY.DecimalDigit,false)"
+                                               k-ng-model="IV00200.DOCAMNT" disabled style="width: 100%;" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+
+                <div class="modal fade" data-backdrop="static" id="ItemFields" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    ×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Item Management</h4>
+                            </div>
+                            <div class="modal-body">
+                                <fieldset>
+                                    <div class="col-md-6" ng-repeat="column in IV00203">
+                                        <div class="col-md-4">
+                                            <label class="control-label">{{column.CollName}}</label>
+                                        </div>
+                                        <div class="col-md-8" ng-show="column.CollType == 1 || column.CollType == 2">
+                                            <input type="text" class="form-control input-sm" placeholder="" ng-model="column.CollValue">
+                                        </div>
+                                        <div class="col-md-8" ng-show="column.CollType == 3">
+                                            <input kendo-date-picker
+                                                   k-ng-model="column.CollValue"
+                                                   k-format="'dd/MM/yyyy'"
+                                                   style="width: 100%;" />
+                                        </div>
+                                        <div class="col-md-8" ng-show="column.CollType == 5">
+                                            <select class="form-control" ng-model="column.CollValue">
+                                                <option ng-repeat="model in column.IV00014" ng-selected="model.ListID==column.CollValue" value="{{model.ListID}}">{{model.ListName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <label class="control-label">Lot Line</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                       placeholder="Lot Line" ng-model="IV00201.LOTLineCode" readonly />
+                                                <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('IV_Trx_Adjust','LotLinePopUp',IV00201)">
+                                                    <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="well well-sm well-primary">
+                                            <form class="form form-inline " role="form">
+                                                <fieldset>
+                                                    <div class="form-group" ng-show="IV00201.IsExpiryDate">
+                                                        <label class="sr-only" for="Expiry">Expiry Date</label>
+                                                        <input kendo-date-picker
+                                                               k-ng-model="IV00202.ExpiryDate"
+                                                               k-format="'dd/MM/yyyy'"
+                                                               style="width: 100%;" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="BarCode">Barcode</label>
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Barcode" ng-model="IV00202.BarCode" />
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="well well-sm well-primary">
+                                            <form class="form form-inline " role="form">
+                                                <fieldset>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="Quantity">Quantity</label>
+                                                        <input type="text" class="form-control"
+                                                               decimals="{{IV00201.DecimalDigitQuantity}}" decimal-point="." disabled
+                                                               placeholder="Quantity Order" ng-model="IV00201.QuantityBalanceLOT" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="ItemQuantity">Applied Quantity</label>
+                                                        <input type="text" class="form-control"
+                                                               decimals="{{IV00201.DecimalDigitQuantity}}" decimal-point="."
+                                                               ng-disabled="IV00201.QuantityBalanceLOT == 0"
+                                                               placeholder="Applied Quantity" ng-model="IV00202.ItemQuantity" />
+                                                    </div>
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                            ng-click="AddLotField();"
+                                                            ng-disabled="IV00201.QuantityBalanceLOT - IV00202.ItemQuantity < 0 || IV00201.QuantityBalanceLOT <= 0">
+                                                        <span class="glyphicon glyphicon-plus-sign"></span> Add
+                                                    </button>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th ng-repeat="column in IV00201.IV00202[0].IV00203">{{column.CollName}}</th>
+                                                    <th>Quantity</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="row in IV00201.IV00202">
+                                                    <td ng-repeat="col in row.IV00203">
+                                                        <span ng-if="col.CollType == 3">{{col.CollValue | date: 'dd/MM/yyyy'}}</span>
+                                                        <span ng-if="col.CollType == 1 || col.CollType == 2 || col.CollType == 5">
+                                                            {{col.CollValue}}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{row.ItemQuantity}}</td>
+                                                    <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                        <a href="" ng-click="RemoveRow(row,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" class="btn btn-primary"
+                                        ng-disabled="IV00201.QuantityBalanceLOT > 0"
+                                        data-dismiss="modal">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-dialog -->
+                </div>
+                <div class="modal fade" data-backdrop="static" id="SiteBins" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    ×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Site Bin Management</h4>
+                            </div>
+                            <div class="modal-body">
+                                <fieldset>
+                                    <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <label class="control-label">Bin</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select class="form-control" ng-model="IV00204.BinID" ng-change="BinChanged()">
+                                                <option value="{{bin.BinID}}" ng-repeat="bin in SiteBins">{{bin.BinName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-show="IV00204.IsBinGroup">
+                                        <div class="col-md-4">
+                                            <label class="control-label">Sub Bin</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select class="form-control" ng-model="IV00204.SubBinID" ng-change="SubBinChanged()">
+                                                <option value="{{bin.SubBinID}}" ng-repeat="bin in SiteSubBins">{{bin.SubBinName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="well well-sm well-primary">
+                                            <form class="form form-inline " role="form">
+                                                <fieldset>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="Quantity">Quantity</label>
+                                                        <input type="text" class="form-control"
+                                                               decimals="{{IV00201.DecimalDigitQuantity}}" decimal-point="." disabled
+                                                               placeholder="Quantity Balance" ng-model="IV00204.QuantityBalance" readonly />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="ItemQuantity">Applied Quantity</label>
+                                                        <input type="text" class="form-control"
+                                                               decimals="{{IV00201.DecimalDigitQuantity}}" decimal-point="."
+                                                               ng-disabled="IV00204.QuantityBalance == 0"
+                                                               placeholder="Applied Quantity" ng-model="IV00204.ItemQuantity" />
+                                                    </div>
+                                                    <button type="button" class="btn btn-success btn-sm" ng-click="AddLineBin();"
+                                                            ng-disabled="IV00204.QuantityBalance - IV00204.ItemQuantity < 0 || IV00204.QuantityBalance <= 0">
+                                                        <span class="glyphicon glyphicon-plus-sign"></span> Add
+                                                    </button>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bin</th>
+                                                    <th>SubBinID</th>
+                                                    <th>Quantity</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="row in IV00205">
+                                                    <td>{{row.BinID}}</td>
+                                                    <td>{{row.SubBinID}}</td>
+                                                    <td>{{row.ItemQuantity}}</td>
+                                                    <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                        <a href="" ng-click="RemoveLineBin(row,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" class="btn btn-primary"
+                                        ng-disabled="IV00204.QuantityBalance > 0"
+                                        data-dismiss="modal">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-dialog -->
+                </div>
+                <div class="modal fade" data-backdrop="static" id="AccountDistribution" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    ×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Distribution</h4>
+                            </div>
+                            <div class="modal-body">
+                                <fieldset class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Account</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" kendo-masked-text-box class="form-control" placeholder="Account No."
+                                                   ng-model="IV00206.ACTNUMBR" k-mask="'{{MY.GLFormat}}'" readonly />
+                                            <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('GL_GL','PopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Account Name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input class="form-control" placeholder="Account Name"
+                                               ng-model="IV00206.AccountName" readonly />
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Source</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Source Line"
+                                                   ng-model="IV00206.SourceID" readonly />
+                                            <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('GL_Set_SourceTable','PopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Debit Amount</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input kendo-numeric-text-box
+                                               k-options="NumberFormatOptions(MY.CurrencyCode,MY.DecimalDigit,true)"
+                                               ng-disabled="IV00206.DebitDisabled" ng-blur="DisableCredit(IV00206)"
+                                               k-ng-model="IV00206.DEBITAMT" style="width: 100%;" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Credit Amount</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input kendo-numeric-text-box
+                                               k-options="NumberFormatOptions(MY.CurrencyCode,MY.DecimalDigit,true)"
+                                               ng-disabled="IV00206.CreditDisabled" ng-blur="DisableDebit(IV00206)"
+                                               k-ng-model="IV00206.CRDTAMNT" style="width: 100%;" />
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Line Reference</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" placeholder="Line Reference"
+                                               ng-model="IV00206.LineReference" />
+                                    </div>
+                                </fieldset>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-primary" ng-click="AddNewAccount()"><i class="fa fa-plus-square"></i> Add Account</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table id="user" class="table table-bordered table-centered"
+                                               ng-show="AccountLines.length > 0" style="clear: both">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Account</th>
+                                                    <th>Debit Amount</th>
+                                                    <th>Credit Amount</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat-start="line in AccountLines">
+                                                    <td>
+                                                        <button class="btn btn-info btn-circle" ng-if="line.expanded" ng-click="line.expanded = false">
+                                                            <span class="glyphicon glyphicon-minus-sign"></span>
+                                                        </button>
+                                                        <button class="btn btn-info btn-circle" ng-if="!line.expanded" ng-click="line.expanded = true">
+                                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td>{{line.ACTNUMBR}}</td>
+                                                    <td>{{line.DEBITAMT | number : MY.DecimalDigit}}</td>
+                                                    <td>{{line.CRDTAMNT | number : MY.DecimalDigit}}</td>
+                                                    <td>
+                                                        <a href="" class="btn btn-danger" ng-click="RemoveAccountLine(line,$index)">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="line.expanded" ng-repeat-end="">
+                                                    <td class="container-fluid" colspan="5">
+                                                        <fieldset class="form-group">
+                                                            <label class="col-sm-2 control-label">Account Name</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control" placeholder="Account Name"
+                                                                       ng-model="line.AccountName" readonly />
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="form-group">
+                                                            <label class="col-sm-2 control-label">Line Reference</label>
+                                                            <div class="col-sm-10">
+                                                                <input class="form-control" placeholder="Line Reference"
+                                                                       ng-model="line.LineReference" readonly />
+                                                            </div>
+                                                        </fieldset>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-success bold">
+                                                        {{IV00206.Total_Debit | number : MY.DecimalDigit}}
+                                                    </td>
+                                                    <td class="text-success bold">
+                                                        {{IV00206.Total_Credit | number : MY.DecimalDigit}}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" class="btn btn-primary"
+                                        ng-disabled="IV00206.Total_Debit != IV00206.Total_Credit"
+                                        data-dismiss="modal">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-dialog -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

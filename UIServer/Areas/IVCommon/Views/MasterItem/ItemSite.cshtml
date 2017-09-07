@@ -1,0 +1,455 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetSiteListWithItem() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            ItemID: scope.IV00102.ItemID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditSitebtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-IV_Item")).scope();
+        scope.$apply(function () {
+            scope.IV00102 = dataItem;
+            scope.IV00102.Status = 2;
+        });
+    };
+    function DeleteSitebtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-IV_Item")).scope();
+        scope.$apply(function () {
+            scope.IV00102 = dataItem;
+            scope.IV00102.Status = 3;
+            scope.DeleteItemSite();
+        });
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveItemSite();"
+           ng-show="IV00102.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateItemSite();"
+           ng-show="IV00102.Status == 2">
+            <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Item</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Item ID"
+                                                   ng-model="IV00100.ItemID" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'Site')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Site</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Site ID" ng-model="IV00102.SiteID" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('IV_Site',null,'ItemSite')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Item Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Item Name"
+                                               ng-model="IV00102.ItemName" />
+                                    </div>
+                                    <label class="col col-md-2 control-label">Generic Description</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Generic Description"
+                                               ng-model="IV00102.GenericDescription" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Short Description</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text" 
+                                               placeholder="Short Description" 
+                                               ng-model="IV00102.ShortDescription" />
+                                    </div>
+                                    <label class="col col-md-2 control-label">Generic Description</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text" 
+                                               placeholder="Generic Description" 
+                                               ng-model="IV00102.GenericDescription" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">BarCode</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="BarCode"
+                                               ng-model="IV00102.BarCode" />
+                                    </div>
+                                    <label class="col col-md-2 control-label">Primary Vendor</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Primary Vendor" 
+                                                   ng-model="IV00102.PrimaryVendor" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('POP_Vendor','PopUp',null,'SitePrimaryVendor')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Item Description</label>
+                                    <div class="input col col-md-10">
+                                        <textarea class="form-control"
+                                                  placeholder="Item Description"
+                                                  ng-model="IV00102.ItemDescription" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Sales Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Sales Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.SalesAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteSales')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Sales Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Sales Account Name"
+                                               ng-model="IV00102.SalesAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Sales Return Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Sales Return Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.SalesReturnAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteSalesReturn')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Sales Return Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Sales Return Account Name"
+                                               ng-model="IV00102.SalesReturnAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Markdown Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Markdown Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.MarkdownAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteMarkDown')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Markdown Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Markdown Account Name"
+                                               ng-model="IV00102.MarkdownAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Inventory Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Inventory Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.InventoryAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteInventory')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Inventory Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Inventory Account Name"
+                                               ng-model="IV00102.InventoryAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Inventory Return Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Inventory Return Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.InventoryReturnAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteInventoryReturn')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Inventory Return Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Inventory Return Account Name"
+                                               ng-model="IV00102.InventoryReturnAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Inventory Offset Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Inventory Offset Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.InventoryOffsetAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteInventoryOffset')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Inventory Offset Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Inventory Offset Account Name"
+                                               ng-model="IV00102.InventoryOffsetAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Freight Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Freight Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.FreightAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteFreight')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Freight Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Freight Account Name"
+                                               ng-model="IV00102.FreightAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Trade Discount Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Trade Discount Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.TradeDiscountAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteTradeDiscount')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Trade Discount Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Trade Discount Account Name"
+                                               ng-model="IV00102.TradeDiscountAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Cost Of Goods Sold Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Cost Of Goods Sold Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.CostOfGoodsSoldAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteCostOfGoodsSold')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Cost Of Goods Sold Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Cost Of Goods Sold Account Name"
+                                               ng-model="IV00102.CostOfGoodsSoldAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Tax Account</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input kendo-masked-text-box type="text" class="form-control" placeholder="Tax Account Number"
+                                                   k-mask="'{{MY.GLFormat}}'" ng-model="IV00102.TaxAccount.ACTNUMBR" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('GL_GL','PopUp',null,'SiteTax')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Tax Account Name</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Tax Account Name"
+                                               ng-model="IV00102.TaxAccount.AccountName" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="col col-md-12">
+                                <button class="btn btn-primary" ng-click="SaveItemSite()" ng-show="IV00102.Status == 1">
+                                    <i class="fa fa-plus-square"></i> Add Item Site
+                                </button>
+                                <button class="btn btn-primary" ng-click="UpdateItemSite()" ng-show="IV00102.Status == 2">
+                                    <i class="fa fa-edit"></i> Update Item Site
+                                </button>
+                            </fieldset>
+
+                            <div class="row" ng-show="IV00100.ItemID != '' && IV00100.ItemID != undefined">
+                                <div class="col col-md-12">
+                                    <div>
+                                        @(Html.Kendo().Grid<Kaizen.Inventory.IV00102>()
+                                            .Name("GridIV_SiteByItem")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.SiteID).Width(100).Title("Site ID");
+                                                columns.Bound(c => c.PrimaryVendor).Width(200);
+                                                columns.Bound(c => c.ShortDescription).Width(150);
+                                                columns.Bound(c => c.GenericDescription).Width(250);
+                                                columns.Bound(c => c.ItemDescription).Width(250);
+                                                columns.Group(g => g.Title("Actions")
+                                                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .Columns(location =>
+                                                {
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Edit").Click("EditSitebtn")
+                                                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                                                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Delete").Click("DeleteSitebtn")
+                                                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                                                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                })
+                                                );
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Site from {0} to {1}. Total Sites: <strong>{2}</strong>")
+                                            .ItemsPerPage("Site Per page").Empty("No Site Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetSiteListGridWithItem", "IV_Item")
+                                            .Type(HttpVerbs.Get).Data("GetSiteListWithItem"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.SiteID);
+                                                model.Id(o => o.ItemID);
+                                                model.Field(o => o.SiteID);
+                                                model.Field(o => o.ItemID);
+                                                model.Field(o => o.PrimaryVendor);
+                                                model.Field(o => o.BarCode);
+                                                model.Field(o => o.ShortDescription);
+                                                model.Field(o => o.GenericDescription);
+                                                model.Field(o => o.ItemDescription);
+                                                model.Field(o => o.CostOfGoodsSold);
+                                                model.Field(o => o.SalesAcc);
+                                                model.Field(o => o.SalesReturnAcc);
+                                                model.Field(o => o.MarkdownAcc);
+                                                model.Field(o => o.InventoryAcc);
+                                                model.Field(o => o.InventoryReturnAcc);
+                                                model.Field(o => o.InventoryOffsetAcc);
+                                                model.Field(o => o.FreightAcc);
+                                                model.Field(o => o.TradeDiscountAcc);
+                                                model.Field(o => o.TaxAcc);
+                                            })
+                                            )
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

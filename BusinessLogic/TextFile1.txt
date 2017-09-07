@@ -1,0 +1,19 @@
+﻿DECLARE @res NVARCHAR(MAX), @print NVARCHAR(MAX);
+DECLARE curs CURSOR FORWARD_ONLY READ_ONLY
+FOR SELECT '-- Table Name: ['+OBJECT_SCHEMA_NAME(i.id)+'].['+CONVERT(           SYSNAME, o.name)+']'+CHAR(13)+CHAR(10)+'-- Execute This Script:',
+           'CREATE TRIGGER [dbo].[Kaizen_'+CONVERT( SYSNAME, o.name)+'] ON '+'['+OBJECT_SCHEMA_NAME(i.id)+'].['+CONVERT(SYSNAME, o.name)+']'+' FOR DELETE, UPDATE, INSERT AS DECLARE @Ins XML, @Del XML; IF NOT EXISTS ( SELECT * FROM [Kaizen]..SYSOBJECTS WHERE [name] = ''KaizenAudit'' ) BEGIN CREATE TABLE [Kaizen].[dbo].[KaizenAudit] ([Kaizen_DATE] [DATETIME] NOT NULL CONSTRAINT [DF_KaizenAudit_Kaizen_DATE] DEFAULT(GETDATE()), [Kaizen_USER] [VARCHAR](50) NOT NULL CONSTRAINT [DF_KaizenAudit_Kaizen_USER] DEFAULT(LEFT(SUSER_SNAME(), (50))), [Kaizen_HOST] [VARCHAR](50) NOT NULL CONSTRAINT [DF_KaizenAudit_Kaizen_HOST] DEFAULT(LEFT(HOST_NAME(), (50))), [Kaizen_DB] [VARCHAR](50) NOT NULL CONSTRAINT [DF_KaizenAudit_Kaizen_DB] DEFAULT(LEFT(DB_NAME(), (50))), [Kaizen_Table] [VARCHAR](50) NOT NULL CONSTRAINT [DF_KaizenAudit_Kaizen_Table] DEFAULT(LEFT('+'''['+OBJECT_SCHEMA_NAME(i.id)+'].['+CONVERT(SYSNAME, o.name)+']'''+', (50))), [Ins] [XML] NULL, [Del] [XML] NULL ); END; SET @Ins = ( SELECT * FROM INSERTED FOR XML RAW, BINARY BASE64 ); SET @Del = ( SELECT * FROM DELETED FOR XML RAW, BINARY BASE64 ); INSERT INTO [Kaizen].[dbo].[KaizenAudit] WITH(ROWLOCK) ([Ins], [Del] ) VALUES (@Ins, @Del );'+CHAR(13)+CHAR(10)+'GO'
+    FROM sysobjects o
+         LEFT OUTER JOIN sysindexes i ON o.id = i.id
+    WHERE(i.indid < 2)
+         AND (o.xtype = 'U')
+    ORDER BY o.name;
+OPEN curs;
+FETCH NEXT FROM curs INTO @print, @res;
+WHILE @@FETCH_STATUS = 0
+    BEGIN
+        PRINT @print;
+        PRINT @res;
+        FETCH NEXT FROM curs INTO @print, @res;
+    END;
+CLOSE curs;
+DEALLOCATE curs;

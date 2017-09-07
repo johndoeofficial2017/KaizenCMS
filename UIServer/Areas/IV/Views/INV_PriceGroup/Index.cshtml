@@ -1,0 +1,54 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditINV_PriceGroup_Click(PriceGroupID) {
+        var scope = angular.element(document.getElementById("widget-INV_PriceGroup")).scope();
+        scope.$apply(function () {
+            scope.EditIV00005(PriceGroupID);
+        });
+    };
+</script>
+
+<div ng-controller="INV_PriceGroupController">
+    <div class="widget" id="widget-INV_PriceGroup">
+        <div ng-show="PagesIV00005.length > 0">
+            <div ng-repeat="Page in PagesIV00005">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesIV00005.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Inventory.IV00005>()
+                                .Name("GridINV_PriceGroup")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.PriceGroupID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditINV_PriceGroup_Click('#:PriceGroupID#');""> #:PriceGroupID# </a>").Width(100).Title("Price Group ID");
+                            columns.Bound(c => c.PriceGroupName);
+                        })
+                .HtmlAttributes(new { style = "height:500px;" })
+                .Scrollable(scrollable => scrollable.Virtual(true))
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Price Groups from {0} to {1}. Total Price Groups: <strong>{2}</strong>").Empty("No Price Group Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                .Read(read => read.Action("GetDataListGrid", "INV_PriceGroup")
+                .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                .Model(model => model.Id(p => p.PriceGroupID)))
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+

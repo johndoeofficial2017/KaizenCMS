@@ -1,0 +1,51 @@
+﻿@model Kaizen.Configuration.Kaizen00011
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<script>
+    function btnEditSOP_CUSTCLAS_Click(CUSTCLAS) {
+        var scope = angular.element(document.getElementById("widget-SOP_CUSTCLAS")).scope();
+        scope.$apply(function () {
+            scope.EditSOP00010(CUSTCLAS);
+        });
+    };
+</script>
+
+<div ng-controller="SOP_CUSTCLASController">
+        <div class="widget" id="widget-SOP_CUSTCLAS">
+            <div ng-show="PagesSOP00010.length > 0">
+                <div ng-repeat="Page in PagesSOP00010">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesSOP00010.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.SOP.SOP00010>()
+                                .Name("GridSOP_CUSTCLAS")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_CUSTCLAS_Click('#:CUSTCLAS#');""> #:CUSTCLAS# </a>").Width(100).Title("Customer Class");
+                            columns.Bound(c => c.CUSTCLASNAME);
+                        })
+                            .HtmlAttributes(new { style = "height:500px;" })
+                            .Scrollable(scrollable => scrollable.Virtual(true))
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Customer Classes from {0} to {1}. Total Customer Classes: <strong>{2}</strong>").Empty("No Customer Class Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu()
+                            .Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17).Read(read => read.Action("GetDataListGrid", "SOP_CUSTCLAS")
+                            .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.CUSTCLAS)))
+                    )
+                </div>
+            </div>
+        </div>
+</div>
+

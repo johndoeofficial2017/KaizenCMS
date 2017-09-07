@@ -1,0 +1,323 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function CustomerImage_onSuccess(e) {
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            $("#imgUploaded").attr('src', "");
+        } else {
+            //$("#imgUploaded").attr('src', "\\Photo\\ClientTemp\\" + responseTxt);
+            var scope = angular.element(document.getElementById("widget-SOP_Customer")).scope();
+            scope.$apply(function () {
+                scope.SetPhotoExtension(responseTxt);
+            });
+        }
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="SOP00100.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save & Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="SOP00100.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update & Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="SOP00100.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+        <div class="smart-form pull-right widget-toolbar">
+            <label class="checkbox">
+                <input type="checkbox" name="checkbox" ng-model="SOP00100.IsActive" ng-change="ActiveChanged()" />
+                <i></i>Is Active
+            </label>
+        </div>
+        <div class="smart-form pull-right widget-toolbar">
+            <label class="checkbox">
+                <input type="checkbox" name="checkbox" ng-model="SOP00100.IsHold" ng-disabled="SOP00100.IsActive === false" />
+                <i></i>Is Hold
+            </label>
+        </div>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                        <div class="no-padding-top">
+                            <div class="widget-body">
+                                <form id="SOP_CustomerForm" class="form-horizontal"
+                                      data-bv-message="This value is not valid"
+                                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                                    <fieldset>
+                                        <legend>
+                                            Customer Basic Details
+                                        </legend>
+                                        <div class="form-group">
+                                            <div class="col-sm-6 no-padding">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Customer Class</label>
+                                                    <div class="col-sm-4">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Class --'"
+                                                                k-ng-model="SOP00100.CUSTCLAS"
+                                                                k-data-text-field="'CUSTCLASNAME'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'CUSTCLAS'"
+                                                                k-data-source="CustomerClasses"
+                                                                k-on-change="ClassChanged()"
+                                                                ng-disabled="SOP00100.Status==2"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                    <label class="col-sm-2 control-label text-left txt-color-red bold">Customer ID</label>
+                                                    <div class="col-sm-3">
+                                                        <input class="form-control" type="text" placeholder="Customer ID"
+                                                               data-bv-notempty="true" maxlength="10"
+                                                               ng-disabled="SOP00100.Status==2"
+                                                               data-bv-notempty-message="The Customer ID is required and cannot be empty"
+                                                               ng-model="SOP00100.CUSTNMBR" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Group</label>
+                                                    <div class="col-sm-9">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Group --'"
+                                                                k-ng-model="SOP00100.GroupID"
+                                                                k-data-text-field="'GroupName'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'GroupID'"
+                                                                k-data-source="CustomerGroups"
+                                                                data-bv-notempty="true"
+                                                                ata-bv-notempty-message="The Group is required and cannot be empty"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Employer Name</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text" maxlength="20"
+                                                               placeholder="Employer Name" ng-model="SOP00100.EmployerName" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left txt-color-red bold">Customer Name</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text" maxlength="100"
+                                                               placeholder="Customer Name" ng-model="SOP00100.CUSTNAME" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Short Name</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text" maxlength="50"
+                                                               placeholder="Short Name" ng-model="SOP00100.ShortName" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">CPRCR Number</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" maxlength="50"
+                                                               placeholder="CPRCR Number" ng-model="SOP00100.CPRCRNo" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Nationality</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Nationality" ng-model="SOP00100.NationalityID" readonly>
+                                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('Adm_Nationality','PopUp')">
+                                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Parent</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Parent ID" ng-model="SOP00100.ParentCustomer" readonly>
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_Customer','PopUp',null,'ParentCustomer')"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Sales Person</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Sale Person ID" ng-model="SOP00100.SalePersonID" readonly>
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_SalePerson','PopUp')"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5" ng-show="SOP00100.Status == 2">
+                                                    <label class="col-sm-3 control-label text-left">Contact Person</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Contact Person" ng-model="SOP00100.ContactTypeID" readonly />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_Customer','CustomerContactPopUp',SOP00100.CUSTNMBR)"><span class="glyphicon glyphicon-search"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left">Customer Description</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea class="form-control" rows="4" ng-model="SOP00100.CustomerDescription"
+                                                                  placeholder="Customer Description"></textarea>
+                                                    </div>
+                                                </div>
+                                                <legend ng-show="SOP00100.Status == 2">
+                                                    Customer Address
+                                                </legend>
+                                                <div class="col-sm-12 no-padding margin-bottom-5" ng-show="SOP00100.Status == 2">
+                                                    <label class="col-sm-3 control-label text-left">Main Address</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Main Address"
+                                                                   ng-model="SOP00100.AddressTypeCode" readonly />
+                                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('SOP_Customer','CustomerAddressPopUp',SOP00100.CUSTNMBR,'Main')">
+                                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5" ng-show="SOP00100.Status == 2">
+                                                    <label class="col-sm-3 control-label text-left">Ship Address</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Ship Address"
+                                                                   ng-model="SOP00100.ShipTo" readonly />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_Customer','CustomerAddressPopUp',SOP00100.CUSTNMBR,'ShipAddress')"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5" ng-show="SOP00100.Status == 2">
+                                                    <label class="col-sm-3 control-label text-left">Bill Address</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Bill Address"
+                                                                   ng-model="SOP00100.BillTo" readonly />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_Customer','CustomerAddressPopUp',SOP00100.CUSTNMBR,'BillAddress')"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5" ng-show="SOP00100.Status == 2">
+                                                    <label class="col-sm-3 control-label text-left">Statement Address</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" placeholder="Statement Address"
+                                                                   ng-model="SOP00100.StatementTo" readonly />
+                                                            <span class="input-group-btn input-group-sm">
+                                                                <button class="btn btn-default" ng-click="OpenkendoWindow('SOP_Customer','CustomerAddressPopUp',SOP00100.CUSTNMBR,'StatementAddress')"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 no-padding">
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-3 control-label text-left"></label>
+                                                    <div class="col-sm-9">
+                                                        <img ng-src="{{link}}" class="img-responsive" style="width: 100%!important; height: 250px;" alt="img">
+                                                        <ul class="list-inline">
+                                                            <li style="width:100%;">
+                                                                @(Html.Kendo().Upload().Name("CustomerPhoto")
+                                                                    .Async(async => async.Save("SaveImageTemp", "SOP_Customer")
+                                                                    .Remove("RemoveImagetemp", "SOP_Customer"))
+                                                                    .Events(e => e.Success("CustomerImage_onSuccess"))
+                                                                )
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-2 control-label text-left">Priority</label>
+                                                    <div class="col-sm-4">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Priority --'"
+                                                                k-ng-model="SOP00100.PriorityID"
+                                                                k-data-text-field="'PriorityName'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'PriorityID'"
+                                                                k-data-source="CustomerPriorities"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                    <label class="col-sm-2 control-label text-left">Status</label>
+                                                    <div class="col-sm-4">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Status --'"
+                                                                k-ng-model="SOP00100.StatusID"
+                                                                k-data-text-field="'StatusName'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'StatusID'"
+                                                                k-data-source="CustomerStatuses"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                    <label class="col-sm-2 control-label text-left">Statement Cycle</label>
+                                                    <div class="col-sm-4">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Cycle --'"
+                                                                k-ng-model="SOP00100.StatementCycleID"
+                                                                k-data-text-field="'StatementCycleName'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'StatementCycleID'"
+                                                                k-data-source="Cycles"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                    <label class="col-sm-2 control-label text-left">Price Level</label>
+                                                    <div class="col-sm-4">
+                                                        <select kendo-drop-down-list
+                                                                k-filter="'startswith'"
+                                                                k-option-label="'-- Select Price Level --'"
+                                                                k-ng-model="SOP00100.PriceLevelCode"
+                                                                k-data-text-field="'PriceLevelName'"
+                                                                k-value-primitive="true"
+                                                                k-data-value-field="'PriceLevelCode'"
+                                                                k-data-source="PriceLevels"
+                                                                style="width: 100%"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

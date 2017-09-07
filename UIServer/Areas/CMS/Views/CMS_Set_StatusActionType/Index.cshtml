@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCMS_Set_StatusActionType_Click(StatusActionTypeID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Set_StatusActionType")).scope();
+        scope.$apply(function () {
+            scope.EditCM00003(StatusActionTypeID);
+        });
+    };
+</script>
+<div ng-controller="CMS_Set_StatusActionTypeController">
+    <div class="widget" id="widget-CMS_Set_StatusActionType">
+        <div ng-show="PagesCM00003.length > 0">
+            <div ng-repeat="Page in PagesCM00003">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00003.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00003>()
+                .Name("GridCMS_Set_StatusActionType")
+                .Columns(columns =>
+                {
+                    columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Set_StatusActionType_Click('#:StatusActionTypeID#');""> #:StatusActionTypeID# </a>").Width(100).Title("Status Action ID");
+                    columns.Bound(c => c.StatusActionTypeName);
+                })
+                .Filterable()
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Status Action Type from {0} to {1}. Total Status Action Types: <strong>{2}</strong>")
+                .ItemsPerPage("Status Action Type Per page").Empty("No Status Action Type Information")).Refresh(true).PageSizes(true)
+                .Input(true).ButtonCount(5))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple).Type(GridSelectionType.Row))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Scrollable(ss => ss.Height(500))
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                .Read(read => read.Action("GetDataListGrid", "CMS_Set_StatusActionType").Type(HttpVerbs.Get)
+                .Data("GetKaizenPublicKey"))
+                .Model(model => model.Id(p => p.StatusActionTypeID)))
+                )
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+
+
+
+

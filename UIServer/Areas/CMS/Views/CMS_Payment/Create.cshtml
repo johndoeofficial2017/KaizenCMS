@@ -1,0 +1,284 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM00207.Status == 1 && CM00207.Total_Amount > 0 && CM00207.Total_Amount == CM00207.Amount">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save & Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM00207.Status == 2 && CM00207.Total_Amount > 0 && CM00207.Total_Amount == CM00207.Amount">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update & Close
+        </a>
+        <a class="btn btn-default" ng-click="PostData();"
+           ng-show="CM00207.Status == 2 && CM00207.Total_Amount > 0 && CM00207.Total_Amount == CM00207.Amount">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Post
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CM00207.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="row">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Debtor</label>
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group">
+                                            <script>
+                                                //var widget = $("#widget-CMS_Payment")
+                                                //var scope = angular.element(widget).scope();
+                                                //$('#DebtorAutoComplete').autocomplete({
+                                                //    minLength: 2,
+                                                //    source: function (request, response) {
+                                                //        $.ajax({
+                                                //            url: "/CMS_Debtor/GetTop10BYDebtorID",
+                                                //            type: "GET",
+                                                //            dataType: "json",
+                                                //            data: { DebtorID: request.term, KaizenPublicKey: sessionStorage.PublicKey },
+                                                //            success: function (responseData) {
+                                                //                var array = responseData.map(function (element) {
+                                                //                    return {
+                                                //                        value: element['DebtorID'],
+                                                //                        id: element['DebtorID'],
+                                                //                        DebtorID: element['DebtorID'],
+                                                //                        CurrencyCode: element['CurrencyCode'],
+                                                //                        ClaimAmount: element['ClaimAmount']
+                                                //                    };
+                                                //                });
+                                                //                response(array);
+                                                //            }
+                                                //        })
+                                                //    },
+                                                //    select: function (event, ui) {
+                                                //        scope.$apply(function () {
+                                                //            scope.CM00207.DebtorID = ui.item.DebtorID.trim();
+                                                //            scope.LoadCases(scope.CM00207.DebtorID);
+                                                //        });
+                                                //        return false;
+                                                //    }
+                                                //});
+                                            </script>
+                                            <input id="DebtorAutoComplete" ng-model="CM00207.DebtorID"
+                                                   class="form-control" placeholder="Debtor ID" ng-disabled="CM00207.Status == 2" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default" ng-disabled="CM00207.Status == 2"
+                                                        ng-click="OpenkendoWindowForm('CMS','CMS_Debtor','PopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold"></label>
+                                    <div class="form-group col-sm-4">
+                                       
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Transaction Ref</label>
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group full-control">
+                                            <input type="text" class="form-control" placeholder="Receipt"
+                                                   ng-model="CM00207.PaymentID" required />
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Agent</label>
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" ng-model="CM00207.AgentID"
+                                                   placeholder="Agent ID" class="form-control" readonly />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindowForm('CMS','CMS_Agent','PopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Currency</label>
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Currency"
+                                                   ng-model="CM00207.CurrencyCode"
+                                                   data-bv-notempty="true" readonly
+                                                   data-bv-notempty-message="The Currency is required and cannot be empty" />
+                                            <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindowForm('GL','GL_Currency', 'SinglePopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                            <div class="input-group-btn input-group-sm" ng-disabled="CM00207.CurrencyCode == undefined || CM00207.CurrencyCode == ''"
+                                                 ng-click="OpenkendoWindowForm('GL','GL_Currency', 'ExchangeTablePopUp', CM00207.CurrencyCode, '')">
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-show="CM00207.ExchangeTableID == undefined || CM00207.ExchangeTableID == ''">Select Table</a>
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-hide="CM00207.ExchangeTableID == undefined || CM00207.ExchangeTableID == ''">{{CM00207.ExchangeTableID}}</a>
+                                            </div>
+                                            <div class="input-group-btn input-group-sm" ng-disabled="CM00207.CurrencyCode == undefined || CM00207.CurrencyCode == '' || CM00207.ExchangeTableID == undefined || CM00207.ExchangeTableID == ''"
+                                                 ng-click="OpenExchangeRateWindow();">
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-show="CM00207.ExchangeRateID == undefined || CM00207.ExchangeRateID == ''">Select Rate</a>
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-hide="CM00207.ExchangeRateID == undefined || CM00207.ExchangeRateID == ''">{{CM00207.ExchangeRate}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Payment Date</label>
+                                    <div class="form-group col-md-4">
+                                        <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                               k-ng-model="CM00207.PaymentDate" style="width: 100%;" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Check Book</label>
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" readonly
+                                                   placeholder="Checkbook Code" ng-model="CM00207.CheckbookCode" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindowForm('GL','GL_Checkbook','PopUp',CM00207.CurrencyCode)">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Amount</label>
+                                    <div class="form-group col-md-4">
+                                        <input kendo-numeric-text-box required class="CMS_Payment-currency"
+                                               k-options="NumberFormatOptions(CM00207.CurrencyCode,CM00207.DecimalDigit,true)"
+                                               k-ng-model="CM00207.Amount" style="width: 100%;"
+                                               ng-blur="DebtorAmountChanged()" />
+
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="CM00207.CheckbookCode !=null && CM00207.CheckbookCode !=''">
+                                    <label class="col col-md-2 control-label txt-color-red bold">Payment Method</label>
+                                    <div class="form-group col-md-4">
+                                        <select class="form-control" ng-model="CM00207.PaymentMethodID"
+                                                ng-change="GetNextPaymentNumber()" convert-to-number>
+                                            <option value="1">Cash</option>
+                                            <option value="2">Credit</option>
+                                            <option value="3">Check</option>
+                                        </select>
+                                    </div>
+                                    <label class="col col-md-2 control-label txt-color-red bold">Payment Number</label>
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control" placeholder="Payment Number"
+                                               ng-model="CM00207.PaymentNumber" required />
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="CM00207.PaymentMethodID != 1">
+                                    <label class="col col-md-2 control-label">Bank Name</label>
+                                    <div class="form-group col-md-4">
+                                        <input type="text" class="form-control"
+                                               placeholder="Bank Name" ng-model="CM00207.BankName" />
+                                    </div>
+                                    <label class="col col-md-2 control-label">Bank Code</label>
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" readonly
+                                                   placeholder="Bank Code" ng-model="CM00207.BankCode" />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('GL_Set_BankList','PopUp')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="CM00207.PaymentMethodID != 1">
+                                    <label class="col col-md-2 control-label">Bank Check Date</label>
+                                    <div class="form-group col-md-4">
+                                        <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                                               k-ng-model="CM00207.BankCheckDate" style="width: 100%;" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col col-md-2 control-label">Description</label>
+                                    <div class="form-group col-md-10">
+                                        <textarea type="text" class="form-control" style="width: 100%;"
+                                                  placeholder="Description" ng-model="CM00207.Description"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+                <article class="col-md-12 col-lg-12" ng-show="CM00207.PaymentID !=null && CM00207.PaymentID !='' && CM00207.DebtorID !=null && CM00207.DebtorID !=''">
+                    <div class="widget-body">
+                        <div class="row no-margin-lr">
+                            <table class="table table-hover table-bordered table-striped" ng-show="DebtorCases.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            <div class="checkbox no-padding-top">
+                                                <label>
+                                                    <input type="checkbox" class="checkbox style-0" checkbox-all="DebtorCases.isSelected">
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th><h5 class="text-center">Case Reference</h5></th>
+                                        <th><h5 class="text-center">ClientName</h5></th>
+                                        <th><h5 class="text-center">ContractName</h5></th>
+                                        <th><h5 class="text-center">ProductName</h5></th>
+                                        <th><h5 class="text-center">Claim Amount</h5></th>
+                                        <th><h5 class="text-center">Applied Amount</h5></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="debtorCase in DebtorCases">
+                                        <td class="text-center">
+                                            <div class="checkbox no-padding-top">
+                                                <label>
+                                                    <input type="checkbox" class="checkbox style-0" ng-model="debtorCase.isSelected"
+                                                           ng-change="LineCheckChange(debtorCase)">
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">{{debtorCase.CaseRef}}</td>
+                                        <td class="text-center">{{debtorCase.ClientName}}</td>
+                                        <td class="text-center">{{debtorCase.ContractName}}</td>
+                                        <td class="text-center">{{debtorCase.ProductName}}</td>
+                                        <td class="text-center">{{debtorCase.ClaimAmount | number:debtorCase.DecimalDigit}}</td>
+                                        <td class="text-center">
+                                            <input type="text" class="form-control text-center" ng-model="debtorCase.AppliedAmount"
+                                                   focus-me="debtorCase.Focus"
+                                                   ng-decimal decimal="CM00207.DecimalDigit"
+                                                   ng-disabled="debtorCase.isSelected != true"
+                                                   ng-blur="AmountApplied(debtorCase)" select-on-click />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="invisible bg-snow"></td>
+                                        <td class="text-center"><strong>Total</strong></td>
+                                        <td class="text-center "><strong>{{CM00207.Total_ClaimAmount | number : CM00207.DecimalDigit}}</strong></td>
+                                        <td class="text-center "><strong>{{CM00207.Total_Amount | number : CM00207.DecimalDigit}}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

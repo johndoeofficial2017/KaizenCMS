@@ -1,0 +1,1065 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+            <div class="no-padding">
+                <div class="widget-body no-padding-bottom">
+                    <form class="form-horizontal">
+                        <ul id="CaseCMS_DebtorTab" class="nav nav-tabs bordered" style="background-color: InfoBackground;">
+                            <li class="active">
+                                <a href="#CaseCMS_Debtor1" data-toggle="tab" aria-expanded="true">Basic Details</a>
+                            </li>
+                            <li class="" ng-click="GridRefresh('GridCMS_DebtorAddressByDebtor')">
+                                <a href="#CaseCMS_Debtor2" data-toggle="tab" aria-expanded="false">Address Details</a>
+                            </li>
+                        </ul>
+                        <div id="CaseCMS_DebtorContent" class="tab-content container-fluid no-padding-lr">
+                            <div class="tab-pane fade active in" id="CaseCMS_Debtor1">
+                                <fieldset>
+                                        <ul id="CaseCMS_DebtorTab" class="nav nav-tabs bordered" style="background-color: beige;">
+                                            <li class="active">
+                                                <a href="#CaseCMS_Debtor_Info1" data-toggle="tab" aria-expanded="true">Details</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="#CaseCMS_Debtor_Info2" data-toggle="tab" aria-expanded="false">Identification Details</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="#CaseCMS_Debtor_Info3" data-toggle="tab" aria-expanded="false">Arabic Details</a>
+                                            </li>
+                                        </ul>
+                                        <div id="CaseCMS_DebtorTabContent" class="tab-content padding-10">
+                                            <div class="tab-pane fade active in" id="CaseCMS_Debtor_Info1">
+                                                <div class="form-group">
+                                                    <div class="col-sm-6 no-padding">
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Debtor Class</label>
+                                                            <div class="col-sm-4">
+                                                                <select kendo-drop-down-list disabled
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Class --'"
+                                                                        k-ng-model="CM00100.CUSTCLAS"
+                                                                        k-data-text-field="'CUSTCLASNAME'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'CUSTCLAS'"
+                                                                        k-data-source="debtorClasses"
+                                                                        k-on-change="ClassChanged()"
+                                                                        ng-disabled="CM00100.Status==2"
+                                                                        data-bv-notempty="true"
+                                                                        data-bv-notempty-message="The Class is required and cannot be empty"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left txt-color-red bold">CIF</label>
+                                                            <div class="col-sm-3">
+                                                                <input class="form-control" type="text" placeholder="Debtor ID"
+                                                                       data-bv-notempty="true" maxlength="10" ng-disabled="CM00100.Status == 2"
+                                                                       data-bv-notempty-message="The Debtor ID is required and cannot be empty"
+                                                                       ng-model="CM00100.DebtorID" disabled />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left ">First Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="First Name" ng-model="CM00100.FirstNameEnglish" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Middle Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 1" ng-model="CM00100.MiddleName1English" />
+                                                            </div>
+                                                            <div class="col-sm-5 no-padding-left">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 2" ng-model="CM00100.MiddleName2English" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Middle Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 3" ng-model="CM00100.MiddleName3English" />
+                                                            </div>
+                                                            <div class="col-sm-5 no-padding-left">
+                                                                <input class="form-control" type="text"
+                                                                       placeholder="Middle Name 4" ng-model="CM00100.MiddleName4English" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Last Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Last Name" ng-model="CM00100.LastNameEnglish" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Full Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Full Name" ng-model="CM00100.EnglishFullName" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Birth Date</label>
+                                                            <div class="col-sm-9">
+                                                                <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                       k-ng-model="CM00100.BirthDate" style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Employer No.</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Employer No." ng-model="CM00100.EmployerNo1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Employer Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Employer Name" ng-model="CM00100.EmployerName1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Employer Flag</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Employer Flag" ng-model="CM00100.EmployerFlag1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Employment Flag</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Employment Flag" ng-model="CM00100.EmploymentFlag1" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Occupation</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Occupation" ng-model="CM00100.OccupationEnglish" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Address</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Address" ng-model="CM00100.AddressEnglish" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Parent</label>
+                                                            <div class="col-sm-9">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Parent ID" ng-model="CM00100.ParentDebtor" readonly />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default" disabled ng-click="OpenkendoWindow('CMS_Debtor','PopUp',null,'ParentDebtor')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Residence Number</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Residence Number" ng-model="CM00100.ResidenceNo" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Nationality</label>
+                                                            <div class="col-sm-9">
+                                                                <select kendo-drop-down-list disabled
+                                                                        k-option-label="'-- Select Status --'"
+                                                                        k-ng-model="CM00100.NationalityID"
+                                                                        k-data-text-field="'NationalityName'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'NationalityID'"
+                                                                        k-data-source="Sys00030"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding">
+                                                            <label class="col-sm-3 control-label text-left">Debtor Description</label>
+                                                            <div class="col-sm-9">
+                                                                <textarea class="form-control" rows="4" disabled ng-model="CM00100.DebtorDescription"
+                                                                          placeholder="Debtor Description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 no-padding">
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-2 control-label text-left"></label>
+                                                            <div class="col-sm-10">
+                                                                <img ng-src="{{link}}" class="img-responsive" style="width: 100%!important; height: 250px;" alt="img">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-2 control-label text-left">Gender</label>
+                                                            <div class="col-sm-4">
+                                                                <select kendo-drop-down-list disabled
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Gender --'"
+                                                                        k-ng-model="CM00100.GenderID"
+                                                                        k-value-primitive="true"
+                                                                        style="width: 100%;">
+                                                                    <option value="1">Male</option>
+                                                                    <option value="2">Female</option>
+                                                                    <option value="3">N/A</option>
+                                                                </select>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Status</label>
+                                                            <div class="col-sm-4">
+                                                                <select kendo-drop-down-list disabled
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Status --'"
+                                                                        k-ng-model="CM00100.DebtorStatusID"
+                                                                        k-data-text-field="'DebtorStatusName'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'DebtorStatusID'"
+                                                                        k-data-source="debtorStatuses"
+                                                                        data-bv-notempty="true"
+                                                                        data-bv-notempty-message="The Status is required and cannot be empty"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-2 control-label text-left">Group</label>
+                                                            <div class="col-sm-4">
+                                                                <select kendo-drop-down-list disabled
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Group --'"
+                                                                        k-ng-model="CM00100.GroupID"
+                                                                        k-data-text-field="'GroupName'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'GroupID'"
+                                                                        k-data-source="debtorGroups"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Priority</label>
+                                                            <div class="col-sm-4">
+                                                                <select kendo-drop-down-list disabled
+                                                                        k-filter="'startswith'"
+                                                                        k-option-label="'-- Select Priority --'"
+                                                                        k-ng-model="CM00100.PriorityID"
+                                                                        k-data-text-field="'PriorityName'"
+                                                                        k-value-primitive="true"
+                                                                        k-data-value-field="'PriorityID'"
+                                                                        k-data-source="debtorPriorities"
+                                                                        style="width: 100%"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="CaseCMS_Debtor_Info2">
+                                                <div class="form-group no-margin">
+                                                    <div class="col-sm-6 no-padding">
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title bold">CPR Details</h4>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">ID Number</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="ID Number" ng-model="CM00100.IdNumber" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">CPR</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="CPRCR Number" ng-model="CM00100.CPRCRNo" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Serial Number</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="CPR Serial Number" ng-model="CM00100.CPRSerialNumber" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">CPR Issue Date</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                               k-ng-model="CM00100.CPRIssueDate" style="width: 100%;" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">CPR Expiry Date</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                               k-ng-model="CM00100.CPRExpiryDate" style="width: 100%;" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title bold">Visa Details</h4>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Visa No</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Visa No" ng-model="CM00100.VisaNo" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Visa Type</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Visa Type" ng-model="CM00100.VisaType" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Visa Expiry Date</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                               k-ng-model="CM00100.VisaExpiryDate" style="width: 100%;" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 no-padding">
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title bold">Passport Details</h4>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Passport No</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Passport Number" ng-model="CM00100.PassportNumber" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Passport Type</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Passport Number" ng-model="CM00100.PassportType" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Sequnce No</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Passport Sequnce No" ng-model="CM00100.PassportSequnceNo" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Issue Date</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                               k-ng-model="CM00100.PassportIssueDate" style="width: 100%;" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Expiry Date</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                               k-ng-model="CM00100.PassportExpiryDate" style="width: 100%;" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title bold">Resident Permit Details</h4>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Resident No</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Resident Permit No" ng-model="CM00100.ResidentPermitNo" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Resident Type</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Resident Type" ng-model="CM00100.TypeOfResident" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-3 control-label text-left">Expiry Date</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input kendo-date-picker k-format="'dd/MM/yyyy'" disabled
+                                                                               k-ng-model="CM00100.ResidentPermitExpiryDate" style="width: 100%;" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 no-padding">
+                                                        <div class="panel panel-info">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title bold">Other Details</h4>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Fingerprint Code</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Fingerprint Code" ng-model="CM00100.FingerprintCode" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Occupation Description</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Occupation Description" ng-model="CM00100.OccupationDescription1" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Sponser ID</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Sponser ID" ng-model="CM00100.SponserId" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Sponser Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Sponser Name" ng-model="CM00100.SponsorName" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">English Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Sponser Name" ng-model="CM00100.SponserNameEnglish" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Sponsor CPR</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Sponser CPR" ng-model="CM00100.SponsorCPRNoorUnitNo" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Sponser Flag</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Sponser Name" ng-model="CM00100.SponsorFlag" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Lfp Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Lfp Name" ng-model="CM00100.LfpNameEnglish" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Latest Degree</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Latest Education Degree"
+                                                                               ng-model="CM00100.LatestEducationDegree" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Labor Force</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Labor Force Participation"
+                                                                               ng-model="CM00100.LaborForceParticipation" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Governorate No</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Governorate No" ng-model="CM00100.GovernorateNo" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Governorate Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Governorate Name" ng-model="CM00100.GovernorateNameEnglish" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Block No</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Block No" ng-model="CM00100.BlockNo" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Block Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Block Name" ng-model="CM00100.BlockName" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Road No</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Road No" ng-model="CM00100.RoadNo" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Road Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Road Name" ng-model="CM00100.RoadName" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Building No</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Building No" ng-model="CM00100.BuildingNo" />
+                                                                    </div>
+                                                                    <label class="col-sm-2 control-label text-left">Building Name</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Building Name" ng-model="CM00100.BuildingAlpha" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12 no-padding margin-bottom-5">
+                                                                    <label class="col-sm-2 control-label text-left">Flat No</label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" disabled
+                                                                               placeholder="Flat No" ng-model="CM00100.FlatNo" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="CaseCMS_Debtor_Info3">
+                                                <div class="form-group">
+                                                    <div class="col-sm-6 no-padding">
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left ">First Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="First Name" ng-model="CM00102.FirstNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Middle Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 1" ng-model="CM00102.MiddleName1Arabic" />
+                                                            </div>
+                                                            <div class="col-sm-5 no-padding-left">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 2" ng-model="CM00102.MiddleName2Arabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Middle Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 3" ng-model="CM00102.MiddleName3Arabic" />
+                                                            </div>
+                                                            <div class="col-sm-5 no-padding-left">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Middle Name 4" ng-model="CM00102.MiddleName4Arabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Last Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Last Name" ng-model="CM00102.LastNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Full Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Full Name" ng-model="CM00102.ArabicFullName" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Blood Group</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Blood Group" ng-model="CM00102.BloodGroup" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Address</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Address" ng-model="CM00102.AddressArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Occupation Description</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Occupation Description"
+                                                                       ng-model="CM00102.OccupationDescription1Arabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Latest Degree</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Latest Degree" ng-model="CM00102.LatestEducationDegreeArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Clearing Agent</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Clearing Agent Indicator" ng-model="CM00102.ClearingAgentIndicator" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 no-padding">
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Sponser Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Sponser Name" ng-model="CM00102.SponserNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Employer Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Employer Name" ng-model="CM00102.EmployerName1Arabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Occupation</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Occupation" ng-model="CM00102.OccupationArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Governorate Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Governorate Name Arabic" ng-model="CM00102.GovernorateNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Block Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Block Name" ng-model="CM00102.BlockNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Road Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Road Name" ng-model="CM00102.RoadNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Building Alpha</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Building Alpha" ng-model="CM00102.BuildingAlphaArabic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Country Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Arabic Country Name" ng-model="CM00102.ArabicCountryName" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 no-padding margin-bottom-5">
+                                                            <label class="col-sm-3 control-label text-left">Lfp Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" disabled
+                                                                       placeholder="Lfp Name" ng-model="CM00102.LfpNameArabic" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </fieldset>
+                            </div>
+                            <div class="tab-pane fade" id="CaseCMS_Debtor2">
+                                <fieldset>
+                                    <script>
+                                        function GetAddressListWithDebtor() {
+                                            var FieldID = "-1";
+                                            var FltrOperator = 8;
+
+                                            var e = document.getElementById("DropFieldID");
+                                            if (e != null)
+                                                FieldID = e.options[e.selectedIndex].value;
+                                            //----------------------------------------------------------------------------------
+                                            var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+                                            if (ObjDropFltrOperator != null)
+                                                FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+                                            //----------------------------------------------------------------------------------
+                                            var searchcritaria = $("#SearchcritariaPopUp").val();
+
+                                            var ActiveScreenID = $("#ActiveScreenID").val();
+                                            var widget = $("#widget-" + ActiveScreenID)
+                                            var scope = angular.element(widget).scope();
+                                            return {
+                                                FieldID: FieldID,
+                                                FltrOperator: FltrOperator,
+                                                Searchcritaria: searchcritaria,
+                                                DebtorID: scope.CM00100.DebtorID,
+                                                KaizenPublicKey: sessionStorage.PublicKey
+                                            };
+                                        };
+                                        function AddressTypeFilter(element) {
+                                            var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+                                            element.kendoDropDownList({
+                                                dataTextField: "AddressName",
+                                                dataValueField: "AddressCode",
+                                                dataSource: scope.DebtorAddressTypes,
+                                                optionLabel: "--Select Type--"
+                                            });
+                                        };
+                                    </script>
+                                    <div class="jarviswidget no-margin-bottom" data-widget-colorbutton="false"
+                                         data-widget-editbutton="false"
+                                         data-widget-togglebutton="false"
+                                         data-widget-deletebutton="false"
+                                         data-widget-fullscreenbutton="false"
+                                         data-widget-custombutton="false"
+                                         data-widget-collapsed="false"
+                                         data-widget-sortable="false">
+                                        <div class="overflow no-padding-lr container-fluid">
+                                            <div class="widget-body no-padding-bottom">
+                                                <article class="row">
+                                                    <article class="col-md-12 col-lg-12">
+                                                        <div class="no-padding">
+                                                            <form class="smart-form">
+                                                                <fieldset class="container-fluid no-padding">
+                                                                    <div class="">
+                                                                        <section class="col-md-12">
+                                                                            <label class="col col-md-2 control-label">Address Type</label>
+                                                                            <label class="input col-md-4">
+                                                                                <select kendo-drop-down-list
+                                                                                        k-filter="'startswith'"
+                                                                                        k-option-label="'-- Select Address Type --'"
+                                                                                        k-ng-model="CM00104.AddressCode"
+                                                                                        k-data-text-field="'AddressName'"
+                                                                                        k-value-primitive="true"
+                                                                                        k-data-value-field="'AddressCode'"
+                                                                                        k-data-source="DebtorAddressTypes"
+                                                                                        k-on-change="AddressTypeChanged()"
+                                                                                        style="width: 100%"></select>
+                                                                            </label>
+                                                                            <label class="col col-md-2 control-label">Address Name</label>
+                                                                            <label class="input col-md-4">
+                                                                                <input type="text" class="form-control" maxlength="100" disabled
+                                                                                       placeholder="Address Name" ng-model="CM00104.AddressName" />
+                                                                            </label>
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="">
+                                                                        <!-- TABS START -->
+                                                                        <article class="col-md-12 col-lg-12">
+                                                                            <div class="row no-padding">
+                                                                                <div class="widget-body">
+                                                                                    <ul id="myTab1" class="nav nav-tabs bordered">
+                                                                                        <li class="active">
+                                                                                            <a data-toggle="tab" href="#s1">Address</a>
+                                                                                        </li>
+
+                                                                                        <li>
+                                                                                            <a data-toggle="tab" href="#s2">Phone</a>
+                                                                                        </li>
+
+                                                                                        <li>
+                                                                                            <a data-toggle="tab" href="#s3">Mobile</a>
+                                                                                        </li>
+
+                                                                                        <li>
+                                                                                            <a data-toggle="tab" href="#s4">Email</a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a data-toggle="tab" href="#s5">Other</a>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                    <div id="myTabContent1" class="smart-form tab-content padding-10">
+                                                                                        <div class="tab-pane fade active in" id="s1">
+                                                                                            <fieldset>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Address 1</label>
+                                                                                                        <label class="input col-md-10">
+                                                                                                            <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                                   placeholder="Address 1" ng-model="CM00104.Address1" />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Address 2</label>
+                                                                                                        <label class="input col-md-10">
+                                                                                                            <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                                   placeholder="Address 2" ng-model="CM00104.Address2" />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Address 3</label>
+                                                                                                        <label class="input col-md-10">
+                                                                                                            <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                                   placeholder="Address 3" ng-model="CM00104.Address3" />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Address 4</label>
+                                                                                                        <label class="input col-md-10">
+                                                                                                            <input type="text" class="form-control" maxlength="1000" disabled
+                                                                                                                   placeholder="Address 4" ng-model="CM00104.Address4" />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Country</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <select kendo-drop-down-list
+                                                                                                                    k-filter="'startswith'" disabled
+                                                                                                                    k-option-label="'-- Select Country --'"
+                                                                                                                    k-ng-model="CM00104.CountryID"
+                                                                                                                    k-data-text-field="'CountryName'"
+                                                                                                                    k-value-primitive="true"
+                                                                                                                    k-data-value-field="'CountryID'"
+                                                                                                                    k-data-source="Countries"
+                                                                                                                    style="width: 100%"></select>
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">City</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <select kendo-drop-down-list
+                                                                                                                    k-filter="'startswith'" disabled
+                                                                                                                    k-option-label="'-- Select City --'"
+                                                                                                                    k-ng-model="CM00104.CityID"
+                                                                                                                    k-data-text-field="'CityName'"
+                                                                                                                    k-value-primitive="true"
+                                                                                                                    k-data-value-field="'CityID'"
+                                                                                                                    k-data-source="Cities"
+                                                                                                                    style="width: 100%"></select>
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Website:</label>
+                                                                                                        <label class="input col-md-10">
+                                                                                                            <input type="text" class="form-control" maxlength="50" disabled
+                                                                                                                   placeholder="Website" ng-model="CM00104.WebSite" />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </fieldset>
+                                                                                        </div>
+                                                                                        <div class="tab-pane fade" id="s2">
+                                                                                            <fieldset>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Phone 1</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Phone 01"
+                                                                                                                   ng-model="CM00104.Pnone01" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Phone 2</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Phone 02"
+                                                                                                                   ng-model="CM00104.Pnone02" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Phone 3</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Phone 03"
+                                                                                                                   ng-model="CM00104.Pnone03" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Phone 4</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Phone 04"
+                                                                                                                   ng-model="CM00104.Pnone04" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </fieldset>
+                                                                                        </div>
+                                                                                        <div class="tab-pane fade" id="s3">
+                                                                                            <fieldset>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Mobile 1</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Mobile 01"
+                                                                                                                   ng-model="CM00104.MobileNo1" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Mobile 2</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Mobile 02"
+                                                                                                                   ng-model="CM00104.MobileNo2" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Mobile 3</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Mobile 03"
+                                                                                                                   ng-model="CM00104.MobileNo3" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Mobile 4</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-phone"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Mobile 04"
+                                                                                                                   ng-model="CM00104.MobileNo4" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </fieldset>
+                                                                                        </div>
+                                                                                        <div class="tab-pane fade" id="s4">
+                                                                                            <fieldset>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Email 1</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Email 01"
+                                                                                                                   ng-model="CM00104.Email01" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Email 2</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Email 02"
+                                                                                                                   ng-model="CM00104.Email02" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Email 3</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Email 03"
+                                                                                                                   ng-model="CM00104.Email03" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Email 4</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <i ng-click="" class="icon-append fa fa-envelope"></i>
+                                                                                                            <input type="text" class="form-control" placeholder="Email 04"
+                                                                                                                   ng-model="CM00104.Email04" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </fieldset>
+                                                                                        </div>
+                                                                                        <div class="tab-pane fade" id="s5">
+                                                                                            <fieldset>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Other 1</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                                   placeholder="Other 1" ng-model="CM00104.Other01" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Other 2</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                                   placeholder="Other 2" ng-model="CM00104.Other02" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <section class="col-sm-12">
+                                                                                                        <label class="col col-md-2 control-label">Other 3</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                                   placeholder="Other 3" ng-model="CM00104.Other03" disabled />
+                                                                                                        </label>
+                                                                                                        <label class="col col-md-2 control-label">Other 4</label>
+                                                                                                        <label class="input col-md-4">
+                                                                                                            <input type="text" class="form-control" maxlength="1000"
+                                                                                                                   placeholder="Other 4" ng-model="CM00104.Other04" disabled />
+                                                                                                        </label>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </fieldset>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </article>
+                                                                        <!-- TABS END -->
+                                                                    </div>
+                                                                </fieldset>
+                                                            </form>
+                                                        </div>
+                                                    </article>
+                                                </article>
+                                            </div>
+                                            <div class="" ng-show="CM00100.DebtorID != '' && CM00100.DebtorID != undefined">
+                                                <div>
+                                                    @(Html.Kendo().Grid<Kaizen.CMS.CM00104>()
+                                                        .Name("GridCMS_DebtorAddressByDebtor")
+                                                        .Columns(columns =>
+                                                        {
+                                                            columns.Bound(c => c.AddressName).Width(150).Title("Address Name").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                            columns.ForeignKey(c => c.AddressCode,
+                                                            (System.Collections.IEnumerable)ViewData["AddressTypes"], "AddressCode", "AddressName")
+                                                            .Title("Type").Width(100).Filterable(filterable => filterable.UI("AddressTypeFilter"))
+                                                            .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                            columns.Bound(c => c.Address1).Width(200).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                            columns.Bound(c => c.Address2).Width(200).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                            columns.Bound(c => c.MobileNo1).Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                            columns.Bound(c => c.MobileNo2).Width(150).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                        })
+                                                        .Filterable()
+                                                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Address from {0} to {1}. Total Addresses: <strong>{2}</strong>")
+                                                        .ItemsPerPage("Address Per page").Empty("No Address Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                                        .Navigatable()
+                                                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                                        .Reorderable(reorder => reorder.Columns(true))
+                                                        .Resizable(ss => ss.Columns(true))
+                                                        .ColumnMenu().Scrollable(s => s.Height(400))
+                                                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                                        .Read(read => read.Action("GetAddressListGridWithDebtor", "CMS_Debtor")
+                                                        .Type(HttpVerbs.Get).Data("GetAddressListWithDebtor"))
+                                                        .Model(model =>
+                                                        {
+                                                            model.Id(o => o.AddressCode);
+                                                            model.Id(o => o.DebtorID);
+                                                            model.Field(o => o.AddressCode);
+                                                            model.Field(o => o.AddressName);
+                                                            model.Field(o => o.DebtorID);
+                                                            model.Field(o => o.POBox);
+                                                        })
+                                                        )
+                                                    )
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

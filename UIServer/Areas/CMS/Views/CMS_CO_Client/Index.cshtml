@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditClient_Click(ClientID) {
+        var scope = angular.element(document.getElementById("widget-CMS_CO_Client")).scope();
+        scope.$apply(function () {
+            scope.EditCM00110(ClientID);
+        });
+    }
+    function ShowItemImage(data) {
+        var ClientID;
+        var PhotoExtension;
+        if (data.PhotoExtension == null) {
+            ClientID = "ClientID";
+            PhotoExtension = "jpg";
+        } else {
+            ClientID = kaizenTrim(data.ClientID);
+            PhotoExtension = kaizenTrim(data.PhotoExtension);
+        }
+        var html = kendo.format("<img alt='' onclick=\"return btnEditClient_Click('" + kaizenTrim(data.ClientID) + "');return false;\" src='/Photo/ClientPhoto/{0}.{1}' style='width:40px;height:35px;cursor:pointer'/>",
+            ClientID, PhotoExtension
+        );
+        return html;
+    }
+</script>
+<div id="widget-CMS_CO_Client" ng-controller="CMS_CO_ClientController">
+    <div ng-show="PagesCM00110.length >0">
+        <div ng-repeat="Page in PagesCM00110">
+            <div ng-include="Page.url">Content from blocks goes here</div>
+        </div>
+    </div>
+    <div ng-show="PagesCM00110.length == 0">
+        <div kendo-toolbar k-options="toolbarOptions"></div>
+        <div ng-include="MainGridURL">Data Grid here</div>
+        <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+             k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+             k-width="600" k-resizable="true" k-visible="false"></div>
+    </div>
+</div>
+

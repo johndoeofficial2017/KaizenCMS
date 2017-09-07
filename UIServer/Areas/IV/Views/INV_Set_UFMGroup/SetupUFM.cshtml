@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetUFMListWithUFMGroup() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            UFMGroupID: scope.IV00003.UFMGroupID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditUFMbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-INV_Set_UFMGroup")).scope();
+        scope.$apply(function () {
+            scope.IV00003 = dataItem;
+            scope.IV00003.Status = 2;
+        });
+    };
+    function DeleteUFMbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-INV_Set_UFMGroup")).scope();
+        scope.$apply(function () {
+            scope.IV00003 = dataItem;
+            scope.IV00003.Status = 3;
+            scope.DeleteUFM();
+        });
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveItemCustomer();"
+           ng-show="IV00003.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateItemCustomer();"
+           ng-show="IV00003.Status == 2">
+            <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body no-margin-bottom">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">UFM Group</label>
+                                        <label class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="UFM Group"
+                                                       ng-model="IV00002.UFMGroupID" readonly />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('INV_Set_UFMGroup','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">UFM ID</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="UFM ID"
+                                                   ng-model="IV00003.UFMID" maxlength="10" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Baes Unit</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Baes Unit"
+                                                   ng-model="IV00003.BaesUnit" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row form-actions margin-bottom-5">
+                                    <section class="col-md-12 text-left">
+                                        <button class="btn btn-primary" ng-click="SaveUFM()" ng-show="IV00003.Status == 1">
+                                            <i class="fa fa-plus-square"></i> Add UFM
+                                        </button>
+                                        <button class="btn btn-primary" ng-click="UpdateUFM()" ng-show="IV00003.Status == 2">
+                                            <i class="fa fa-edit"></i> Update UFM
+                                        </button>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="IV00002.UFMGroupID != '' && IV00002.UFMGroupID != undefined">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.Inventory.IV00003>()
+                                            .Name("GridINV_Set_UFM")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.UFMID).Width(150).Title("Unit Of Measure ID");
+                                                columns.Bound(c => c.BaesUnit).Width(200).Title("Baes Unit");
+                                                columns.Group(g => g.Title("Actions")
+                                                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .Columns(location =>
+                                                {
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Edit").Click("EditUFMbtn")
+                                                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                                                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Delete").Click("DeleteUFMbtn")
+                                                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                                                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                })
+                                                );
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing UFM from {0} to {1}. Total UFMs: <strong>{2}</strong>")
+                                            .ItemsPerPage("UFM Per page").Empty("No UFM Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetUFMListGridWithUFMGroup", "INV_Set_UFMGroup")
+                                            .Type(HttpVerbs.Get).Data("GetUFMListWithUFMGroup"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.UFMID);
+                                                model.Field(o => o.UFMID);
+                                                model.Field(o => o.UFMGroupID);
+                                                model.Field(o => o.BaesUnit);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

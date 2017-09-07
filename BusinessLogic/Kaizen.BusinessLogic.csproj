@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2BAF5267-FD42-4C94-A1EE-68298104C30A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kaizen.BusinessLogic</RootNamespace>
+    <AssemblyName>Kaizen.BusinessLogic</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Kaizen.CMS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.CMS.dll</HintPath>
+    </Reference>
+    <Reference Include="Kaizen.GL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.GL.dll</HintPath>
+    </Reference>
+    <Reference Include="Kaizen.HumanResources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.HumanResources.dll</HintPath>
+    </Reference>
+    <Reference Include="Kaizen.Inventory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.Inventory.dll</HintPath>
+    </Reference>
+    <Reference Include="Kaizen.Medical, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.Medical.dll</HintPath>
+    </Reference>
+    <Reference Include="Kaizen.PBX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.PBX.dll</HintPath>
+    </Reference>
+    <Reference Include="Kaizen.Purchase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLFiles\Kaizen.Purchase.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="X2DataTable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\X2DataTable.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\DT00100_Services.cs" />
+    <Compile Include="Admin\Ext00001_Services.cs" />
+    <Compile Include="Admin\Ext00002_Services.cs" />
+    <Compile Include="Admin\GenderServices.cs" />
+    <Compile Include="Admin\SavedPrinter_Services.cs" />
+    <Compile Include="Admin\Sys00001Services.cs" />
+    <Compile Include="Admin\Sys00101_Services.cs" />
+    <Compile Include="Admin\Sys00100_Services.cs" />
+    <Compile Include="Admin\DocumentType_Services.cs" />
+    <Compile Include="Admin\MS_00003_Services.cs" />
+    <Compile Include="Admin\MS_00201_Services.cs" />
+    <Compile Include="Admin\MS_00200_Services.cs" />
+    <Compile Include="Admin\CRM00201_Services.cs" />
+    <Compile Include="Admin\CRM00200_Services.cs" />
+    <Compile Include="Admin\MessageTemplate_Services.cs" />
+    <Compile Include="Admin\Sys00030Services.cs" />
+    <Compile Include="Admin\Sys00014Services.cs" />
+    <Compile Include="Admin\Sys00013Services.cs" />
+    <Compile Include="CMS\CM00033Services.cs" />
+    <Compile Include="CMS\CM00034Services.cs" />
+    <Compile Include="CMS\CM00215Services.cs" />
+    <Compile Include="CMS\CM00140Services.cs" />
+    <Compile Include="CMS\CM10307_Services.cs" />
+    <Compile Include="CMS\CMS_Security_Services.cs" />
+    <Compile Include="CMS\CPR00100_Services.cs" />
+    <Compile Include="CMS\Partner_Services.cs" />
+    <Compile Include="CMS\CM00035Services.cs" />
+    <Compile Include="CMS\CM00036Services.cs" />
+    <Compile Include="CMS\CM00202Services.cs" />
+    <Compile Include="CMS\CM00017_Services.cs" />
+    <Compile Include="CMS\CM00016_Services.cs" />
+    <Compile Include="CMS\CM00232_Services.cs" />
+    <Compile Include="CMS\CM00234_Services.cs" />
+    <Compile Include="CMS\CM00231_Services.cs" />
+    <Compile Include="CMS\CM00230_Services.cs" />
+    <Compile Include="CMS\CM00109_Services.cs" />
+    <Compile Include="CMS\CM30205_Services.cs" />
+    <Compile Include="CMS\CM20205_Services.cs" />
+    <Compile Include="CMS\CM00220_Services.cs" />
+    <Compile Include="CMS\CM30203_Services.cs" />
+    <Compile Include="CMS\CM20203_Services.cs" />
+    <Compile Include="CMS\CM00203View01_Services.cs" />
+    <Compile Include="CMS\CM00003_Services.cs" />
+    <Compile Include="CMS\Set_Accounting_Services.cs" />
+    <Compile Include="Configuration\CM00000_Services.cs" />
+    <Compile Include="CMS\CM00018_Services.cs" />
+    <Compile Include="CMS\CM00013_Services.cs" />
+    <Compile Include="CMS\CM10100_Services.cs" />
+    <Compile Include="CMS\CM00308_Services.cs" />
+    <Compile Include="CMS\CM00309_Services.cs" />
+    <Compile Include="CMS\CM10110_Services.cs" />
+    <Compile Include="CMS\CM00108_Services.cs" />
+    <Compile Include="CMS\CM00026_Services.cs" />
+    <Compile Include="CMS\CM00107_Services.cs" />
+    <Compile Include="CMS\CM00030_Services.cs" />
+    <Compile Include="CMS\CM00007_Services.cs" />
+    <Compile Include="CMS\CM00005_Services.cs" />
+    <Compile Include="CMS\CM00027_Services.cs" />
+    <Compile Include="CMS\CM00204_Services.cs" />
+    <Compile Include="CMS\CM00205_Services.cs" />
+    <Compile Include="CMS\CM00004_Services.cs" />
+    <Compile Include="CMS\CM00006_Services.cs" />
+    <Compile Include="CMS\CM00212_Services.cs" />
+    <Compile Include="CMS\CM00214_Services.cs" />
+    <Compile Include="CMS\CM00213_Services.cs" />
+    <Compile Include="CMS\CM00206_Services.cs" />
+    <Compile Include="CMS\ClientContact_Services.cs" />
+    <Compile Include="CMS\DebtorDocument_Services.cs" />
+    <Compile Include="CMS\DebtorContact_Services.cs" />
+    <Compile Include="CMS\CM00025_Services.cs" />
+    <Compile Include="CMS\CM00307_Services.cs" />
+    <Compile Include="CMS\CM10207_Services.cs" />
+    <Compile Include="Configuration\CMS_MeetingRoom.cs" />
+    <Compile Include="Configuration\Event_Calendar_Service.cs" />
+    <Compile Include="Configuration\Kaizen00014_Services.cs" />
+    <Compile Include="Configuration\Kaizen00013_Services.cs" />
+    <Compile Include="Configuration\Kaizen00050Services.cs" />
+    <Compile Include="Configuration\Kaizen00101Services.cs" />
+    <Compile Include="Configuration\Kaizen00015Services.cs" />
+    <Compile Include="Configuration\KaizenAudit_Services.cs" />
+    <Compile Include="Configuration\MeetingRoom_Services.cs" />
+    <Compile Include="Configuration\Met00011_Services.cs" />
+    <Compile Include="Configuration\PhoneServices.cs" />
+    <Compile Include="Configuration\TeamCalendar_Services.cs" />
+    <Compile Include="Configuration\Team_Service.cs" />
+    <Compile Include="Configuration\UserRole_Services.cs" />
+    <Compile Include="Configuration\UserDefault_Services.cs" />
+    <Compile Include="Configuration\Kaizen002_Services.cs" />
+    <Compile Include="CryptoGrapher.cs" />
+    <Compile Include="ExceptionUtility.cs" />
+    <Compile Include="GL\GL00303_Services.cs" />
+    <Compile Include="GL\GL00302_Services.cs" />
+    <Compile Include="GL\GL00220_Services.cs" />
+    <Compile Include="GL\GLBankTransfer_Services.cs" />
+    <Compile Include="GL\GLBankTransaction_Services.cs" />
+    <Compile Include="GL\GLBankRecipt_Services.cs" />
+    <Compile Include="GL\HistroyGLTransactionEntry.cs" />
+    <Compile Include="Inventory\IV00020_Services.cs" />
+    <Compile Include="Inventory\IV00022_Services.cs" />
+    <Compile Include="Inventory\IV00102Item_Services.cs" />
+    <Compile Include="Inventory\IV00131_Services.cs" />
+    <Compile Include="Inventory\IV00130_Services.cs" />
+    <Compile Include="Inventory\IV00140_Services.cs" />
+    <Compile Include="Inventory\IV00120_Services.cs" />
+    <Compile Include="Inventory\IV00007_Services.cs" />
+    <Compile Include="Inventory\IV000014_Services.cs" />
+    <Compile Include="Inventory\IV00021_Services.cs" />
+    <Compile Include="Inventory\IV00017_Services.cs" />
+    <Compile Include="Inventory\IV00204_Services.cs" />
+    <Compile Include="Inventory\IV00206_Services.cs" />
+    <Compile Include="Inventory\IV00205_Services.cs" />
+    <Compile Include="Inventory\IV00018_Services.cs" />
+    <Compile Include="Inventory\IV00106_Services.cs" />
+    <Compile Include="KaizenColumn.cs" />
+    <Compile Include="KaizenEnum.cs" />
+    <Compile Include="CMS\ActionPlan_Services.cs" />
+    <Compile Include="CMS\ClientDocument_Services.cs" />
+    <Compile Include="CMS\CaseDocument_Services.cs" />
+    <Compile Include="CMS\Debtor_AddressCode_Services.cs" />
+    <Compile Include="CMS\CaseTransaction_Services.cs" />
+    <Compile Include="CMS\Case_Services.cs" />
+    <Compile Include="CMS\DebtorAddressCodeServices.cs" />
+    <Compile Include="CMS\ClientStatus_Services.cs" />
+    <Compile Include="CMS\ClientClass_Services.cs" />
+    <Compile Include="CMS\ContractStatus_Services.cs" />
+    <Compile Include="CMS\DebtorClass_Services.cs" />
+    <Compile Include="CMS\Client_Services.cs" />
+    <Compile Include="CMS\Agent_Services.cs" />
+    <Compile Include="CMS\AgentGroup_Services.cs" />
+    <Compile Include="CMS\Priority_Services.cs" />
+    <Compile Include="CMS\Group_Services.cs" />
+    <Compile Include="CMS\Payment_Services.cs" />
+    <Compile Include="CMS\CM00055Services.cs" />
+    <Compile Include="CMS\ClientAddressCodeServices.cs" />
+    <Compile Include="CMS\CM00008Services.cs" />
+    <Compile Include="CMS\CaseType_Services.cs" />
+    <Compile Include="CMS\CaseStatus_Services.cs" />
+    <Compile Include="CMS\DebtorStatus_Services .cs" />
+    <Compile Include="CMS\CaseItem_Services.cs" />
+    <Compile Include="CMS\ContractLayer_Services.cs" />
+    <Compile Include="CMS\Contract_Services.cs" />
+    <Compile Include="CMS\Debtor_Services.cs" />
+    <Compile Include="Configuration\GridFieldViewServices.cs" />
+    <Compile Include="Configuration\GridFieldServices.cs" />
+    <Compile Include="Configuration\Kaizen00009_Services.cs" />
+    <Compile Include="Configuration\FieldDynamic_Services.cs" />
+    <Compile Include="Configuration\CompanySegmentServices.cs" />
+    <Compile Include="Configuration\Kaizen00020_Services.cs" />
+    <Compile Include="GL\GL00104_Services.cs" />
+    <Compile Include="GL\GL00301_Services.cs" />
+    <Compile Include="GL\GL00005_Services.cs" />
+    <Compile Include="Configuration\ExtendedScreenField_Services.cs" />
+    <Compile Include="Configuration\Field_Services.cs" />
+    <Compile Include="Configuration\Kaizen00002Services.cs" />
+    <Compile Include="Configuration\Kaizen004Services.cs" />
+    <Compile Include="Configuration\KaizenTasksServices.cs" />
+    <Compile Include="Configuration\Kaizen00030Services.cs" />
+    <Compile Include="Configuration\Kaizen00010Services.cs" />
+    <Compile Include="Configuration\Config00001_Services.cs" />
+    <Compile Include="Configuration\KaizenGridViewAccess_Services.cs" />
+    <Compile Include="Configuration\User_Services.cs" />
+    <Compile Include="Configuration\Task_Services.cs" />
+    <Compile Include="Configuration\KaizenModule_Services.cs" />
+    <Compile Include="Configuration\Kaizen00011Services.cs" />
+    <Compile Include="Configuration\KaizenSession_Services.cs" />
+    <Compile Include="Configuration\Company_Services.cs" />
+    <Compile Include="GL\BudgetServices.cs" />
+    <Compile Include="GL\GL00009_Services.cs" />
+    <Compile Include="GL\GLSourceServices.cs" />
+    <Compile Include="GL\GLBankServices.cs" />
+    <Compile Include="GL\GLCategory_Services.cs" />
+    <Compile Include="GL\CheckbookServices.cs" />
+    <Compile Include="GL\GLBatchServices.cs" />
+    <Compile Include="GL\GLTransactionLine.cs" />
+    <Compile Include="GL\GLTransactionEntry.cs" />
+    <Compile Include="GL\GLPeriodServices.cs" />
+    <Compile Include="GL\GLYearServices.cs" />
+    <Compile Include="GL\GL_Services.cs" />
+    <Compile Include="GL\ExchangeTable_Services.cs" />
+    <Compile Include="GL\ExchangeRate_Services.cs" />
+    <Compile Include="GL\Currency_Services.cs" />
+    <Compile Include="GL\GL00202_Services.cs" />
+    <Compile Include="Help.cs" />
+    <Compile Include="Inventory\Item_Services.cs" />
+    <Compile Include="Inventory\IV00012_Services.cs" />
+    <Compile Include="Inventory\IV00014_Services.cs" />
+    <Compile Include="Inventory\IV00103_Services.cs" />
+    <Compile Include="Inventory\IV00109_Services.cs" />
+    <Compile Include="Inventory\IV00202_Services.cs" />
+    <Compile Include="Inventory\IV00201_Services.cs" />
+    <Compile Include="Inventory\IV00200_Services.cs" />
+    <Compile Include="Inventory\IV00019_Services.cs" />
+    <Compile Include="Inventory\IV00015_Services.cs" />
+    <Compile Include="Inventory\IV00101_Services.cs" />
+    <Compile Include="Inventory\IV00102_Services.cs" />
+    <Compile Include="Inventory\TransactionEntry_Services.cs" />
+    <Compile Include="Inventory\IV00108_Services.cs" />
+    <Compile Include="Inventory\IV00107_Services.cs" />
+    <Compile Include="Inventory\IV00105_Services.cs" />
+    <Compile Include="Inventory\IV00009_Services.cs" />
+    <Compile Include="Inventory\IV00008_Services.cs" />
+    <Compile Include="Inventory\IV00013_Services.cs" />
+    <Compile Include="Inventory\IV00011_Services.cs" />
+    <Compile Include="Inventory\IV00010_Services.cs" />
+    <Compile Include="Inventory\IV00006_Services.cs" />
+    <Compile Include="Inventory\IV00005_Services.cs" />
+    <Compile Include="Inventory\IV00004_Services.cs" />
+    <Compile Include="Inventory\IV00003_Services.cs" />
+    <Compile Include="Inventory\IV00002_Services.cs" />
+    <Compile Include="Inventory\Class_Services.cs" />
+    <Compile Include="MessageBox.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Master.cs" />
+    <Compile Include="SOP\CustomerContact_Services.cs" />
+    <Compile Include="SOP\PayymentBatch_Services.cs" />
+    <Compile Include="SOP\PROJ00100_Services.cs" />
+    <Compile Include="SOP\SOP00003_Services.cs" />
+    <Compile Include="SOP\SOP000014_Services.cs" />
+    <Compile Include="SOP\SOP10310_Services.cs" />
+    <Compile Include="SOP\SOP10311_Services.cs" />
+    <Compile Include="SOP\SOP10505_Services.cs" />
+    <Compile Include="SOP\SOP10504_Services.cs" />
+    <Compile Include="SOP\SOP10502_Services.cs" />
+    <Compile Include="SOP\SOP10501_Services.cs" />
+    <Compile Include="SOP\SOP10500_Services.cs" />
+    <Compile Include="SOP\SOP10300_Services.cs" />
+    <Compile Include="SOP\SOP10301_Services.cs" />
+    <Compile Include="SOP\SOP10305_Services.cs" />
+    <Compile Include="SOP\SOP00013_Services.cs" />
+    <Compile Include="SOP\SOP00015_Services.cs" />
+    <Compile Include="SOP\SOP00106_Services.cs" />
+    <Compile Include="SOP\SOP00503_Services.cs" />
+    <Compile Include="SOP\SOP00507_Services.cs" />
+    <Compile Include="SOP\SOP00024_Services.cs" />
+    <Compile Include="SOP\SOP10252_Services.cs" />
+    <Compile Include="SOP\SOP10251_Services.cs" />
+    <Compile Include="SOP\SOP10250_Services.cs" />
+    <Compile Include="SOP\SOP10203_Services.cs" />
+    <Compile Include="SOP\SOP10202_Services.cs" />
+    <Compile Include="SOP\SOP10201_Services.cs" />
+    <Compile Include="SOP\SOP10200_Services.cs" />
+    <Compile Include="SOP\SOP10107_Services.cs" />
+    <Compile Include="SOP\SOP10104_Services.cs" />
+    <Compile Include="SOP\SOPSetupType_Services.cs" />
+    <Compile Include="SOP\CustomerAddress_Services.cs" />
+    <Compile Include="SOP\CustomerAddressTypeCode_Services.cs" />
+    <Compile Include="SOP\CustomerGroup_Services.cs" />
+    <Compile Include="SOP\Batch_Services.cs" />
+    <Compile Include="SOP\SOP10101_Services.cs" />
+    <Compile Include="SOP\SOP10100_Services.cs" />
+    <Compile Include="SOP\CustomerPriority_Services.cs" />
+    <Compile Include="SOP\CustomerStatus_Services.cs" />
+    <Compile Include="SOP\CustomerDocumentType_Services.cs" />
+    <Compile Include="SOP\SalePerson_Services.cs" />
+    <Compile Include="SOP\SalesPersonType_Services.cs" />
+    <Compile Include="Admin\ContactType_Services.cs" />
+    <Compile Include="SOP\CustomerClass_Services.cs" />
+    <Compile Include="SOP\Customer_Services.cs" />
+    <Compile Include="SOP\CashReceipt_Services.cs" />
+    <Compile Include="SOP\TransactionEntry_Services.cs" />
+    <Compile Include="SQLHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="DLLFiles\Kaizen.Admin.dll.config" />
+    <None Include="DLLFiles\Kaizen.CMS.dll.config" />
+    <None Include="DLLFiles\Kaizen.Configuration.dll.config" />
+    <None Include="DLLFiles\Kaizen.GL.dll.config" />
+    <None Include="DLLFiles\Kaizen.HumanResources.dll.config" />
+    <None Include="DLLFiles\Kaizen.Inventory.dll.config" />
+    <None Include="DLLFiles\Kaizen.Medical.dll.config" />
+    <None Include="DLLFiles\Kaizen.PBX.dll.config" />
+    <None Include="DLLFiles\Kaizen.Purchase.dll.config" />
+    <None Include="DLLFiles\Kaizen.SOP.dll.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLLFiles\Kaizen.Admin.dll" />
+    <Content Include="DLLFiles\Kaizen.Admin.pdb" />
+    <Content Include="DLLFiles\Kaizen.CMS.dll" />
+    <Content Include="DLLFiles\Kaizen.CMS.pdb" />
+    <Content Include="DLLFiles\Kaizen.Configuration.dll" />
+    <Content Include="DLLFiles\Kaizen.Configuration.pdb" />
+    <Content Include="DLLFiles\Kaizen.GL.dll" />
+    <Content Include="DLLFiles\Kaizen.GL.pdb" />
+    <Content Include="DLLFiles\Kaizen.HumanResources.dll" />
+    <Content Include="DLLFiles\Kaizen.HumanResources.pdb" />
+    <Content Include="DLLFiles\Kaizen.Inventory.dll" />
+    <Content Include="DLLFiles\Kaizen.Inventory.pdb" />
+    <Content Include="DLLFiles\Kaizen.Medical.dll" />
+    <Content Include="DLLFiles\Kaizen.Medical.pdb" />
+    <Content Include="DLLFiles\Kaizen.PBX.dll" />
+    <Content Include="DLLFiles\Kaizen.PBX.pdb" />
+    <Content Include="DLLFiles\Kaizen.Purchase.dll" />
+    <Content Include="DLLFiles\Kaizen.Purchase.pdb" />
+    <Content Include="DLLFiles\Kaizen.SOP.dll" />
+    <Content Include="DLLFiles\Kaizen.SOP.pdb" />
+    <Content Include="TextFile1.txt" />
+    <Content Include="TextFile2.txt" />
+    <Content Include="X2DataTable.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kaizen.Admin\Kaizen.Admin.csproj">
+      <Project>{84a7f7e1-8b92-45fe-ac96-7e0e037464d8}</Project>
+      <Name>Kaizen.Admin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kaizen.Configuration\Kaizen.Configuration.csproj">
+      <Project>{dae51895-6e40-41e9-8e7e-e3a13308dea0}</Project>
+      <Name>Kaizen.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kaizen.SOP\Kaizen.SOP.csproj">
+      <Project>{4409b8eb-2b6e-4664-beff-b398fc30a06c}</Project>
+      <Name>Kaizen.SOP</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Medical\" />
+    <Folder Include="PBX\" />
+    <Folder Include="Purchase\" />
+    <Folder Include="Tools\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

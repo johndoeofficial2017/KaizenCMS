@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    tags-input .tags .tag-list {
+        margin-left: 50px;
+    }
+</style>
+<div class="widget">
+    <div class="widget-body container-fluid padd-top-10">
+        <div id="inbox-content" class="inbox-body">
+            <div class="custom-scroll animated fast fadeInRight" style="opacity: 1;">
+                <h2 class="email-open-header">
+                    Compose New Email
+                </h2>
+
+                <form enctype="multipart/form-data" method="POST" class="form-horizontal" id="email-compose-form">
+                    <div class="inbox-info-bar no-padding no-margin">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"><strong>From</strong></label>
+                                <div class="col-md-10">
+                                    <select id="from" tabindex="0" kendo-drop-down-list
+                                            k-filter="'startswith'"
+                                            k-option-label="'-- Select Sender Email --'"
+                                            k-ng-model="SelectedSender"
+                                            k-data-text-field="'EmailTitle'"
+                                            k-value-primitive="false"
+                                            k-data-value-field="'EmailID'"
+                                            k-data-source="SenderEmails"
+                                            style="width: 100%;margin-top: 5px;margin-bottom: 5px;"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inbox-info-bar no-padding no-margin">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"><strong>To</strong></label>
+                                <div class="col-md-10">
+                                    <tags-input class="col-md-10 no-padding-lr" id="to" tabindex="1" ng-model="toEmails"></tags-input>
+                                    <div class="field-options col-md-2">
+                                        <a href="javascript:;" onclick="$(this).hide(); $('#cc').parent().removeClass('hidden'); $('#cc').focus();">CC</a>
+                                        <a href="javascript:;" onclick="$(this).hide(); $('#bcc').parent().removeClass('hidden'); $('#bcc').focus();">BCC</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inbox-info-bar no-padding hidden no-margin">
+                        <div class="row" id="cc">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"><strong>CC</strong></label>
+                                <div class="col-md-10">
+                                    <tags-input tabindex="2" ng-model="ccEmails"></tags-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inbox-info-bar no-padding hidden no-margin">
+                        <div class="row" id="bcc">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"><strong>BCC</strong></label>
+                                <div class="col-md-10">
+                                    <tags-input tabindex="3" ng-model="bccEmails"></tags-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="inbox-info-bar no-padding no-margin">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"><strong>Subject</strong></label>
+                                <div class="col-md-10">
+                                    <input class="form-control" placeholder="Email Subject" type="text" />
+                                    <em><a href="javascript:void(0);" class="show-next" rel="tooltip" data-placement="bottom" data-original-title="Attachments"><i class="fa fa-paperclip fa-lg"></i></a></em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                    <div class="inbox-message no-padding no-margin">
+
+                        <div id="emailbody" style="display: none;">
+
+                        </div>
+                    </div>
+
+                    <div class="inbox-compose-footer no-margin">
+                        <button data-loading-text="<i class='fa fa-refresh fa-spin'></i> &nbsp; Sending..." 
+                                class="btn btn-primary" 
+                                type="button" ng-click="SendCaseEmail()">
+                            Send <i class="fa fa-arrow-circle-right fa-lg"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

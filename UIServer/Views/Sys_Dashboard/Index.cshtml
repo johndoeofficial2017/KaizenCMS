@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSys_Dashboard_Click(DashboardCode) {
+        var scope = angular.element(document.getElementById("widget-Sys_Dashboard")).scope();
+        scope.$apply(function () {
+            scope.EditKaizen00050(DashboardCode);
+        });
+    }
+</script>
+<!-- widget grid -->
+<div ng-controller="Sys_DashboardController">
+    <div class="widget" id="widget-Sys_Dashboard">
+        <div ng-show="PagesKaizen00050.length > 0">
+            <div ng-repeat="Page in PagesKaizen00050">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesKaizen00050.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Configuration.Kaizen00050>()
+                        .Name("GridSys_Dashboard")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSys_Dashboard_Click('#:DashboardCode#');""> #:DashboardCode# </a>").Width(100).Title("Dashboard Code");
+                            columns.Bound(c => c.DashboardName);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Data Source from {0} to {1}. Total Sources: <strong>{2}</strong>").Empty("Source Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetDataListGrid", "Sys_Dashboard")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.DashboardCode)))
+                )
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+

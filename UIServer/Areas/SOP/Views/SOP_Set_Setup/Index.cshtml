@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="SOP_Set_SetupController">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a class="btn btn-default" ng-click="SaveData();"
+               ng-show="SOP000014.Status == 1">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Save &amp; Close
+            </a>
+            <a class="btn btn-default" ng-click="UpdateData();"
+               ng-show="SOP000014.Status == 2">
+                <i class="glyphicon glyphicon-floppy-disk icon-large">
+                </i><br />
+                Update &amp; Close
+            </a>
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-12 col-lg-12 separator">
+                        <div class="row no-padding">
+                            <form class="smart-form">
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 control-label">POS Prefix</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control" maxlength="5"
+                                                       placeholder="POS Prefix" ng-model="SOP000014.POSPrefix">
+                                            </div>
+                                            <label class="col col-md-2 control-label">POS Length</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="POS Length" ng-model="SOP000014.POSLenth">
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col-md-12">
+                                            <label class="col col-md-2 control-label">POS Last Number</label>
+                                            <div class="input col col-md-4">
+                                                <input type="text" class="form-control"
+                                                       placeholder="POS Last Number" ng-model="SOP000014.POSLastNumber">
+                                            </div>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetBucketReportKaizenPublicKey() {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        //  alert('ssssssssssssss');
+        //	alert(scope.ParmObject);
+        return {
+            CaseAccountNo: scope.ParmObject,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+@(Html.Kendo().Chart<Kaizen.CMS.CMV00201>()
+        .Name("chart")
+        .Title("Spain electricity production (GWh)")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .DataSource(ds => ds.Read(read => read.Action("CaseBuketReport", "CMS_Case")
+        .Type(HttpVerbs.Get).Data("GetBucketReportKaizenPublicKey")))
+        .Series(series =>
+        {
+            series.Line(model => model.BucketID).Name("Nuclear");
+            series.Line(model => model.BucketID).Name("sss");
+        })
+        .CategoryAxis(axis => axis
+                  .Categories(model => model.BucketName)
+              )
+)

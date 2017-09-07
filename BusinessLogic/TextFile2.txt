@@ -1,0 +1,21 @@
+﻿DECLARE @res NVARCHAR(MAX), @print NVARCHAR(MAX);
+DECLARE curs CURSOR FORWARD_ONLY READ_ONLY
+FOR SELECT '-- Table Name: ['+OBJECT_SCHEMA_NAME(i.id)+'].['+CONVERT(         SYSNAME, o.name)+']'+CHAR(13)+CHAR(10)+'-- Execute This Script:',
+           'DROP TRIGGER [dbo].[Kaizen_'+CONVERT( SYSNAME, o.name)+']'+CHAR(13)+CHAR(10)+'GO'
+    FROM sysobjects o
+         LEFT OUTER JOIN sysindexes i ON o.id = i.id
+    WHERE(i.indid < 2)
+         AND (o.xtype = 'U')
+    ORDER BY o.name;
+OPEN curs;
+FETCH NEXT FROM curs INTO @print, @res;
+WHILE @@FETCH_STATUS = 0
+    BEGIN
+        PRINT @print;
+        PRINT @res;
+        FETCH NEXT FROM curs INTO @print, @res;
+    END;
+CLOSE curs;
+DEALLOCATE curs;
+
+

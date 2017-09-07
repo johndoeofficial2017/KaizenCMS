@@ -1,0 +1,113 @@
+﻿@model Kaizen.Configuration.User
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<!-- MAIN CONTENT -->
+<form class="lockscreen animated flipInY" action="index.html">
+    <div class="logo">
+        <h1 class="semi-bold"><img src="/img/favicon/favicon.ico" alt="" /> Kaizen</h1>
+    </div>
+    <div>
+            <div class="input-group">
+                @(Html.Kendo().DropDownList()
+                                    .Name("productComboBox")
+                                    .HtmlAttributes(new { style = "width:100%;" })
+                                    .DataTextField("CompanyName")
+                                    .DataValueField("CompanyID")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read =>
+                                        {
+                                            read.Action("MyCompanies", "SysUser");
+                                        });
+
+                                    })
+                )
+                <div class="input-group-btn">
+                    <a href="javascript:void(0);" class="btn btn-primary" onclick="onLogClick(event);">
+                        <i class="glyphicon glyphicon-lock"></i> Log
+                    </a>
+                </div>
+                <div class="input-group-btn">
+                    <a href="javascript:void(0);" class="btn btn-defaults" onclick="UserLogout(event);">
+                        <i class="fa fa-sign-out fa-lg"></i> Logout
+                    </a>
+                </div>
+                <div class="input-group-btn">
+                    <a href="javascript:void(0);" class="btn btn-defaults" onclick="LogToCompany();">
+                        <i class="fa fa-sign-out fa-lg"></i> Back
+                    </a>
+                </div>
+            </div>
+        <div>
+            @(Html.Kendo().Grid<Kaizen.Configuration.KaizenSession>()
+                               .Name("GridSysUserLog")
+                               .Columns(columns =>
+                               {
+                                   columns.Bound(c => c.LoginDate).Width(120).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                                   columns.Bound(c => c.LoginDateOut).Title("Logout Date").Width(120).Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                               })
+                                .Filterable().AutoBind(false)
+                                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Log from {0} to {1}. Total Logs: <strong>{2}</strong>")
+                                .ItemsPerPage("Log Per page").Empty("No Log Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                .Navigatable()
+                                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                .Reorderable(reorder => reorder.Columns(true))
+                                .Resizable(ss => ss.Columns(true))
+                                .ColumnMenu().Scrollable(s => s.Height(400))
+                                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                .Read(read => read.Action("GetLogListGridWithCompany", "SysUser")
+                                .Type(HttpVerbs.Get).Data("GetLogListWithCompany"))
+                                .Model(model =>
+                                {
+                                    model.Id(o => o.UserName);
+                                    model.Field(o => o.UserName);
+                                    model.Field(o => o.CompanyName);
+                                    model.Field(o => o.CompanyID);
+                                    model.Field(o => o.KaizenPublicKey);
+                                    model.Field(o => o.LoginDate);
+                                    model.Field(o => o.LoginDateOut);
+                                })
+                                )
+            )
+        </div>
+    </div>
+    <p class="font-sm margin-top-5">
+        Copyright Kaizen @DateTime.Now.Year
+
+    </p>
+</form>
+
+<script>
+    function onClick(e) {
+        var dropdownlist = $("#productComboBox").data("kendoDropDownList");
+        var url = "/SysUser/LogKaizenSession?CompanyID=" + dropdownlist.value();
+        $.ajax({ url: url, success: DataRetrieved, type: 'POST', dataType: 'json' });
+    };
+    function UserLogout(e) {
+        var url = "/SysUser/CompanySignOut";
+        $.ajax({
+            url: url, type: 'POST', success: function (result) {
+                window.location.replace("/SysUser\\Login");
+            }
+        });
+    };
+    function DataRetrieved(data) {
+        sessionStorage.PublicKey = data;
+        window.location.replace("/Home/Index?KaizenPublicKey=" + sessionStorage.PublicKey);
+    };
+    function GetLogListWithCompany() {
+        var dropdownlist = $("#productComboBox").data("kendoDropDownList");
+        return {
+            CompanyID: dropdownlist.value(),
+        };
+    };
+    function onLogClick(e) {
+        var grid = $("#GridSysUserLog").data("kendoGrid");
+        grid.dataSource.read();
+    };
+    function LogToCompany(e) {
+        window.location.replace("/SysUser\\LoginToCompany");
+    };
+</script>

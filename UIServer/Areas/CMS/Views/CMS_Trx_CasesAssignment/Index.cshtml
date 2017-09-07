@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCM00202_Click(AssigmentID) {
+        var DV = document.getElementById("widget-CMS_Trx_CasesAssignment");
+        var scope = angular.element(DV).scope();
+        scope.$apply(function () {
+            scope.EditCM00202(AssigmentID);
+        });
+    }
+    function StatusFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Trx_CasesAssignment")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CaseStatusname",
+            dataValueField: "CaseStatusID",
+            dataSource: scope.CM00700List,
+            optionLabel: "--Select Status--"
+        });
+    };
+</script>
+<div ng-controller="CMS_Trx_CasesAssignmentController">
+    <div class="widget" id="widget-CMS_Trx_CasesAssignment">
+        <div ng-show="PagesCM00202.length >0">
+            <div ng-repeat="Page in PagesCM00202">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="widget-body" ng-show="PagesCM00202.length == 0">
+            <div kendo-toolbar k-options="toolbarOptions">
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00202>() 
+                            .Name("GridCMS_CM00202")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.AssigmentID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCM00202_Click('#:AssigmentID#');""> #:AssigmentID# </a>").Width(100).Title("Class ID");
+                                columns.Bound(c => c.AssignDate).Format("{0:dd/MM/yyyy}");
+                                columns.Bound(c => c.AssignDescription);
+                                columns.Bound(c => c.AgentID);
+                                columns.Bound(c => c.UserName);
+                            })
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Class from {0} to {1}. Total Classes: <strong>{2}</strong>")
+                            .ItemsPerPage("Class Per page").Empty("No Class Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "CMS_Trx_CasesAssignment")
+                            .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.AssigmentID);
+                            })
+                        )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

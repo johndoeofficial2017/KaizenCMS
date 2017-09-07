@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData();"
+           ng-show="CM00108.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData();"
+           ng-show="CM00108.Status == 2">
+            <i class="glyphicon glyphicon-floppy-disk icon-large">
+            </i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="CM00108.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+        <a class="btn btn-default" ng-click="Clear();"><i class="glyphicon glyphicon-remove"></i><br />Clear </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();"><i class="glyphicon glyphicon-remove-circle"></i><br />Cancel </a>
+    </header>
+    <div class="no-border overflow">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12 separator">
+                    <div class="row no-padding">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Target ID</label>
+                                        <label class="input col-md-4">
+                                            <input type="text" class="form-control" placeholder="Target ID"
+                                                   ng-model="CM00108.TargetID" ng-disabled="CM00108.Status == 2" />
+                                        </label>
+                                        <label class="col col-md-2 control-label">Target Name</label>
+                                        <label class="input col col-md-4">
+                                            <input type="text" class="form-control" placeholder="Target Name"
+                                                   ng-model="CM00108.TargetName" maxlength="50" />
+                                        </label>
+                                    </section>
+                                </div>
+                                 <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">IsPercentTarget</label>
+                                        <label class="input col-md-4">
+                                    <input type="checkbox" id="eq1" class="k-checkbox" 
+                                           ng-model="CM00108.IsPercentTarget">
+                                    <label class="k-checkbox-label" for="eq1"></label>
+                                        </label>
+                                        <label class="col col-md-2 control-label">TargetTypeID</label>
+                                        <label class="input col col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-ng-model="CM00108.TargetTypeID"
+                                                    k-data-text-field="'TargetTypeName'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'TargetTypeID'"
+                                                    k-data-source="CM00058List"
+                                                    style="width: 100%"></select>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">SQLCondition</label>
+                                        <label class="input col col-md-10">
+                                            <input type="text" class="form-control" placeholder="SQLCondition"
+                                                   ng-model="CM00108.SQLCondition" />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

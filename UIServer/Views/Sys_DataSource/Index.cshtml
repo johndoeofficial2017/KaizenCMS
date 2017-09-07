@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSys_DataSource_Click(SourceID) {
+        var scope = angular.element(document.getElementById("widget-Sys_DataSource")).scope();
+        scope.$apply(function () {
+            scope.EditDT00100(SourceID);
+        });
+    }
+</script>
+<!-- widget grid -->
+<div ng-controller="Sys_DataSourceController">
+    <div class="widget" id="widget-Sys_DataSource">
+        <div ng-show="PagesDT00100.length > 0">
+            <div ng-repeat="Page in PagesDT00100">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesDT00100.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.Configuration.DT00100>()
+                        .Name("GridSys_DataSource")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSys_DataSource_Click('#:SourceID#');""> #:SourceID# </a>").Width(100).Title("Source ID");
+                            columns.Bound(c => c.SourceName);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Data Source from {0} to {1}. Total Sources: <strong>{2}</strong>").Empty("Source Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(17)
+                        .Read(read => read.Action("GetDataListGrid", "Sys_DataSource")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.SourceID)))
+                )
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+

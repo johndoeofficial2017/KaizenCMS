@@ -1,0 +1,792 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="SaveData(false);"
+           ng-show="SOP10100.Status == 1 && TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Save &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="UpdateData(false);"
+           ng-show="SOP10100.Status == 2 && TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Update &amp; Close
+        </a>
+        <a class="btn btn-default" ng-click="OnPosting();"
+           ng-show="SOP10100.Total_Debit === SOP10100.Total_Credit && TransactionLines.length > 0">
+            <i class="glyphicon glyphicon-send"></i><br />
+            Post
+        </a>
+        <a class="btn btn-default" ng-click="Delete();" ng-show="SOP10100.Status == 2"><i class="glyphicon glyphicon-trash"></i><br />Delete </a>
+
+        <a class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br />Clear
+        </a>
+        <a class="btn btn-default"><i class="glyphicon glyphicon-print"></i><br />Print </a>
+        <a class="btn btn-default" ng-click="Cancel();">
+            <i class="glyphicon glyphicon-remove">
+            </i><br />Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12">
+                    <div class="no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>
+                                    Order Details
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Type</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                ng-disabled="SOP10100.Status == 2"
+                                                k-filter="'startswith'"
+                                                k-ng-model="SOP10100.SOPTYPE"
+                                                k-data-text-field="'SOPTYPENAME'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'SOPTYPE'"
+                                                k-data-source="SOPTypes"
+                                                data-bv-notempty="true"
+                                                ata-bv-notempty-message="The Type is required and cannot be empty"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Type Setup</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group" ng-hide="SOP10100.SOPNUMBE != undefined && SOP10100.SOPNUMBE !=''">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Type Setup ID" ng-model="SOP10100.SOPTypeSetupID" readonly>
+                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('SOP_TypeSetup','PopUpBySOPTYPE',SOP10100.SOPTYPE)">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                        <div ng-show="SOP10100.SOPNUMBE != undefined && SOP10100.SOPNUMBE !=''">
+                                            {{SOP10100.SOPTypeSetupID}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Transaction No.</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="Transaction No." ng-hide="SOP10100.CUSTNMBR != undefined && SOP10100.CUSTNMBR !=''"
+                                               ng-model="SOP10100.SOPNUMBE" maxlength="10" />
+                                        <div ng-show="SOP10100.CUSTNMBR != undefined && SOP10100.CUSTNMBR !=''">
+                                            {{SOP10100.SOPNUMBE}}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Document Date</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-date-picker
+                                               k-ng-model="SOP10100.DOCDATE"
+                                               k-format="'dd/MM/yyyy'"
+                                               style="width: 100%;" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Currency</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Currency"
+                                                   ng-model="SOP10100.CurrencyCode"
+                                                   data-bv-notempty="true" readonly
+                                                   data-bv-notempty-message="The Currency is required and cannot be empty" />
+                                            <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('GL_Currency', 'SinglePopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </div>
+                                            <div class="input-group-btn input-group-sm" ng-disabled="SOP10100.CurrencyCode == undefined || SOP10100.CurrencyCode == ''"
+                                                 ng-click="OpenkendoWindow('GL_Currency', 'ExchangeTablePopUp', SOP10100.CurrencyCode, '')">
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-show="SOP10100.ExchangeTableID == undefined || SOP10100.ExchangeTableID == ''">Select Table</a>
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-hide="SOP10100.ExchangeTableID == undefined || SOP10100.ExchangeTableID == ''">{{SOP10100.ExchangeTableID}}</a>
+                                            </div>
+                                            <div class="input-group-btn input-group-sm" ng-disabled="SOP10100.CurrencyCode == undefined || SOP10100.CurrencyCode == '' || SOP10100.ExchangeTableID == undefined || SOP10100.ExchangeTableID == ''"
+                                                 ng-click="OpenExchangeRateWindow();">
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-show="SOP10100.ExchangeRateID == undefined || SOP10100.ExchangeRateID == ''">Select Rate</a>
+                                                <a href="javascript:void(0);" class="btn btn-default" ng-hide="SOP10100.ExchangeRateID == undefined || SOP10100.ExchangeRateID == ''">{{SOP10100.ExchangeRate}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Batch</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Batch ID" ng-model="SOP10100.BatchID" readonly>
+                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('SOP_Batch','PopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Customer</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Vendor ID" ng-model="SOP10100.CUSTNMBR" readonly>
+                                            <span class="input-group-btn input-group-sm" ng-hide="SOP10100.CUSTNMBR !=null && SOP10100.CUSTNMBR !='' && TransactionLines.length > 0 " ng-click="OpenkendoWindow('SOP_Customer','PopUp')">
+                                                <a href="javascript:void(0);" ng-disabled="SOP10100.CUSTNMBR !=null && SOP10100.CUSTNMBR !='' && TransactionLines.length > 0 " class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default" data-toggle="modal" data-target="#ModalPopup"><span class="glyphicon glyphicon glyphicon-cog"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Customer Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="Customer Name"
+                                               ng-model="SOP10100.CUSTNAME" maxlength="100" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Customer PO No.</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" placeholder="Customer PO No."
+                                                  ng-model="SOP10100.CustomerPoNumber" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">                                   
+                                    <label class="col-sm-2 control-label text-left">Comments</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" placeholder="Transaction Comments"
+                                                  ng-model="SOP10100.TrxComments" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="IsOpenItemPanel==true">
+                                <div class="form-group">
+                                    <header id="tabheader" class="tabHeader">
+                                        <ul class="nav nav-tabs in" id="myTab">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#s1">Main</a>
+                                            </li>
+
+                                            <li>
+                                                <a data-toggle="tab" href="#s2">Details</a>
+                                            </li>
+
+                                            <li>
+                                                <a data-toggle="tab" href="#s3">Comment</a>
+                                            </li>
+
+                                            <li>
+                                                <a data-toggle="tab" href="#s4">Account</a>
+                                            </li>
+                                        </ul>
+                                    </header>
+                                    <div class="no-padding" role="content">
+                                        <div class="widget-body">
+                                            <!-- content -->
+                                            <div id="myTabContent" class="tab-content">
+                                                <!-- Start Tab1 -->
+                                                <div class="tab-pane fade padding-10 no-padding-bottom active in" id="s1">
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Item</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="Item ID" ng-model="SOP10101.ItemID" readonly />
+                                                                    <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('IV_MasterItem')">
+                                                                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Item Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Item Name" ng-model="SOP10101.ItemName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">UFM Group</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="UFM Group ID" ng-model="SOP10101.UFMGroupID" readonly />
+                                                                    <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('INV_UFMGroup','PopUp')">
+                                                                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">UFM</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="UFM ID" ng-model="SOP10101.UFMID" readonly />
+                                                                    <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('INV_UFMGroup','UFMPopUp',SOP10101.UFMGroupID)">
+                                                                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Site</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="Site ID" ng-model="SOP10101.SiteID" readonly />
+                                                                    <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('INV_Site','PopUpByItem',SOP10101.ItemID)">
+                                                                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Unit Price</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-blur="CalculatePrice()"
+                                                                       placeholder="Unit Cost" ng-model="SOP10101.UnitPrice" select-on-click />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Unit Cost</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                       ng-decimal decimal="SOP10101.DecimalDigitQuantity" select-on-click
+                                                                       placeholder="Unit Cost" ng-model="SOP10101.UnitCost" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Extended Price</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" select-on-click
+                                                                       placeholder="Extended Price" ng-model="SOP10101.ExtendedPrice" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Quantity Order</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                       ng-decimal decimal="SOP10101.DecimalDigitQuantity" ng-blur="CalculatePrice()"
+                                                                       placeholder="Quantity Order" ng-model="SOP10101.QuantityOrder" select-on-click />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Quantity Cancel</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control"
+                                                                       ng-decimal decimal="SOP10101.DecimalDigitQuantity" select-on-click
+                                                                       placeholder="Quantity Cancel" ng-model="SOP10101.QuantityCancel" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <!-- End Tab1 -->
+                                                <!-- Start Tab2 -->
+                                                <div class="tab-pane padding-10 no-padding-bottom" id="s2">
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Vendor</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Vendor ID" 
+                                                                           ng-model="SOP10101.VendorID" readonly />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('POP_Vendor','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Country</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Country ID" 
+                                                                           ng-model="SOP10101.CountryID" readonly />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('Adm_Country','PopUp',null,'Line')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Ship To</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Ship to" ng-model="SOP10101.ShipTo">
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default" ng-click="launchLineShipTo()"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Ship Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.ShipDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Markdown</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" placeholder="Markdown"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10101.Markdown" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Request Ship Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.ReqShipDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Freight</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" placeholder="Freight"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10101.Freight" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Return Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.ReturnDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Trade Discount</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" placeholder="Trade Discount"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10101.TradeDiscount" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Invoice Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.InvoiceDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Tax Amount</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" placeholder="Tax Amount"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10101.TaxAMT" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Quote Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.QuoteDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Miscellaneous</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" placeholder="Miscellaneous"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10101.Miscellaneous" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Quote Expiration Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.QuoteExpirationDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Commission</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" placeholder="Commission"
+                                                                       ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10101.Commission" />
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Order Date</label>
+                                                            <div class="col-sm-4">
+                                                                <input kendo-date-picker
+                                                                       k-ng-model="SOP10101.OrderDate"
+                                                                       k-format="'dd/MM/yyyy'"
+                                                                       style="width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Project</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Project ID" ng-model="SOP10101.ProjectID" readonly />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default" ng-click="OpenkendoWindow('POP_ShippingMethod','PopUp')"><span class="glyphicon glyphicon-search"></span></button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <!-- End Tab2 -->
+                                                <!-- Start Tab3 -->
+                                                <div class="tab-pane padding-10 no-padding-bottom" id="s3">
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <textarea kendo-editor k-ng-model="SOP10101.LineDescription"></textarea>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <!-- End Tab3 -->
+                                                <!-- Start Tab4 -->
+                                                <div class="tab-pane padding-10 no-padding-bottom" id="s4">
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Sales Account</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input kendo-masked-text-box ng-model="SOP10101.SalesAcc" readonly
+                                                                           k-mask="'{{MY.GLFormat}}'" placeholder="Sales Account No." style="width:100%" />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default"
+                                                                                ng-click="OpenkendoWindow('GL_GL','PopUp',null,'Sales')">
+                                                                            <span class="glyphicon glyphicon-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Sales Account Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" readonly
+                                                                       placeholder="Sales Account Name" ng-model="SOP10101.SalesAccount.AccountName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Markdown Account</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input kendo-masked-text-box ng-model="SOP10101.MarkdownAcc" readonly
+                                                                           k-mask="'{{MY.GLFormat}}'" placeholder="Markdown Account No." style="width:100%" />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default"
+                                                                                ng-click="OpenkendoWindow('GL_GL','PopUp',null,'Markdown')">
+                                                                            <span class="glyphicon glyphicon-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Markdown Account Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" readonly
+                                                                       placeholder="Markdown Account Name" ng-model="SOP10101.MarkdownAccount.AccountName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Freight Account</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input kendo-masked-text-box ng-model="SOP10101.FreightAcc" readonly
+                                                                           k-mask="'{{MY.GLFormat}}'" placeholder="Freight Account No." style="width:100%" />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default"
+                                                                                ng-click="OpenkendoWindow('GL_GL','PopUp',null,'Freight')">
+                                                                            <span class="glyphicon glyphicon-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Freight Account Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" readonly
+                                                                       placeholder="Freight Account Name" ng-model="SOP10101.FreightAccount.AccountName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Trade Discount Account</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input kendo-masked-text-box ng-model="SOP10101.TradeDiscountAcc" readonly
+                                                                           k-mask="'{{MY.GLFormat}}'" placeholder="Trade Discount No." style="width:100%" />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default"
+                                                                                ng-click="OpenkendoWindow('GL_GL','PopUp',null,'TradeDiscount')">
+                                                                            <span class="glyphicon glyphicon-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Trade Discount Account Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" readonly
+                                                                       placeholder="Trade Discount Account Name" ng-model="SOP10101.TradeDiscountAccount.AccountName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Tax Account</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input kendo-masked-text-box ng-model="SOP10101.TaxAcc" readonly
+                                                                           k-mask="'{{MY.GLFormat}}'" placeholder="Tax No." style="width:100%" />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default"
+                                                                                ng-click="OpenkendoWindow('GL_GL','PopUp',null,'Tax')">
+                                                                            <span class="glyphicon glyphicon-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Tax Account Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" readonly
+                                                                       placeholder="Tax Account Name" ng-model="SOP10101.TaxAccount.AccountName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label text-left">Miscellaneous Account</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group">
+                                                                    <input kendo-masked-text-box ng-model="SOP10101.MiscellaneousAcc" readonly
+                                                                           k-mask="'{{MY.GLFormat}}'" placeholder="Miscellaneous No." style="width:100%" />
+                                                                    <span class="input-group-btn input-group-sm">
+                                                                        <button class="btn btn-default"
+                                                                                ng-click="OpenkendoWindow('GL_GL','PopUp',null,'Miscellaneous')">
+                                                                            <span class="glyphicon glyphicon-search"></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label class="col-sm-2 control-label text-left">Miscellaneous Account Name</label>
+                                                            <div class="col-sm-4">
+                                                                <input type="text" class="form-control" readonly
+                                                                       placeholder="Miscellaneous Account Name" ng-model="SOP10101.MiscellaneousAccount.AccountName" />
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <!-- End Tab4 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="form-actions no-margin-top text-left">
+                                        <fieldset class="padding-left-30">
+                                            <a href="javascript:void(0);" class="btn btn-primary" ng-click="AddNewLine();"
+                                               ng-show="SOP10101.status == 0 || SOP10101.status == 1">
+                                                <i class="glyphicon glyphicon-floppy-disk"></i> Add Item
+                                            </a>
+                                            <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateLine();"
+                                               ng-show="SOP10101.status == 2">
+                                                <i class="glyphicon glyphicon-edit"></i> Update Item
+                                            </a>
+                                            <a href="javascript:void(0);" class="btn btn-default" ng-click="OpenItemPanel(false)">
+                                                <i class="glyphicon glyphicon-remove-circle"></i> Cancel
+                                            </a>
+                                        </fieldset>
+                                    </footer>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+                <!-- TABLE START -->
+                <article class="col-md-12 col-lg-12">
+                    <div class="row">
+                        <button class="btn btn-primary" ng-click="OpenItemPanel(true)" ng-show="IsOpenItemPanel==false">Add</button>
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-body" ng-show="TransactionLines.length <= 0">
+                                <h3 class="text-align-center"> No Data Added ...</h3>
+                            </div>
+                            <!-- Table -->
+                            <table class="table table-bordered table-responsive" ng-show="TransactionLines.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-align-center"></th>
+                                        <th class="text-align-center">Photo</th>
+                                        <th class="text-align-center">Item</th>
+                                        <th class="text-align-center">Site</th>
+                                        <th class="text-align-center">QTY</th>
+                                        <th class="text-align-center">Unit Price</th>
+                                        <th class="text-align-center">Extended Price</th>
+                                        <th class="text-align-center">Edit</th>
+                                        <th class="text-align-center">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="line in TransactionLines" ng-class="{'deleted':line.status== 3}">
+                                        <td class="col-sm-1 col-md-1">
+                                            <button class="btn btn-default input-sm" ng-if=" line.expanded" ng-click="line.expanded = false">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                            <button class="btn btn-default input-sm" ng-if="!line.expanded" ng-click="line.expanded = true">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </td>
+                                        <td class="col-md-1 text-align-center">
+                                            <img alt='' ng-src='/Photo/InventoryItemPhoto/{{line.ItemID}}.{{line.IV00100.PhotoExtension}}' style='width:40px;height:35px;cursor:pointer' />
+                                        </td>
+                                        <td class="col-md-2 text-align-center">{{line.ItemName}}</td>
+                                        <td class="col-md-1 text-align-center">{{line.SiteID}}</td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit"
+                                                   ng-model="line.QuantityOrder" readonly>
+                                        </td>
+                                        <td class="col-md-1 text-align-center">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-decima quantity="line.DecimalDigitQuantity"
+                                                   ng-model="line.UnitPrice" readonly>
+                                        </td>
+                                        <td class="col-md-2 text-align-center">
+                                            <input type="text" class="form-control input-sm"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit"
+                                                   ng-model="line.ExtendedPrice" readonly>
+                                        </td>
+                                        <td class="text-align-center col-md-1" style="font-size:20px;">
+                                            <a href="" ng-click="EditLine(line)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                        </td>
+                                        <td class="text-align-center col-md-1" style="font-size:20px;">
+                                            <a href="" ng-click="RemoveLine(line,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="line.expanded" ng-repeat-end="">
+                                        <td class="container-fluid" colspan="8">
+                                            <div class="row" style=" margin-right: 5px;margin-left: 5px;">
+                                                <div class="col-sm-2 col-md-2">
+                                                    Unit Of Measure:
+                                                </div>
+                                                <div class="col-sm-4 col-md-4">{{line.UFMID}}</div>
+                                                <div class="col-sm-2 col-md-2">
+                                                    TrackType ID:
+                                                </div>
+                                                <div class="col-sm-4 col-md-4">{{line.TrackTypeID}}</div>
+                                            </div>
+                                            <div class="row" style=" margin-right: 5px;margin-left: 5px;">
+                                                <div class="col-sm-2">
+                                                    Item Description:
+                                                </div>
+                                                <div class="col-sm-10">{{line.ItemDescription}}</div>
+                                            </div>
+                                            <div class="row" style=" margin-right: 5px;margin-left: 5px;">
+                                                <div class="col-sm-2">
+                                                    Short Description:
+                                                </div>
+                                                <div class="col-sm-10">{{line.ShortDescription}}</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+                <!-- TABLE END -->
+                <!-- New Form Section START -->
+                <article class="col-md-12 col-lg-12">
+                    <div class="row">
+                        <form class="smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Markdown</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Markdown"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10100.Markdown" />
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Document Amount</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Document Amount"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10100.DOCAMNT" readonly />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Freight</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Freight"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10100.Freight" />
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Trade Discount</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Trade Discount"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10100.TradeDiscount" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="col-md-4 control-label">Paid Amount</label>
+                                        <label class="input col-md-8">
+                                            <input type="text" class="form-control" placeholder="Paid Amount"
+                                                   ng-decimal decimal="SOP10100.DecimalDigit" ng-model="SOP10100.PaidAMT" />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+                <!-- FORM SECTION END -->
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>
+

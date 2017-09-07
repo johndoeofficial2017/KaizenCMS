@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetBinsListWithSiteItem() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            SiteID: scope.IV00130.SiteID,
+            ItemID: scope.IV00130.ItemID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <div class="widget-body no-margin-bottom">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <label class="col col-md-2 control-label">Site</label>
+                                        <label class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Site ID"
+                                                       ng-model="IV00011.SiteID" readonly />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('IV_Site',null,'ItemSiteBin')"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                        <label class="col col-md-2 control-label">Item</label>
+                                        <label class="input col col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Item ID"
+                                                       ng-model="IV00130.ItemID" readonly />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'ItemSiteBin')"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row" ng-show="IV00130.SiteID != '' && IV00130.SiteID != undefined && IV00130.ItemID != '' && IV00130.ItemID != undefined">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.Inventory.IV00130>()
+                                            .Name("GridINV_SiteItemBins")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.BinID).Width(150).Title("Bin ID").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .HtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.BinName).Width(200).Title("Bin Name").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .HtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.IsBinGroup).Width(150).Title("Is Bin Group").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .HtmlAttributes(new { style = "text-align:center;" });
+                                                columns.Bound(c => c.ItemQuantity).Width(200).Title("Quantity").HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .HtmlAttributes(new { style = "text-align:center;" });
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Bin from {0} to {1}. Total Bins: <strong>{2}</strong>")
+                                            .ItemsPerPage("Bin Per page").Empty("No Bin Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetBinsListGridWithSiteItem", "INV_Site")
+                                            .Type(HttpVerbs.Get).Data("GetBinsListWithSiteItem"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.ItemID);
+                                                model.Id(o => o.SiteID);
+                                                model.Id(o => o.BinID);
+                                                model.Field(o => o.ItemID);
+                                                model.Field(o => o.SiteID);
+                                                model.Field(o => o.BinID);
+                                                model.Field(o => o.BinName);
+                                                model.Field(o => o.IsBinGroup);
+                                                model.Field(o => o.ItemQuantity);
+                                            })
+                                            )
+                                            )
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

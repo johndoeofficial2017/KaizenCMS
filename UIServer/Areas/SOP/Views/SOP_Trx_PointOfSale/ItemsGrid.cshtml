@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a class="btn btn-default" ng-click="Cancel();">
+            <i class="glyphicon glyphicon-remove-circle"></i><br />Cancel
+        </a>
+    </header>
+    <div class="no-border overflow no-padding-top">
+        <div class="widget-body">
+            <div class="row">
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col-md-12">
+                                        <div>
+                                            @(Html.Kendo().Grid<Kaizen.SOP.SOP10301>()
+                                                .Name("GridSOP_Trx_PointOfSaleLine")
+                                                .Columns(columns =>
+                                                {
+                                                    columns.Bound(c => c.SOPNUMBE).Width(120).Title("Transaction ID");
+                                                    columns.Bound(c => c.ItemID).Width(200);
+                                                    columns.Bound(c => c.ItemName).Width(250);
+                                                    columns.Bound(c => c.UFMSale).Width(75);
+                                                    columns.Bound(c => c.BaseUnitSale).Width(75);
+                                                    columns.Bound(c => c.UnitCost).Width(100).Title("Unit Cost")
+                                                    .ClientTemplate("#= FormatDecimalDigit(data.UnitCost,3) #").HtmlAttributes(new { style = "text-align:center;" });
+                                                    columns.Bound(c => c.UnitPrice).Width(100).Title("Unit Price")
+                                                    .ClientTemplate("#= FormatDecimalDigit(data.UnitPrice,3) #").HtmlAttributes(new { style = "text-align:center;" });
+                                                    columns.Bound(c => c.InvoiceOTY).Width(100).Title("Invoice OTY")
+                                                    .ClientTemplate("#= FormatDecimalDigit(data.InvoiceOTY,data.DecimalDigitQuantity) #").HtmlAttributes(new { style = "text-align:center;" });
+                                                })
+                                                    .Excel(excel => excel.AllPages(true).FileName("POSItemsList.xlsx").Filterable(true))
+                                                    .Pdf(pdf => pdf.FileName("POSItemsList.pdf").AllPages().Date(DateTime.Now))
+                                                    .Pageable(pager => pager.Messages(messages => messages.Display("Showing Transaction from {0} to {1}. Total: <strong>{2}</strong>")
+                                                    .ItemsPerPage("Transaction Per page").Empty("No POS Transaction")).Refresh(true)
+                                                    .PageSizes(true).Input(true).ButtonCount(5))
+                                                    .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                                    .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                                    .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+                                                    .ColumnMenu().Scrollable(scroll=>scroll.Height(500)).Filterable()
+                                                    .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+                                                    .PageSize(20).Sort(sort => sort.Add(ss => ss.SOPNUMBE).Descending())
+                                                    .Read(read => read.Action("GetDataListItemsGrid", "SOP_Trx_PointOfSale")
+                                                    .Type(HttpVerbs.Get).Data("GetKaizenPublicKey")).Model(model => model.Id(p => p.SOPNUMBE)))
+                                            )
+                                            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                                                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                                                 k-width="600" k-resizable="true" k-visible="false"></div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>

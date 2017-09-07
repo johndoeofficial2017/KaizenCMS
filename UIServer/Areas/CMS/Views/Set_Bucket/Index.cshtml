@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCMS_CM00015_Click(JecketsID) {
+        var scope = angular.element(document.getElementById("widget-CM00015")).scope();
+        scope.$apply(function () {
+            scope.EditCM00015(JecketsID);
+        });
+    }
+</script>
+<!-- widget grid -->
+<div ng-controller="Set_BucketController">
+    <div class="widget" id="widget-CM00015">
+        <div ng-show="PagesCM00015.length > 0">
+            <div ng-repeat="Page in PagesCM00015">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00015.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00015>()
+                        .Name("GridCMS_CM00015")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_CM00015_Click('#:BucketID#');""> #:BucketID# </a>").Width(100).Title("Lookup ID");
+                            columns.Bound(c => c.BucketName);
+                        })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Jackets from {0} to {1}. Total Jackets: <strong>{2}</strong>").Empty("Jacket Information")).Refresh(true).PageSizes(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                        .Read(read => read.Action("GetDataListGrid", "Set_Bucket")
+                                                .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                                                .Model(model => model.Id(p => p.BucketID)))
+                )
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+

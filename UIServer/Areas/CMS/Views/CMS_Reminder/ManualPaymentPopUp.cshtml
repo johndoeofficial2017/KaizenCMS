@@ -1,0 +1,175 @@
+﻿@{
+    Layout = null;
+}
+<div class="panel-body no-padding">
+    <fieldset class="margin-top-15">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Transaction Ref</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Receipt"
+                       ng-model="CM00307.PaymentID" required />
+            </div>
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Agent</label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text" ng-model="CM00307.AgentID"
+                           placeholder="Agent ID" class="form-control" readonly />
+                    <span class="input-group-btn input-group-sm">
+                        <button class="btn btn-default"
+                                ng-click="OpenkendoWindow('CMS_Agent','PopUp',null,'ManualPayment')">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Currency</label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Currency"
+                           ng-model="CM00307.CurrencyCode"
+                           data-bv-notempty="true" readonly
+                           data-bv-notempty-message="The Currency is required and cannot be empty" />
+                    <div class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('GL_Currency', 'SinglePopUp',null,'ManualPayment')">
+                        <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                    </div>
+                    <div class="input-group-btn input-group-sm" ng-disabled="CM00307.CurrencyCode == undefined || CM00307.CurrencyCode == ''"
+                         ng-click="OpenkendoWindow('GL_Currency', 'ExchangeTablePopUp', CM00307.CurrencyCode, 'ManualPayment')">
+                        <a href="javascript:void(0);" class="btn btn-default" ng-show="CM00307.ExchangeTableID == undefined || CM00307.ExchangeTableID == ''">Select Table</a>
+                        <a href="javascript:void(0);" class="btn btn-default" ng-hide="CM00307.ExchangeTableID == undefined || CM00307.ExchangeTableID == ''">{{CM00307.ExchangeTableID}}</a>
+                    </div>
+                    <div class="input-group-btn input-group-sm" ng-disabled="CM00307.CurrencyCode == undefined || CM00307.CurrencyCode == '' || CM00307.ExchangeTableID == undefined || CM00307.ExchangeTableID == ''"
+                         ng-click="OpenExchangeRateWindow();">
+                        <a href="javascript:void(0);" class="btn btn-default" ng-show="CM00307.ExchangeRateID == undefined || CM00307.ExchangeRateID == ''">Select Rate</a>
+                        <a href="javascript:void(0);" class="btn btn-default" ng-hide="CM00307.ExchangeRateID == undefined || CM00307.ExchangeRateID == ''">{{CM00307.ExchangeRate}}</a>
+                    </div>
+                </div>
+            </div>
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Transaction Date</label>
+            <div class="col-sm-4">
+                <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                       k-ng-model="CM00307.TransactionDate" style="width: 100%;" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Check Book</label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly
+                           placeholder="Checkbook Code" ng-model="CM00307.CheckbookCode" />
+                    <span class="input-group-btn input-group-sm">
+                        <button class="btn btn-default"
+                                ng-click="OpenkendoWindow('GL_Checkbook','PopUp',CM00307.CurrencyCode,'ManualPayment')">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Amount</label>
+            <div class="col-sm-4">
+                <input kendo-numeric-text-box ng-required="true"
+                       k-on-change="ManualPaymentAmountChanged()"
+                       k-options="NumberFormatOptions(CM00307.CurrencyCode,CM00307.DecimalDigit,true)"
+                       k-ng-model="CM00307.Amount" style="width: 100%;" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15" ng-show="CM00307.CheckbookCode !=null && CM00307.CheckbookCode !=''">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Payment Method</label>
+            <div class="col-sm-4">
+                <select class="form-control" ng-model="CM00307.PaymentMethodID"
+                        ng-change="GetNextPaymentNumber()" convert-to-number>
+                    <option value="1">Cash</option>
+                    <option value="2">Credit</option>
+                    <option value="3">Check</option>
+                </select>
+            </div>
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Payment Number</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Payment Number"
+                       ng-model="CM00307.PaymentNumber" required />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15" ng-show="CM00307.PaymentMethodID != 1">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left">Bank Name</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"
+                       placeholder="Bank Name" ng-model="CM00307.BankName" />
+            </div>
+            <label class="col-sm-2 control-label text-left">Bank Code</label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly
+                           placeholder="Bank Code" ng-model="CM00307.BankCode" />
+                    <span class="input-group-btn input-group-sm">
+                        <button class="btn btn-default"
+                                ng-click="OpenkendoWindow('GL_Set_BankList','PopUp',null,'ManualPayment')">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15" ng-show="CM00307.PaymentMethodID != 1">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left">Bank Account</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"
+                       placeholder="Bank Account" ng-model="CM00307.BankAccount" />
+            </div>
+            <label class="col-sm-2 control-label text-left">Bank Check Date</label>
+            <div class="col-sm-4">
+                <input kendo-date-picker k-format="'dd/MM/yyyy'"
+                       k-ng-model="CM00307.BankCheckDate" style="width: 100%;" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left txt-color-red bold">Reason</label>
+            <div class="col-sm-4">
+                <select kendo-drop-down-list
+                        k-filter="'startswith'"
+                        k-ng-model="CM00307.ReasonID"
+                        k-data-text-field="'ReasonName'"
+                        k-value-primitive="true"
+                        k-data-value-field="'ReasonID'"
+                        k-data-source="PaymentReasons"
+                        style="width: 100%"></select>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="margin-top-15">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-left">Description</label>
+            <div class="col-sm-10">
+                <textarea type="text" class="form-control" style="width: 100%;"
+                          placeholder="Description" ng-model="CM00307.TransDescription"></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="well col-md-12 no-margin padding-5">
+        <div class="col-md-12">
+            <button class="btn btn-primary pull-left" ng-click="SaveManualPayment()">
+                <i class="fa fa-plus-square"></i> Save
+            </button>
+        </div>
+    </fieldset>
+</div>

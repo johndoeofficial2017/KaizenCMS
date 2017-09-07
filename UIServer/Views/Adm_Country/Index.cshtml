@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCountry_Click(CountryID) {
+        var scope = angular.element(document.getElementById("widget-Adm_Country")).scope();
+        scope.$apply(function () {
+            scope.EditSys00013(CountryID);
+        });
+    }
+</script>
+<div ng-controller="Adm_CountryController">
+    <div>
+        <div class="widget" id="widget-Adm_Country">
+            <div ng-show="PagesSys00013.length >0">
+                <div ng-repeat="Page in PagesSys00013">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesSys00013.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions">
+                    </div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.Admin.Sys00013>()
+                            .Name("GridAdm_Country")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(c => c.CountryID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCountry_Click('#:CountryID#');""> #:CountryID# </a>").Width(100).Title("Country ID");
+                                columns.Bound(c => c.CountryName).Title("Country Name");
+                            })
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Status from {0} to {1}. Total Statuses: <strong>{2}</strong>")
+                            .ItemsPerPage("Status Per page").Empty("No Status Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable()
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height(400))
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "Adm_Country")
+                            .Type(HttpVerbs.Get).Data("GetGenericKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.CountryID);
+                              
+                                model.Field(o => o.CountryName);
+                            })
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditSOP_SOP10100_Click(SOPNUMBE, SOPTypeSetupID, SOPTYPE) {
+        var scope = angular.element(document.getElementById("widget-SOP_Invoice")).scope();
+        scope.$apply(function () {
+            scope.EditSOP10100(SOPNUMBE, SOPTypeSetupID, SOPTYPE);
+        });
+    };
+</script>
+
+<div ng-controller="SOP_InvoiceController">
+    <div id="widget-SOP_Invoice">
+        <div ng-show="PagesSOP10100.length > 0">
+            <div ng-repeat="Page in PagesSOP10100">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div ng-show="PagesSOP10100.length == 0">
+            <div kendo-toolbar k-options="SOP_InvoicetoolbarOptions"></div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.SOP.SOP10100>()
+                                .Name("GridSOP_Invoice")
+                        .Columns(columns =>
+                        {
+                            columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSOP_SOP10100_Click('#:SOPNUMBE#');""> #:SOPNUMBE# </a>").Width(100).Title("SOPNUMBE").Locked(true);
+                            columns.Bound(c => c.BatchID).Width(100);
+                            columns.Bound(c => c.CUSTNMBR).Width(100);
+                            columns.Bound(c => c.CUSTNAME).Width(200);
+                            columns.Bound(c => c.DOCDATE).Format("{0:dd/MM/yyyy}").Width(100);
+                            columns.Bound(c => c.DOCAMNT).Width(100);
+                            columns.Bound(c => c.CustomerPoNumber).Width(100);
+                            columns.Bound(c => c.CurrencyCode).Width(100);
+                            columns.Bound(c => c.ShipDate).Format("{0:dd/MM/yyyy}").Width(100);
+                            columns.Bound(c => c.SiteID).Width(100);
+                            columns.Bound(c => c.VendorID).Width(100);
+                        })
+                           .Pageable(pager => pager.Messages(messages => messages.Display("Showing Transactions from {0} to {1}. Total Transactions: <strong>{2}</strong>")
+                .ItemsPerPage("Transaction Per page").Empty("No Transaction Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(10))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu().Scrollable(s => s.Height(310)).Filterable()
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                            .Read(read => read.Action("GetDataListGrid", "SOP_Invoice").Type(HttpVerbs.Get)
+                            .Data("GetGenericKaizenPublicKey"))
+                        .Model(model => model.Id(p => p.SOPNUMBE))
+                )
+                )
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+            <div kendo-window="ExchangeRateWindow" k-title="'Exchange Rate'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="800" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+

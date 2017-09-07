@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+<script>
+   
+    function GetGenericKaizenPublicKeyWithCaseRef() {
+        var searchcritaria = $("#Searchcritaria").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            CaseRef: scope.CM00203.CaseRef,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetGenericKaizenPublicKeyWithDebtorID() {
+        var searchcritaria = $("#Searchcritaria").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            Searchcritaria: searchcritaria,
+            DebtorID: scope.CM00203.DebtorID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+
+    function GetAgents() {
+        alert('GetAgents');
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            AgentID: scope.MY.AgentID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetKaizenPublicKey() {
+        return {
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function GetCaseRef() {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return scope.CM00203.CaseRef;
+    };
+    function StatusFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "CaseStatusname",
+            dataValueField: "CaseStatusID",
+            dataSource: scope.CaseStatuses,
+            optionLabel: "--Select Status--"
+        });
+    };
+    function JecketFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "JecketName",
+            dataValueField: "JecketsID",
+            dataSource: scope.Jeckets,
+            optionLabel: "--Select Jecket--"
+        });
+    };
+    function TransactionTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "TrxTypeName",
+            dataValueField: "TRXTypeID",
+            dataSource: scope.TRXTypes,
+            optionLabel: "--Select Transaction Type--"
+        });
+    };
+    function ActionPlanFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "ActionPlanName",
+            dataValueField: "ActionPlanID",
+            dataSource: scope.Actionplans,
+            optionLabel: "--Select Action Plan--"
+        });
+    };
+
+</script>
+<script>
+    function btnOpenCaseReminder_Click(CaseRef) {
+        var scope = angular.element(document.getElementById("widget-CMS_Reminder")).scope();
+        scope.$apply(function () {
+            scope.OpenCase(CaseRef);
+        });
+    };
+
+</script>
+<div id="DV{{ToolBar.ActiveScreen.ID}}">
+    <div kendo-toolbar k-options="CMS_RemindertoolbarOptions" k-rebind="CMS_RemindertoolbarOptions"></div>
+    <div ng-include="ReminderMainGridPath">Data Grid here</div>
+</div>

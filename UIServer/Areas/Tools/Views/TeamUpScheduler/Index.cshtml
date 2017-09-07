@@ -1,0 +1,223 @@
+﻿@{
+    Layout = null;
+}
+<script type="text/javascript">
+    function repeatEndCheckChanged(e) {
+        var scope = angular.element(document.getElementById("widget-TeamUpScheduler")).scope();
+        scope.$apply(function () {
+            scope.RepeatEndCheckChanged(e);
+        });
+        console.log("e" + e.value);
+    }
+    function repeatOnYearCheckChanged(e) {
+        var scope = angular.element(document.getElementById("widget-TeamUpScheduler")).scope();
+        scope.$apply(function () {
+            scope.RepeatOnYearCheckChanged(e);
+        });
+        console.log("e" + e.value);
+    }
+    function repeatOnMonthCheckChanged(e) {
+        var scope = angular.element(document.getElementById("widget-TeamUpScheduler")).scope();
+        scope.$apply(function () {
+            scope.RepeatOnMonthCheckChanged(e);
+        });
+        console.log("e" + e.value);
+    }
+    function allDayCheckChanged(e) {
+        var scope = angular.element(document.getElementById("widget-TeamUpScheduler")).scope();
+        scope.$apply(function () {
+            scope.AllDayCheckChanged(e);
+        });
+    }
+</script>
+<style type="text/css">
+    #meetingEndOn div, #meetingRepeatOnMonth div, #meetingRepeatOnYear div {
+        padding-bottom: 10px;
+    }
+</style>
+<div ng-controller="TeamUpSchedulerController">
+
+    <script id="meetingEditor" type="text/x-kendo-template">
+        <div style="padding:10px">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputMeetingName" class="control-label col-md-4">Meeting Name: </label>
+                    <div class="col-md-6">
+                        <input name="title" class="form-control input-sm" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputReminderDate" class="control-label col-md-4">Start: </label>
+                    <div class="col-md-6">
+                        <input data-role="datetimepicker" name="start" id="inputStartDate" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputReminderDate" class="control-label col-md-4">End: </label>
+                    <div class="col-md-6">
+                        <input data-role="datetimepicker" name="end" id="inputEndDate" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Is all day: </label>
+                    <div class="col-md-6">
+                        <input type="checkbox" name="IsFullDay" onchange="allDayCheckChanged(this)" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Repeat: </label>
+                    <div class="col-md-6">
+                        <input id="meetingRepeatTypeList" value="MeetingRepeatTypeID" name="MeetingRepeatTypeID" required />
+                    </div>
+                </div>
+                @*#if( MeetingRepeatTypeID != 1){#*@
+                <div class="form-group" id="divRepeatEvery">
+                    <label for="" class="control-label col-md-4">Repeat Every: </label>
+                    <div class="col-md-4">
+                        <div class="no-padding">
+                            <input id="repeatEvery" name="RepeatEvery" />
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <div id="repeatTypeText">
+
+                        </div>
+                    </div>
+                </div>
+                @*#}#*@
+
+                @*#if( MeetingRepeatTypeID === 3){#*@
+                <div class="form-group" id="divRepeatOnWeek">
+                    <label for="" class="control-label col-md-4">Repeat On: </label>
+                    <div class="col-md-6">
+                        <div class="no-padding">
+                            <input type="checkbox" name="RepeatSun" /> Su
+                            <input type="checkbox" name="RepeatMon" /> Mo
+                            <input type="checkbox" name="RepeatTus" /> Tu
+                            <input type="checkbox" name="RepeatWed" /> We
+                            <input type="checkbox" name="RepeatThur" /> Th
+                            <input type="checkbox" name="RepeatFrid" /> Fr
+                            <input type="checkbox" name="RepeatSat" /> Sa
+                        </div>
+
+                    </div>
+                </div>
+                @*#}#*@
+
+
+                <div class="form-group" id="divRepeatOnMonth">
+                    <label for="" class="control-label col-md-4">Repeat On: </label>
+                    <div class="col-md-6">
+                        <div id="meetingRepeatOnMonth">
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatOnMonthCheckChanged(this)" name="MeetingOnMonthGroup" id="MonthRepeatOn" value="MonthRepeatOn" />Day
+                                <input id="inputRepeatOnMonth" name="MonthRepeatOn" style="width:50px" />
+                            </div>
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatOnMonthCheckChanged(this)" name="MeetingOnMonthGroup" id="MonthRepeatOnDay" value="MonthRepeatOnDay" />
+                                <input id="monthRepeatDayList" value="MonthDayOccurence" name="MonthDayOccurence" style="width:85px" /> &nbsp;&nbsp;
+                                <input id="monthRepeatWeekList" value="MonthRepeatWeekDay" name="MonthRepeatWeekDay" style="width:110px" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="divRepeatOnYear">
+                    <label for="" class="control-label col-md-4">Repeat On: </label>
+                    <div class="col-md-6">
+                        <div id="meetingRepeatOnYear">
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatOnYearCheckChanged(this)" name="MeetingOnYearGroup" id="YearRepeatOn" value="YearRepeatOn" />Day &nbsp;&nbsp;
+                                <input class="inputRepeatOnMonthForYear" name="YearRepeatMonth" style="width:100px" /> &nbsp;&nbsp;
+                                <input id="monthRepeatYearListByDate" value="YearRepeatOn" name="YearRepeatOn" style="width:60px" />
+                            </div>
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatOnYearCheckChanged(this)" name="MeetingOnYearGroup" id="YearRepeatOnDay" value="YearRepeatOnDay" /> &nbsp;&nbsp;
+                                <input id="yearRepeatDayList" value="YearMonthDayOccurence" name="YearMonthDayOccurence" style="width:70px" />
+                                <input id="yearRepeatWeekList" value="YearRepeatMonthDay" name="YearRepeatMonthDay" style="width:100px" />
+                                <input class="inputRepeatOnMonthForYear" value="YearRepeatMonth2" name="YearRepeatMonth2" style="width:100px" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*#if( MeetingRepeatTypeID != 1){#*@
+                <div class="form-group" id="divMeetingEnd">
+                    <label for="" class="control-label col-md-4">End: </label>
+                    <div class="col-md-6">
+                        <div id="meetingEndOn">
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatEndCheckChanged(this)" name="MeetingEndGroup" id="RepeatEndNever" value="RepeatEndNever" />Never
+                            </div>
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatEndCheckChanged(this)" name="MeetingEndGroup" id="RepeatEndAfter" value="RepeatEndAfter" />After &nbsp;&nbsp;
+                                <input id="inputRepeatEndAfter" name="RepeatEndAfter" style="width:60px" /> occurence(s)
+                            </div>
+                            <div>
+                                <input type="radio" class="chkbx" onchange="repeatEndCheckChanged(this)" name="MeetingEndGroup" id="RepeatEndOn" value="RepeatEndOn" />On &nbsp;&nbsp;
+                                <input id="inputRepeatEndOn" name="RepeatEndOn" data-role="datepicker" data-format="yyyy/MM/dd" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*#}#*@
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Description: </label>
+                    <div class="col-md-6">
+                        <input name="Description" class="form-control input-sm" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Room: </label>
+                    <div class="col-md-6">
+                        <input id="roomList" Value="MeetingRoomID" name="MeetingRoomID" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Calendar Names: </label>
+                    <div class="col-md-6">
+                        <input id="calendarList" name="Met00101" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">Attendees: </label>
+                    <div class="col-md-6">
+                        <input id="attendeesList" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </script>
+    <div id="widget-TeamUpScheduler">
+        <fieldset>
+            <legend>
+                Team Up Scheduler Maintenance
+                @*<tags-input ng-model="Met00102Lst" placeholder="Add attendees with ,"></tags-input>*@
+
+            </legend>
+        </fieldset>
+        <fieldset>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-sm-12 no-padding margin-bottom-5">
+                        <div id="teamUpSchedule">
+                            <div ng-repeat="calenderName in CalenderNames" class="col-sm-2">
+                                <span>
+                                    <input type="checkbox" checked class="chkTeamUp" ng-value="calenderName.CalendarID" />{{calenderName.CalendarName}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="meetingScheduler"></div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+

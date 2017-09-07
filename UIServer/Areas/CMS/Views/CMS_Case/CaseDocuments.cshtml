@@ -1,0 +1,222 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetDocumentListWithCase() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            CaseRef: scope.CM00203.CaseRef,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function DownloadDocumentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        scope.$apply(function () {
+            scope.DownloadFile(dataItem.DocumentName + dataItem.PhotoExtension, 'CaseDocuments');
+        });
+    };
+    function ViewDocumentbtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        scope.$apply(function () {
+            scope.OpenFile(dataItem.DocumentName + dataItem.PhotoExtension, 'CaseDocuments', dataItem.PhotoExtension);
+        });
+    };
+
+    function DocumentTypeFilter(element) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        element.kendoDropDownList({
+            dataTextField: "DocumentTypeName",
+            dataValueField: "DocumentTypeID",
+            dataSource: scope.CaseDocumentTypes,
+            optionLabel: "--Select Type--"
+        });
+    };
+    function CMS_CaseDocumentattachments_onSuccess(e) {
+        var scope = angular.element(document.getElementById("widget-CMS_Case")).scope();
+        var responseTxt = jQuery.parseJSON(e.XMLHttpRequest.responseText);
+        if (responseTxt == "1") {/// remove
+            scope.$apply(function () {
+                scope.RemoveCaseFileExtension(responseTxt);
+            });
+        } else {
+            scope.$apply(function () {
+                scope.SetCaseFileExtension(responseTxt);
+            });
+        }
+    };
+
+</script>
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="CMS_CaseDocumentForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a ng-click="GoBack();" class="btn btn-default">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                        <br />Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>
+                                    Case Document Maintenance
+                                </legend>
+                                <div class="form-group margin-bottom-5">
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <div class="form-group margin-bottom-5">
+                                                <label class="col col-md-4 control-label">Document Type</label>
+                                                <div class="col-md-8">
+                                                    <select kendo-drop-down-list
+                                                            k-filter="'startswith'"
+                                                            k-option-label="'-- Select Document Type --'"
+                                                            k-ng-model="CM00208.DocumentTypeID"
+                                                            k-data-text-field="'DocumentTypeName'"
+                                                            k-value-primitive="true"
+                                                            k-data-value-field="'DocumentTypeID'"
+                                                            k-data-source="CaseDocumentTypes"
+                                                            style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                            <div class="form-group margin-bottom-5">
+                                                <label class="col col-md-4 control-label">Document Name</label>
+                                                <label class="input col-md-8">
+                                                    <input type="text" class="form-control" 
+                                                           maxlength="25"
+                                                           placeholder="Document Name" 
+                                                           ng-model="CM00208.DocumentName" />
+                                                </label>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                            <div class="form-group margin-bottom-5">
+                                                <label class="col col-md-4 control-label">Document Description</label>
+                                                <label class="input col-md-8">
+                                                    <textarea class="form-control" rows="4"
+                                                              placeholder="Document Description" 
+                                                              ng-model="CM00208.DocumentDescription"></textarea>
+                                                </label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="col col-md-2 control-label"></label>
+                                        <label class="input col-md-10" ng-show="CM00208.Status == 1">
+                                            <div class="fileinput fileinput-new col col-md-12" data-provides="fileinput">
+                                                @(Html.Kendo().Upload().Name("CMS_CaseDocumentattachments")
+                                                 .Async(async => async.Save("SaveCaseDocumentTemp", "CMS_Case")
+                                                 .Remove("RemoveCaseDocumentTemp", "CMS_Case"))
+                                                 .Events(e => e.Success("CMS_CaseDocumentattachments_onSuccess"))
+                                                )
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-actions">
+                                    <a href="javascript:void(0);" ng-click="SaveCaseDocument()" ng-show="CM00208.Status == 1"
+                                       class="btn btn-success pull-left">Add Document</a>
+                                    <a href="javascript:void(0);" ng-click="UpdateCaseDocument()" ng-show="CM00208.Status == 2"
+                                       class="btn btn-success pull-left">Update Document</a>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div>
+                                    @(Html.Kendo().Grid<Kaizen.CMS.CM00208>()
+                                        .Name("GridCMS_CaseDocumentByCase")
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(c => c.DocumentID).Width(75).Title("ID").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.ForeignKey(c => c.DocumentTypeID,
+                                            (System.Collections.IEnumerable)ViewData["DocumentTypes"], "DocumentTypeID", "DocumentTypeName")
+                                            .Title("Type").Width(120).Filterable(filterable => filterable.UI("DocumentTypeFilter"))
+                                            .HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.Bound(c => c.DocumentName).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.Bound(c => c.DocumentDescription).HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            columns.Group(g => g.Title("Actions")
+                                            .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                            .Columns(location =>
+                                            {
+                                                location.Command(command =>
+                                                {
+                                                    command.Custom("View").Click("ViewDocumentbtn")
+                                                    .Text("<span class='fa fa-eye'></span> View");
+                                                }).Width(110).Title("View").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                location.Command(command =>
+                                                {
+                                                    command.Custom("Download").Click("DownloadDocumentbtn")
+                                                    .Text("<span class='fa fa-cloud-download'></span> Download");
+                                                }).Width(130).Title("Download").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                            })
+                                            );
+                                        })
+                                        .Filterable().AutoBind(true)
+                                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Document from {0} to {1}. Total Documents: <strong>{2}</strong>")
+                                        .ItemsPerPage("Document Per page").Empty("No Document Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                        .Navigatable()
+                                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                        .Reorderable(reorder => reorder.Columns(true))
+                                        .Resizable(ss => ss.Columns(true))
+                                        .ColumnMenu().Scrollable(s => s.Height(400))
+                                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                        .Read(read => read.Action("GetDocumentListGridWithCase", "CMS_Case")
+                                        .Type(HttpVerbs.Get).Data("GetDocumentListWithCase"))
+                                        .Model(model =>
+                                        {
+                                            model.Id(o => o.DocumentID);
+                                            model.Field(o => o.DocumentTypeID);
+                                            model.Field(o => o.CaseRef);
+                                            model.Field(o => o.DocumentName);
+                                            model.Field(o => o.DocumentDescription);
+                                            model.Field(o => o.PhotoExtension);
+                                        })
+                                        )
+                                    )
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

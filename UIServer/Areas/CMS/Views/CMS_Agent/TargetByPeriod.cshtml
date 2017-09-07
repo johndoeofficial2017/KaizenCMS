@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null;
+}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="CMS_AgentTargetForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SavePeriodTargetInfo();"
+                                       ng-show="CM10110List.length > 0">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>
+                                    Target Maintenance
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Year</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Year --'"
+                                                k-ng-model="CM10110.SelectedYear"
+                                                k-data-text-field="'YearName'"
+                                                k-value-primitive="false"
+                                                k-data-value-field="'YearCode'"
+                                                k-data-source="Years"
+                                                k-on-change="YearPeriodTarget_Changed()"
+                                                style="width: 100%"></select>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Agent</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Agent ID"
+                                                   ng-model="CM10110.FullName" readonly />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button class="btn btn-default"
+                                                        ng-click="OpenkendoWindow('CMS_AgentLookUp',null,'CM10110List')">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CM10110.SelectedYear.YearCode != undefined && CM10110.SelectedYear.YearCode != ''">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">From</label>
+                                    <div class="col-sm-4">
+                                        <h5 class="row-title before-blueberry">
+                                            <i class="fa fa-calendar-o blueberry"></i> {{CM10110.SelectedYear.PeriodFrom | date:'dd/MM/yyyy'}}
+                                        </h5>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">To</label>
+                                    <div class="col-sm-4">
+                                        <h5 class="row-title before-blueberry">
+                                            <i class="fa fa-calendar-o blueberry"></i> {{CM10110.SelectedYear.PeriodTo | date:'dd/MM/yyyy'}}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="CM10110List.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-hover table-striped table-bordered text-center">
+                                        <thead class="bordered-themeprimary">
+                                            <tr>
+                                                <th class="text-center">Period Name</th>
+                                                <th class="text-center">From</th>
+                                                <th class="text-center">To</th>
+                                                <th class="text-center">Target Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="CM10110 in CM10110List">
+                                                <td style="vertical-align: middle;">{{CM10110.PeriodName}}</td>
+                                                <td style="vertical-align: middle;">
+                                                    <h5 class="row-title before-blueberry">
+                                                        <i class="fa fa-calendar-o blueberry"></i> {{CM10110.StartDate | date:'dd/MM/yyyy'}}
+                                                    </h5>
+                                                </td>
+                                                <td style="vertical-align: middle;">
+                                                    <h5 class="row-title before-blueberry">
+                                                        <i class="fa fa-calendar-o blueberry"></i> {{CM10110.EndDate | date:'dd/MM/yyyy'}}
+                                                    </h5>
+                                                </td>
+                                                <td style="vertical-align: middle;" ng-show="CM10110.TargetTypeID==1 && CM10110.IsPercentTarget ==0">
+                                                    <input kendo-numeric-text-box class="currency" 
+                                                           k-options="NumberFormatOptions(null,null,true)" 
+                                                           k-ng-model="CM10110.TargetClaimAmount" style="width:100%" />
+                                                </td>
+                                                <td style="vertical-align: middle;" ng-show="CM10110.IsPercentTarget == 1">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Amount" ng-model="CM10110.TargetClaimAmount" />
+                                                </td>
+                                                <td style="vertical-align: middle;" ng-show="CM10110.TargetTypeID==2 && CM10110.IsPercentTarget == 0">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Amount" ng-model="CM10110.TargetClaimAmount" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

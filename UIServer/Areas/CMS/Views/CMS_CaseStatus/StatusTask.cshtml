@@ -1,0 +1,200 @@
+﻿@{
+    Layout = null;//  "~/Views/Shared/_LayoutPopUP.cshtml";
+}
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <!-- widget div-->
+                <div class="no-padding-top">
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        <form id="GL_GLCategoryForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" 
+                                       ng-click="SaveStatusTask();">
+                                        <i class="glyphicon glyphicon-edit"></i> Save Changes
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>
+                                    Case Status Tasks Maintenance
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Status</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-ng-model="CM00700.SelectedStatus"
+                                                k-options="CaseStatusHasTasksOptions"
+                                                k-on-change="StatusChanged()"
+                                                style="width: 100%"></select>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label text-left">Task Type</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Task Type --'"
+                                                k-ng-model="CM00025.TaskTypeID"
+                                                k-data-text-field="'TaskTypeName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'TaskTypeID'"
+                                                k-data-source="TaskTypes"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Task Title</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control input-sm" placeholder="Task Title"
+                                               ng-model="CM00025.TaskTitle" char-limit="50" maxlength="50" />
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Priority</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Priority --'"
+                                                k-ng-model="CM00025.PriorityID"
+                                                k-data-text-field="'PriorityName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'PriorityID'"
+                                                k-data-source="TaskPriorities"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            @*<fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Start Date</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-date-time-picker
+                                               k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                               k-ng-model="CM00025.TaskStartDate"
+                                               style="width: 100%;" />
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">End Date</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-date-time-picker
+                                               k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                               k-ng-model="CM00025.TaskEndDate"
+                                               style="width: 100%;" />
+                                    </div>
+                                </div>
+                            </fieldset>*@
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Agent</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Agent ID" 
+                                                   ng-model="CM00025.AgentID" readonly />
+                                            <span class="input-group-btn input-group-sm">
+                                                <button ng-click="OpenkendoWindow('CMS/CMS_Agent','PopUp');" class="btn btn-default">
+                                                    <span class="fa fa-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Task Progress</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-numeric-text-box k-min="0" k-max="100"
+                                               k-ng-model="CM00025.TaskProgress" style="width: 100%;" />
+                                    </div>
+                                    @*<label class="col-sm-2 control-label text-left">Assign Date</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-date-time-picker
+                                               k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                                               k-ng-model="CM00025.AssignDate"
+                                               style="width: 100%;" /> 
+                                    </div>*@
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Task Description</label>
+                                    <div class="col-sm-4">
+                                        <textarea class="form-control" rows="4" placeholder="Task Description"
+                                                  ng-model="CM00025.TaskDescription"></textarea>
+                                    </div>
+                                    @*<label class="col-sm-2 control-label text-left">Task Progress</label>
+                                    <div class="col-sm-4">
+                                        <input kendo-numeric-text-box k-min="0" k-max="100"
+                                               k-ng-model="CM00025.TaskProgress" style="width: 100%;" />
+                                    </div>*@
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-controls">
+                                    <button class="btn btn-primary" ng-click="AddNewTask()" ng-show="CM00025.status == 0">Add Task</button>
+                                    <button class="btn btn-primary" ng-click="UpdateTask()" ng-hide="CM00025.status == 0">Update Task</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-show="StatusTasks.length > 0">
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-align-center">Task Title</th>
+                                                <th class="text-align-center">Task Description</th>
+                                                @*<th class="text-align-center">Start Date</th>
+                                                <th class="text-align-center">End Date</th>*@
+                                                <th class="text-align-center">Edit</th>
+                                                <th class="text-align-center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="task in StatusTasks" ng-class="{'deleted':task.status== 3}">
+                                                <td class="col-md-2">{{task.TaskTitle}}</td>
+                                                <td class="col-md-4">{{task.TaskDescription}}</td>
+                                                @*<td class="col-md-2">{{task.TaskStartDate | date:'dd/MM/yyyy hh:mm a'}}</td>
+                                                <td class="col-md-2">{{task.TaskEndDate | date:'dd/MM/yyyy hh:mm a'}}</td>*@
+                                                <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                    <a href="" ng-click="EditTask(task)"><span class="glyphicon glyphicon-edit myhover"></span></a>
+                                                </td>
+                                                <td class="text-align-center col-md-1" style="font-size:20px;">
+                                                    <a href="" ng-click="RemoveStatusTask(task,$index)"><span class="glyphicon glyphicon-remove myhover"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

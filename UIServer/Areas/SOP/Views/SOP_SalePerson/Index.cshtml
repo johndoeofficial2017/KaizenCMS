@@ -1,0 +1,85 @@
+﻿@{
+    Layout = null;
+}
+
+<script>
+    function btnEditSalesPerson_Click(SalePersonID) {
+        var scope = angular.element(document.getElementById("widget-SOP_SalePerson")).scope();
+        scope.$apply(function () {
+            scope.EditSOP00110(SalePersonID);
+        });
+    }
+    $(document).ready(function () {
+        $("#GridViewoption_SOP_SalePerson").kendoDropDownList();
+        var dropdownlist = $("#GridViewoption_SOP_SalePerson").data("kendoDropDownList");
+    });
+    function ShowItemImage(data) {
+        var SalePersonID;
+        var PhonExtension;
+        if (data.PhonExtension == null) {
+            SalePersonID = "SalePersonID";
+            PhonExtension = "jpg";
+        } else {
+            SalePersonID = kaizenTrim(data.SalePersonID);
+            PhonExtension = kaizenTrim(data.PhonExtension);
+        }
+        var html = kendo.format("<img alt='' onclick=\"return btnEditSalesPerson_Click('" + kaizenTrim(data.SalePersonID) + "');return false;\" src='/Photo/SalesPersonPhoto/{0}.{1}' style='width:40px;height:35px;cursor:pointer'/>",
+            SalePersonID, PhonExtension
+        );
+        return html;
+    }
+</script>
+<div ng-controller="SOP_SalePersonController">
+        <div class="widget" id="widget-SOP_SalePerson">
+            <div ng-show="PagesSOP00110.length >0">
+                <div ng-repeat="Page in PagesSOP00110">
+                    <div ng-include="Page.url">Content from blocks goes here</div>
+                </div>
+            </div>
+            <div class="widget-body" ng-show="PagesSOP00110.length == 0">
+                <div class="wide bordered-bottom bordered-palegreen">
+                    <div kendo-toolbar k-options="toolbarOptions"></div>
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<Kaizen.SOP.SOP00110>()
+                    .Name("GridSOP_SalePerson")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.PhonExtension).ClientTemplate("#= ShowItemImage(data) #").Title("#");
+                        columns.Bound(c => c.SalePersonID).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditSalesPerson_Click('#:SalePersonID#');""> #:SalePersonID# </a>").Width(30).Title("SalesPerson ID");
+                        columns.Bound(c => c.SalePersonTypeID);
+                        columns.Bound(c => c.SupervisorID);
+                        columns.Bound(c => c.EmployeeID);
+                        columns.Bound(c => c.MidName);
+                        columns.Bound(c => c.FirstName);
+                        columns.Bound(c => c.LastName);
+                        columns.Bound(c => c.EmailAddress);
+                        columns.Bound(c => c.DirectPhon);
+                        columns.Bound(c => c.PhonExtension);
+                        columns.Bound(c => c.UserCode);
+                        columns.Bound(c => c.Inactive).ClientTemplate("# if(Inactive) { #<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(30).Title("IsClosed").Filterable(false);
+                    })
+                        .HtmlAttributes(new { style = "height:500px;" })
+                        .Scrollable(scrollable => scrollable.Virtual(true))
+                        .Pageable(pager => pager.Messages(messages => messages.Display("Showing Sales Person from {0} to {1}. Total Sales Persons: <strong>{2}</strong>")
+                        .ItemsPerPage("Sales Person Per page").Empty("No Sales Person Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                        .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                        .Navigatable()
+                        .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Resizable(ss => ss.Columns(true))
+                        .ColumnMenu()
+                        .Filterable()
+                        .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                        .Read(read => read.Action("GetDataListGrid", "SOP_SalePerson")
+                        .Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                        .Model(model => model.Id(p => p.SalePersonID)))
+                    )
+                </div>
+                <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                     k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                     k-width="600" k-resizable="true" k-visible="false"></div>
+            </div>
+        </div>
+</div>
+

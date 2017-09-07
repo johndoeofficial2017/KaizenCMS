@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetCMS_Trx_CasesAssignmentAssigmentIDPram() {
+        var scope = angular.element(document.getElementById('widget-CMS_Trx_CasesAssignment')).scope();
+        return {
+            AssigmentID: scope.CM00202.AssigmentID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+<div class="widget-body container-fluid">
+    <div class="row">
+        <div class="well no-padding-left no-padding-right no-padding-bottom">
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        <label class="control-label">Transaction ID</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly
+                                   ng-model="CM00202.AssigmentID">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-9">
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        <label class="control-label">Agent ID</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly ng-model="CM00202.AgentID">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        <label class="control-label">Assign Date</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input kendo-date-time-picker readonly
+                               k-parse-formats="['yyyy-MM-ddTHH:mm:ss']"
+                               k-ng-model="CM00202.AssignDate"
+                               style="width: 100%;" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-1">
+                        <label class="control-label">Description</label>
+                    </div>
+                    <div class="col-md-11">
+                        <textarea readonly style="width: 100%;"
+                                  class="bold text-error form-control ng-pristine ng-untouched ng-valid ng-empty"
+                                  ng-model="CM00202.AssignDescription" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <button ng-click="Cancel();" class="btn btn-default">
+                    <i class="fa fa-ban"></i> Cancel
+                </button>
+            </div>
+            <br />
+            <div style="overflow: hidden;">
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00206>()
+                        .Name("GridCMS_CaseAssignCM00206")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.CaseRef).Title("Case Reference");
+                            columns.Bound(c => c.AgentID).Title("Agent ID");
+                        })
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable().HtmlAttributes(new { style = "overflow:hidden" })
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height("auto")).Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(50)
+                            .Read(read => read.Action("GetDataListGridAssigmentID", "CMS_Trx_CasesAssignment")
+                            .Type(HttpVerbs.Get).Data("GetCMS_Trx_CasesAssignmentAssigmentIDPram"))
+                            .Model(model => model.Id(p => p.CaseRef))
+                        )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

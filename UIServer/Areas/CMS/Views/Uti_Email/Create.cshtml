@@ -1,0 +1,201 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    $(function () {
+        $('#GridCMS_CaseDemandLetter').on('click', '.invertedchk', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#GridCMS_CaseDemandLetter').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsSeleceted', checked);
+        })
+    });
+    $("#selectAll").on('click', function (e) {
+        var $cb = $(this);
+        var checked = $cb.is(':checked');
+        var grid = $('#GridCMS_CaseDemandLetter').data('kendoGrid');
+        grid.table.find("tr").find("td:last input").attr("checked", checked);
+        //now making all the rows value to 1 or 0
+        var items = $("#GridCMS_CaseDemandLetter").data("kendoGrid").dataSource.data();
+        for (i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.set('IsSeleceted', checked);
+            // var row = grid.tbody.find(">tr:not(.k-grouping-row)").eq(0);
+            // grid.select(row);
+        }
+
+        if (!checked) {
+            $("#GridCMS_CaseDemandLetter").data("kendoGrid").clearSelection();
+        }
+    });
+    function GetCMS_Trx_CasesAssignmentPram() {
+        //var ActiveScreenID = $("#ActiveScreenID").val();
+        var scope = angular.element(document.getElementById('widget-Uti_Email')).scope();
+        //var scope = angular.element(document.getElementById('widget-CMS_Case')).scope();
+        return {
+            TRXTypeID: scope.SelectedLookUp.LetterType.TRXTypeID,
+            Searchcritaria: "",
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    }
+</script>
+
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+    <header class="button-header">
+        <a ng-click="SaveCaseDemandLetter();" class="btn btn-default btn-header">
+            <i class="glyphicon glyphicon-floppy-disk icon-large"></i><br />
+            Save & Close
+        </a>
+        <a ng-click="Cancel();" class="btn btn-default">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+            <br />Cancel
+        </a>
+    </header>
+    <div class="widget-body container-fluid">
+        <div class="row">
+            <div class="well no-padding-left no-padding-right no-padding-bottom">
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Transaction ID</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control"
+                                   placeholder="Transaction ID"
+                                   ng-model="CM00230.MessageTRXID">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Template</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="from" tabindex="0" kendo-drop-down-list
+                                    k-filter="'startswith'"
+                                    k-option-label="'-- Select Template --'"
+                                    k-ng-model="CM00230.SelectedTemplate"
+                                    k-data-text-field="'TemplateName'"
+                                    k-value-primitive="false"
+                                    k-data-value-field="'TemplateID'"
+                                    k-data-source="DemandTemplates"
+                                    k-on-change="DemandTemplateChanged()"
+                                    style="width: 100%;margin-top: 5px;margin-bottom: 5px;"></select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Comments</label>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea class="form-control"
+                                      placeholder="Comments"
+                                      ng-model="CM00230.TrxComment"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Address Type</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select kendo-drop-down-list
+                                    k-ng-model="SelectedLookUp.DebtorAddressCodeType"
+                                    k-options="DebtorAddressCodeTypeOptions"
+                                     style="width: 100%"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label"></label>
+                        </div>
+                        <div class="col-md-9">
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <label class="control-label">Email</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="from" tabindex="0" kendo-drop-down-list
+                                    k-filter="'startswith'"
+                                    k-option-label="'-- Select Sender Email --'"
+                                    k-ng-model="SelectedSender"
+                                    k-data-text-field="'EmailTitle'"
+                                    k-value-primitive="false"
+                                    k-data-value-field="'EmailID'"
+                                    k-data-source="SenderEmails"
+                                    style="width: 100%;margin-top: 5px;margin-bottom: 5px;"></select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <label class="control-label">Content</label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea kendo-editor k-tools="FullEditorTools" id="BodyContent"
+                                      k-ng-model="CM00230.TemplateContant" k-messages="messages"
+                                      k-stylesheets="stylesheets"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <select kendo-drop-down-list k-ng-model="SelectedLookUp.LetterType"
+                        k-options="CaseTypeOptions"
+                        k-on-change="GridRefresh('GridCMS_CaseDemandLetter')"
+                        style="width:200PX"></select>
+
+                <div style="overflow: hidden;">
+                    @(Html.Kendo().Grid<Kaizen.CMS.CM00203>()
+                        .Name("GridCMS_CaseDemandLetter")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.IsSeleceted).Title("Select")
+                            .ClientTemplate("<label><input type='checkbox' class='inverted invertedchk' #= IsSeleceted ? checked='checked' : '' #><span class='text'></span></label>")
+                            .HeaderTemplate("<label><input type='checkbox' id='selectAll' class='inverted'><span class='text'></span></label>")
+                            .Width(60).Sortable(false).Filterable(false);
+                            columns.Bound(c => c.CaseRef).Title("Case Reference");
+                            columns.Bound(c => c.AgentID).Title("Agent ID");
+                            columns.Bound(c => c.CurrencyCode).Title("Currency Code");
+                            columns.Bound(c => c.CIFNumber).Title("Debtor ID");
+                            columns.Bound(c => c.CaseStatusID).Title("Case Status ID").Filterable(filterable => filterable.UI("StatusFilter"));
+                            columns.Bound(c => c.ReminderDateTime).Title("Reminder DateTime").Format("{0:dd/MM/yyyy hh:mm:ss tt}");
+                            columns.Bound(c => c.BookingDate).Title("Booking Date").Format("{0:dd/MM/yyyy}");
+                            columns.Bound(c => c.ClaimAmount).Title("Claim Amount");
+                        })
+                            .AutoBind(false)
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable().HtmlAttributes(new { style = "overflow:hidden" })
+                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable(s => s.Height("auto")).Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(50)
+                            .Read(read => read.Action("GetDataListAssignGrid", "CMS_Case")
+                            .Type(HttpVerbs.Get).Data("GetCMS_Trx_CasesAssignmentPram"))
+                            .Model(model => model.Id(p => p.CaseRef))
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

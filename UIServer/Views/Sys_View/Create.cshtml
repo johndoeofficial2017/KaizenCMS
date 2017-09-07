@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET ROW START -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget no-margin-bottom" id="wid-id-4" data-widget-colorbutton="false" data-widget-editbutton="false">
+                <div class="no-padding-top">
+                    <div class="widget-body">
+                        <form id="Sys_ViewForm" class="form-horizontal"
+                              data-bv-message="This value is not valid"
+                              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                            <div class="row">
+                                <div class="widget-body-toolbar">
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="SaveData();"
+                                       ng-show="Kaizen00011.Status == 1">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i> Save & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="UpdateData();"
+                                       ng-show="Kaizen00011.Status == 2">
+                                        <i class="glyphicon glyphicon-edit"></i> Update & Close
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-danger" ng-click="Delete();"
+                                       ng-show="Kaizen00011.Status == 2">
+                                        <i class="glyphicon glyphicon-remove"></i> Delete
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-info" ng-click="Clear();">
+                                        <i class="fa fa-eraser"></i> Clear
+                                    </a>
+                                    <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+                                        <i class="fa fa-ban"></i> Cancel
+                                    </a>
+                                    <div class="smart-form pull-right">
+                                        <label class="toggle">
+                                            <input type="checkbox" id="demo-switch-to-pills" ng-model="Kaizen00011.IsDefault" name="checkbox-toggle">
+                                            <i data-swchon-text="TRUE" data-swchoff-text="FALSE"></i>Is Default
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <legend>
+                                    View Entry
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">View Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="View Name"
+                                               maxlength="50" ng-model="Kaizen00011.ViewName" />
+                                    </div>
+                                    <label class="col-sm-2 control-label text-left">Screen</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Screen --'"
+                                                k-ng-model="Kaizen00011.ScreenID"
+                                                k-data-text-field="'ScreenName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'ScreenID'"
+                                                k-data-source="Screens"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">Company</label>
+                                    <div class="col-sm-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'startswith'"
+                                                k-option-label="'-- Select Company --'"
+                                                k-ng-model="Kaizen00011.CompanyID"
+                                                k-data-text-field="'CompanyName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'CompanyID'"
+                                                k-data-source="Companies"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label text-left">View Description</label>
+                                    <div class="col-sm-4">
+                                        <textarea class="form-control" rows="4"
+                                                  ng-model="Kaizen00011.ViewDescription"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+        <!-- end widget -->
+    </div>
+    <!-- WIDGET ROW END -->
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+
+

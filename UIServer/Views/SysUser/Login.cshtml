@@ -1,0 +1,107 @@
+﻿@model UIServer.Models.UserLogin
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<style type="text/css">
+    .validation-summary-errors {
+        color: #d82542;
+        padding: 10px;
+        width: 90%;
+        font-weight: bold;
+    }
+     
+
+    .validation-summary-errors li {
+        margin: 0;
+        padding: 0;
+        display: block;
+        border-top: none;
+    }
+</style>
+
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+            <h1 class="txt-color-red login-header-big">
+                Kaizen Business Solution
+            </h1>
+            <div class="hero">
+                <div class="pull-left login-desc-box-l">
+                    <h4 class="paragraph-header">
+                        Beautiful accounting software,
+                        Popular features that will change your life
+                    </h4>
+                    <h6>
+                        Do more, in less time.
+                    </h6>
+                    <div class="login-app-icons">
+                        <a href="" class="btn btn-danger btn-sm">Get More and More</a>
+                        <a href="" class="btn btn-danger btn-sm">Find out more</a>
+                    </div>
+                </div>
+
+                <img src="~/img/demo/iphoneview.png" class="pull-right display-image" alt="" style="width:210px">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <h5 class="about-heading">Kaizen - Are you up to date?</h5>
+                    <p>
+                        All the time-saving tools you need to
+                        grow your business.
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <h5 class="about-heading">
+                        Great Tool, Happy People
+                    </h5>
+                    <p>
+                        Kaizen is all-in-one management software.
+                        It includes hundreds of integrated business
+                        apps: CRM, Accounting, Inventory, Marketing, Project Management, HR, MRP, etc.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                @using (Html.BeginForm("Login", "SysUser", FormMethod.Post, new { @id = "login-form", @class = "smart-form client-form" }))
+                {
+                    <header>
+                        Sign In
+                    </header>
+                    <fieldset>
+                        <section>
+                            <label class="label">User Name</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "User Name" })
+                                @Html.ValidationMessageFor(m => m.UserName)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please Enter Username</b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">Password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                <i></i>Stay signed in
+                            </label>
+                        </section>
+                    </fieldset>
+                    @Html.ValidationSummary()
+                    <footer>
+                        <input type="submit" value="Log in" class="btn btn-primary" />
+                    </footer>
+                }
+            </div>
+        </div>
+    </div>
+</div>

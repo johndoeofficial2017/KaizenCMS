@@ -1,0 +1,131 @@
+﻿@{
+    Layout = null;
+}
+<div ng-controller="Sys_GridMasterController">
+    @(Html.Kendo().Grid<Kaizen.SOP.SOP00100>()
+                            .Name("GridSOP_Customer")
+                            .Columns(columns =>
+                            {
+                                foreach (Kaizen.Configuration.Kaizen00026 column in ViewBag.KaizenGridViewColumn)
+                                {
+                                    switch (column.field.Trim())
+                                    {
+                                        case "PhotoExtension":
+                                            columns.Bound("PhotoExtension").ClientTemplate("#= ShowItemImage(data) #").Locked(column.locked).Width(column.width);
+                                            break;
+                                        case "CUSTNMBR":
+                                            columns.Bound("CUSTNMBR").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "CUSTNAME":
+                                            columns.Bound("CUSTNAME").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "ShortName":
+                                            columns.Bound("ShortName").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "CUSTCLAS":
+                                            columns.Bound("CUSTCLAS").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "StatusID":
+                                            columns.Bound("StatusID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "CPRCRNo":
+                                            columns.Bound("CPRCRNo").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "IsActive":
+                                            columns.Bound("IsActive").Locked(column.locked).Width(column.width).Title(column.title).ClientTemplate("# if(IsActive) { #<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(80).Filterable(false);
+                                            break;
+                                        case "IsHold":
+                                            columns.Bound("IsHold").Locked(column.locked).Width(column.width).Title(column.title).ClientTemplate("# if(IsHold) { #<font face='Webdings' size='2'>a</font># } else { #<font face='Webdings' size='2'>r</font># } #").Width(80).Filterable(false);
+                                            break;
+                                        case "CustomerDescription":
+                                            columns.Bound("CustomerDescription").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "ParentCustomer":
+                                            columns.Bound("EmployerName").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "EmployerName":
+                                            columns.Bound("EmployerName").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "NationalityID":
+                                            columns.Bound("NationalityID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "ShipTo":
+                                            columns.Bound("ShipTo").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "BillTo":
+                                            columns.Bound("BillTo").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "StatementTo":
+                                            columns.Bound("StatementTo").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "AddressTypeCode":
+                                            columns.Bound("AddressTypeCode").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "ContactTypeID":
+                                            columns.Bound("ContactTypeID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "PriceLevelCode":
+                                            columns.Bound("PriceLevelCode").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "SalePersonID":
+                                            columns.Bound("SalePersonID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "PriorityID":
+                                            columns.Bound("PriorityID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "GroupID":
+                                            columns.Bound("GroupID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                        case "StatementCycleID":
+                                            columns.Bound("StatementCycleID").Locked(column.locked).Width(column.width).Title(column.title);
+                                            break;
+                                    }
+                                }
+                            }
+                            )
+                            .AutoBind(false)
+                            .Excel(excel => excel.AllPages(true).FileName("CustomerList.xlsx").Filterable(true))
+                            .Pdf(pdf => pdf.FileName("ClientList.pdf").AllPages().Date(DateTime.Now))
+                            .Filterable()
+                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Customer from {0} to {1}. Total Customers: <strong>{2}</strong>")
+                            .ItemsPerPage("Customer Per page").Empty("No Customer Information")).Refresh(true)
+                            .PageSizes(true).Input(true).ButtonCount(5))
+                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                            .Navigatable().Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                            .Reorderable(reorder => reorder.Columns(true)).Resizable(ss => ss.Columns(true))
+                            .ColumnMenu().Scrollable().Filterable()
+                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true)
+                            .PageSize(20).Sort(sort => sort.Add(ss => ss.CUSTNMBR).Descending())
+
+                            .Read(read => read.Action("GetDataListGrid", "SOP_Customer").Type(HttpVerbs.Get).Data("GetKaizenPublicKey"))
+                            .Model(model =>
+                            {
+                                model.Id(o => o.CUSTNMBR);
+                                model.Field(o => o.CUSTNMBR);
+                                model.Field(o => o.CUSTNAME);
+                                model.Field(o => o.StatusID);
+                                model.Id(o => o.CUSTCLAS);
+                                model.Field(o => o.CurrencyCode);
+                                model.Field(o => o.CPRCRNo);
+                                model.Field(o => o.CustomerDescription);
+                                model.Id(o => o.ParentCustomer);
+                                model.Field(o => o.CUSTCLAS);
+                                model.Field(o => o.MainAddress);
+                                model.Field(o => o.EmployerName);
+                                model.Id(o => o.PhotoExtension);
+                                model.Field(o => o.GroupID);
+                                model.Field(o => o.IsActive);
+                                model.Field(o => o.ShortName);
+                                model.Field(o => o.IsHold);
+                                model.Field(o => o.StatementCycleID);
+                            })
+                        )
+    )
+</div>
+
+<script>
+    $(document).ready(function () {
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        resizeGrid("Grid" + ActiveScreenID);
+    })
+</script>

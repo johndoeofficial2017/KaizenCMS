@@ -1,0 +1,97 @@
+﻿@{
+    Layout = null;
+}
+<div class="no-padding no-border overflow">
+    <div class="jarviswidget" data-widget-colorbutton="false"
+         data-widget-editbutton="false"
+         data-widget-togglebutton="false"
+         data-widget-deletebutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-custombutton="false"
+         data-widget-collapsed="false"
+         data-widget-sortable="false">
+        <header class="button-header">
+            <a ng-click="GoBack();" class="btn btn-default">
+                <i class="glyphicon glyphicon-remove-circle"></i>
+                <br />Back
+            </a>
+        </header>
+        <div class="no-border overflow">
+            <div class="widget-body">
+                <div class="row">
+                    <article class="col-md-12 col-lg-12 well-10">
+                        <div class="row no-padding">
+                            <form>
+                                <fieldset class="well well-10 well-10">
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-2 control-label text-left txt-color-red bold">Status</label>
+                                        <div class="form-group col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Status Action Type --'"
+                                                    k-ng-model="SelectedLookUp.SelectedStatusID"
+                                                    k-data-text-field="'CaseStatusname'"
+                                                    k-value-primitive="true"
+                                                    k-data-value-field="'CaseStatusID'"
+                                                    k-data-source="CaseStatusestemp"
+                                                    k-on-change="StatusActionAdvancedSumery_Change();"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                        <div ng-repeat="casestatus in StatusDynamicChilds" ng-show="SelectedLookUp.SelectedStatus.IsHasChild">
+                                            <label class="col-sm-2 control-label text-left">Child Status</label>
+                                            <div class="col-sm-4">
+                                                <select ng-change="CaseStatusChildChanged(casestatus.CaseStatusChildID)"
+                                                        class="form-control custom"
+                                                        ng-model="casestatus.CaseStatusChildID">
+                                                    <option ng-repeat="excel in casestatus.StatusChilds"
+                                                            value="{{excel.CaseStatusID}}">
+                                                        {{excel.CaseStatusname}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-2 control-label text-left txt-color-red bold">Year</label>
+                                        <div class="form-group col-md-4">
+                                            <select kendo-drop-down-list
+                                                    k-filter="'startswith'"
+                                                    k-option-label="'-- Select Year --'"
+                                                    k-ng-model="SelectedLookUp.SelectedYear"
+                                                    k-data-text-field="'YearName'"
+                                                    k-value-primitive="false"
+                                                    k-data-value-field="'YearCode'"
+                                                    k-data-source="GL00002List"
+                                                    k-on-change="YearsStatusActionAdvancedSumery_Change();"
+                                                    style="width: 100%"></select>
+                                        </div>
+                                        <div>
+                                            <label class="col-sm-2 control-label text-left">Filter by</label>
+                                            <div class="col-sm-4">
+                                                <select kendo-drop-down-list
+                                                        k-filter="'startswith'"
+                                                        k-option-label="'-- Select Year --'"
+                                                        k-ng-model="SelectedLookUp.CaseLookupList"
+                                                        k-data-text-field="'FieldName'"
+                                                        k-value-primitive="false"
+                                                        k-data-value-field="'FieldCode'"
+                                                        k-data-source="CaseLookUps"
+                                                        style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div ng-include="ActionManamgmentMainGridURLReport">Data Grid here</div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

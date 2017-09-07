@@ -1,0 +1,256 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function GetPriceListWithItem() {
+        var FieldID = "-1";
+        var FltrOperator = 8;
+
+        var e = document.getElementById("DropFieldID");
+        if (e != null)
+            FieldID = e.options[e.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var ObjDropFltrOperator = document.getElementById("DropFltrOperator");
+        if (ObjDropFltrOperator != null)
+            FltrOperator = ObjDropFltrOperator.options[ObjDropFltrOperator.selectedIndex].value;
+        //----------------------------------------------------------------------------------
+        var searchcritaria = $("#SearchcritariaPopUp").val();
+
+        var ActiveScreenID = $("#ActiveScreenID").val();
+        var widget = $("#widget-" + ActiveScreenID)
+        var scope = angular.element(widget).scope();
+        return {
+            FieldID: FieldID,
+            FltrOperator: FltrOperator,
+            Searchcritaria: searchcritaria,
+            ItemID: scope.IV00006.ItemID,
+            KaizenPublicKey: sessionStorage.PublicKey
+        };
+    };
+    function EditPricebtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-IV_Item")).scope();
+        scope.$apply(function () {
+            scope.IV00006 = dataItem;
+            scope.IV00006.Status = 2;
+        });
+    };
+    function DeletePricebtn(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var scope = angular.element(document.getElementById("widget-IV_Item")).scope();
+        scope.$apply(function () {
+            scope.IV00006 = dataItem;
+            scope.IV00006.Status = 3;
+            scope.DeleteItemSite();
+        });
+    };
+</script>
+<div class="jarviswidget" data-widget-colorbutton="false"
+     data-widget-editbutton="false"
+     data-widget-togglebutton="false"
+     data-widget-deletebutton="false"
+     data-widget-fullscreenbutton="false"
+     data-widget-custombutton="false"
+     data-widget-collapsed="false"
+     data-widget-sortable="false">
+
+    <header class="button-header">
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="SaveItemPrice();"
+           ng-show="IV00006.Status == 1">
+            <i class="glyphicon glyphicon-floppy-disk"></i><br /> Save & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="UpdateItemPrice();"
+           ng-show="IV00006.Status == 2">
+            <i class="glyphicon glyphicon-edit"></i><br /> Update & Close
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Clear();">
+            <i class="fa fa-eraser"></i><br /> Clear
+        </a>
+        <a href="javascript:void(0);" class="btn btn-default" ng-click="Cancel();">
+            <i class="fa fa-ban"></i><br /> Cancel
+        </a>
+    </header>
+
+    <!-- widget div-->
+    <div class="no-border overflow">
+        <!-- widget edit box -->
+        <div class="jarviswidget-editbox">
+            <!-- This area used as dropdown edit box -->
+            <input class="form-control" type="text">
+        </div>
+        <!-- end widget edit box -->
+        <!-- widget content -->
+        <div class="widget-body">
+            <div class="row">
+                <!-- NEW WIDGET START -->
+                <article class="col-md-12 col-lg-12">
+                    <div class="row no-padding">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Item</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Item ID"
+                                                   ng-model="IV00100.ItemID" readonly />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="OpenkendoWindow('IV_MasterItem',null,'Price')"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Currency</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Currency Code" ng-model="IV00006.CurrencyCode" readonly />
+                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('GL_Currency','SinglePopUp')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Price Level</label>
+                                    <div class="input col col-md-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'contains'"
+                                                k-option-label="'-- Select Class --'"
+                                                k-ng-model="IV00006.PriceLevelCode"
+                                                k-data-text-field="'PriceLevelName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'PriceLevelCode'"
+                                                k-data-source="PriceLevels"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Unit Of Measure</label>
+                                    <div class="input col col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Unit Of Measure" ng-model="IV00006.UFMID" readonly />
+                                            <span class="input-group-btn input-group-sm" ng-click="OpenkendoWindow('INV_Set_UFMGroup','UFMPopUp',IV00006.UFMGroupID,'Price')">
+                                                <a href="javascript:void(0);" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="col col-md-2 control-label">Price Group</label>
+                                    <div class="input col col-md-4">
+                                        <select kendo-drop-down-list
+                                                k-filter="'contains'"
+                                                k-option-label="'-- Select Group --'"
+                                                k-ng-model="IV00006.PriceGroupID"
+                                                k-data-text-field="'PriceGroupName'"
+                                                k-value-primitive="true"
+                                                k-data-value-field="'PriceGroupID'"
+                                                k-data-source="PriceGroups"
+                                                style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col col-md-2 control-label">Quantity</label>
+                                    <div class="input col col-md-2">
+                                        <input class="form-control" type="text"
+                                               placeholder="Quantity From"
+                                               ng-model="IV00006.QuantityFrom" />
+                                    </div>
+                                    <div class="input col col-md-2">
+                                        <input class="form-control" type="text"
+                                               placeholder="Quantity To"
+                                               ng-model="IV00006.QuantityTo" />
+                                    </div>
+                                    <label class="col col-md-2 control-label">Price Value</label>
+                                    <div class="input col col-md-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Price Value"
+                                               ng-model="IV00006.PriceValue" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="col col-md-12">
+                                <button class="btn btn-primary" ng-click="SaveItemPrice()" ng-show="IV00006.Status == 1">
+                                    <i class="fa fa-plus-square"></i> Add Item Price
+                                </button>
+                                <button class="btn btn-primary" ng-click="UpdateItemPrice()" ng-show="IV00006.Status == 2">
+                                    <i class="fa fa-edit"></i> Update Item Price
+                                </button>
+                            </fieldset>
+
+                            <div class="row" ng-show="IV00100.ItemID != '' && IV00100.ItemID != undefined">
+                                <div class="col col-md-12">
+                                    <div>
+                                        @(Html.Kendo().Grid<Kaizen.Inventory.IV00006>()
+                                            .Name("GridIV_PriceByItem")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(c => c.PriceLineID).Width(100).Title("Price ID");
+                                                columns.Bound(c => c.CurrencyCode).Width(200);
+                                                columns.Bound(c => c.QuantityFrom).Width(150);
+                                                columns.Bound(c => c.QuantityTo).Width(150);
+                                                columns.Bound(c => c.PriceValue).Width(150);
+                                                columns.Group(g => g.Title("Actions")
+                                                .HeaderHtmlAttributes(new { style = "text-align:center;" })
+                                                .Columns(location =>
+                                                {
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Edit").Click("EditPricebtn")
+                                                        .Text("<span class='glyphicon glyphicon-edit'></span> Edit");
+                                                    }).Title("Edit").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                    location.Command(command =>
+                                                    {
+                                                        command.Custom("Delete").Click("DeletePricebtn")
+                                                        .Text("<span class='glyphicon glyphicon-remove'></span> Delete");
+                                                    }).Title("Delete").HeaderHtmlAttributes(new { style = "text-align:center;" });
+                                                })
+                                                );
+                                            })
+                                            .Filterable().AutoBind(false)
+                                            .Pageable(pager => pager.Messages(messages => messages.Display("Showing Price from {0} to {1}. Total Prices: <strong>{2}</strong>")
+                                            .ItemsPerPage("Price Per page").Empty("No Price Information")).Refresh(true).PageSizes(true).Input(true).ButtonCount(14))
+                                            .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                                            .Navigatable()
+                                            .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+                                            .Reorderable(reorder => reorder.Columns(true))
+                                            .Resizable(ss => ss.Columns(true))
+                                            .ColumnMenu().Scrollable(s => s.Height(400))
+                                            .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(20)
+                                            .Read(read => read.Action("GetPriceListGridWithItem", "IV_Item")
+                                            .Type(HttpVerbs.Get).Data("GetPriceListWithItem"))
+                                            .Model(model =>
+                                            {
+                                                model.Id(o => o.PriceLineID);
+                                                model.Field(o => o.PriceLineID);
+                                                model.Field(o => o.ItemID);
+                                                model.Field(o => o.PriceLevelCode);
+                                                model.Field(o => o.PriceGroupID);
+                                                model.Field(o => o.UFMID);
+                                                model.Field(o => o.CurrencyCode);
+                                                model.Field(o => o.DecimalDigit);
+                                                model.Field(o => o.QuantityFrom);
+                                                model.Field(o => o.QuantityTo);
+                                                model.Field(o => o.DecimalDigitQuantity);
+                                                model.Field(o => o.PriceValue);
+                                            })
+                                            )
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- end widget content -->
+    </div>
+    <!-- end widget div -->
+</div>

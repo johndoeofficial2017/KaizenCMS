@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<script>
+    function btnEditCMS_Calendar_Click(CalendarID) {
+        var scope = angular.element(document.getElementById("widget-CMS_Calendar")).scope();
+        scope.$apply(function () {
+            scope.EditCM00005(CalendarID);
+        });
+    };
+</script>
+<div ng-controller="CMS_CalendarController">
+    <div class="widget" id="widget-CMS_Calendar">
+        <div ng-show="PagesCM00005.length > 0">
+            <div ng-repeat="Page in PagesCM00005">
+                <div ng-include="Page.url">Content from blocks goes here</div>
+            </div>
+        </div>
+        <div class="k-content" ng-show="PagesCM00005.length == 0">
+            <div class="wide bordered-bottom bordered-palegreen">
+                <div kendo-toolbar k-options="toolbarOptions">
+                </div>
+            </div>
+            <div>
+                @(Html.Kendo().Grid<Kaizen.CMS.CM00005>()
+                .Name("GridCMS_Calendar")
+                .Columns(columns =>
+                {
+                    columns.Template(@<text></text>).ClientTemplate(@"<a href='javascript:void(0)' onclick=""btnEditCMS_Calendar_Click('#:CalendarID#');""> #:CalendarID# </a>").Width(100).Title("Calendar ID");
+                    columns.Bound(c => c.CalendarName);
+                })
+                .Filterable()
+                .Pageable(pager => pager.Messages(messages => messages.Display("Showing Calendar from {0} to {1}. Total Calendar: <strong>{2}</strong>")
+                .ItemsPerPage("Calendar Per page").Empty("No Calendar Information")).Refresh(true).PageSizes(true)
+                .Input(true).ButtonCount(5))
+                .Sortable(sortable => sortable.AllowUnsort(true).SortMode(GridSortMode.SingleColumn))
+                .Navigatable()
+                .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple).Type(GridSelectionType.Row))
+                .Reorderable(reorder => reorder.Columns(true))
+                .Resizable(ss => ss.Columns(true))
+                .ColumnMenu()
+                .Scrollable(ss => ss.Height(500))
+                .DataSource(dataSource => dataSource.Ajax().ServerOperation(true).PageSize(10)
+                .Read(read => read.Action("GetDataListGrid", "CMS_Calendar").Type(HttpVerbs.Get)
+                .Data("GetKaizenPublicKey"))
+                .Model(model => model.Id(p => p.CalendarID)))
+                )
+            </div>
+            <div kendo-window="GridFilterWindow" k-title="'Filteration'" k-modal="true"
+                 k-actions="['Pin', 'Refresh', 'Maximize', 'Close']"
+                 k-width="600" k-resizable="true" k-visible="false"></div>
+        </div>
+    </div>
+</div>
+
+
+
